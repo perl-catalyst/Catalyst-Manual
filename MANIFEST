@@ -1,4 +1,15 @@
 Changes
+lib/Catalyst/Manual/About.pod
+lib/Catalyst/Manual/Actions.pod
+lib/Catalyst/Manual/Cookbook.pod
+lib/Catalyst/Manual/DevelopmentProcess.pod
+lib/Catalyst/Manual/Installation.pod
+lib/Catalyst/Manual/Installation/CentOS4.pod
+lib/Catalyst/Manual/Internals.pod
+lib/Catalyst/Manual/Intro.pod
+lib/Catalyst/Manual/Plugins.pod
+lib/Catalyst/Manual/Tutorial/README
+lib/Catalyst/Manual/WritingPlugins.pod
 Makefile.PL
 MANIFEST			This list of files
 README
