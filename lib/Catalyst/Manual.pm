@@ -11,12 +11,13 @@ Catalyst::Manual - pacakge holding the Catalyst developer's manual and tutorial
 =head1 SYNOPSIS
 
     perldoc Catalyst::Manual::Intro
-    perldoc Catalyst::Tutorial
+    perldoc Catalyst::Manual::Tutorial
 
 =head1 SEE ALSO
 
-Get L<Task::Catalyst::Tutorial|Task::Catalyst::Tutorial> to install
-all the dependencies you need to follow along with the Tutorial.
+Install L<Task::Catalyst::Tutorial|Task::Catalyst::Tutorial> to
+install all the dependencies you need to follow along with the
+Tutorial.
 
 =cut
 
