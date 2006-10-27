@@ -71,7 +71,7 @@ CatalystTutorial directory.  Each example application directory has
 the same name as the tutorial chapter.
 
 Additionally, if you're reading this manual online, you can download
-the manual, the example program, and all the necessary dependencies to
+the example program and all the necessary dependencies to
 your local machine by installing the C<Task::Catalyst::Tutorial>
 distribution from CPAN:
 
