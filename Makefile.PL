@@ -5,7 +5,7 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME                => 'Catalyst::Manual',
     AUTHOR              => 'Jonathan Rockway <jrockway@cpan.org>',
-    VERSION             => '5.700301',
+    VERSION             => '5.700501',
     ABSTRACT            => q{The Catalyst Developer's Manual},
     PL_FILES            => {},
     PREREQ_PM => {

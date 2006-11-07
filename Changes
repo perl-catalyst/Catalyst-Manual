@@ -1,4 +1,7 @@
 Revision history for Catalyst-Manual
 
+5.700401  7 November 2006
+          First release to CPAN; matches Catalyst-Runtime 5.7004.
+
 5.700301  20 October 2006
           Splitting manual into its own distro
