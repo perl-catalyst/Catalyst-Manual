@@ -6,7 +6,7 @@ package Catalyst::Manual;
 
 =head1 NAME
 
-Catalyst::Manual - pacakge holding the Catalyst developer's manual and tutorial
+Catalyst::Manual - The Catalyst developer's manual
 
 =head1 SYNOPSIS
 
@@ -21,6 +21,6 @@ Tutorial.
 
 =cut
 
-our $VERSION = '5.700301';
+our $VERSION = '5.700501';
 
 1;
