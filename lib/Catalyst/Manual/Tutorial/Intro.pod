@@ -70,6 +70,12 @@ This will download the current code for each tutorial chapter in the
 CatalystTutorial directory.  Each example application directory has
 the same name as the tutorial chapter.
 
+B<These reference implementations are provided so that when you follow
+the tutorial, you can use the code from the subversion repository to
+ensure that your system is set up correctly, and that you have not
+inadvertently made any typographic errors, or accidentally skipped
+part of the tutorial.>
+
 Additionally, if you're reading this manual online, you can download
 the example program and all the necessary dependencies to
 your local machine by installing the C<Task::Catalyst::Tutorial>
