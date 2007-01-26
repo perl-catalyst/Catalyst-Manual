@@ -350,12 +350,14 @@ Edit C<lib/MyApp.pm> and update it as follows (everything below C<StackTrace> is
 The three C<Authentication> plugins work together to support
 Authentication while the C<Session> plugins are required to maintain
 state across multiple HTTP requests.  Note that there are several
-options for L<Session::Store|Catalyst::Plugin::Session::Store> 
+options for L<Session::Store|Catalyst::Plugin::Session::Store>
 (L<Session::Store::FastMmap|Catalyst::Plugin::Session::Store::FastMmap>
 is generally a good choice if you are on Unix; try
-L<Cache::FileCache|Catalyst::Plugin::Cache::FileCache> if you are on
-Win32) -- consult L<Session::Store|Catalyst::Plugin::Session::Store> and
-its subclasses for additional information.
+L<Session::Store::File|Catalyst::Plugin::Session::Store::File> if you
+are on Win32) -- consult
+L<Session::Store|Catalyst::Plugin::Session::Store> and its subclasses
+for additional information and options (for example to use a
+database-backed session store).
 
 
 =head2 Configure Authentication
