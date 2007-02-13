@@ -819,11 +819,16 @@ dispatch type, please see L<Catalyst::DispatchType::Chained>.
     sub foo : Private { }
 
 Matches no URL, and cannot be executed by requesting a URL that
-corresponds to the action key. Catalyst's :Private attribute is exclusive
-and doesn't work with other attributes. Private actions can be executed
-only inside a Catalyst application, by calling the C<forward> method:
+corresponds to the action key. Catalyst's :Private attribute is
+exclusive and doesn't work with other attributes (so will not work
+combined with Path or Chained attributes). With the exception of the
+C< index >, C< auto > and C< default > actions, Private actions can
+only be executed from inside a Catalyst application, by calling the
+C<forward> or C<detach> methods:
 
     $c->forward('foo');
+    # or
+    $c->detach('foo');
 
 See L</Flow Control> for a full explanation of C<forward>. Note that, as
 discussed there, when forwarding from another component, you must use
