@@ -1669,11 +1669,11 @@ Now, we simply configure Apache to connect to the running server.
     Alias /_errors /var/www/MyApp/root/error-pages
     ErrorDocument 502 /_errors/502.html
 
-    FastCgiExternalServer /tmp/myapp -socket /tmp/myapp.socket
-    Alias /myapp/ /tmp/myapp/
+    FastCgiExternalServer /tmp/myapp.fcgi -socket /tmp/myapp.socket
+    Alias /myapp/ /tmp/myapp.fcgi/
     
     # Or, run at the root
-    Alias / /tmp/myapp/
+    Alias / /tmp/myapp.fcgi/
     
 =head3 More Info
 
