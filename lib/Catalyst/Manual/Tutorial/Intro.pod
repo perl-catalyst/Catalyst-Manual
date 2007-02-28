@@ -180,7 +180,11 @@ OS = CentOS 4 Linux (RHEL 4)
 
 =item * 
 
-Catalyst v5.6902
+Catalyst v5.7
+
+= item *
+
+Catalyst::Devel v1.02
 
 =item * 
 
