@@ -5,40 +5,39 @@ Catalyst::Manual::ExtendingCatalyst - Extending The Framework
 =head1 DESCRIPTION
 
 This document will provide you with access points, techniques and best
-practices to extend the framework itself or to find more elegant ways
-to abstract and use your own code.
+practices to extend the L<Catalyst> framework, or to find more elegant
+ways to abstract and use your own code.
 
-The L<Catalyst> core developer community tries to build and evolve the 
-framework in a design that won't get in your way. There are many entry
-points to alter or extend the behaviour of the framework and the 
-applications built upon it, and it can be confusing at first to decide
-on a place to start. This document is written to help you orient 
-yourself in the possibilities, current practices and their consequences.
+The design of Catalyst is such that the framework itself should not
+get in your way. There are many entry points to alter or extend
+Catalyst's behaviour, and this can be confusing. This document is
+written to help you understand the possibilities, current practices
+and their consequences.
 
 Please read the L<BEST PRACTICES> section before deciding on a design,
-especially if you plan to release your code to the CPAN. The Catalyst
-developer and user communities, which you naturally also belong to, will
-benefit most if we all work together and coordinate. 
+especially if you plan to release your code to CPAN. The Catalyst
+developer and user communities, which B<you are part of>, will benefit
+most if we all work together and coordinate.
 
-If you are unsure on an implementation or have an idea you would like to
-have RfC'ed, it surely is a good idea to send your questions and 
-suggestions to the Catalyst mailing list (See L<Catalyst/SUPPORT>) or
-come to the C<#catalyst> channel on the C<irc.perl.org> network. You 
-might also want to refer to those places for research if a module doing 
-what you're trying to implement already exists. This might give you 
-either a solution to your problem or a already built base, which gives 
-you at least a head start.
+If you are unsure on an implementation or have an idea you would like
+to have RFC'ed, it surely is a good idea to send your questions and
+suggestions to the Catalyst mailing list (See L<Catalyst/SUPPORT>)
+and/or come to the C<#catalyst> channel on the C<irc.perl.org>
+network. You might also want to refer to those places for research to
+see if a module doing what you're trying to implement already
+exists. This might give you a solution to your problem or a basis for
+starting.
 
 =head1 BEST PRACTICES
 
-During Catalyst's early days, it was common to write plugins to provide
-functionality application wide. Since then, Catalyst grew a lot more 
-flexible and powerful. It soon became a best practice to use some other
-form of abstraction or interface, to keep the scope of its influence as
-close as possible to where it belongs.
+During Catalyst's early days, it was common to write plugins to
+provide functionality application wide. Since then, Catalyst has
+become a lot more flexible and powerful. It soon became a best
+practice to use some other form of abstraction or interface, to keep
+the scope of its influence as close as possible to where it belongs.
 
-For those in a hurry, here's a quick checklist of some fundamental 
-points. If you are going to read the whole thing anyway, you can jump 
+For those in a hurry, here's a quick checklist of some fundamental
+points. If you are going to read the whole thing anyway, you can jump
 forward to L</Namespaces>.
 
 =head2 Quick Checklist
@@ -55,45 +54,47 @@ A plugin should be careful as it declares in global namespace.
 
 =item There's a community. Use it!
 
-There are many experienced developers in the Catalyst community, there's
-always the IRC channel and the mailing list to discuss things.
+There are many experienced developers in the Catalyst community,
+there's always the IRC channel and the mailing list to discuss things.
 
 =item Add tests and documentation!
 
-This gives a stable base for contribution, and even more important, 
-trust. The easiest way is a test application. See
+This gives a stable basis for contribution, and even more importantly,
+builds trust. The easiest way is a test application. See
 L<Catalyst::Manual::Tutorial::Testing> for more information.
 
 =back
 
 =head2 Namespaces
 
-While some core extensions (engines, plugins, etc.) have to be placed in
-the C<Catalyst::*> namespace, the Catalyst core would like to ask 
+While some core extensions (engines, plugins, etc.) have to be placed
+in the C<Catalyst::*> namespace, the Catalyst core would like to ask
 developers to use the C<CatalystX::*> namespace if possible.
 
-When you try to put a base class for a C<Model>, C<View> or C<Controller>
-directly under your C<MyApp> directory as, for example, 
-C<MyApp::Controller::Foo>, you will have the problem that Catalyst will 
-try to load that base class as a component of your application. The 
-solution is simple: Use another namespace. Common ones are 
-C<MyApp::Base::Controller::*> or C<MyApp::ControllerBase::*> as examples.
+When you try to put a base class for a C<Model>, C<View> or
+C<Controller> directly under your C<MyApp> directory as, for example,
+C<MyApp::Controller::Foo>, you will have the problem that Catalyst
+will try to load that base class as a component of your
+application. The solution is simple: Use another namespace. Common
+ones are C<MyApp::Base::Controller::*> or C<MyApp::ControllerBase::*>
+as examples.
 
 =head2 Can it be a simple module?
 
-Sometimes you want to use functionality in your application that doesn't
-require the framework at all. Remember that Catalyst is just Perl and you
-always can just C<use> a module. If you have application specific code 
-that doesn't need the framework, there is no problem in putting it in 
-your C<MyApp::*> namespace. Just don't put it in C<Model>, C<Controller> 
-or C<View>, because that would make Catalyst try to load them as 
-components.
+Sometimes you want to use functionality in your application that
+doesn't require the framework at all. Remember that Catalyst is just
+Perl and you always can just C<use> a module. If you have application
+specific code that doesn't need the framework, there is no problem in
+putting it in your C<MyApp::*> namespace. Just don't put it in
+C<Model>, C<Controller> or C<View>, because that would make Catalyst
+try to load them as components.
 
 =head2 Inheritance and overriding methods
 
-While Catalyst itself is still based on L<NEXT>, extension developers
-are encouraged to use L<Class::C3>, which is what Catalyst will be 
-switching to in some point in the future.
+While Catalyst itself is still based on L<NEXT> (for multiple
+inheritance), extension developers are encouraged to use L<Class::C3>,
+which is what Catalyst will be switching to in some point in the
+future.
 
 When overriding a method, keep in mind that some day additionally
 arguments may be provided to the method, if the last parameter is not
@@ -101,15 +102,11 @@ a flat list. It is thus better to override a method by shifting the
 invocant off of C<@_> and assign the rest of the used arguments, so
 you can pass your complete arguments to the original method via C<@_>:
 
-  use Class::C3;
-  ...
+  use Class::C3; ...
 
-  sub foo {
-      my $self = shift;
-      my ($bar, $baz) = @_;
-      # ...
-      return $self->next::method(@_);
-  }
+  sub foo { my $self = shift;
+            my ($bar, $baz) = @_; # ...  return
+            $self->next::method(@_); }
 
 If you would do the common
 
@@ -122,113 +119,114 @@ will be passed along and the method is future proof:
 
 =head2 Tests and documentation
 
-When you release your module to the CPAN, proper documentation and at 
-least a basic test suite (which means more than pod or even just 
-C<use_ok>, sorry) gives people a good base to contribute to the module. 
-It also shows that you care for your users. If you would like your 
-module to become a recommended addition, these things will prove 
+When you release your module to the CPAN, proper documentation and at
+least a basic test suite (which means more than pod or even just
+C<use_ok>, sorry) gives people a good base to contribute to the
+module.  It also shows that you care for your users. If you would like
+your module to become a recommended addition, these things will prove
 invaluable.
 
 =head2 Maintenance
 
-In planning to release a module to a broad community like those of 
-Catalyst or CPAN and Perl themselves, you should include beforehand if 
-you can spare the resources to keep it up to date, fix bugs and include 
-contributions.
+In planning to release a module to the community (Catalyst or CPAN and
+Perl), you should consider if you have the resources to keep it up to
+date, including fixing bugs and accepting contributions.
 
-If you're not sure about this, you can always ask in the proper Catalyst
-or Perl channels if someone else might be interested in the project, and
-would jump in as co-maintainer.
+If you're not sure about this, you can always ask in the proper
+Catalyst or Perl channels if someone else might be interested in the
+project, and would jump in as co-maintainer.
 
-A public repository can further ease interaction with the community. Even
-read only access enables people to provide you with patches to your 
-current development version. subversion, SVN and SVK, are broadly 
-preferred in the Catalyst community.
+A public repository can further ease interaction with the
+community. Even read only access enables people to provide you with
+patches to your current development version. subversion, SVN and SVK,
+are broadly preferred in the Catalyst community.
 
-If you're developing a Catalyst extension, please consider asking the 
-core team for space in Catalyst's own subversion repository. You can get
-in touch about this via IRC or the Catalyst developers mailing list.
+If you're developing a Catalyst extension, please consider asking the
+core team for space in Catalyst's own subversion repository. You can
+get in touch about this via IRC or the Catalyst developers mailing
+list.
 
 =head2 The context object
 
 Sometimes you want to get a hold of the context object in a component
-that was created on startup time, where no context existed yet. Often 
+that was created on startup time, where no context existed yet. Often
 this is about the model reading something out of the stash or other
-context information (current language, for example). 
+context information (current language, for example).
 
-First it should be said that, if you use the context object in your
-component and therefor tie it to an existing request, you might get into
-problems when you try to use the component (e.g. the model, which would 
-be the most common case) outside of Catalyst, for example in cronjobs.
+If you use the context object in your component you have tied it to an
+existing request.  This means that you might get into problems when
+you try to use the component (e.g. the model - the most common case)
+outside of Catalyst, for example in cronjobs.
 
-A stable solution to this problem is to design the Catalyst model 
-separately from the underlying model logic. Let's take 
-L<Catalyst::Model::DBIC::Schema> as an example. You can create a 
+A stable solution to this problem is to design the Catalyst model
+separately from the underlying model logic. Let's take
+L<Catalyst::Model::DBIC::Schema> as an example. You can create a
 schema outside of Catalyst that knows nothing about the web. This kind
 of design ensures encapsulation and makes development and maintenance
 a whole lot easier. The you use the aforementioned model to tie your
-schema to your application. This gives you a C<MyApp::DBIC> (the
-name is of course just an example) model as well as 
-C<MyApp::DBIC::$ResultSource> models to access your result sources
-directly. 
+schema to your application. This gives you a C<MyApp::DBIC> (the name
+is of course just an example) model as well as
+C<MyApp::DBIC::TableName> models to access your result sources
+directly.
 
-By creating such a thin layer between the actual model and the Catalyst
-application the schema itself is not at all tied to any application, and
-the layer in-between can access the model's API using information from
-the context object.
+By creating such a thin layer between the actual model and the
+Catalyst application, the schema itself is not at all tied to any
+application and the layer in-between can access the model's API using
+information from the context object.
 
-So the only question remaining is, how does a Catalyst component access
-the context object at request time? The solution to this problem is
+A Catalyst component accesses the context object at request time with
 L<Catalyst::Component/"ACCEPT_CONTEXT($c, @args)">.
 
 =head1 CONFIGURATION
 
-The application and/or its developer have to interact with the extension
-by configuring them. There is of course again more than one way to do it.
+The application has to interact with the extension with some
+configuration. There is of course again more than one way to do it.
 
 =head2 Attributes
 
-You can specify any valid Perl attribute on Catalyst actions you like. 
-(See L<attributes/"Syntax of Attribute Lists"> for a description of what 
-is valid.) They will be available on the C<Catalyst::Action> instance via
-its C<attributes> accessor. To give an example, this action
+You can specify any valid Perl attribute on Catalyst actions you like.
+(See L<attributes/"Syntax of Attribute Lists"> for a description of
+what is valid.) These will be available on the C<Catalyst::Action>
+instance via its C<attributes> accessor. To give an example, this
+action:
 
   sub foo : Local Bar('Baz') {
       my ($self, $c) = @_;
-      my $attributes = $self->action_for('foo')->attributes;
-      $c->res->body( $attributes->{Bar}[0] );
+      my $attributes =
+      $self->action_for('foo')->attributes;
+      $c->res->body($attributes->{Bar}[0] );
   }
 
-will set the response body to C<Baz>. The values always come in an array
-reference. As you can see, you can use attributes to configure your 
-actions. You can specify or alter these attributes via 
-L</"Component Configuration">, or even react on them as soon as Catalyst
-encounters them by providing your own 
-L<component base class|/"Component Base Classes">.
+will set the response body to C<Baz>. The values always come in an
+array reference. As you can see, you can use attributes to configure
+your actions. You can specify or alter these attributes via
+L</"Component Configuration">, or even react on them as soon as
+Catalyst encounters them by providing your own L<component base
+class|/"Component Base Classes">.
 
 =head2 Creating custom accessors
 
-L<Catalyst::Component> uses L<Class::Accessor::Fast> for accessor 
-creation. Please refer to the modules documentation for usage 
+L<Catalyst::Component> uses L<Class::Accessor::Fast> for accessor
+creation. Please refer to the modules documentation for usage
 information.
 
 =head2 Component configuration
 
-On creation time, the class configuration of your component (the one
-available via C<$self-E<gt>config>) will be merged with possible 
+At creation time, the class configuration of your component (the one
+available via C<$self-E<gt>config>) will be merged with possible
 configuration settings from the applications configuration (either
-directly or via config file) and stored in the controller object's
-hash reference. So, if you read possible configurations like
+directly or via config file).  This is then stored in the controller
+object's hash reference. So, if you read possible configurations like:
 
   my $model_name = $controller->{model_name};
 
-you will get the right value. The C<config> accessor always only 
+you will get the right value. The C<config> accessor always only
 contains the original class configuration and must not be used for
 component configuration.
 
 You are advised to create accessors on your component class for your
 configuration values. This is good practice and makes it easier to
-capture configuration key typos. You can do this with the 
+capture configuration key typos. You can do this with the
 C<mk_ro_accessors> method provided to L<Catalyst::Component> via
 L<Class::Accessor::Fast>:
 
@@ -239,7 +237,7 @@ L<Class::Accessor::Fast>:
 
 =head1 IMPLEMENTATION
 
-This part contains the technical details of various implementation 
+This part contains the technical details of various implementation
 methods. Please read the L</"BEST PRACTICES"> before you start your
 implementation, if you haven't already.
 
@@ -247,51 +245,45 @@ implementation, if you haven't already.
 
 Usually, your action objects are of the class L<Catalyst::Action>.
 You can override this with the C<ActionClass> attribute to influence
-execution and/or dispatching of the action. A popular example is 
-L<Catalyst::Action::RenderView>, which is used in every newly created
-Catalyst application in your root controller:
+execution and/or dispatching of the action. A widely used example of
+this is L<Catalyst::Action::RenderView>, which is used in every newly
+created Catalyst application in your root controller:
 
   sub end : ActionClass('RenderView') { }
 
-Usually, you want to override either the C<execute> or the C<match>
-method, or both. The execute method of the action will naturally
-call the methods code. You can surround this by overriding the method
-in a subclass: 
+Usually, you want to override the C<execute> and/or the C<match>
+method. The execute method of the action will naturally call the
+methods code. You can surround this by overriding the method in a
+subclass:
 
-  package Catalyst::Action::MyFoo;
-  use strict;
+  package Catalyst::Action::MyFoo; use strict;
 
-  use Class::C3;
-  use base 'Catalyst::Action';
+  use Class::C3; use base 'Catalyst::Action';
 
   sub execute {
       my $self = shift;
       my ($controller, $c, @args) = @_;
-
       # put your 'before' code here
       my $r = $self->next::method(@_);
       # put your 'after' code here
-
       return $r;
   }
-
   1;
 
-We use L<Class::C3> to re-dispatch to the original C<execute> method in
-the L<Catalyst::Action> class.
+We are using L<Class::C3> to re-dispatch to the original C<execute> method
+in the L<Catalyst::Action> class.
 
-When a request comes in, Catalyst's dispatcher searches, depending on
-the dispatch type, the target action or chain to invoke. From time to
-time it asks the actions themselves, or through the controller, if they
-would match the current request. That's what the C<match> method does.
-So with overriding this, you can change on what the action will match
-and add new matching criteria.
+The Catalyst dispatcher handles an incoming request and, depending
+upon the dispatch type, will call the appropriate target or chain. 
+From time to time it asks the actions themselves, or through the
+controller, if they would match the current request. That's what the
+C<match> method does.  So by overriding this, you can change on what
+the action will match and add new matching criteria.
 
-To give a totally bogus example, this action class will make the action 
-only match on Mondays:
+For example, the action class below will make the action only match on
+Mondays:
 
-  package Catalyst::Action::OnlyMondays;
-  use strict;
+  package Catalyst::Action::OnlyMondays; use strict;
 
   use Class::C3;
   use base 'Catalyst::Action';
@@ -300,8 +292,7 @@ only match on Mondays:
       my $self = shift;
       return 0 if ( localtime(time) )[6] == 1;
       return $self->next::method(@_);
-  }
-
+   }
   1;
 
 And this is how we'd use it:
@@ -311,48 +302,46 @@ And this is how we'd use it:
       $c->res->body('I feel motivated!');
   }
 
-If you are using action classes often or have some specific base classes
-that you want to specify more conveniently, you can implement a component
-base class providing an attribute handler.
+If you are using action classes often or have some specific base
+classes that you want to specify more conveniently, you can implement
+a component base class providing an attribute handler.
 
-For further information on action classes, please refer to 
+For further information on action classes, please refer to
 L<Catalyst::Action> and L<Catalyst::Manual::Actions>.
 
 =head2 Component base classes
 
-Many plugins that were written should really have been just controller 
-base classes. With such a class, you could provide functionality scoped
-to a single controller, not polluting the global namespace in the context
-object.
+Many L<Catalyst::Plugin> that were written in Catalyst's early days
+should really have been just controller base classes. With such a
+class, you could provide functionality scoped to a single controller,
+not polluting the global namespace in the context object.
 
-You can provide regular Perl methods in a base class as well as actions
-which will be inherited to the subclass. Please refer to L</Controllers>
-for an example of this.
+You can provide regular Perl methods in a base class as well as
+actions which will be inherited to the subclass. Please refer to
+L</Controllers> for an example of this.
 
-You can introduce your own attributes by specifying a handler method in 
-the controller base. For example, to use a C<FullClass> attribute to 
-specify a fully qualified action class name, you could use the following
-implementation. Note, however, that this functionality is already 
-provided via the C<+> prefix for action classes. A simple
+You can introduce your own attributes by specifying a handler method
+in the controller base. For example, to use a C<FullClass> attribute
+to specify a fully qualified action class name, you could use the
+following implementation. Note, however, that this functionality is
+already provided via the C<+> prefix for action classes. A simple
 
   sub foo : Local ActionClass('+MyApp::Action::Bar') { ... }
 
 will use C<MyApp::Action::Bar> as action class.
 
-  package MyApp::Base::Controller::FullClass;
-  use strict;
-  use base 'Catalyst::Controller';
+  package MyApp::Base::Controller::FullClass; use strict; use base
+  'Catalyst::Controller';
 
   sub _parse_FullClass_attr {
       my ($self, $app_class, $action_name, $value, $attrs) = @_;
       return( ActionClass => $value );
   }
-
   1;
 
-Note that the full line of arguments is only provided for completeness 
-sake. We could use this attribute in a subclass like any other Catalyst
-attribute:
+Note that the full line of arguments is only provided for completeness
+sake. We could use this attribute in a subclass like any other
+Catalyst attribute:
 
   package MyApp::Controller::Foo;
   use strict;
@@ -364,13 +353,13 @@ attribute:
 
 =head2 Controllers
 
-Many things can happen in controllers, and it often improves 
-maintainability to abstract some of the code out into reusable base 
+Many things can happen in controllers, and it often improves
+maintainability to abstract some of the code out into reusable base
 classes.
 
 You can provide usual Perl methods that will be available via your
-controller object, or you can even define Catalyst actions which will be
-inherited by the subclasses. Consider this controller base class:
+controller object, or you can even define Catalyst actions which will
+be inherited by the subclasses. Consider this controller base class:
 
   package MyApp::Base::Controller::ModelBase;
   use strict;
@@ -378,95 +367,93 @@ inherited by the subclasses. Consider this controller base class:
 
   sub list : Chained('base') PathPart('') Args(0) {
       my ($self, $c) = @_;
-      my $model     = $c->model( $self->{model_name} );
+      my $model = $c->model( $self->{model_name} );
       my $condition = $self->{model_search_condition} || {};
-      my $attrs     = $self->{model_search_attrs}     || {};
+      my $attrs = $self->{model_search_attrs} || {};
       $c->stash(rs => $model->search($condition, $attrs);
-  }
+      }
 
   sub load : Chained('base') PathPart('') CaptureArgs(1) {
       my ($self, $c, $id) = @_;
       my $model = $c->model( $self->{model_name} );
       $c->stash(row => $model->find($id));
-  }
-
+      }
   1;
 
-This example implements two simple actions. The C<list> action chains to
-a (currently non-existent) C<base> action and puts a result-set into the
-stash taking a configured C<model_name> as well as a search condition and
-attributes. This action is a L<chained|Catalyst::DispatchType::Chained>
-endpoint. The other action, called C<load> is a chain midpoint that takes
-one argument. It takes the value as an ID and loads the row from the 
-configured model. Please not that the above code is simplified for 
-clarity. It misses error handling, input validation, and probably some 
-other things too.
+This example implements two simple actions. The C<list> action chains
+to a (currently non-existent) C<base> action and puts a result-set
+into the stash taking a configured C<model_name> as well as a search
+condition and attributes. This action is a
+L<chained|Catalyst::DispatchType::Chained> endpoint. The other action,
+called C< load > is a chain midpoint that takes one argument. It takes
+the value as an ID and loads the row from the configured model. Please
+not that the above code is simplified for clarity. It misses error
+handling, input validation, and probably other things.
 
-The class above is not very useful by its own, but we can combine it with
-some custom actions by sub-classing it:
+The class above is not very useful on its own, but we can combine it
+with some custom actions by sub-classing it:
 
   package MyApp::Controller::Foo;
   use strict;
   use base 'MyApp::Base::Controller::ModelBase';
 
-  __PACKAGE__->config(
-      model_name             => 'DB::Foo',
-      model_search_condition => { is_active => 1 },
-      model_search_attrs     => { order_by  => 'name' },
-  );
+  __PACKAGE__->config( model_name => 'DB::Foo',
+                       model_search_condition=> { is_active => 1 },
+                       model_search_attrs => { order_by => 'name' },
+                   );
 
   sub base : Chained PathPart('foo') CaptureArgs(0) { }
 
   sub view : Chained('load') Args(0) {
       my ($self, $c) = @_;
       my $row = $c->stash->{row};
-      $c->res->body(join ': ', $row->name, $row->description);
-  }
-
+      $c->res->body(join ': ', $row->name,
+      $row->description); }
   1;
 
-This class uses the formerly created controller as a base class. First,
-we see the configurations that were used in the parent class. Next comes
-the C<base> action, where everything chains off of.
+This class uses the formerly created controller as a base
+class. First, we see the configurations that were used in the parent
+class. Next comes the C<base> action, where everything chains off of.
 
-Note that inherited actions act like they were declared in your 
-controller itself. You can therefor call them just by their name in 
+Note that inherited actions act like they were declared in your
+controller itself. You can therefor call them just by their name in
 C<forward>s, C<detaches> and C<Chained(..)> specifications. This is an
 important part of what makes this technique so useful.
 
-The new C<view> action ties itself to the C<load> action specified in the
-base class and outputs the loaded row's C<name> and C<description>
-columns. The controller C<MyApp::Controller::Foo> now has these publicly
-available paths:
+The new C<view> action ties itself to the C<load> action specified in
+the base class and outputs the loaded row's C<name> and C<description>
+columns. The controller C<MyApp::Controller::Foo> now has these
+publicly available paths:
 
 =over
 
 =item /foo
 
-Will call the controller's C<base>, then the base classes C<list> action.
+Will call the controller's C<base>, then the base classes C<list>
+action.
 
 =item /foo/$id/view
 
-First, the controller's C<base> will be called, then it will C<load> the 
-row with the corresponding C<$id>. After that, C<view> will display some
-fields out of the object.
+First, the controller's C<base> will be called, then it will C<load>
+the row with the corresponding C<$id>. After that, C<view> will
+display some fields out of the object.
 
 =back
 
 =head2 Models and Views
 
-If the functionality you'd like to add is really a data-set you want to
-manipulate, for example internal document types, images, files, it might
-be better suited as a model.
+If the functionality you'd like to add is really a data-set that you
+want to manipulate, for example internal document types, images,
+files, it might be better suited as a model.
 
-Same goes for views. If your code handles representation or deals with
-the applications interface and should be universally available, it could
-be a perfect candidate for a view.
+The same applies for views. If your code handles representation or
+deals with the applications interface and should be universally
+available, it could be a perfect candidate for a view.
 
-Please implement a C<process> method in your views. This method will be
-called by Catalyst if it is asked to forward to a component without a
-specified action. Note that C<process> is B<not a Catalyst action> but
-a simple Perl method.
+Please implement a C<process> method in your views. This method will
+be called by Catalyst if it is asked to forward to a component without
+a specified action. Note that C<process> is B<not a Catalyst action>
+but a simple Perl method.
 
 You are also encouraged to implement a C<render> method corresponding
 with the one in L<Catalyst::View::TT>. This has proven invaluable,
@@ -481,66 +468,61 @@ Here is some example code for a fictional view:
 
   sub process {
       my ($self, $c) = @_;
-      
       my $template = $c->stash->{template};
-      my $content  = $self->render($c, $template, $c->stash);
+      my $content = $self->render($c, $template, $c->stash);
       $c->res->body( $content );
   }
 
   sub render {
       my ($self, $c, $template, $args) = @_;
-      
-      #
-      #  prepare content here
-      #
-      
+      # prepare content here
       return $content;
   }
-
   1;
 
 =head2 Plugins
 
-The first thing to say about plugins is that if you're not sure if your
-module should be a plugin, it probably shouldn't. It once was common to
-add features to Catalyst by writing plugins that provide accessors to 
-said functionality. As Catalyst grew more popular, it became obvious that
-this qualifies as bad practice. 
+The first thing to say about plugins is that if you're not sure if
+your module should be a plugin, it probably shouldn't. It once was
+common to add features to Catalyst by writing plugins that provide
+accessors to said functionality. As Catalyst grew more popular, it
+became obvious that this qualifies as bad practice.
 
-By designing your module as a Catalyst plugin, every method you implement,
-import or inherit will be available via your applications context object.
-Said more harshly, you're polluting global namespace, and you should be
-only doing that when you really need.
+By designing your module as a Catalyst plugin, every method you
+implement, import or inherit will be available via your applications
+context object.  A plugin pollutes the global namespace, and you
+should be only doing that when you really need to.
 
-Often, developers design extensions as plugins because they need to get
-hold of the context object. Either to get at the stash or 
-request/response objects are the widely spread reasons. It is, however,
-perfectly possible to implement a regular Catalyst component (read: 
-model, view or controller) that receives the current context object via
-L<Catalyst::Component/"ACCEPT_CONTEXT($c, @args)">.
+Often, developers design extensions as plugins because they need to
+get hold of the context object. Either to get at the stash or
+request/response objects are the widely spread reasons. It is,
+however, perfectly possible to implement a regular Catalyst component
+(read: model, view or controller) that receives the current context
+object via L<Catalyst::Component/"ACCEPT_CONTEXT($c, @args)">.
 
-So when is a plugin suited to your task? Your code needs to be a plugin 
-to act upon or alter specific parts of Catalyst's request lifecycle. If
-your functionality needs to wrap some C<prepare_*> or C<finalize_*>
-stages, you won't get around a plugin.
+When is a plugin suited to your task? Your code needs to be a
+plugin to act upon or alter specific parts of Catalyst's request
+lifecycle. If your functionality needs to wrap some C<prepare_*> or
+C<finalize_*> stages, you won't get around a plugin.
 
-Another valid target for a plugin architecture are things that B<really>
-have to be globally available, like sessions or authentication.
+Another valid target for a plugin architecture are things that
+B<really> have to be globally available, like sessions or
+authentication.
 
-B<Please do not> release Catalyst extensions as plugins only to provide
-some functionality application wide. Design it as a controller base class
-or another suiting technique with a smaller scope, so that your code only
-influences those parts of the application where it is needed, and 
-namespace clashes and conflicts are ruled out.
+B<Please do not> release Catalyst extensions as plugins only to
+provide some functionality application wide. Design it as a controller
+base class or another suiting technique with a smaller scope, so that
+your code only influences those parts of the application where it is
+needed, and namespace clashes and conflicts are ruled out.
 
 The implementation is pretty easy. Your plugin will be inserted in the
 application's inheritance list, above Catalyst itself. You can by this
-alter Catalyst's request lifecycle behaviour. Every method you declare,
-every import in your package will be available as method on the 
-application and the context object. As an example, let's say you want
-Catalyst to warn you every time uri_for returned an undefined value, for
-example because you specified the wrong number of captures for the
-targeted action chain. You could do this with this simple 
+alter Catalyst's request lifecycle behaviour. Every method you
+declare, every import in your package will be available as method on
+the application and the context object. As an example, let's say you
+want Catalyst to warn you every time uri_for returned an undefined
+value, for example because you specified the wrong number of captures
+for the targeted action chain. You could do this with this simple
 implementation (excuse the lame class name, it's just an example):
 
   package Catalyst::Plugin::UriforUndefWarning;
@@ -548,31 +530,29 @@ implementation (excuse the lame class name, it's just an example):
   use Class::C3;
 
   sub uri_for {
-      my $c   = shift;
+      my $c = shift;
       my $uri = $c->next::method(@_);
-      $c->log->warn(
-          'uri_for returned undef for:', 
-          join(', ', @_),
-      );
+      $c->log->warn( 'uri_for returned undef for:', join(', ', @_), );
       return $uri;
   }
 
   1;
 
-This would override Catalyst's C<uri_for> method and emit a C<warn> log
-entry containing the arguments that led to the undefined return value.
+This would override Catalyst's C<uri_for> method and emit a C<warn>
+log entry containing the arguments that led to the undefined return
+value.
 
 =head2 Factory components with COMPONENT()
 
-Every component inheriting from L<Catalyst::Component> contains a 
-C<COMPONENT> method. It is used on application startup by 
-C<setup_components> to instantiate the component object for the Catalyst
-application. By default, this will merge the components own 
-C<config>uration with the application wide overrides and call the class'
-C<new> method to return the component object.
+Every component inheriting from L<Catalyst::Component> contains a
+C<COMPONENT> method. It is used on application startup by
+C<setup_components> to instantiate the component object for the
+Catalyst application. By default, this will merge the components own
+C<config>uration with the application wide overrides and call the
+class' C<new> method to return the component object.
 
-You can override this method and do and return whatever you want. 
-However, you should use L<Class::C3> to forward to the original 
+You can override this method and do and return whatever you want.
+However, you should use L<Class::C3> to forward to the original
 C<COMPONENT> method to merge the configuration of your component.
 
 Here is a stub C<COMPONENT> method:
@@ -587,29 +567,25 @@ Here is a stub C<COMPONENT> method:
       my $class = shift;
       my ($app_class, $config) = @_;
 
-      # do things here before instantiation
-      my $obj = $self->next::method(@_);
+      # do things here before instantiation my
+      $obj = $self->next::method(@_);
       # do things to object after instantiation
-      
       return $object;
   }
 
 The arguments are the class name of the component, the class name of
-the application instantiating the component, and a hash reference
-with the controller's configuration.
+the application instantiating the component, and a hash reference with
+the controller's configuration.
 
-You are free to re-bless the object, instantiate a whole other component
-or really do anything compatible with Catalyst's expectations on a 
-component.
+You are free to re-bless the object, instantiate a whole other
+component or really do anything compatible with Catalyst's
+expectations on a component.
 
-For more information, please see 
-L<Catalyst::Component/"COMPONENT($c, $arguments)">.
+For more information, please see L<Catalyst::Component/"COMPONENT($c,$arguments)">.
 
 =head1 SEE ALSO
 
-L<Catalyst>,
-L<Catalyst::Manual::Actions>,
-L<Catalyst::Component>
+L<Catalyst>, L<Catalyst::Manual::Actions>, L<Catalyst::Component>
 
 =head1 AUTHOR
 
@@ -617,7 +593,7 @@ Robert Sedlacek C<rs@474.at>
 
 =head1 LICENSE AND COPYRIGHT
 
-This document is free, you can redistribute it and/or modify it under 
+This document is free, you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
