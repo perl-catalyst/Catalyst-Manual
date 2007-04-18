@@ -770,7 +770,7 @@ when starting a project from scratch.  This is because TTSite can be
 tricky to customize.  Additionally TT contains constructs that you
 need to learn yourself if you're going to be a serious user of TT.
 Our experience suggests that you're better off learning these from
-scratch.  We use it here precisely because it is useful for
+scratch.  We use TTSite here precisely because it is useful for
 bootstrap/prototype purposes.
 
 Enter the following command to enable the C<TTSite> style of view
