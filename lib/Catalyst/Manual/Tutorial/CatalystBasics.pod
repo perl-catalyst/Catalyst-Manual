@@ -763,6 +763,16 @@ modular and hierarchical view layout with separate Template Toolkit (TT)
 files for common header and footer information, configuration values, a
 CSS stylesheet, and more.
 
+While TTSite is useful to bootstrap a project, we recommend that
+unless you know what your're doing or want to pretty much use the
+supplied templates as is, that you use the plain Template Toolkit view
+when starting a project from scratch.  This is because TTSite can be
+tricky to customize.  Additionally TT contains constructs that you
+need to learn yourself if you're going to be a serious user of TT.
+Our experience suggests that you're better off learning these from
+scratch.  We use it here precisely because it is useful for
+bootstrap/prototype purposes.
+
 Enter the following command to enable the C<TTSite> style of view
 rendering for this tutorial:
 
