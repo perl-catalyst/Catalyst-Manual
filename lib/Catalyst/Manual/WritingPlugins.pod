@@ -1,0 +1,12 @@
+=head NAME
+
+Catalyst::Manual::WritingPlugins - (DEPRECATED, see L<Catalyst::Manual::ExtendingCatalyst>)
+
+=head DESCRIPTION
+
+This document is now deprecated. Please refer to L<Catalyst::Manual::ExtendingCatalyst>
+for information on how to extend the framework and your applications.
+
+=cut
+
+
