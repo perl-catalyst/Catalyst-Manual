@@ -21,6 +21,6 @@ Tutorial.
 
 =cut
 
-our $VERSION = '5.700701';
+our $VERSION = '5.700702';
 
 1;
