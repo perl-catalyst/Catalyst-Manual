@@ -4,6 +4,9 @@
 
 package Catalyst::Manual;
 
+use strict;
+use warnings;
+
 =head1 NAME
 
 Catalyst::Manual - The Catalyst developer's manual
