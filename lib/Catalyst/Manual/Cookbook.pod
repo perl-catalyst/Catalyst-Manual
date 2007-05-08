@@ -1534,6 +1534,25 @@ This will let all files within root/static be handled directly by Apache.  In
 a two-tiered setup, the frontend server should handle static files.
 The configuration to do this on the frontend will vary.
 
+The same is accomplished in lighttpd with the following snippet:
+
+   $HTTP["url"] !~ "^/(?:img/|static/|css/|favicon.ico$)" {
+         fastcgi.server = (
+             "" => (
+                 "MyApp" => (
+                     "socket"       => "/tmp/myapp.socket",
+                     "check-local"  => "disable",
+                 )
+             )
+         )
+    }
+
+Which serves everything in the img, static, css directories
+statically, as well as the favicon file.
+
+Note the pathof the applqication needs to be stated explicitly for
+boththese recipes.
+
 =head2 Catalyst on shared hosting
 
 So, you want to put your Catalyst app out there for the whole world to
