@@ -1550,8 +1550,8 @@ The same is accomplished in lighttpd with the following snippet:
 Which serves everything in the img, static, css directories
 statically, as well as the favicon file.
 
-Note the pathof the applqication needs to be stated explicitly for
-boththese recipes.
+Note the path of the application needs to be stated explicitly in the
+web server configuration for both these recipes.
 
 =head2 Catalyst on shared hosting
 
