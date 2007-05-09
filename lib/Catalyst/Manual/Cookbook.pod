@@ -1703,12 +1703,10 @@ L<Catalyst::Engine::FastCGI>.
 The development server is a mini web server written in perl.  If you
 expect a low number of hits or you don't need mod_perl/FastCGI speed,
 you could use the development server as the application server with a
-lightweight proxy web server at the front.  However, be aware that
-there are known issues, especially with Internet Explorer.  Many of
-these issues can be dealt with by running the server with the -k
-(keepalive) option but be aware for more complex applications this may
-not be suitable.  Consider using Catalyst::Engine::HTTP::POE.  This
-recipe is easily adapted for POE as well.
+lightweight proxy web server at the front.  However, consider using
+L<Catalyst::Engine::HTTP::POE> for this kind of deployment instead, since
+it can better handle multiple concurrent requests without forking, or can
+prefork a set number of servers for improved performance.
 
 =head3 Pros
 
@@ -1733,7 +1731,7 @@ save forking.
 
 =head4 Start up the development server
 
-   script/myapp_server.pl -p 8080 -k  -f -pidfile=/tmp/myapp.pid -daemon
+   script/myapp_server.pl -p 8080 -k  -f -pidfile=/tmp/myapp.pid
 
 You will probably want to write an init script to handle stop/starting
 the app using the pid file.

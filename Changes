@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+5.700703
+    - Cookbook: Updated development server deployment instructions, and 
+      included a better description of the POE engine.
+
 5.700702  26 April 2007
     - Switch to Module::Install
 
