@@ -636,6 +636,7 @@ lines to the bottom of the file:
        TT code, it's probably a little too subtle for use in "normal" 
        comments.
     %]
+ </p>
 
 Although most of the code is comments, the middle few lines provide a
 "you are already logged in" reminder if the user returns to the login
