@@ -1,5 +1,8 @@
 Revision history for Catalyst-Manual
 
+5.700704
+    - Updated mailing list addresses to scsys.co.uk domains
+
 5.700703
     - Cookbook: Updated development server deployment instructions, and 
       included a better description of the POE engine.
