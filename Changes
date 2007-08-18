@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+5.700901 17 Aug 2007
+    - Changes to mocation of lib/Catalyst/Manual.pod to 
+      lib/Catalyst/ManualPlaceholder.pm to keep cpan indexer happy.
+
 5.700704
     - Updated mailing list addresses to scsys.co.uk domains
 
