@@ -635,6 +635,38 @@ Cat app as C<MyApp::Model::DB>.
 
 See L<Catalyst::Model::DBIC::Schema>.
 
+=head2 Create accessors to preload static data once per server instance
+
+When you have data that you want to load just once from the model at
+server load instead of for each request, use mk_group_accessors to
+create accessors and tie them to resultsets in your package that
+inherits from DBIx::Class::Schema
+
+    package My::Schema;
+    use base qw/DBIx::Class::Schema/;
+    __PACKAGE__->register_class('RESULTSOURCEMONIKER',
+                                'My::Schema::RESULTSOURCE');
+    __PACKAGE__->mk_group_accessors('simple' =>
+                                qw(ACCESSORNAME1 ACCESSORNAME2 ACCESSORNAMEn));
+
+    sub connection {
+        my ($self, @rest) = @_;
+        $self->next::method(@rest);
+        # $self is now a live My::Schema object, complete with DB connection 
+
+        $self->ACCESSORNAME1([ $self->resultset('RESULTSOURCEMONIKER')->all ]);
+        $self->ACCESSORNAME2([ $self->resultset('RESULTSOURCEMONIKER')->search({ COLUMN => { '<' => '30' } })->all ]);
+        $self->ACCESSORNAMEn([ $self->resultset('RESULTSOURCEMONIKER')->find(1) ]);
+    }
+
+    1;
+
+and now in the controller, you can now access any of these without a
+per-request fetch:
+
+    $c->stash->{something} = $c->model('My::Schema')->schema->ACCESSORNAMEn;
+
+
 =head2 XMLRPC
 
 Unlike SOAP, XMLRPC is a very simple (and imo elegant) web-services
