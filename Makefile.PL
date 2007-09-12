@@ -1,8 +1,7 @@
 use inc::Module::Install 0.65;
 
 name 'Catalyst-Manual';
-abstract_from 'lib/Catalyst/Manual.pm';
-version_from 'lib/Catalyst/Manual.pm';
+all_from 'lib/Catalyst/ManualPlaceholder.pm';
 author 'Jonathan Rockway <jrockway@cpan.org>';
 license 'perl';
 
