@@ -46,11 +46,15 @@ forward to L</Namespaces>.
 
 =item Use the C<CatalystX::*> namespace if you can!
 
-Excluding plugins and of course your C<MyApp> code. B<Mind the X!>
+If your extension isn't a Model, View, Controller, Plugin, or Engine,
+it's best to leave it out of the C<Catalyst::> namespace.  Use
+<CatalystX::> instead.
 
 =item Don't make it a plugin unless you have to!
 
-A plugin should be careful as it declares in global namespace.
+A plugin should be careful since it's overriding Catalyst internals.
+If your plugin doesn't really need to muck with the internals, make it a
+base Controller or Model.
 
 =item There's a community. Use it!
 
@@ -89,6 +93,16 @@ putting it in your C<MyApp::*> namespace. Just don't put it in
 C<Model>, C<Controller> or C<View>, because that would make Catalyst
 try to load them as components.
 
+Writing a generic component that only works with Catalyst is wasteful
+of your time.  Try writing a plain perl module, and then a small bit
+of glue that integrates it with Catalyst.  See
+L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> for a
+module that takes the approach.  The advantage here is that your
+"Catalyst" DBIC schema works perfectly outside of Catalyst, making
+testing (and command-line scripts) a breeze.  The actual Catalyst
+Model is just a few lines of glue that makes working with the schema
+convenient.
+
 =head2 Inheritance and overriding methods
 
 While Catalyst itself is still based on L<NEXT> (for multiple
@@ -125,6 +139,10 @@ C<use_ok>, sorry) gives people a good base to contribute to the
 module.  It also shows that you care for your users. If you would like
 your module to become a recommended addition, these things will prove
 invaluable.
+
+If you're just getting started, try using
+L<CatalystX::Starter|CatalystX::Starter> to generate some example
+tests for your module.
 
 =head2 Maintenance
 
@@ -589,7 +607,9 @@ L<Catalyst>, L<Catalyst::Manual::Actions>, L<Catalyst::Component>
 
 =head1 AUTHOR
 
-Robert Sedlacek C<rs@474.at>
+Robert Sedlacek C<< <rs@474.at> >>
+
+Jonathan Rockway C<< <jrockway@cpan.org> >>
 
 =head1 LICENSE AND COPYRIGHT
 
