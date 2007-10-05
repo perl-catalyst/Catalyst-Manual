@@ -330,7 +330,7 @@ But first, we need a database.
 
     INSERT INTO foo (data) VALUES ('TEST!');
 
-    % sqlite /tmp/myapp.db < myapp.sql
+    % sqlite3 /tmp/myapp.db < myapp.sql
 
 Now we can create a DBIC::Schema model for this database.
 
