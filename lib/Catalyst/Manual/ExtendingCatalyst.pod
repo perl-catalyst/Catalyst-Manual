@@ -103,6 +103,9 @@ testing (and command-line scripts) a breeze.  The actual Catalyst
 Model is just a few lines of glue that makes working with the schema
 convenient.
 
+If you want the thinnest interface possible, take a look at
+L<Catalyst::Model::Adaptor|Catalyst::Model::Adaptor>.
+
 =head2 Inheritance and overriding methods
 
 While Catalyst itself is still based on L<NEXT> (for multiple

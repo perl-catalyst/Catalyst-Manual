@@ -35,23 +35,25 @@ privileges to the entire Catalyst source tree.
 In addition, the core team may accept members that have non-technical
 roles such as marketing, legal, or economic responsibilities.
 
-At the time of conception, the Core Team consists of the following people:
+Currently, the Core Team consists of the following people:
 
 =over 4
+
+=item Brian Cassidy
 
 =item Andy Grundman
 
 =item Christian Hansen
 
-=item Brian Cassidy
+=item Yuval Kogman
 
 =item Marcus Ramberg
+
+=item Jonathan Rockway
 
 =item Jesse Sheidlower
 
 =item Matt S. Trout
-
-=item Yuval Kogman
 
 =back
 

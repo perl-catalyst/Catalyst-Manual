@@ -1,4 +1,3 @@
-#!perl
 # Manual.pm 
 # Copyright (c) 2006 Jonathan Rockway <jrockway@cpan.org>
 
@@ -24,6 +23,6 @@ Tutorial.
 
 =cut
 
-our $VERSION = '5.701001';
+our $VERSION = '5.701003';
 
 1;
