@@ -88,7 +88,7 @@ view use:
     [% Catalyst.log.debug("This is a test log message") %]
 
 You can also use L<Data::Dumper|Data::Dumper> in both Catalyst code 
-(C<use Data::Dumper; $c-E<gt>log-E<gt>debug("$var is: ".Dumper($var));)>) 
+(C<use Data::Dumper; $c-E<gt>log-E<gt>debug("\$var is: ".Dumper($var));)>) 
 and TT templates (C<[% Dumper.dump(book) %]>.
 
 =head1 RUNNING CATALYST UNDER THE PERL DEBUGGER
