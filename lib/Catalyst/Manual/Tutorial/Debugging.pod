@@ -79,7 +79,7 @@ following code to a controller action method:
 
     $c->log->info("Starting the foreach loop here");
 
-    $c->log->debug("Value of $id is: ".$id);
+    $c->log->debug("Value of \$id is: ".$id);
 
 Then the Catalyst development server will display your message along
 with the other debug output. To accomplish the same thing in a TTSite
