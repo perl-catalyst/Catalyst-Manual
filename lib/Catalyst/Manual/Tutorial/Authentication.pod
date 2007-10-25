@@ -339,17 +339,24 @@ Edit C<lib/MyApp.pm> and update it as follows (everything below C<StackTrace> is
             StackTrace
             
             Authentication
-            Authentication::Store::DBIC
-            Authentication::Credential::Password
             
             Session
             Session::Store::FastMmap
             Session::State::Cookie
             /;
 
-The three C<Authentication> plugins work together to support
+The C<Authentication> plugin supports
 Authentication while the C<Session> plugins are required to maintain
-state across multiple HTTP requests.  Note that there are several
+state across multiple HTTP requests.  
+
+Note that the only required Authentication class is the main
+one. This is a change that occured in version 0.09999_01
+of the C<Authentication> plugin. You B<do not need> to specify a 
+particular Authentication::Store or Authentication::Credential plugin. 
+Instead, indicate the Store and Credential you want to use in your application
+configuration (see below).
+
+Note that there are several
 options for L<Session::Store|Catalyst::Plugin::Session::Store>
 (L<Session::Store::FastMmap|Catalyst::Plugin::Session::Store::FastMmap>
 is generally a good choice if you are on Unix; try
@@ -375,21 +382,25 @@ C<myapp.yml> YAML and update it to match:
     ---
     name: MyApp
     authentication:
-        dbic:
-            # Note this first definition would be the same as setting
-            # __PACKAGE__->config->{authentication}->{dbic}->{user_class} = 'MyAppDB::User'
-            # in lib/MyApp.pm (IOW, each hash key becomes a "name:" in the YAML file).
-            #
+        default_realm: dbic
+        realms:
+            dbic:
+                credential:
+                    class: Password
+                    password_field: password
+                    password_type:  self_check
+                store:
+                    class:          DBIx::Class
             # This is the model object created by Catalyst::Model::DBIC from your
             # schema (you created 'MyAppDB::User' but as the Catalyst startup
             # debug messages show, it was loaded as 'MyApp::Model::MyAppDB::User').
             # NOTE: Omit 'MyApp::Model' to avoid a component lookup issue in Catalyst 5.66
-            user_class: MyAppDB::User
+                    user_class:     MyApp::Users
             # This is the name of the field in your 'users' table that contains the user's name
-            user_field: username
-            # This is the name of the field in your 'users' table that contains the password
-            password_field: password
-            # Other options can go here for hashed passwords
+                    id_field:       username
+                    role_relation:  roles
+                    role_field:     rolename
+                    ignore_fields_in_find: [ 'remote_name' ]
 
 Inline comments in the code above explain how each field is being used.
 
