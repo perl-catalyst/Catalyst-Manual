@@ -447,7 +447,8 @@ Then update it to match:
         # If the username and password values were found in form
         if ($username && $password) {
             # Attempt to log the user in
-            if ($c->authenticate($username, $password)) {
+            if ($c->authenticate({ username => $username, 
+                                   password => $password} )) {
                 # If successful, then let them use the application
                 $c->response->redirect($c->uri_for('/books/list'));
                 return;
@@ -462,11 +463,11 @@ Then update it to match:
     }
 
 This controller fetches the C<username> and C<password> values from the
-login form and attempts to perform a login.  If successful, it redirects
-the user to the book list page.  If the login fails, the user will stay
-at the login page but receive an error message.  If the C<username> and
-C<password> values are not present in the form, the user will be taken
-to the empty login form.
+login form and attempts to authenticate the user.  If successful, it 
+redirects the user to the book list page.  If the login fails, the user 
+will stay at the login page but receive an error message.  If the 
+C<username> and C<password> values are not present in the form, the 
+user will be taken to the empty login form.
 
 Note that we could have used something like C<sub default :Private>; 
 however, the use of C<default> actions is discouraged because it does
