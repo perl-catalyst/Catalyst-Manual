@@ -217,7 +217,7 @@ Catalyst doesn't enforce anything. See L<Catalyst::Manual::About> for
 a general discussion of these issues.
 
 Model, View and Controller components must inherit from L<Catalyst::Model>,
-L<Catalyst::View> and L<Catalyst::Model>, respectively. These, in turn, inherit
+L<Catalyst::View> and L<Catalyst::Controller>, respectively. These, in turn, inherit
 from L<Catalyst::Component> which provides a simple class structure and some
 common class methods like C<config> and C<new> (constructor).
 
