@@ -216,14 +216,15 @@ means that this decision is entirely up to you, the programmer;
 Catalyst doesn't enforce anything. See L<Catalyst::Manual::About> for
 a general discussion of these issues.
 
-All components must inherit from L<Catalyst::Base>, which provides a
-simple class structure and some common class methods like C<config> and
-C<new> (constructor).
+Model, View and Controller components must inherit from L<Catalyst::Model>,
+L<Catalyst::View> and L<Catalyst::Model>, respectively. These, in turn, inherit
+from L<Catalyst::Component> which provides a simple class structure and some
+common class methods like C<config> and C<new> (constructor).
 
     package MyApp::Controller::Catalog;
 
     use strict;
-    use base 'Catalyst::Base';
+    use base 'Catalyst::Controller';
 
     __PACKAGE__->config( foo => 'bar' );
 
