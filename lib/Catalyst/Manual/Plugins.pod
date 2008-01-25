@@ -169,7 +169,7 @@ L<Catalyst::Plugin::ConfigLoader::YAML>
 
 =head2 L<Catalyst::Plugin::DateTime>
 
-=head2 L<Catalyst::Plugin::DefaultEnd>
+=head2 L<Catalyst::Action::RenderView>
 
 Creates a sane, standard end method for your application.
 
