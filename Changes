@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+5.70010
+     - rename placeholder back to Manual.pm, this will probably trigger
+       a ppm bug but that's ppm's problem
+
 5.70010 25 aug 2007
      - Patch to Cookbook from bits.
 
