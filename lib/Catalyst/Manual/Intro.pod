@@ -14,17 +14,17 @@ with Catalyst, see L<Catalyst::Manual::Tutorial>.
 =head2 What is Catalyst?
 
 Catalyst is an elegant web application framework, extremely flexible
-yet extremely simple. It's similar to Ruby on Rails, Spring (Java),
-and L<Maypole>, upon which it was originally based. Its most important
-design philosphy is to provide easy access to all the tools you need
-to develop web applications, with few restrictions on how you need to
-use these tools. However, this does mean that it is always possible to
-do things in a different way. Other web frameworks are B<initially>
-simpler to use, but achieve this by locking the programmer into a
-single set of tools. Catalyst's emphasis on flexibility means that you
-have to think more to use it. We view this as a feature.  For example,
-this leads to Catalyst being more suited to system integration tasks
-than other web frameworks.
+yet extremely simple. It's similar to Ruby on Rails, Spring (Java), and
+L<Maypole|Maypole>, upon which it was originally based. Its most
+important design philosphy is to provide easy access to all the tools
+you need to develop web applications, with few restrictions on how you
+need to use these tools. However, this does mean that it is always
+possible to do things in a different way. Other web frameworks are
+I<initially> simpler to use, but achieve this by locking the programmer
+into a single set of tools. Catalyst's emphasis on flexibility means
+that you have to think more to use it. We view this as a feature.  For
+example, this leads to Catalyst being more suited to system integration
+tasks than other web frameworks.
 
 =head3 MVC
 
