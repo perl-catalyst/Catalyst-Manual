@@ -182,7 +182,7 @@ OS = CentOS 4 Linux (RHEL 4)
 
 Catalyst v5.7
 
-= item *
+=item *
 
 Catalyst::Devel v1.02
 
