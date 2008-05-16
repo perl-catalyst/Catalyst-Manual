@@ -388,13 +388,13 @@ Then run the Catalyst development server script:
 
     $ script/myapp_server.pl
 
-Log in as C<test02>.  Once at the book list, click the "Create" link to
-try the C<form_create> action.  You should receive a red "Unauthorized!"
-error message at the top of the list.  (Note that in reality you would
-probably want to place the "Create" link code in
-C<root/src/books/list.tt2> inside an C<IF> statement that only displays
-the list to admin-level users.)  If you log in as C<test01> you should
-be able to view the C<form_create> form and add a new book.
+Log in as C<test02>.  Once at the book list, click the "Create" link
+to try the C<form_create> action.  You should receive a red
+"Unauthorized!"  error message at the top of the list.  (Note that in
+the example code the "Create" link code in C<root/src/books/list.tt2>
+is inside an C<IF> statement that only displays the list to
+admin-level users.)  If you log in as C<test01> you should be able to
+view the C<form_create> form and add a new book.
 
 When you are done, use one of the 'Logout' links (or go to the
 L<http://localhost:3000/logout> URL directly) when you are done.
