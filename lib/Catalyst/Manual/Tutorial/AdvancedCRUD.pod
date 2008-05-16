@@ -69,12 +69,22 @@ real-world applications generally require more control.  Other
 options include L<Data::FormValidator|Data::FormValidator> and
 L<HTML::FillInForm|HTML::FillInForm>.
 
-Here, we will make use of the L<HTML::Widget|HTML::Widget> to not only 
-ease form creation, but to also provide validation of the submitted 
-data.  The approached used by this part of the tutorial is to slowly 
-incorporate additional L<HTML::Widget|HTML::Widget> functionality in a 
-step-wise fashion (we start with fairly simple form creation and then 
-move on to more complex and "magical" features such as validation and 
+Note that HTML::Widget is no longer maintained.
+L<HTML::FormFu|HTML::FormFu> was developed as a replacement.  There is
+an example HTML::FormFu application at
+L<http://dev.catalyst.perl.org/repos/Catalyst/examples/Advent07FormFu/final/Fu/Fu-0.01.tar.gz>.
+Another popular alternative for HTML FormFu is
+L<Catalyst::Controller::Formbuilder|Catalyst::Controller::Formbuilder>
+which is used in the L<Catalyst
+Book|http://www.packtpub.com/catalyst-perl-web-application/book>.
+
+Here, we will make use of the
+L<HTML::Widget|HTML::Widget> to not only ease form creation, but to
+also provide validation of the submitted data.  The approached used by
+this part of the tutorial is to slowly incorporate additional
+L<HTML::Widget|HTML::Widget> functionality in a step-wise fashion (we
+start with fairly simple form creation and then move on to more
+complex and "magical" features such as validation and
 auto-population/auto-saving).
 
 B<Note:> Part 8 of the tutorial is optional.  Users who do not wish to

@@ -50,6 +50,16 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 =back
 
 
+=head1 IMPORTANT NOTE
+
+Since this tutorial was written, there has been a new Authentication
+API released (Catalyst::Plugin::Authentication version 0.1 and later).
+Some of this tutorial does not work with this API, and requires
+minimal changes.  For an example application that uses the new API see
+L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/NewAuthApp/NewAuthApp-0.01.tar.gz>. It
+is recommended that you read this tutorial first, and then download
+the source code linked above to understand the differences.
+
 =head1 DESCRIPTION
 
 Now that we finally have a simple yet functional application, we can

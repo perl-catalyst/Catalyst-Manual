@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+ 5.7011
+       - added warnings and poiinters to newer examples in HTML::Widget,
+         and Authentication parts of the tutorial.
+
 5.701005
     - pod fix (RT #32636)
 
