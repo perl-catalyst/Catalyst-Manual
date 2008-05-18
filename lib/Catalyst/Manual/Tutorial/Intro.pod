@@ -5,7 +5,7 @@ Catalyst::Manual::Tutorial::Intro - Catalyst Tutorial - Part 1: Introduction
 
 =head1 OVERVIEW
 
-This is B<Part 1 of 9> of the Catalyst Tutorial.
+This is B<Part 2 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -21,33 +21,38 @@ L<Catalyst Basics|Catalyst::Manual::Tutorial::CatalystBasics>
 
 =item 3
 
-L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>
+L<More Catalyst Basics|Catalyst::Manual::Tutorial::MoreCatalystBasics>
 
 =item 4
 
-L<Authentication|Catalyst::Manual::Tutorial::Authentication>
+L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>
 
 =item 5
 
-L<Authorization|Catalyst::Manual::Tutorial::Authorization>
+L<Authentication|Catalyst::Manual::Tutorial::Authentication>
 
 =item 6
 
-L<Debugging|Catalyst::Manual::Tutorial::Debugging>
+L<Authorization|Catalyst::Manual::Tutorial::Authorization>
 
 =item 7
 
-L<Testing|Catalyst::Manual::Tutorial::Testing>
+L<Debugging|Catalyst::Manual::Tutorial::Debugging>
 
 =item 8
 
-L<Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+L<Testing|Catalyst::Manual::Tutorial::Testing>
 
 =item 9
+
+L<Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+
+=item 10
 
 L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =back
+
 
 =head1 DESCRIPTION
 
@@ -58,8 +63,9 @@ required in the construction of nearly all Catalyst applications.
 
 Although the primary target of the tutorial is users new to the Catalyst
 framework, experienced users may wish to review specific sections (for
-example, how to use DBIC for their model classes or how to add
-authentication and authorization to an existing application).
+example, how to use DBIC for their model classes, how to add
+authentication and authorization to an existing application, or form
+management).
 
 You can obtain the code for all the tutorial examples from the
 catalyst subversion repository by issuing the command:
@@ -139,14 +145,14 @@ PostgreSQL).
 
 =item * 
 
-The use of L<HTML::Widget|HTML::Widget> for automated form processing 
+The use of L<HTML::FormFu|HTML::FormFu> for automated form processing 
 and validation.
 
 =back
 
 This tutorial makes the learning process its main priority.  For
 example, the level of comments in the code found here would likely be
-considered excessive in a "normal project".  Because of their contextual
+considered excessive in a "normal project."  Because of their contextual
 value, this tutorial will generally favor inline comments over a
 separate discussion in the text.  It also deliberately tries to
 demonstrate multiple approaches to various features (in general, you
@@ -176,19 +182,19 @@ versions:
 
 =item * 
 
-OS = CentOS 4 Linux (RHEL 4)
+Ubuntu 8.04 Hardy Heron
 
 =item * 
 
-Catalyst v5.7
+Catalyst v5.7011
 
 =item *
 
-Catalyst::Devel v1.02
+Catalyst::Devel v1.03
 
 =item * 
 
-DBIx::Class v0.06003
+DBIx::Class v0.08008
 
 =item * 
 
@@ -203,47 +209,43 @@ use. This tutorial has been tested against the following set of plugins:
 
 =item * 
 
-Catalyst::Plugin::Authentication -- 0.09
+Catalyst::Plugin::Authentication -- v0.10002
 
 =item *
 
-Catalyst::Plugin::Authentication::Store::DBIC -- 0.07
+Catalyst::Plugin::Authentication::Store::DBIC -- v0.09
 
 =item *
 
-Catalyst::Plugin::Authorization::ACL -- 0.08
+Catalyst::Plugin::Authorization::ACL -- v0.08
 
 =item *
 
-Catalyst::Plugin::Authorization::Roles -- 0.04
+Catalyst::Plugin::Authorization::Roles -- v0.05
 
 =item *
 
-Catalyst::Plugin::ConfigLoader -- 0.13
+Catalyst::Plugin::ConfigLoader -- v0.17
 
 =item *
 
-Catalyst::Plugin::HTML::Widget -- 1.1
+Catalyst::Plugin::Session -- v0.18
 
 =item *
 
-Catalyst::Plugin::Session -- 0.12
+Catalyst::Plugin::Session::State::Cookie -- v0.08
 
 =item *
 
-Catalyst::Plugin::Session::State::Cookie -- 0.05
+Catalyst::Plugin::Session::Store::FastMmap -- v0.03
 
 =item *
 
-Catalyst::Plugin::Session::Store::FastMmap -- 0.02
+Catalyst::Plugin::StackTrace -- v0.06
 
 =item *
 
-Catalyst::Plugin::StackTrace -- 0.06
-
-=item *
-
-Catalyst::Plugin::Static::Simple -- 0.14
+Catalyst::Plugin::Static::Simple -- v0.20
 
 =back
 
@@ -269,16 +271,59 @@ Explorer).
 
 =head1 CATALYST INSTALLATION
 
-Unfortunately, one of the most daunting tasks faced by newcomers to
-Catalyst is getting it installed.  Although a compelling strength of
-Catalyst is that it can easily make use of many of the modules in the
-vast repository that is CPAN, this can result in initial installations
-that are both time consuming and frustrating.  However, there are a
-growing number of methods that can dramatically ease this undertaking.
-Of these, the following are likely to be applicable to the largest
-number of potential new users:
+If approach in the wrong manner, it can be a daunting tasks to get
+Catalyst initally installed.  Although a compelling strength of
+Catalyst is that it makes use of many of the modules in the
+vast repository that is CPAN, this can complicate the installation
+process.  However, there are a growing number of methods 
+that can dramatically ease this undertaking.  Of these, the following 
+are likely to be applicable to the largest number of potential new 
+users:
 
 =over 4
+
+=item *
+
+Ubuntu
+
+Given the popularity of Ubuntu and it's ease of use, Ubuntu can be 
+a great way for newcomers to experiment with Catalyst.  Because it 
+is a "live CD," you can simply boot from the CD, run a few commands,
+and you should have a fully functional environment in which to do 
+this tutorial in a matter of minutes.  
+
+=over 4
+
+=item * 
+
+Download Ubuntu 8.04 (aka, Hardy Heron) and boot from the CD and/or
+image file, select your language, and then "Try Ubuntu without any
+changes to your computer."
+
+=item *
+
+Open a terminal session.
+
+=item *
+
+Add the 'universe' repositories:
+
+    sudo vi /etc/apt/sources.list
+
+And remove the comments from the lines under the comments about the
+'universe' repositories.
+
+=item *
+
+Install Catalyst:
+
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo apt-get install sqlite3 libdbd-sqlite3-perl libcatalyst-perl libcatalyst-modules-perl
+
+Accept all of the dependencies.  Done.
+
+=back
 
 =item * 
 
