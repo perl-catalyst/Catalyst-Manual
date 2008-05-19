@@ -5,7 +5,7 @@ Catalyst::Manual::Tutorial::Intro - Catalyst Tutorial - Part 1: Introduction
 
 =head1 OVERVIEW
 
-This is B<Part 2 of 10> for the Catalyst tutorial.
+This is B<Part 1 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
