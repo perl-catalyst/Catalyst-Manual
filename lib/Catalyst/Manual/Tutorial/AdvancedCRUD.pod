@@ -71,13 +71,15 @@ tools.  Select one or more options from the list below.
 
 =head1 ADVANCED CRUD OPTIONS
 
-=item *
-
-L<FormFu|Catalyst::Manual::Tutorial::AdvancedCRUD::FormFu>
+=over 4
 
 =item *
 
 L<FormFu|Catalyst::Manual::Tutorial::AdvancedCRUD::FormFu>
+
+=item *
+
+L<FormBuilder|Catalyst::Manual::Tutorial::AdvancedCRUD::FormBuilder>
 
 =back
 
