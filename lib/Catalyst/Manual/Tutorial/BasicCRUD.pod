@@ -1,11 +1,11 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::BasicCRUD - Catalyst Tutorial - Part 3: Basic CRUD
+Catalyst::Manual::Tutorial::BasicCRUD - Catalyst Tutorial - Part 4: Basic CRUD
 
 
 =head1 OVERVIEW
 
-This is B<Part 3 of 9> for the Catalyst tutorial.
+This is B<Part 4 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -21,57 +21,61 @@ L<Catalyst Basics|Catalyst::Manual::Tutorial::CatalystBasics>
 
 =item 3
 
-B<Basic CRUD>
+L<More Catalyst Basics|Catalyst::Manual::Tutorial::MoreCatalystBasics>
 
 =item 4
 
-L<Authentication|Catalyst::Manual::Tutorial::Authentication>
+B<Basic CRUD>
 
 =item 5
 
-L<Authorization|Catalyst::Manual::Tutorial::Authorization>
+L<Authentication|Catalyst::Manual::Tutorial::Authentication>
 
 =item 6
 
-L<Debugging|Catalyst::Manual::Tutorial::Debugging>
+L<Authorization|Catalyst::Manual::Tutorial::Authorization>
 
 =item 7
 
-L<Testing|Catalyst::Manual::Tutorial::Testing>
+L<Debugging|Catalyst::Manual::Tutorial::Debugging>
 
 =item 8
 
-L<AdvancedCRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+L<Testing|Catalyst::Manual::Tutorial::Testing>
 
 =item 9
+
+L<Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+
+=item 10
 
 L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =back
 
 
-
 =head1 DESCRIPTION
 
 This part of the tutorial builds on the fairly primitive application
-created in Part 2 to add basic support for Create, Read, Update, and
+created in Part 3 to add basic support for Create, Read, Update, and
 Delete (CRUD) of C<Book> objects.  Note that the 'list' function in Part
 2 already implements the Read portion of CRUD (although Read normally
 refers to reading a single object; you could implement full read
 functionality using the techniques introduced below).  This section will
 focus on the Create and Delete aspects of CRUD.  More advanced
 capabilities, including full Update functionality, will be addressed in
-Part 8.
+Part 9.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
 L<Catalyst::Manual::Tutorial::Intro>
 
+
 =head1 FORMLESS SUBMISSION
 
-Our initial attempt at object creation will utilize the "URL arguments"
-feature of Catalyst (we will employ the more common form-based
-submission in the sections that follow).
+Our initial attempt at object creation will utilize the "URL 
+arguments" feature of Catalyst (we will employ the more common form-
+based submission in the sections that follow).
 
 
 =head2 Include a Create Action in the Books Controller
@@ -93,7 +97,7 @@ Edit C<lib/MyApp/Controller/Books.pm> and enter the following method:
     
         # Call create() on the book model object. Pass the table 
         # columns/field values we want to set as hash values
-        my $book = $c->model('MyAppDB::Book')->create({
+        my $book = $c->model('MyAppDB::Books')->create({
                 title  => $title,
                 rating => $rating
             });
@@ -172,7 +176,7 @@ The TT C<USE> directive allows access to a variety of plugin modules (TT
 plugins, that is, not Catalyst plugins) to add extra functionality to
 the base TT capabilities.  Here, the plugin allows L<Data::Dumper>
 "pretty printing" of objects and variables.  Other than that, the rest
-of the code should be familiar from the examples in Part 2.
+of the code should be familiar from the examples in Part 3.
 
 B<IMPORTANT NOTE> As mentioned earlier, the C<MyApp::View::TT.pm> view
 class created by TTSite redefines the name used to access the Catalyst
@@ -202,7 +206,7 @@ Next, use your browser to enter the following URL:
 Your browser should display " Added book 'TCPIP_Illustrated_Vol-2' by
 'Stevens' with a rating of 5." along with a dump of the new book model
 object.  You should also see the following DBIC debug messages displayed
-in the development server log messages:
+in the development server log messages if you have DBIC_TRACE set:
 
     INSERT INTO books (rating, title) VALUES (?, ?): `5', `TCPIP_Illustrated_Vol-2'
     INSERT INTO book_authors (author_id, book_id) VALUES (?, ?): `4', `6'
@@ -294,7 +298,7 @@ save the form information to the database:
         my $author_id = $c->request->params->{author_id} || '1';
     
         # Create the book
-        my $book = $c->model('MyAppDB::Book')->create({
+        my $book = $c->model('MyAppDB::Books')->create({
                 title   => $title,
                 rating  => $rating,
             });
@@ -328,7 +332,7 @@ C<create_done.tt2> template seen in earlier examples.  Finally, click
 
 B<Note:> Having the user enter the primary key ID for the author is
 obviously crude; we will address this concern with a drop-down list in
-Part 8.
+Part 9.
 
 
 =head1 A SIMPLE DELETE FEATURE
@@ -402,7 +406,7 @@ following method:
         my ($self, $c, $id) = @_;
     
         # Search for the book and then delete it
-        $c->model('MyAppDB::Book')->search({id => $id})->delete_all;
+        $c->model('MyAppDB::Books')->search({id => $id})->delete_all;
     
         # Set a status message to be displayed at the top of the view
         $c->stash->{status_msg} = "Book deleted.";
@@ -456,7 +460,7 @@ could clearly be extremely dangerous.
 We can improve the logic by converting to a redirect.  Unlike
 C<$c-E<gt>forward('list'))> or C<$c-E<gt>detach('list'))> that perform
 a server-side alteration in the flow of processing, a redirect is a
-client-side mechanism that causes the brower to issue an entirely
+client-side mechanism that causes the browser to issue an entirely
 new request.  As a result, the URL in the browser is updated to match
 the destination of the redirection URL.
 
@@ -475,7 +479,7 @@ C<sub delete> method to match:
         my ($self, $c, $id) = @_;
     
         # Search for the book and then delete it
-        $c->model('MyAppDB::Book')->search({id => $id})->delete_all;
+        $c->model('MyAppDB::Books')->search({id => $id})->delete_all;
     
         # Set a status message to be displayed at the top of the view
         $c->stash->{status_msg} = "Book deleted.";
@@ -488,18 +492,20 @@ C<sub delete> method to match:
 =head2 Try the Delete and Redirect Logic
 
 Restart the development server and point your browser to 
-L<http://localhost:3000/books/list>.  Delete the first copy of 
-"TCPIP_Illustrated_Vol-2", but notice that I<no green "Book deleted" 
-status message is displayed>.  Because the stash is reset on every
-request (and a redirect involves a second request), the 
-C<status_msg> is cleared before it can be displayed.
+L<http://localhost:3000/books/list> and delete the first copy of 
+"TCPIP_Illustrated_Vol-2".  The URL in your browser should return to 
+the L<http://localhost:3000/books/list> URL, so that is an 
+improvement, but notice that I<no green "Book deleted" status message 
+is displayed>.  Because the stash is reset on every request (and a 
+redirect involves a second request), the C<status_msg> is cleared 
+before it can be displayed.
 
 
 =head2 Using C<uri_for> to Pass Query Parameters
 
 There are several ways to pass information across a redirect. 
 In general, the best option is to use the C<flash> technique that we
-will see in Part 4 of the tutorial; however, here we will pass the
+will see in Part 5 of the tutorial; however, here we will pass the
 information via query parameters on the redirect itself.  Open 
 C<lib/MyApp/Controller/Books.pm> and update the existing 
 C<sub delete> method to match the following:
@@ -515,7 +521,7 @@ C<sub delete> method to match the following:
         my ($self, $c, $id) = @_;
     
         # Search for the book and then delete it
-        $c->model('MyAppDB::Book')->search({id => $id})->delete_all;
+        $c->model('MyAppDB::Books')->search({id => $id})->delete_all;
     
         # Redirect the user back to the list page with status msg as an arg
         $c->response->redirect($c->uri_for('/books/list', 

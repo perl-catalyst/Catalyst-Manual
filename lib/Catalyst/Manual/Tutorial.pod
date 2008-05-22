@@ -16,39 +16,43 @@ only navigate inside this page).
 
 =over 4
 
-=item *
+=item 1
 
 L<Introduction|Catalyst::Manual::Tutorial::Intro>
 
-=item * 
+=item 2
 
 L<Catalyst Basics|Catalyst::Manual::Tutorial::CatalystBasics>
 
-=item * 
+=item 3
+
+L<More Catalyst Basics|Catalyst::Manual::Tutorial::MoreCatalystBasics>
+
+=item 4
 
 L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>
 
-=item * 
+=item 5
 
 L<Authentication|Catalyst::Manual::Tutorial::Authentication>
 
-=item * 
+=item 6
 
 L<Authorization|Catalyst::Manual::Tutorial::Authorization>
 
-=item * 
+=item 7
 
 L<Debugging|Catalyst::Manual::Tutorial::Debugging>
 
-=item *
+=item 8
 
 L<Testing|Catalyst::Manual::Tutorial::Testing>
 
-=item * 
+=item 9
 
 L<Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
 
-=item * 
+=item 10
 
 L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
@@ -59,6 +63,7 @@ L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/Final_Tarb
 
 
 =head1 Detailed Table of Contents
+
 
 =head2 L<Part 1: Introduction|Catalyst::Manual::Tutorial::Intro>
 
@@ -93,33 +98,39 @@ CREATE A CATALYST PROJECT
 
 =item *
 
-CREATE A SQLITE DATABASE
+HELLO WORLD
+
+=over 4
 
 =item *
 
-EDIT THE LIST OF CATALYST PLUGINS
+The Simplest Way
 
 =item *
 
-DATABASE ACCESS WITH DBIx::Class
+Hello, World! Using a View and a Template
+
+=back
+
+=item *
+
+CREATE A SIMPLE CONTROLLER AND AN ACTION
+
+=back
+
+
+=head2 L<Part 3: More Catalyst Basics|Catalyst::Manual::Tutorial::MoreCatalystBasics>
 
 
 =over 4
 
 =item *
 
-Create a DBIC Schema File
+CREATE A NEW APPLICATION
 
 =item *
 
-Create the DBIC ``Result Source'' Files
-
-=item *
-
-Use Catalyst::Model::DBIC::Schema to Load the Model Class
-
-=back
-
+EDIT THE LIST OF CATALYST PLUGINS
 
 =item *
 
@@ -138,10 +149,6 @@ Create a Catalyst View Using TTSite
 
 =item *
 
-Using RenderView for the Default View
-
-=item *
-
 Globally Customize Every View
 
 =item *
@@ -150,6 +157,21 @@ Create a TT Template Page
 
 =back
 
+=item *
+
+CREATE A SQLITE DATABASE
+
+=item *
+
+DATABASE ACCESS WITH DBIx::Class
+
+=over 4
+
+=item *
+
+Create a Dynamic DBIC Model
+
+=back
 
 =item *
 
@@ -157,11 +179,52 @@ RUN THE APPLICATION
 
 =item *
 
-USING THE DEFAULT TEMPLATE NAME
+A STATIC DATABASE MODEL WITH DBIx::Class
+
+=over 4
+
+=item *
+
+Create Static DBIC Schema Files
+
+=item *
+
+Updating the Generated DBIC Schema Files
 
 =back
 
-=head2 L<Part 3: Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>
+=item *
+
+RUN THE APPLICATION
+
+=item *
+
+RUNNING THE APPLICATION FROM THE COMMAND LINE
+
+=item *
+
+UPDATING THE VIEW
+
+=over 4
+
+=item *
+
+Using RenderView for the Default View
+
+=item *
+
+Using The Default Template Name
+
+=item *
+
+Return To A Manually-Specified Template
+
+=back
+
+=back
+
+
+=head2 L<Part 4: Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>
 
 =over 4
 
@@ -227,11 +290,28 @@ Add a Delete Action to the Controller
 
 Try the Delete Feature
 
-=back
+=item *
+
+Fixing a Dangerous URL
+
+=item *
+
+Try the Delete and Redirect Logic
+
+=item *
+
+Using uri_for to Pass Query Parameters
+
+=item *
+
+Try the Delete and Redirect With Query Param Logic
 
 =back
 
-=head2 L<Part 4: Authentication|Catalyst::Manual::Tutorial::Authentication>
+=back
+
+
+=head2 L<Part 5: Authentication|Catalyst::Manual::Tutorial::Authentication>
 
 =over 4
 
@@ -248,10 +328,6 @@ Add Users and Roles to the Database
 =item *
 
 Add User and Role Information to DBIC Schema
-
-=item *
-
-Create New ``Result Source Objects''
 
 =item *
 
@@ -311,9 +387,26 @@ Try Out the Hashed Passwords
 
 =back
 
+=item *
+
+USING THE SESSION FOR FLASH
+
+=over 4
+
+=item *
+
+Try Out Flash
+
+=item *
+
+Switch To Flash-To-Stash
+
 =back
 
-=head2 L<Part 5: Authorization|Catalyst::Manual::Tutorial::Authorization>
+=back
+
+
+=head2 L<Part 6: Authorization|Catalyst::Manual::Tutorial::Authorization>
 
 =over 4
 
@@ -367,7 +460,8 @@ Add a Method to Handle Access Violations
 
 =back
 
-=head2 L<Part 6: Debugging|Catalyst::Manual::Tutorial::Debugging>
+
+=head2 L<Part 7: Debugging|Catalyst::Manual::Tutorial::Debugging>
 
 =over 4
 
@@ -385,7 +479,8 @@ DEBUGGING MODULES FROM CPAN
 
 =back
 
-=head2 L<Part 7: Testing|Catalyst::Manual::Tutorial::Testing>
+
+=head2 L<Part 8: Testing|Catalyst::Manual::Tutorial::Testing>
 
 =over 4
 
@@ -407,85 +502,19 @@ SUPPORTING BOTH PRODUCTION AND TEST DATABASES
 
 =back
 
-=head2 L<Part 8: Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+
+=head2 L<Part 9: Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
 
 =over 4
 
 =item *
 
-HTML::WIDGET FORM CREATION
-
-=over 4
-
-=item *
-
-Add the HTML::Widget Plugin
-
-=item *
-
-Add a Form Creation Helper Method
-
-=item *
-
-Add Actions to Display and Save the Form
-
-=item *
-
-Update the CSS
-
-=item *
-
-Create a Template Page To Display The Form
-
-=item *
-
-Add Links for Create and Update via HTML::Widget
-
-=item *
-
-Test The <HTML::Widget> Create Form
+ADVANCED CRUD OPTIONS
 
 =back
 
-=item *
 
-HTML::WIDGET VALIDATION AND FILTERING
-
-=over 4
-
-=item *
-
-Add Constraints and Filters to the Widget Creation Method
-
-=item *
-
-Rebuild the Form Submission Method to Include Validation
-
-=item *
-
-Try Out the Form
-
-=back
-
-=item *
-
-Enable DBIx::Class::HTMLWidget Support
-
-=over 4
-
-=item *
-
-Add DBIx::Class::HTMLWidget to DBIC Model
-
-=item *
-
-Use populate_from_widget in hw_create_do
-
-=back
-
-=back
-
-=head2 L<Part 9: Appendices|Catalyst::Manual::Tutorial::Appendices>
+=head2 L<Part 10: Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =over 4
 
@@ -557,7 +586,11 @@ key Catalyst modules.
 
 Other Catalyst documentation folks like Kieren Diment, Gavin Henry,
 and Jess Robinson (including their work on the original Catalyst
-tutorial).
+tutorial).  
+
+=item *
+
+Kieren Diment for currently maintaining this document on CPAN.
 
 =item *
 
@@ -565,11 +598,18 @@ Everyone on #catalyst and #catalyst-dev.
 
 =item *
 
+Louis Moore (who thanks Marcello Romani and Tom Lanyon) for the
+PostgreSQL content in the Appendix.
+
+=item *
+
 People who have emailed me with corrections and suggestions on the 
 tutorial.  As of the most recent release, this include: Florian Ragwitz, 
 Mauro Andreolini, Jim Howard, Giovanni Gigante, William Moreno,  
 Bryan Roach, Ashley Berlin, David Kamholz, Kevin Old, Henning Sprang,
-Jeremy Jones, David Kurtz, Ingo Wichmann, and Shlomi Fish.
+Jeremy Jones, David Kurtz, Ingo Wichmann, and Shlomi Fish.  I'm sure I
+am missing some names here... apologies for that (please let me know
+if you name should be here).
 
 =back
 

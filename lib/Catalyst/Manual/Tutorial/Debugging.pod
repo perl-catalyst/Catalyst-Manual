@@ -1,10 +1,11 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::Debugging - Catalyst Tutorial - Part 6: Debugging
+Catalyst::Manual::Tutorial::Debugging - Catalyst Tutorial - Part 7: Debugging
+
 
 =head1 OVERVIEW
 
-This is B<Part 6 of 9> for the Catalyst tutorial.
+This is B<Part 7 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -20,29 +21,33 @@ L<Catalyst Basics|Catalyst::Manual::Tutorial::CatalystBasics>
 
 =item 3
 
-L<Basic CRUD|Catalyst::Manual::Tutorial_BasicCRUD>
+L<More Catalyst Basics|Catalyst::Manual::Tutorial::MoreCatalystBasics>
 
 =item 4
 
-L<Authentication|Catalyst::Manual::Tutorial::Authentication>
+L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>
 
 =item 5
 
-L<Authorization|Catalyst::Manual::Tutorial::Authorization>
+L<Authentication|Catalyst::Manual::Tutorial::Authentication>
 
 =item 6
 
-B<Debugging>
+L<Authorization|Catalyst::Manual::Tutorial::Authorization>
 
 =item 7
 
-L<Testing|Catalyst::Manual::Tutorial::Testing>
+B<Debugging>
 
 =item 8
 
-L<AdvancedCRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+L<Testing|Catalyst::Manual::Tutorial::Testing>
 
 =item 9
+
+L<Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+
+=item 10
 
 L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
@@ -102,7 +107,7 @@ C<DB::single=1> line as follows inside the C<list> method (I like to
 you can obviously indent them if you prefer):
 
     sub list : Local {
-        # Retrieve the usual perl OO '$self' for this object. $c is the Catalyst
+        # Retrieve the usual Perl OO '$self' for this object. $c is the Catalyst
         # 'Context' that's used to 'glue together' the various components
         # that make up the application
         my ($self, $c) = @_;
@@ -111,7 +116,7 @@ you can obviously indent them if you prefer):
             
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
-        $c->stash->{books} = [$c->model('MyAppDB::Book')->all];
+        $c->stash->{books} = [$c->model('MyAppDB::Books')->all];
             
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods.
@@ -150,7 +155,7 @@ C<MyApp::Controller::list> method, the console session running the
 development server will drop to the Perl debugger prompt:
 
     MyApp::Controller::Books::list(/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm:40):
-    40:         $c->stash->{books} = [$c->model('MyAppDB::Book')->all];
+    40:         $c->stash->{books} = [$c->model('MyAppDB::Books')->all];
     
       DB<1>
 
@@ -172,7 +177,7 @@ output also shows up in the development server debug information.
 
 Next, list the methods available on our C<Book> model:
 
-      DB<1> m $c->model('MyAppDB::Book')
+      DB<1> m $c->model('MyAppDB::Books')
     ()
     (0+
     (bool
@@ -191,7 +196,7 @@ Next, list the methods available on our C<Book> model:
 
 We can also play with the model directly:
 
-      DB<2> x ($c->model('MyAppDB::Book')->all)[1]->title
+      DB<2> x ($c->model('MyAppDB::Books')->all)[1]->title
     SELECT me.id, me.title, me.rating FROM books me:
     0  'TCP/IP Illustrated, Volume 1'
 
@@ -249,12 +254,19 @@ copy of an installed module:
 
     mkdir -p lib/Module; cp `perldoc -l Module::Name` lib/Module/
 
+Note: If you are following along in Ubuntu, you will need to install
+the C<perl-doc> package to use the C<perldoc> command.  Use 
+C<sudo apt-get install perl-doc> to do that.
+
 For example, you could make a copy of 
 L<Catalyst::Plugin::Authentication|Catalyst::Plugin::Authentication>
 with the following command:
 
     mkdir -p lib/Catalyst/Plugin; cp \
         `perldoc -l Catalyst::Plugin::Authentication` lib/Catalyst/Plugin
+
+You can then use the local copy inside your project to place logging
+messages and/or breakpoints for further study of that module.
 
 B<Note:> Matt has also suggested the following tips for Perl 
 debugging:
@@ -282,7 +294,7 @@ Check if a modules contains a given method:
 For example:
 
     $ perl -MCatalyst::Plugin::Authentication -e \
-        'print Catalyst::Plugin::Authentication->can("prepare");'
+        'print Catalyst::Plugin::Authentication->can("user");'
     CODE(0x9c8db2c)
 
 If the method exists, the Perl C<can> method returns a coderef.

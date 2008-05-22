@@ -1,11 +1,11 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::Testing - Catalyst Tutorial - Part 7: Testing
+Catalyst::Manual::Tutorial::Testing - Catalyst Tutorial - Part 8: Testing
 
 
 =head1 OVERVIEW
 
-This is B<Part 7 of 9> for the Catalyst tutorial.
+This is B<Part 8 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -21,33 +21,38 @@ L<Catalyst Basics|Catalyst::Manual::Tutorial::CatalystBasics>
 
 =item 3
 
-L<Basic CRUD|Catalyst::Manual::Tutorial_BasicCRUD>
+L<More Catalyst Basics|Catalyst::Manual::Tutorial::MoreCatalystBasics>
 
 =item 4
 
-L<Authentication|Catalyst::Manual::Tutorial::Authentication>
+L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>
 
 =item 5
 
-L<Authorization|Catalyst::Manual::Tutorial::Authorization>
+L<Authentication|Catalyst::Manual::Tutorial::Authentication>
 
 =item 6
 
-L<Debugging|Catalyst::Manual::Tutorial::Debugging>
+L<Authorization|Catalyst::Manual::Tutorial::Authorization>
 
 =item 7
 
-B<Testing>
+L<Debugging|Catalyst::Manual::Tutorial::Debugging>
 
 =item 8
 
-L<AdvancedCRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+B<Testing>
 
 =item 9
+
+L<Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+
+=item 10
 
 L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =back
+
 
 =head1 DESCRIPTION
 
@@ -71,9 +76,20 @@ directory, enter:
 
     $ prove --lib lib t
 
-The redirection used by the Authentication plugins will cause the
-default C<t/01app.t> to fail.  You can fix this by changing the line in
-C<t/01app.t> that read:
+There will be a lot of output because we have the C<-Debug> flag enabled 
+in C<lib/MyApp.pm> (see the C<CATALYST_DEBUG=0> tip below for a quick 
+and easy way to reduce the clutter). Look for lines like this for 
+errors:
+
+    #   Failed test 'Request should succeed'
+    #   in t/controller_Books.t at line 8.
+    # Looks like you failed 1 test of 3.
+
+The redirection used by the Authentication plugins will cause several 
+failures in the default tests.  You can fix this by making the following
+changes:
+
+1) Change the line in C<t/01app.t> that read:
 
     ok( request('/')->is_success, 'Request should succeed' );
 
@@ -81,13 +97,11 @@ to:
 
     ok( request('/login')->is_success, 'Request should succeed' );
 
-So that a redirect is not necessary.  Also, the C<t/controller_Books.t>
-and C<t/controller_Logout.t> default test cases will fail because of the
-authorization.  You can delete these two files to prevent false error
-messages:
+2) Change the C<request('/logout')-E<gt>is_success> to 
+C<request('/logout')-E<gt>is_redirect> in C<t/controller_Logout.t>.
 
-    $ rm t/controller_Books.t
-    $ rm t/controller_Logout.t
+3) Change the C<request('/books')-E<gt>is_success> to 
+C<request('/books')-E<gt>is_redirect> in C<t/controller_Books.t>.
 
 As you can see in the C<prove> command line above, the C<--lib> option
 is used to set the location of the Catalyst C<lib> directory.  With this
@@ -115,6 +129,7 @@ prints the name of each test case as it is being run:
 
     $ CATALYST_DEBUG=0 TEST_POD=1 prove --lib lib -v t
 
+
 =head1 RUNNING A SINGLE TEST
 
 You can also run a single script by appending its name to the C<prove>
@@ -122,10 +137,11 @@ command. For example:
 
     $ CATALYST_DEBUG=0 prove --lib lib t/01app.t
 
-Note that you can also run tests directly from Perl without C<prove>.
+Also note that you can also run tests directly from Perl without C<prove>.
 For example:
 
     $ CATALYST_DEBUG=0 perl -Ilib t/01app.t
+
 
 =head1 ADDING YOUR OWN TEST SCRIPT
 
@@ -317,13 +333,9 @@ change the C<__PACKAGE__-E<gt>config(...> declaration to resemble:
 
     my $dsn = $ENV{MYAPP_DSN} ||= 'dbi:SQLite:myapp.db';
     __PACKAGE__->config(
-        schema_class => 'MyAppDB',
+        schema_class => 'MyApp::Schema::MyAppDB',
         connect_info => [
             $dsn,
-            '',
-            '',
-            { AutoCommit => 1 },
-    
         ],
     );
 

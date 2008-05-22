@@ -1,0 +1,1096 @@
+=head1 NAME
+
+Catalyst::Manual::Tutorial::MoreCatalystBasics - Catalyst Tutorial - Part 3: More Catalyst Application Development Basics
+
+
+=head1 OVERVIEW
+
+This is B<Part 3 of 10> for the Catalyst tutorial.
+
+L<Tutorial Overview|Catalyst::Manual::Tutorial>
+
+=over 4
+
+=item 1
+
+L<Introduction|Catalyst::Manual::Tutorial::Intro>
+
+=item 2
+
+L<Catalyst Basics|Catalyst::Manual::Tutorial::CatalystBasics>
+
+=item 3
+
+B<More Catalyst Basics>
+
+=item 4
+
+L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>
+
+=item 5
+
+L<Authentication|Catalyst::Manual::Tutorial::Authentication>
+
+=item 6
+
+L<Authorization|Catalyst::Manual::Tutorial::Authorization>
+
+=item 7
+
+L<Debugging|Catalyst::Manual::Tutorial::Debugging>
+
+=item 8
+
+L<Testing|Catalyst::Manual::Tutorial::Testing>
+
+=item 9
+
+L<Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+
+=item 10
+
+L<Appendices|Catalyst::Manual::Tutorial::Appendices>
+
+=back
+
+
+=head1 DESCRIPTION
+
+This part of the tutorial builds on the work done in Part 2 to explore 
+some features that are more typical of "real world" web applications. 
+From this part of the tutorial onward, we will be building a simple 
+book database application.  Although the application will be too 
+limited to be of use to anyone, it should provide a basic environment 
+where we can explore a variety of features used in virtually all web 
+applications.
+
+You can checkout the source code for this example from the catalyst
+subversion repository as per the instructions in
+L<Catalyst::Manual::Tutorial::Intro>
+
+
+=head1 CREATE A NEW APPLICATION
+
+The remainder of the tutorial will build an application call C<MyApp>. 
+Use the Catalyst C<catalyst.pl> script to initialize the framework for 
+an application called C<MyApp> (make sure you aren't still inside the 
+directory of the C<Hello> application from the previous part of the 
+tutorial):
+
+    $ catalyst.pl MyApp
+    created "MyApp"
+    created "MyApp/script"
+    created "MyApp/lib"
+    created "MyApp/root"
+    ...
+    created "MyApp/script/myapp_create.pl"
+    $ cd MyApp
+
+This creates a similar skeletal structure to what we saw in Part 2 of 
+the tutorial, except with C<MyApp> or C<myapp> substituted for 
+C<Hello> and C<hello>.
+
+
+=head1 EDIT THE LIST OF CATALYST PLUGINS
+
+One of the greatest benefits of Catalyst is that it has such a large
+library of plugins available.  Plugins are used to seamlessly integrate
+existing Perl modules into the overall Catalyst framework.  In general,
+they do this by adding additional methods to the C<context> object
+(generally written as C<$c>) that Catalyst passes to every component
+throughout the framework.
+
+By default, Catalyst enables three plugins/flags:
+
+=over 4
+
+=item * 
+
+C<-Debug> Flag
+
+Enables the Catalyst debug output you saw when we started the
+C<script/myapp_server.pl> development server earlier.  You can remove
+this plugin when you place your application into production.
+
+As you may have noticed, C<-Debug> is not a plugin, but a I<flag>.
+Although most of the items specified on the C<use Catalyst> line of your
+application class will be plugins, Catalyst supports a limited number of
+flag options (of these, C<-Debug> is the most common).  See the
+documentation for C<Catalyst.pm> to get details on other flags 
+(currently C<-Engine>, C<-Home>, and C<-Log>).
+
+If you prefer, you can use the C<$c-E<gt>debug> method to enable debug
+messages.
+
+B<TIP>: Depending on your needs, it can be helpful to permanently
+remove C<-Debug> from C<lib/MyApp.pm> and then use the C<-d> option
+to C<script/myapp_server.pl> to re-enable it just for the development
+server.  We will not be using that approach in the tutorial, but feel 
+free to make use of it in your own projects.
+
+=item *
+
+L<Catalyst::Plugin::ConfigLoader|Catalyst::Plugin::ConfigLoader>
+
+C<ConfigLoader> provides an automatic way to load configurable
+parameters for your application from a central YAML file (versus having
+the values hard-coded inside your Perl modules).  If you have not been
+exposed to YAML before, it is a human-readable data serialization format
+that can be used to read (and write) values to/from text files.  We will
+see how to use this feature of Catalyst during the authentication and
+authorization sections (Part 5 and Part 6).
+
+=item *
+
+L<Catalyst::Plugin::Static::Simple|Catalyst::Plugin::Static::Simple>
+
+C<Static::Simple> provides an easy method of serving static content such
+as images and CSS files under the development server.
+
+=back
+
+To modify the list of plugins, edit C<lib/MyApp.pm> (this file is
+generally referred to as your I<application class>) and delete the line
+with:
+
+    use Catalyst qw/-Debug ConfigLoader Static::Simple/;
+
+Replace it with:
+
+    use Catalyst qw/
+            -Debug
+            ConfigLoader
+            Static::Simple
+            
+            StackTrace
+            /;
+
+This tells Catalyst to start using one new plugin:
+
+=over 4
+
+=item * 
+
+L<Catalyst::Plugin::StackTrace|Catalyst::Plugin::StackTrace>
+
+Adds a stack trace to the standard Catalyst "debug screen" (this is the
+screen Catalyst sends to your browser when an error occurs).
+
+Note: L<StackTrace|Catalyst::Plugin::StackTrace> output appears in your
+browser, not in the console window from which you're running your
+application, which is where logging output usually goes.
+
+=back
+
+Note that when specifying plugins on the C<use Catalyst> line, you can
+omit C<Catalyst::Plugin::> from the name.  Additionally, you can spread
+the plugin names across multiple lines as shown here, or place them all
+on one (or more) lines as with the default configuration.
+
+
+=head1 CREATE A CATALYST CONTROLLER
+
+As discussed earlier, controllers are where you write methods that 
+interact with user input.  Typically, controller methods respond to 
+C<GET> and C<POST> messages from the user's web browser.
+
+Use the Catalyst C<create> script to add a controller for book-related
+actions:
+
+    $ script/myapp_create.pl controller Books
+     exists "/home/me/MyApp/script/../lib/MyApp/Controller"
+     exists "/home/me/MyApp/script/../t"
+    created "/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm"
+    created "/home/me/MyApp/script/../t/controller_Books.t"
+
+Then edit C<lib/MyApp/Controller/Books.pm> and add the following method
+to the controller:
+
+    =head2 list
+    
+    Fetch all book objects and pass to books/list.tt2 in stash to be displayed
+    
+    =cut
+     
+    sub list : Local {
+        # Retrieve the usual Perl OO '$self' for this object. $c is the Catalyst
+        # 'Context' that's used to 'glue together' the various components
+        # that make up the application
+        my ($self, $c) = @_;
+    
+        # Retrieve all of the book records as book model objects and store in the
+        # stash where they can be accessed by the TT template
+        $c->stash->{books} = [$c->model('MyAppDB::Books')->all];
+        
+        # Set the TT template to use.  You will almost always want to do this
+        # in your action methods (action methods respond to user input in
+        # your controllers).
+        $c->stash->{template} = 'books/list.tt2';
+    }
+
+B<Note:> This won't actually work yet since you haven't set up your 
+model yet.
+
+B<Note:> Programmers experienced with object-oriented Perl should 
+recognize C<$self> as a reference to the object where this method was 
+called.  On the other hand, C<$c> will be new to many Perl programmers 
+who have not used Catalyst before (it's sometimes written as 
+C<$context>).  The Context object is automatically passed to all 
+Catalyst components.  It is used to pass information between 
+components and provide access to Catalyst and plugin functionality.
+
+B<TIP>: You may see the C<$c-E<gt>model('MyAppDB::Book')> used above
+written as C<$c-E<gt>model('MyAppDB')-E<gt>resultset('Book)>.  The two
+are equivalent.
+
+B<Note:> Catalyst actions are regular Perl methods, but they make use 
+of Nicholas Clark's C<attributes> module (that's the C<: Local> next 
+to the C<sub list> in the code above) to provide additional 
+information to the Catalyst dispatcher logic.  Many newer Catalyst 
+applications are switching to the use of "Literal" C<: Path> actions 
+and C<Args> attribute in lieu of C<: Local> and C<: Private>.  For 
+example, C<sub any_method : Path Args(0)> can be used instead of 
+C<sub index :Private> (because no path was supplied to C<Path> it 
+matches the "empty" URL in the namespace of that module... the same 
+thing C<sub index> would do) or C<sub list : Path('list') Args(0)> 
+could be used instead of the C<sub list : Local> above (the C<list> 
+argument to C<Path> would make it match on the URL C<list> under 
+C<books>, the namespace of the current module).  See "Action Types" in 
+L<Catalyst::Manual::Intro|Catalyst::Manual::Intro> as well as Part 5 
+of this tutorial (Authentication) for additional information.  Another 
+popular but more advanced feature is C<Chained> actions that allow a 
+single URL to "chain together" multiple action method calls, each with 
+an appropriate number of arguments (see
+L<Catalyst::DispatchType::Chained|Catalyst::DispatchType::Chained>
+for details).
+
+
+=head1 CATALYST VIEWS
+
+As mentioned in Part 2 of the tutorial, views are where you render 
+output, typically for display in the user's web browser, but also 
+possibly using other display output- generation systems.  As with 
+virtually every aspect of Catalyst, options abound when it comes to 
+the specific view technology you adopt inside your application. 
+However, most Catalyst applications use the Template Toolkit, known as 
+TT (for more information on TT, see L<http://www.template-
+toolkit.org>). Other popular view technologies include Mason 
+(L<http://www.masonhq.com> and L<http://www.masonbook.com>) and 
+L<HTML::Template|HTML::Template> (L<http://html-
+template.sourceforge.net>).
+
+=head2 Create a Catalyst View Using C<TTSite>
+
+When using TT for the Catalyst view, there are two main helper scripts:
+
+=over 4
+
+=item *
+
+L<Catalyst::Helper::View::TT|Catalyst::Helper::View::TT>
+
+=item *
+
+L<Catalyst::Helper::View::TTSite|Catalyst::Helper::View::TTSite>
+
+=back
+
+Both are similar, but C<TT> merely creates the C<lib/MyApp/View/TT.pm>
+file and leaves the creation of any hierarchical template organization
+entirely up to you. (It also creates a C<t/view_TT.t> file for testing;
+test cases will be discussed in Part 8). The C<TTSite> helper creates a
+modular and hierarchical view layout with separate Template Toolkit (TT)
+files for common header and footer information, configuration values, a
+CSS stylesheet, and more.
+
+While TTSite is useful to bootstrap a project, we recommend that
+unless you know what you're doing or want to pretty much use the
+supplied templates as is, that you use the plain Template Toolkit view
+when starting a project from scratch.  This is because TTSite can be
+tricky to customize.  Additionally TT contains constructs that you
+need to learn yourself if you're going to be a serious user of TT.
+Our experience suggests that you're better off learning these from
+scratch.  We use TTSite here precisely because it is useful for
+bootstrap/prototype purposes.
+
+Enter the following command to enable the C<TTSite> style of view
+rendering for this tutorial:
+
+    $ script/myapp_create.pl view TT TTSite
+     exists "/home/me/MyApp/script/../lib/MyApp/View"
+     exists "/home/me/MyApp/script/../t"
+    created "/home/me/MyApp/script/../lib/MyApp/View/TT.pm"
+    created "/home/me/MyApp/script/../root/lib"
+    ...
+    created "/home/me/MyApp/script/../root/src/ttsite.css"
+
+This puts a number of files in the C<root/lib> and C<root/src>
+directories that can be used to customize the look and feel of your
+application.  Also take a look at C<lib/MyApp/View/TT.pm> for config
+values set by the C<TTSite> helper.
+
+B<TIP>: Note that TTSite does one thing that could confuse people who
+are used to the normal C<TT> Catalyst view: it redefines the Catalyst
+context object in templates from its usual C<c> to C<Catalyst>. When
+looking at other Catalyst examples, remember that they almost always use
+C<c>.  Note that Catalyst and TT I<do not complain> when you use the
+wrong name to access the context object...TT simply outputs blanks for
+that bogus logic (see next tip to change this behavior with TT C<DEBUG>
+options).  Finally, be aware that this change in name I<only>
+applies to how the context object is accessed inside your TT templates;
+your controllers will continue to use C<$c> (or whatever name you use
+when fetching the reference from C<@_> inside your methods). (You can
+change back to the "default" behavior be removing the C<CATALYST_VAR>
+line from C<lib/MyApp/View/TT.pm>, but you will also have to edit
+C<root/lib/config/main> and C<root/lib/config/url>.  If you do this, be
+careful not to have a collision between your own C<c> variable and the
+Catalyst C<c> variable.)
+
+B<TIP>: When troubleshooting TT it can be helpful to enable variable
+C<DEBUG> options.  You can do this in a Catalyst environment by adding
+a C<DEBUG> line to the C<__PACKAGE__->config> declaration in 
+C<lib/MyApp/View/TT.pm>:
+
+    __PACKAGE__->config({
+        CATALYST_VAR => 'Catalyst',
+        ...
+        DEBUG        => 'undef',
+        ...
+    });
+
+B<Note:> C<__PACKAGE__> is just a shorthand way of referencing the name
+of the package where it is used.  Therefore, in C<TT.pm>,
+C<__PACKAGE__> is equivalent to C<TT>.
+
+There are a variety of options you can use, such as 'undef', 'all', 
+'service', 'context', 'parser', 'provider', and 'service'.  See
+L<Template::Constants> for more information (remove the C<DEBUG_>
+portion of the name shown in the TT docs and convert to lower case
+for use inside Catalyst).
+
+B<NOTE:> B<Please be sure to disable TT debug options before 
+continuing the tutorial> (especially the 'undef' option -- leaving
+this enabled will conflict with several of the conventions used
+by this tutorial and TTSite to leave some variables undefined
+on purpose).
+
+
+=head2 Globally Customize Every View
+
+When using TTSite, files in the subdirectories of C<root/lib> can be
+used to make changes that will appear in every view.  For example, to
+display optional status and error messages in every view, edit
+C<root/lib/site/layout>, updating it to match the following (the two HTML
+C<span> elements are new):
+
+    <div id="header">[% PROCESS site/header %]</div>
+    
+    <div id="content">
+    <span class="message">[% status_msg %]</span>
+    <span class="error">[% error_msg %]</span>
+    [% content %]
+    </div>
+    
+    <div id="footer">[% PROCESS site/footer %]</div>
+
+If we set either message in the Catalyst stash (e.g.,
+C<$c-E<gt>stash-E<gt>{status_msg} = 'Request was successful!'>) it will
+be displayed whenever any view used by that request is rendered.  The
+C<message> and C<error> CSS styles are automatically defined in
+C<root/src/ttsite.css> and can be customized to suit your needs.
+
+B<Note:> The Catalyst stash only lasts for a single HTTP request.  If
+you need to retain information across requests you can use
+L<Catalyst::Plugin::Session|Catalyst::Plugin::Session> (we will use
+Catalyst sessions in the Authentication part of the tutorial).
+
+
+=head2 Create a TT Template Page
+
+To add a new page of content to the TTSite view hierarchy, just create a
+new C<.tt2> file in C<root/src>.  Only include HTML markup that goes
+inside the HTML <body> and </body> tags, TTSite will use the contents of
+C<root/lib/site> to add the top and bottom.
+
+First create a directory for book-related TT templates:
+
+    $ mkdir root/src/books
+
+Then create C<root/src/books/list.tt2> in your editor and enter:
+
+    [% # This is a TT comment.  The '-' at the end "chomps" the newline.  You won't -%]
+    [% # see this "chomping" in your browser because HTML ignores blank lines, but  -%]
+    [% # it WILL eliminate a blank line if you view the HTML source.  It's purely   -%]
+    [%- # optional, but both the beginning and the ending TT tags support chomping. -%]
+    
+    [% # Provide a title to root/lib/site/header -%]
+    [% META title = 'Book List' -%]
+    
+    <table>
+    <tr><th>Title</th><th>Rating</th><th>Author(s)</th></tr>
+    [% # Display each book in a table row %]
+    [% FOREACH book IN books -%]
+      <tr>
+        <td>[% book.title %]</td>
+        <td>[% book.rating %]</td>
+      </tr>
+    [% END -%]
+    </table>
+
+As indicated by the inline comments above, the C<META title> line uses
+TT's META feature to provide a title to C<root/lib/site/header>.
+Meanwhile, the outer C<FOREACH> loop iterates through each C<book> model
+object and prints the C<title> and C<rating> fields.  An inner
+C<FOREACH> loop prints the last name of each author in a comma-separated
+list within a single table cell.
+
+If you are new to TT, the C<[%> and C<%]> tags are used to delimit TT
+code.  TT supports a wide variety of directives for "calling" other
+files, looping, conditional logic, etc.  In general, TT simplifies the
+usual range of Perl operators down to the single dot (C<.>) operator.
+This applies to operations as diverse as method calls, hash lookups, and
+list index values (see
+L<http://www.template-toolkit.org/docs/default/Manual/Variables.html>
+for details and examples).  In addition to the usual C<Template> module
+Pod documentation, you can access the TT manual at
+L<http://www.template-toolkit.org/docs/default/>.
+
+B<NOTE>: The C<TTSite> helper creates several TT files using an
+extension of C<.tt2>. Most other Catalyst and TT examples use an
+extension of C<.tt>.  You can use either extension (or no extension at
+all) with TTSite and TT, just be sure to use the appropriate extension
+for both the file itself I<and> the C<$c-E<gt>stash-E<gt>{template} =
+...> line in your controller.  This document will use C<.tt2> for
+consistency with the files already created by the C<TTSite> helper.
+
+
+=head1 CREATE A SQLITE DATABASE
+
+In this step, we make a text file with the required SQL commands to
+create a database table and load some sample data.  Open C<myapp01.sql>
+in your editor and enter:
+
+    --
+    -- Create a very simple database to hold book and author information
+    --
+    CREATE TABLE books (
+            id          INTEGER PRIMARY KEY,
+            title       TEXT ,
+            rating      INTEGER
+    );
+    -- 'book_authors' is a many-to-many join table between books & authors
+    CREATE TABLE book_authors (
+            book_id     INTEGER,
+            author_id   INTEGER,
+            PRIMARY KEY (book_id, author_id)
+    );
+    CREATE TABLE authors (
+            id          INTEGER PRIMARY KEY,
+            first_name  TEXT,
+            last_name   TEXT
+    );
+    ---
+    --- Load some sample data
+    ---
+    INSERT INTO books VALUES (1, 'CCSP SNRS Exam Certification Guide', 5);
+    INSERT INTO books VALUES (2, 'TCP/IP Illustrated, Volume 1', 5);
+    INSERT INTO books VALUES (3, 'Internetworking with TCP/IP Vol.1', 4);
+    INSERT INTO books VALUES (4, 'Perl Cookbook', 5);
+    INSERT INTO books VALUES (5, 'Designing with Web Standards', 5);
+    INSERT INTO authors VALUES (1, 'Greg', 'Bastien');
+    INSERT INTO authors VALUES (2, 'Sara', 'Nasseh');
+    INSERT INTO authors VALUES (3, 'Christian', 'Degu');
+    INSERT INTO authors VALUES (4, 'Richard', 'Stevens');
+    INSERT INTO authors VALUES (5, 'Douglas', 'Comer');
+    INSERT INTO authors VALUES (6, 'Tom', 'Christiansen');
+    INSERT INTO authors VALUES (7, 'Nathan', 'Torkington');
+    INSERT INTO authors VALUES (8, 'Jeffrey', 'Zeldman');
+    INSERT INTO book_authors VALUES (1, 1);
+    INSERT INTO book_authors VALUES (1, 2);
+    INSERT INTO book_authors VALUES (1, 3);
+    INSERT INTO book_authors VALUES (2, 4);
+    INSERT INTO book_authors VALUES (3, 5);
+    INSERT INTO book_authors VALUES (4, 6);
+    INSERT INTO book_authors VALUES (4, 7);
+    INSERT INTO book_authors VALUES (5, 8);
+
+B<TIP>: See Appendix 1 for tips on removing the leading spaces when
+cutting and pasting example code from POD-based documents.
+
+Then use the following command to build a C<myapp.db> SQLite database:
+
+    $ sqlite3 myapp.db < myapp01.sql
+
+If you need to create the database more than once, you probably want to
+issue the C<rm myapp.db> command to delete the database before you use
+the C<sqlite3 myapp.db < myapp01.sql> command.
+
+Once the C<myapp.db> database file has been created and initialized, you
+can use the SQLite command line environment to do a quick dump of the
+database contents:
+
+    $ sqlite3 myapp.db
+    SQLite version 3.4.2
+    Enter ".help" for instructions
+    sqlite> select * from books;
+    1|CCSP SNRS Exam Certification Guide|5
+    2|TCP/IP Illustrated, Volume 1|5
+    3|Internetworking with TCP/IP Vol.1|4
+    4|Perl Cookbook|5
+    5|Designing with Web Standards|5
+    sqlite> .q
+    $
+
+Or:
+
+    $ sqlite3 myapp.db "select * from books"
+    1|CCSP SNRS Exam Certification Guide|5
+    2|TCP/IP Illustrated, Volume 1|5
+    3|Internetworking with TCP/IP Vol.1|4
+    4|Perl Cookbook|5
+    5|Designing with Web Standards|5
+
+As with most other SQL tools, if you are using the full "interactive"
+environment you need to terminate your SQL commands with a ";" (it's not
+required if you do a single SQL statement on the command line).  Use
+".q" to exit from SQLite from the SQLite interactive mode and return to
+your OS command prompt.
+
+
+=head1 DATABASE ACCESS WITH C<DBIx::Class>
+
+Catalyst can be used with virtually any form of persistent datastore
+available via Perl.  For example, 
+L<Catalyst::Model::DBI|Catalyst::Model::DBI> can be used to
+easily access databases through the traditional Perl C<DBI> interface.
+However, most Catalyst applications use some form of ORM technology to
+automatically create and save model objects as they are used.  Although
+Tony Bowden's L<Class::DBI|Class::DBI> has been a popular choice 
+in the past, Matt Trout's L<DBIx::Class|DBIx::Class> (abbreviated 
+as "DBIC") has rapidly emerged as the Perl-based ORM technology of choice.  
+Most new Catalyst applications rely on DBIC, as will this tutorial.
+
+=head2 Create a Dynamic DBIC Model
+
+Use the C<create=dynamic> model helper option to build a model that 
+dynamically reads your database structure every time the application
+starts:
+
+    $ script/myapp_create.pl model MyAppDB DBIC::Schema MyApp::Schema::MyAppDB create=dynamic dbi:SQLite:myapp.db
+     exists "/home/me/MyApp/script/../lib/MyApp/Model"
+     exists "/home/me/MyApp/script/../t"
+    created "/home/me/MyApp/script/../lib/MyApp/Schema"
+    created "/home/me/MyApp/script/../lib/MyApp/Schema/MyAppDB.pm"
+    created "/home/me/MyApp/script/../lib/MyApp/Model/MyAppDB.pm"
+    created "/home/me/MyApp/script/../t/model_MyAppDB.t"
+
+
+C<MyAppDB> is the name of the model class to be created by the helper in 
+C<lib/MyApp/Model> (Catalyst has a separate directory under C<lib/MyApp> 
+for each of the three parts of MVC: C<Model>, C<View>, and C<Controller> 
+[although older Catalyst applications often use the directories C<M>, 
+C<V>, and C<C>]).  C<DBIC::Schema> is the type of the model to create. 
+C<MyApp::Schema::MyAppDB> is the name of the DBIC schema file written to 
+C<lib/MyApp/Schema/MyAppDB.pm>.  Because we specified C<create=dynamic> 
+to the helper, it use L<DBIx::Class::Schema::Loader> to dynamically load 
+the schema information from the database every time the application 
+starts.  And finally, C<dbi:SQLite:myapp.db> is the standard DBI connect 
+string for use with SQLite.
+
+B<NOTE>: Although the C<create=dynamic> option to the DBIC helper 
+makes for a nifty demonstration, is not suitable for real world 
+applications. Moreover, it may not be supported in future versions of 
+DBIC.  After this demonstration, please use the C<create=static> 
+option that we switch to below.
+
+
+=head1 RUN THE APPLICATION
+
+First, let's enable an environment variable option that causes
+DBIx::Class to dump the SQL statements it's using to access the database
+(this option can provide extremely helpful troubleshooting information):
+
+    $ export DBIC_TRACE=1
+
+This assumes you are using BASH as your shell -- adjust accordingly if
+you are using a different shell (for example, under tcsh, use
+C<setenv DBIC_TRACE 1>).
+
+B<NOTE>: You can also set this in your code using
+C<$class-E<gt>storage-E<gt>debug(1);>.  See
+L<DBIx::Class::Manual::Troubleshooting> for details (including options
+to log to file instead of displaying to the Catalyst development server
+log).
+
+Then run the Catalyst "demo server" script:    
+
+    $ script/myapp_server.pl
+
+Your development server log output should display something like:
+
+    $script/myapp_server.pl
+    [debug] Debug messages enabled
+    [debug] Loaded plugins:
+    .----------------------------------------------------------------------------.
+    | Catalyst::Plugin::ConfigLoader  0.17                                       |
+    | Catalyst::Plugin::StackTrace  0.06                                         |
+    | Catalyst::Plugin::Static::Simple  0.20                                     |
+    '----------------------------------------------------------------------------'
+    
+    [debug] Loaded dispatcher "Catalyst::Dispatcher"
+    [debug] Loaded engine "Catalyst::Engine::HTTP"
+    [debug] Found home "/home/me/MyApp"
+    [debug] Loaded Config "/home/me/MyApp/myapp.yml"
+    [debug] Loaded components:
+    .-----------------------------------------------------------------+----------.
+    | Class                                                           | Type     |
+    +-----------------------------------------------------------------+----------+
+    | MyApp::Controller::Books                                        | instance |
+    | MyApp::Controller::Root                                         | instance |
+    | MyApp::Model::MyAppDB                                           | instance |
+    | MyApp::Model::MyAppDB::Authors                                  | class    |
+    | MyApp::Model::MyAppDB::BookAuthors                              | class    |
+    | MyApp::Model::MyAppDB::Books                                    | class    |
+    | MyApp::View::TT                                                 | instance |
+    '-----------------------------------------------------------------+----------'
+    
+    [debug] Loaded Private actions:
+    .----------------------+--------------------------------------+--------------.
+    | Private              | Class                                | Method       |
+    +----------------------+--------------------------------------+--------------+
+    | /default             | MyApp::Controller::Root              | default      |
+    | /end                 | MyApp::Controller::Root              | end          |
+    | /books/index         | MyApp::Controller::Books             | index        |
+    | /books/list          | MyApp::Controller::Books             | list         |
+    '----------------------+--------------------------------------+--------------'
+    
+    [debug] Loaded Path actions:
+    .-------------------------------------+--------------------------------------.
+    | Path                                | Private                              |
+    +-------------------------------------+--------------------------------------+
+    | /books/list                         | /books/list                          |
+    '-------------------------------------+--------------------------------------'
+    
+    [info] MyApp powered by Catalyst 5.7011
+    You can connect to your server at http://localhost:3000
+
+B<NOTE>: Be sure you run the C<script/myapp_server.pl> command from 
+the 'base' directory of your application, not inside the C<script> 
+directory itself or it will not be able to locate the C<myapp.db> 
+database file.  You can use a fully qualified or a relative path to 
+locate the database file, but we did not specify that when we ran the 
+model helper earlier.
+
+Some things you should note in the output above:
+
+=over 4
+
+=item * 
+
+Catalyst::Model::DBIC::Schema dynamically created three model classes, 
+one to represent each of the three tables in our database 
+(C<MyApp::Model::MyAppDB::Authors>, C<MyApp::Model::MyAppDB::BookAuthors>,
+and C<MyApp::Model::MyAppDB::Books>).
+
+=item * 
+
+The "list" action in our Books controller showed up with a path of
+C</books/list>.
+
+=back
+
+Point your browser to L<http://localhost:3000> and you should still get
+the Catalyst welcome page.
+
+Next, to view the book list, change the URL in your browser to
+L<http://localhost:3000/books/list>. You should get a list of the five
+books loaded by the C<myapp01.sql> script above, with TTSite providing
+the formatting for the very simple output we generated in our template.
+The rating for each book should appear on each row.
+
+Also notice in the output of the C<script/myapp_server.pl> that DBIC
+used the following SQL to retrieve the data:
+
+    SELECT me.id, me.title, me.rating FROM books me
+
+because we enabled DBIC_TRACE.
+
+You now the beginnings of a simple but workable web application. 
+Continue on to future sections and we will develop the application
+more fully.
+
+
+=head1 A STATIC DATABASE MODEL WITH C<DBIx::Class>
+
+=head2 Create Static DBIC Schema Files
+
+Unlike the previous section where we had DBIC automatically discover the 
+structure of the database every time the application started, here we 
+will use static schema files for more control.  This is typical of most 
+"real world" applications.
+
+One option would be to create a separate schema file for each table in
+the database, however, lets use the same L<DBIx::Class::Schema::Loader>
+used earlier with C<create=dynamic> to build the static files for us.
+First, lets remove the schema file created in Part 2:
+
+    $ rm lib/MyApp/Schema/MyAppDB.pm 
+
+Now regenerate the schema using the C<create=static> option:
+
+    $ script/myapp_create.pl model MyAppDB DBIC::Schema MyApp::Schema::MyAppDB create=static dbi:SQLite:myapp.db
+     exists "/home/me/MyApp/script/../lib/MyApp/Model"
+     exists "/home/me/MyApp/script/../t"
+    Dumping manual schema for MyApp::Schema::MyAppDB to directory /home/me/MyApp/script/../lib ...
+    Schema dump completed.
+     exists "/home/me/MyApp/script/../lib/MyApp/Model/MyAppDB.pm"
+
+We could have also deleted C<lib/MyApp/Model/MyAppDB.pm>, but it would 
+have regenerated the same file (note the C<exists> in the output above).
+If you take a look at C<lib/MyApp/Model/MyAppDB.pm>, it simply contains
+a reference to the actual schema file in C<lib/MyApp/Schema/MyAppDB.pm>
+along with the database connect string.
+
+If you look in the C<lib/MyApp/Schema> directory, you will find that 
+C<MyAppDB.pm> is no longer using L<DBIx::Class::Schema::Loader> as its 
+base class (L<DBIx::Class::Schema::Loader> is only being used by the 
+helper to load the schema once and then create the static files for us) 
+and that it only contains a call to the C<load_classes> method.  You 
+will also find that C<lib/MyApp/Schema> contains a C<MyAppDB> 
+subdirectory, with one file inside this directory for each of the tables 
+in our simple database (C<Authors.pm>, C<BookAuthors.pm>, and 
+C<Books.pm>).  These three files were created based on the information
+found by L<DBIx::Class::Schema::Loader> as the helper ran.
+
+The idea with all of the files created under C<lib/MyApp/Schema> by the 
+C<create=static> option is to only edit the files below the C<# DO NOT 
+MODIFY THIS OR ANYTHING ABOVE!> warning.  If you place all of your 
+changes below that point in the file, you can regenerate the 
+auto-generated information at the top of each file should your database 
+structure get updated.
+
+Also note the "flow" of the model information across the various files 
+and directories.  Catalyst will initially load the model from 
+C<lib/MyApp/Model/MyAppDB.pm>.  This file contains a reference to
+C<lib/MyApp/Schema/MyAppDB.pm>, so that file is loaded next.  Finally,
+the call to C<load_classes> in that file will load each of the 
+table-specific "results source" files from the C<lib/MyApp/Schema/MyAppDB>
+subdirectory.  These three table-specific DBIC schema files will then be 
+used to create three table-specific Catalyst models every time the 
+application starts (you can see these three model files listed in
+the debug output generated when you launch the application).
+
+
+=head2 Updating the Generated DBIC Schema Files
+
+
+Let's manually add some relationship information to the auto-generated
+schema files.  First edit C<lib/MyApp/Schema/MyAppDB/Books.pm> and
+add the following text below the C<# You can replace this text...> 
+comment:
+
+    #
+    # Set relationships:
+    #   
+    
+    # has_many():
+    #   args:
+    #     1) Name of relationship, DBIC will create accessor with this name
+    #     2) Name of the model class referenced by this relationship
+    #     3) Column name in *foreign* table
+    __PACKAGE__->has_many(book_authors => 'MyApp::Schema::MyAppDB::BookAuthors', 'book_id');
+    
+    # many_to_many():
+    #   args:
+    #     1) Name of relationship, DBIC will create accessor with this name
+    #     2) Name of has_many() relationship this many_to_many() is shortcut for 
+    #     3) Name of belongs_to() relationship in model class of has_many() above 
+    #   You must already have the has_many() defined to use a many_to_many().
+    __PACKAGE__->many_to_many(authors => 'book_authors', 'author');
+
+
+B<Note:> Be careful to put this code I<above> the C<1;> at the end of the
+file.  As with any Perl package, we need to end the last line with
+a statement that evaluates to C<true>.  This is customarily done with
+C<1;> on a line by itself.
+
+This code defines both a C<has_many> and a C<many_to_many> relationship. 
+The C<many_to_many> relationship is optional, but it makes it easier to 
+map a book to its collection of authors.  Without it, we would have to 
+"walk" though the C<book_authors> table as in C<$book-E<gt>book_authors-
+E<gt>first-E<gt>author-E<gt>last_name> (we will see examples on how to 
+use DBIC objects in your code soon, but note that because C<$book-
+E<gt>book_authors> can return multiple authors, we have to use C<first> 
+to display a single author). C<many_to_many> allows us to use the 
+shorter C<$book-E<gt>authors-E<gt>first-E<gt>last_name>. Note that you 
+cannot define a C<many_to_many> relationship without also having the 
+C<has_many> relationship in place.
+
+Then edit C<lib/MyApp/Schema/MyAppDB/Authors.pm> and add relationship
+information as follows (again, be careful to put in above the C<1;> but
+below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
+
+    #
+    # Set relationships:
+    #
+    
+    # has_many():
+    #   args:
+    #     1) Name of relationship, DBIC will create accessor with this name
+    #     2) Name of the model class referenced by this relationship
+    #     3) Column name in *foreign* table
+    __PACKAGE__->has_many(book_author => 'MyApp::Schema::MyAppDB::BookAuthors', 'author_id');
+    
+    # many_to_many():
+    #   args:
+    #     1) Name of relationship, DBIC will create accessor with this name
+    #     2) Name of has_many() relationship this many_to_many() is shortcut for
+    #     3) Name of belongs_to() relationship in model class of has_many() above 
+    #   You must already have the has_many() defined to use a many_to_many().
+    __PACKAGE__->many_to_many(books => 'book_author', 'book');
+
+Finally, do the same for the "join table," 
+C<lib/MyApp/Schema/MyAppDB/BookAuthors.pm>:
+
+    #
+    # Set relationships:
+    #
+    
+    # belongs_to():
+    #   args:
+    #     1) Name of relationship, DBIC will create accessor with this name
+    #     2) Name of the model class referenced by this relationship
+    #     3) Column name in *this* table
+    __PACKAGE__->belongs_to(book => 'MyApp::Schema::MyAppDB::Books', 'book_id');
+    
+    # belongs_to():
+    #   args:
+    #     1) Name of relationship, DBIC will create accessor with this name
+    #     2) Name of the model class referenced by this relationship
+    #     3) Column name in *this* table
+    __PACKAGE__->belongs_to(author => 'MyApp::Schema::MyAppDB::Authors', 'author_id');
+
+
+=head1 RUN THE APPLICATION
+
+Run the Catalyst "demo server" script with the C<DBIC_TRACE> option
+(it might still be enabled from earlier in the tutorial, but here
+is an alternate way to specify the option just in case):
+
+    $ DBIC_TRACE=1 script/myapp_server.pl
+
+Make sure that the application loads correctly and that you see the 
+three dynamically created model class (one for each of the 
+table-specific schema classes we created).
+
+Then hit the URL L<http://localhost:3000/books/list> and be sure that
+the book list is displayed.
+
+
+=head1 RUNNING THE APPLICATION FROM THE COMMAND LINE
+
+In some situations, it can be useful to run your application and 
+display a page without using a browser.  Catalyst lets you do this 
+using the C<scripts/myapp_test.pl> script.  Just supply the URL you 
+wish to display and it will run that request through the normal 
+controller dispatch logic and use the appropriate view to render the 
+output (obviously, complex pages may dump a lot of text to your 
+terminal window).  For example, if you type:
+
+    $ script/myapp_test.pl "/books/list"
+
+You should get the same text as if you visited 
+L<http://localhost:3000/books/list> with the normal development server 
+and asked your browser to view the page source.
+
+
+=head1 UPDATING THE VIEW
+
+Let's add a new column to our book list page that takes advantage of
+the relationship information we manually added to our schema files
+in the previous section.  Edit C<root/src/books/list.tt2> add add the
+following code below the existing table cell that contains
+C<book.rating> (IOW, add a new table cell below the existing two 
+C<td> cells):
+
+    <td>
+      [% # First initialize a TT variable to hold a list.  Then use a TT FOREACH -%]
+      [% # loop in 'side effect notation' to load just the last names of the     -%]
+      [% # authors into the list.  Note that the 'push' TT vmethod does not      -%]
+      [% # a value, so nothing will be printed here.  But, if you have something -%]
+      [% # in TT that does return a method and you don't want it printed, you    -%]
+      [% # can: 1) assign it to a bogus value, or 2) use the CALL keyword to     -%]
+      [% # call it and discard the return value.                                 -%]
+      [% tt_authors = [ ];
+         tt_authors.push(author.last_name) FOREACH author = book.authors %]
+      [% # Now use a TT 'virtual method' to display the author count in parens   -%]
+      [% # Note the use of the TT filter "| html" to escape dangerous characters -%]
+      ([% tt_authors.size | html %])
+      [% # Use another TT vmethod to join & print the names & comma separators   -%]
+      [% tt_authors.join(', ') | html %]
+    </td>
+
+Then hit C<Ctrl+R> in your browser (not that you don't need to reload 
+the development server or use the C<-r> option when updating TT 
+templates) and you should now the the number of authors each book and 
+a comma-separated list of the author's last names.  
+
+If you are still running the development server with C<DBIC_TRACE> 
+enabled, you should also now see five more C<SELECT> statements in the 
+debug output (one for each book as the authors are being retrieved by 
+DBIC).
+
+Also note that we are using "| html", a type of TT filter, to escape 
+characters such as E<lt> and E<gt> to &lt; and &gt; and avoid various
+types of dangerous hacks against your application.  In a real 
+application, you would probably want to put "| html" at the end of 
+every field where a user has control over the information that can 
+appear in that field (and can therefore inject markup or code if you
+don't "neutralize" those fields).  In addition to "| html", Template
+Toolkit has a variety of other useful filters that can found in the
+documentation for L<Template::Filters|Template::Filters>.
+
+
+=head2 Using C<RenderView> for the Default View
+
+B<NOTE: The rest of this part of the tutorial is optional.  You can 
+skip to Part 4, L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>, 
+if you wish.>
+
+Once your controller logic has processed the request from a user, it 
+forwards processing to your view in order to generate the appropriate 
+response output.  Catalyst uses
+L<Catalyst::Action::RenderView|Catalyst::Action::RenderView> by 
+default to automatically performs this operation.  If you look in 
+C<lib/MyApp/Controller/Root.pm>, you should see the empty 
+definition for the C<sub end> method:
+
+    sub end : ActionClass('RenderView') {}
+
+The following bullet points provide a quick overview of the 
+C<RenderView> process:
+
+=over 4
+
+=item *
+
+C<Root.pm> is designed to hold application-wide logic.
+
+=item *
+
+At the end of a given user request, Catalyst will call the most specific 
+C<end> method that's appropriate.  For example, if the controller for a 
+request has an C<end> method defined, it will be called.  However, if 
+the controller does not define a controller-specific C<end> method, the 
+"global" C<end> method in C<Root.pm> will be called.
+
+=item *
+
+Because the definition includes an C<ActionClass> attribute, the
+L<Catalyst::Action::RenderView|Catalyst::Action::RenderView> logic
+will be executed B<after> any code inside the definition of C<sub end>
+is run.  See L<Catalyst::Manual::Actions|Catalyst::Manual::Actions>
+for more information on C<ActionClass>.
+
+=item *
+
+Because C<sub end> is empty, this effectively just runs the default 
+logic in C<RenderView>.  However, you can easily extend the 
+C<RenderView> logic by adding your own code inside the empty method body 
+(C<{}>) created by the Catalyst Helpers when we first ran the 
+C<catalyst.pl> to initialize our application.  See 
+L<Catalyst::Action::RenderView|Catalyst::Action::RenderView> for more 
+detailed information on how to extended C<RenderView> in C<sub end>.
+
+=back
+
+
+=head2 Using The Default Template Name
+
+By default, C<Catalyst::View::TT> will look for a template that uses the 
+same name as your controller action, allowing you to save the step of 
+manually specifying the template name in each action.  For example, this 
+would allow us to remove the 
+C<$c-E<gt>stash-E<gt>{template} = 'books/list.tt2';> line of our 
+C<list> action in the Books controller.  Open 
+C<lib/MyApp/Controller/Books.pm> in your editor and comment out this line
+to match the following (only the C<$c-E<gt>stash-E<gt>{template}> line
+has changed):
+
+    =head2 list
+    
+    Fetch all book objects and pass to books/list.tt2 in stash to be displayed
+    
+    =cut
+    
+    sub list : Local {
+        # Retrieve the usual Perl OO '$self' for this object. $c is the Catalyst
+        # 'Context' that's used to 'glue together' the various components
+        # that make up the application
+        my ($self, $c) = @_;
+    
+        # Retrieve all of the book records as book model objects and store in the
+        # stash where they can be accessed by the TT template
+        $c->stash->{books} = [$c->model('MyAppDB::Books')->all];
+    
+        # Set the TT template to use.  You will almost always want to do this
+        # in your action methods (actions methods respond to user input in
+        # your controllers).
+        #$c->stash->{template} = 'books/list.tt2';
+    }
+
+C<Catalyst::View::TT> defaults to looking for a template with no 
+extension.  In our case, we need to override this to look for an 
+extension of C<.tt2>.  Open C<lib/MyApp/View/TT.pm> and add the 
+C<TEMPLATE_EXTENSION> definition as follows:
+
+    __PACKAGE__->config({
+        CATALYST_VAR => 'Catalyst',
+        INCLUDE_PATH => [
+            MyApp->path_to( 'root', 'src' ),
+            MyApp->path_to( 'root', 'lib' )
+        ],
+        PRE_PROCESS  => 'config/main',
+        WRAPPER      => 'site/wrapper',
+        ERROR        => 'error.tt2',
+        TIMER        => 0,
+        TEMPLATE_EXTENSION => '.tt2',
+    });
+
+You should now be able to restart the development server as per the 
+previous section and access the L<http://localhost:3000/books/list>
+as before.
+
+B<NOTE:> Please note that if you use the default template technique,
+you will B<not> be able to use either the C<$c-E<gt>forward> or
+the C<$c-E<gt>detach> mechanisms (these are discussed in Part 2 and 
+Part 9 of the Tutorial).
+
+
+=head2 Return To A Manually-Specified Template
+
+In order to be able to use C<$c-E<gt>forward> and C<$c-E<gt>detach>
+later in the tutorial, you should remove the comment from the
+statement in C<sub list> in C<lib/MyApp/Controller/Books.pm>:
+
+    $c->stash->{template} = 'books/list.tt2';
+
+Then delete the C<TEMPLATE_EXTENSION> line in  
+C<lib/MyApp/View/TT.pm>.
+
+You should then be able to restart the development server and 
+access L<http://localhost:3000/books/list> in the same manner as
+with earlier sections.
+
+
+=head1 AUTHOR
+
+Kennedy Clark, C<hkclark@gmail.com>
+
+Please report any errors, issues or suggestions to the author.  The
+most recent version of the Catalyst Tutorial can be found at
+L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/Catalyst-Manual/lib/Catalyst/Manual/Tutorial/>.
+
+Copyright 2006, Kennedy Clark, under Creative Commons License
+(L<http://creativecommons.org/licenses/by-nc-sa/2.5/>).
+

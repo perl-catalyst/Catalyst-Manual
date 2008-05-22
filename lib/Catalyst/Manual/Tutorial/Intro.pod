@@ -5,7 +5,7 @@ Catalyst::Manual::Tutorial::Intro - Catalyst Tutorial - Part 1: Introduction
 
 =head1 OVERVIEW
 
-This is B<Part 1 of 10> for the Catalyst tutorial.
+This is B<Part 2 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -82,10 +82,16 @@ ensure that your system is set up correctly, and that you have not
 inadvertently made any typographic errors, or accidentally skipped
 part of the tutorial.>
 
-Additionally, if you're reading this manual online, you can download
-the example program and all the necessary dependencies to
-your local machine by installing the C<Task::Catalyst::Tutorial>
-distribution from CPAN:
+B<NOTE: You can use any perl-supported OS and environment to run 
+Catalyst.> It should make little or no difference to Catalyst's 
+operation, but this tutorial has been written using Ubuntu 8.04 
+because that represents a quick and easy for most people to try out 
+Catalyst with virtually zero setup time and hassles.  See the Catalyst 
+installation section below for more information.
+
+If you're reading this manual online, you can download the example 
+program and all the necessary dependencies to your local machine by 
+installing the C<Task::Catalyst::Tutorial> distribution from CPAN:
 
      cpan Task::Catalyst::Tutorial
 
@@ -93,7 +99,7 @@ This will also test to make sure the dependencies are working.  If you
 have trouble installing these, please ask for help on the #catalyst
 IRC channel, or the Catalyst mailing list.
 
-Subjects covered include:
+Subjects covered by the tutorial include:
 
 =over 4
 
@@ -272,7 +278,7 @@ Explorer).
 =head1 CATALYST INSTALLATION
 
 If approach in the wrong manner, it can be a daunting tasks to get
-Catalyst initally installed.  Although a compelling strength of
+Catalyst initially installed.  Although a compelling strength of
 Catalyst is that it makes use of many of the modules in the
 vast repository that is CPAN, this can complicate the installation
 process.  However, there are a growing number of methods 
@@ -296,19 +302,20 @@ this tutorial in a matter of minutes.
 
 =item * 
 
-Download Ubuntu 8.04 (aka, Hardy Heron) and boot from the CD and/or
-image file, select your language, and then "Try Ubuntu without any
-changes to your computer."
+Download Ubuntu 8.04 (aka, Hardy Heron) Desktop edition and boot from 
+the CD and/or image file, select your language, and then "Try Ubuntu 
+without any changes to your computer."
 
 =item *
 
-Open a terminal session.
+Open a terminal session (click "Applications" in the upper-left 
+corner, then "Accessories," then "Terminal").
 
 =item *
 
 Add the 'universe' repositories:
 
-    sudo vi /etc/apt/sources.list
+    sudo gedit /etc/apt/sources.list
 
 And remove the comments from the lines under the comments about the
 'universe' repositories.
@@ -318,10 +325,17 @@ And remove the comments from the lines under the comments about the
 Install Catalyst:
 
     sudo apt-get update
-    sudo apt-get upgrade
-    sudo apt-get install sqlite3 libdbd-sqlite3-perl libcatalyst-perl libcatalyst-modules-perl
+    sudo apt-get install libdbd-sqlite3-perl libcatalyst-perl libcatalyst-modules-perl
 
 Accept all of the dependencies.  Done.
+
+NOTE: If you are low on disk space after the above commands (use C<df /> 
+to tell), you can free up some space with 
+C<sudo rm /var/cache/apt/archives/*.deb> (the Live CD uses memory for 
+disk space, so having a decent amount of memory will help).  And, 
+while the instructions above mention the Live CD because that makes it 
+easy for people new to Linux, you can obviously also use one of the 
+options to install Ubuntu on your drive.
 
 =back
 
