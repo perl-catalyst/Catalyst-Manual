@@ -160,36 +160,27 @@ You configure your application with the C<config> method in your
 application class. This can be hard-coded, or brought in from a
 separate configuration file.
 
-=head3 Using YAML
+=head3 Using Config::General
 
-YAML is a method for creating flexible and readable configuration
-files. It's a great way to keep your Catalyst application
-configuration in one easy-to-understand location.
+L<Config::General|Config::General> is a method for creating flexible
+and readable configuration files. It's a great way to keep your
+Catalyst application configuration in one easy-to-understand location.
 
-In your application class (e.g. C<lib/MyApp.pm>):
+Now create C<myapp.conf> in your application home:
 
-  use YAML;
-  # application setup
-  __PACKAGE__->config( YAML::LoadFile(__PACKAGE__->config->{'home'} . '/myapp.yml') );
-  __PACKAGE__->setup;
-
-Now create C<myapp.yml> in your application home:
-
-  --- #YAML:1.0
-  # DO NOT USE TABS FOR INDENTATION OR label/value SEPARATION!!!
-  name:     MyApp
+  name     MyApp
 
   # session; perldoc Catalyst::Plugin::Session::FastMmap
-  session:
-    expires:        '3600'
-    rewrite:        '0'
-    storage:        '/tmp/myapp.session'
+  <Session>
+    expires 3600
+    rewrite 0
+    storage /tmp/myapp.session
+  </Session>
 
   # emails; perldoc Catalyst::Plugin::Email
   # this passes options as an array :(
-  email:
-    - SMTP
-    - localhost
+  Mail SMTP
+  Mail localhost
 
 This is equivalent to:
 
@@ -208,7 +199,7 @@ This is equivalent to:
   # configure email sending
   __PACKAGE__->config->{email} = [qw/SMTP localhost/];
 
-See also L<YAML>.
+See also L<Config::General|Config::General>.
 
 =head1 Skipping your VCS's directories
 

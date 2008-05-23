@@ -157,6 +157,7 @@ enabling easy access to a shared cache.
 
 Provides a standard method for loading config files. Support
 exists for various formats. See
+L<Catalyst::Plugin::ConfigLoader::General>
 L<Catalyst::Plugin::ConfigLoader::INI>,
 L<Catalyst::Plugin::ConfigLoader::JSON>,
 L<Catalyst::Plugin::ConfigLoader::Perl>,

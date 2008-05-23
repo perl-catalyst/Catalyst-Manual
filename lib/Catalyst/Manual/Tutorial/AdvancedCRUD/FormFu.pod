@@ -3,6 +3,8 @@
 Catalyst::Manual::Tutorial::AdvancedCRUD::FormFu - Catalyst Tutorial - Part 9: Advanced CRUD - FormFu
 
 
+NOTE:  This part of the tutorial is in progress and will be ready soon.
+
 =head1 OVERVIEW
 
 This is B<Part 9 of 10> for the Catalyst tutorial.

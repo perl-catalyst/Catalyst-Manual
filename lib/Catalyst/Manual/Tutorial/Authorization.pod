@@ -96,43 +96,47 @@ Edit C<myapp.yml> and update it to match the following (the
 C<role_relation> and C<role_field> definitions are new):
 
     ---
-    name: MyApp
-    authentication:
-        default_realm: dbic
-        realms:
-            dbic:
-                credential:
+    name MyApp
+    <authentication>
+        default_realm dbic
+        <realms>
+            <dbic>
+                <credential>
                     # Note this first definition would be the same as setting
                     # __PACKAGE__->config->{authentication}->{realms}->{dbic}
                     #     ->{credential} = 'Password' in lib/MyApp.pm 
-                    # (IOW, each hash key becomes a "name:" in the YAML file).
                     #
                     # Specify that we are going to do password-based auth
-                    class:          Password
+                    class Password
                     # This is the name of the field in the users table with the
                     # password stored in it
-                    password_field: password
+                    password_field password
                     # We are using an unencrypted password now
-                    password_type:  clear
-                store:
+                    password_type clear
+                 </credential>
+                <store>
                     # Use DBIC to retrieve username, password & role information
-                    class:          DBIx::Class
+                    class DBIx::Class
                     # This is the model object created by Catalyst::Model::DBIC 
                     # from your schema (you created 'MyAppDB::User' but as the 
                     # Catalyst startup debug messages show, it was loaded as 
                     # 'MyApp::Model::MyAppDB::Users').
                     # NOTE: Omit 'MyApp::Model' here just as you would when using 
                     # '$c->model("MyAppDB::Users)'
-                    user_class:     MyAppDB::Users
+                    user_class MyAppDB::Users
                     # This is the name of the field in your 'users' table that 
                     # contains the user's name
-                    id_field:       username
+                    id_field username
                     # This is the name of a many_to_many relation in the users
                     # object that points to the roles for that user
-                    role_relation:  roles
+                    role_relation  roles
                     # This is the name of field in the roles table that contains
                     # the role information
-                    role_field:     role
+                    role_field role
+                  </store>
+                </dbic>
+              </realms>
+            </authentication>
 
 
 =head2 Add Role-Specific Logic to the "Book List" Template

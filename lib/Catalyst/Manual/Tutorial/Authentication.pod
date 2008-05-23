@@ -293,49 +293,49 @@ L<ConfigLoader|Catalyst::Plugin::ConfigLoader> plugin.  Here, we need
 to load several parameters that tell 
 L<Catalyst::Plugin::Authentication|Catalyst::Plugin::Authentication> 
 where to locate information in your database.  To do this, edit the 
-C<myapp.yml> YAML and update it to match:
+C<myapp.conf> file and update it to match:
 
-    ---
-    name: MyApp
-    authentication:
-        default_realm: dbic
-        realms:
-            dbic:
-                credential:
+    name MyApp
+    <authentication>
+        default_realm dbic
+        <realms>
+            <dbic>
+                <credential>
                     # Note this first definition would be the same as setting
                     # __PACKAGE__->config->{authentication}->{realms}->{dbic}
                     #     ->{credential} = 'Password' in lib/MyApp.pm 
-                    # (IOW, each hash key becomes a "name:" in the YAML file).
                     #
                     # Specify that we are going to do password-based auth
-                    class:          Password
+                    class Password
                     # This is the name of the field in the users table with the
                     # password stored in it
-                    password_field: password
+                    password_field password
                     # We are using an unencrypted password now
-                    password_type:  clear
-                store:
+                    password_type clear
+                </credential>
+                <store>
                     # Use DBIC to retrieve username, password & role information
-                    class:          DBIx::Class
+                    class DBIx::Class
                     # This is the model object created by Catalyst::Model::DBIC 
                     # from your schema (you created 'MyAppDB::User' but as the 
                     # Catalyst startup debug messages show, it was loaded as 
                     # 'MyApp::Model::MyAppDB::Users').
                     # NOTE: Omit 'MyApp::Model' here just as you would when using 
                     # '$c->model("MyAppDB::Users)'
-                    user_class:     MyAppDB::Users
+                    user_class MyAppDB::Users
                     # This is the name of the field in your 'users' table that 
                     # contains the user's name
-                    id_field:       username
+                    id_field username
+                </store>
+            </dbic>
+          </realms>
+        </authentication>
 
 Inline comments in the code above explain how each field is being used.
 
-B<TIP>: Although YAML uses a very simple and easy-to-ready format, it 
-does require the use of a consistent level of indenting.  Be sure you 
-line up everything on a given 'level' with the same number of indents. 
-Also, be sure B<not> to use C<tab> characters (YAML does not support 
-them because they are handled inconsistently across editors).
-
+Note that you can use many other config file formats with catalyst.
+See L<Catalyst::Plugin::ConfigLoader|Catalyst::Plugin::ConfigLoader>
+for details.
 
 =head2 Add Login and Logout Controllers
 
@@ -712,40 +712,43 @@ Edit C<myapp.yml> and update it to match (the C<password_type> and
 C<password_hash_type> are new, everything else is the same):
 
     ---
-    name: MyApp
-    authentication:
-        default_realm: dbic
-        realms:
-            dbic:
-                credential:
+    name MyApp
+    <authentication>
+        default_realm dbic
+        <realms>
+            <dbic>
+                <credential>
                     # Note this first definition would be the same as setting
                     # __PACKAGE__->config->{authentication}->{realms}->{dbic}
                     #     ->{credential} = 'Password' in lib/MyApp.pm 
-                    # (IOW, each hash key becomes a "name:" in the YAML file).
                     #
                     # Specify that we are going to do password-based auth
-                    class:          Password
+                    class Password
                     # This is the name of the field in the users table with the
                     # password stored in it
-                    password_field: password
+                    password_field password
                     # Switch to more secure hashed passwords
-                    password_type:  hashed
+                    password_type  hashed
                     # Use the SHA-1 hashing algorithm
-                    password_hash_type: SHA-1
-                store:
+                    password_hash_type SHA-1
+                 </credential>
+                <store>
                     # Use DBIC to retrieve username, password & role information
-                    class:          DBIx::Class
+                    class DBIx::Class
                     # This is the model object created by Catalyst::Model::DBIC 
                     # from your schema (you created 'MyAppDB::User' but as the 
                     # Catalyst startup debug messages show, it was loaded as 
                     # 'MyApp::Model::MyAppDB::Users').
                     # NOTE: Omit 'MyApp::Model' here just as you would when using 
                     # '$c->model("MyAppDB::Users)'
-                    user_class:     MyAppDB::Users
+                    user_class MyAppDB::Users
                     # This is the name of the field in your 'users' table that 
                     # contains the user's name
-                    id_field:       username
-
+                    id_field username
+                 </store>
+              </dbic>
+           </realms>
+         </authentication>
 
 =head2 Try Out the Hashed Passwords
 

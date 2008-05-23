@@ -133,12 +133,12 @@ free to make use of it in your own projects.
 L<Catalyst::Plugin::ConfigLoader|Catalyst::Plugin::ConfigLoader>
 
 C<ConfigLoader> provides an automatic way to load configurable
-parameters for your application from a central YAML file (versus having
-the values hard-coded inside your Perl modules).  If you have not been
-exposed to YAML before, it is a human-readable data serialization format
-that can be used to read (and write) values to/from text files.  We will
-see how to use this feature of Catalyst during the authentication and
-authorization sections (Part 5 and Part 6).
+parameters for your application from a central
+L<Config::General|Config::General> file (versus having the values
+hard-coded inside your Perl modules).  Config::General uses syntax
+very similar to Apache configuration files.  We will see how to use
+this feature of Catalyst during the authentication and authorization
+sections (Part 5 and Part 6).
 
 =item *
 
@@ -570,13 +570,13 @@ in the past, Matt Trout's L<DBIx::Class|DBIx::Class> (abbreviated
 as "DBIC") has rapidly emerged as the Perl-based ORM technology of choice.  
 Most new Catalyst applications rely on DBIC, as will this tutorial.
 
-=head2 Create a Dynamic DBIC Model
+=head2 Create a DBIC Model
 
-Use the C<create=dynamic> model helper option to build a model that 
+Use the C<create=static> model helper option to build a model that 
 dynamically reads your database structure every time the application
 starts:
 
-    $ script/myapp_create.pl model MyAppDB DBIC::Schema MyApp::Schema::MyAppDB create=dynamic dbi:SQLite:myapp.db
+    $ script/myapp_create.pl model MyAppDB DBIC::Schema MyApp::Schema::MyAppDB create=static dbi:SQLite:myapp.db
      exists "/home/me/MyApp/script/../lib/MyApp/Model"
      exists "/home/me/MyApp/script/../t"
     created "/home/me/MyApp/script/../lib/MyApp/Schema"
@@ -596,13 +596,6 @@ to the helper, it use L<DBIx::Class::Schema::Loader> to dynamically load
 the schema information from the database every time the application 
 starts.  And finally, C<dbi:SQLite:myapp.db> is the standard DBI connect 
 string for use with SQLite.
-
-B<NOTE>: Although the C<create=dynamic> option to the DBIC helper 
-makes for a nifty demonstration, is not suitable for real world 
-applications. Moreover, it may not be supported in future versions of 
-DBIC.  After this demonstration, please use the C<create=static> 
-option that we switch to below.
-
 
 =head1 RUN THE APPLICATION
 

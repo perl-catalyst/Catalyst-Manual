@@ -318,8 +318,8 @@ Now that the TT.pm "View" exists, Catalyst will autodiscover it and be
 able to use it to display the view templates, using the "process" 
 method that it inherits from the C<Catalyst::View::TT class>.
 
-Template Toolkit is a rather complicated template facility, with 
-excellent docs at 
+Template Toolkit is a very full featured template facility, with 
+excellent documentation at 
 L<http://template-tookit.org/|http://template-tookit.org/>, 
 but since this is not a TT tutorial, we'll stick to only basic TT 
 usage here (and explore some of the more common TT features in later 
