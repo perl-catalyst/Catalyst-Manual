@@ -594,13 +594,13 @@ in the past, Matt Trout's L<DBIx::Class|DBIx::Class> (abbreviated
 as "DBIC") has rapidly emerged as the Perl-based ORM technology of choice.  
 Most new Catalyst applications rely on DBIC, as will this tutorial.
 
-=head2 Create a DBIC Model
+=head2 Create a dynamic DBIC Model
 
-Use the C<create=static> model helper option to build a model that 
+Use the C<create=dynamic> model helper option to build a model that 
 dynamically reads your database structure every time the application
 starts:
 
-    $ script/myapp_create.pl model MyAppDB DBIC::Schema MyApp::Schema::MyAppDB create=static dbi:SQLite:myapp.db
+    $ script/myapp_create.pl model MyAppDB DBIC::Schema MyApp::Schema::MyAppDB create=dynamic dbi:SQLite:myapp.db
      exists "/home/me/MyApp/script/../lib/MyApp/Model"
      exists "/home/me/MyApp/script/../t"
     created "/home/me/MyApp/script/../lib/MyApp/Schema"
