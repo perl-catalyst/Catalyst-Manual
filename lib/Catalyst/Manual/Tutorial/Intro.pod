@@ -325,7 +325,7 @@ And remove the comments from the lines under the comments about the
 Install Catalyst:
 
     sudo apt-get update
-    sudo apt-get install libdbd-sqlite3-perl libcatalyst-perl libcatalyst-modules-perl
+    sudo apt-get install libdbd-sqlite3-perl libcatalyst-perl libcatalyst-modules-perl libconfig-general-perl
 
 Accept all of the dependencies.  Done.
 

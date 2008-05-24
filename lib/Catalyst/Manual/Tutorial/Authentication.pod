@@ -287,10 +287,18 @@ backed session store).
 
 Although C<__PACKAGE__-E<gt>config(name =E<gt> 'value');> is still 
 supported, newer Catalyst applications tend to place all configuration 
-information in C<myapp.yml> and automatically load this information 
+information in C<myapp.conf> and automatically load this information 
 into C<MyApp-E<gt>config> using the 
-L<ConfigLoader|Catalyst::Plugin::ConfigLoader> plugin.  Here, we need 
-to load several parameters that tell 
+L<ConfigLoader|Catalyst::Plugin::ConfigLoader> plugin.  
+
+First, as noted in Part 3 of the tutorial, Catalyst has recently 
+switched from a default config file format of YAML to 
+C<Config::General> (an apache-like format).  In case you are using
+a version of Catalyst earlier than v5.7014, delete the C<myapp.yml>
+file and simply follow the directions below to create a new
+C<myapp.conf> file.
+
+Here, we need to load several parameters that tell 
 L<Catalyst::Plugin::Authentication|Catalyst::Plugin::Authentication> 
 where to locate information in your database.  To do this, edit the 
 C<myapp.conf> file and update it to match:

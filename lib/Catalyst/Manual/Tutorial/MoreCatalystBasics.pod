@@ -140,6 +140,30 @@ very similar to Apache configuration files.  We will see how to use
 this feature of Catalyst during the authentication and authorization
 sections (Part 5 and Part 6).
 
+B<IMPORTANT NOTE>: If you are following along in Ubuntu 8.04 or 
+otherwise using a version of Catalyst prior to v5.7014, you need to be 
+aware that Catalyst changed from a default format of YAML to the more 
+straightforward C<Config::General> format.  Because Catalyst has long 
+supported both formats, this tutorial will simply use a configuration 
+file called C<myapp.conf> instead of C<myapp.yml> and Catatlyst will 
+automcatically use the new format.  Just be aware that earlier versions 
+of Catalyst will still create the C<myapp.yml> file and that you will 
+need to B<remove C<myapp.yml>> and create a new C<myapp.conf> file by 
+hand, but otherwise this transition is very painless.  The default 
+contents of C<myapp.conf> should only consist of one line: C<name 
+MyApp>.  Also be aware that you can continue to use any format
+supported by 
+L<Catalyst::Plugin::ConfigLoader|Catalyst::Plugin::ConfigLoader> and 
+L<Config::Any|Config::Any>, including YAML -- Catalyst will 
+automatically look for any of the supported configuration file formats.
+
+C<TIP>: This script can be useful for converting between configuration 
+formats:
+
+    perl -Ilib -e 'use MyApp; use Config::General; 
+        Config::General->new->save_file("myapp.conf", MyApp->config);'
+
+
 =item *
 
 L<Catalyst::Plugin::Static::Simple|Catalyst::Plugin::Static::Simple>
