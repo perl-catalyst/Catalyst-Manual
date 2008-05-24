@@ -621,6 +621,13 @@ the schema information from the database every time the application
 starts.  And finally, C<dbi:SQLite:myapp.db> is the standard DBI connect 
 string for use with SQLite.
 
+B<NOTE>: Although the C<create=dynamic> option to the DBIC helper 
+makes for a nifty demonstration, is not suitable for real world 
+applications. Moreover, it may not be supported in future versions of 
+DBIC.  After this demonstration, please use the C<create=static> 
+option that we switch to below.
+
+
 =head1 RUN THE APPLICATION
 
 First, let's enable an environment variable option that causes
