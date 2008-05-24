@@ -716,7 +716,7 @@ algorithms are supported.  See C<Digest> for more information.
 =head2 Enable SHA-1 Hash Passwords in
 C<Catalyst::Plugin::Authentication::Store::DBIC>
 
-Edit C<myapp.yml> and update it to match (the C<password_type> and
+Edit C<myapp.conf> and update it to match (the C<password_type> and
 C<password_hash_type> are new, everything else is the same):
 
     ---
@@ -853,10 +853,11 @@ C<__PACKAGE__-E<gt>config> setting to something like:
             session => {flash_to_stash => 1}
         );
 
-B<or> add the following to C<myapp.yml>:
+B<or> add the following to C<myapp.conf>:
 
-    session:
-        flash_to_stash: 1
+    <session>
+        flash_to_stash   1
+    </session>
 
 The C<__PACKAGE__-E<gt>config> option is probably preferable here 
 since it's not something you will want to change at runtime without it 

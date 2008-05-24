@@ -92,7 +92,7 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 
 =head2 Add Config Information for Authorization
 
-Edit C<myapp.yml> and update it to match the following (the 
+Edit C<myapp.conf> and update it to match the following (the 
 C<role_relation> and C<role_field> definitions are new):
 
     ---

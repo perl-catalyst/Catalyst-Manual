@@ -130,7 +130,7 @@ Attempts to provide an example showing current (5.7XXX) Catalyst
 practices. For example, the use of 
 L<Catalyst::Action::RenderView|Catalyst::Action::RenderView>,
 DBIC, L<Catalyst::Plugin::ConfigLoader|Catalyst::Plugin::ConfigLoader> 
-with C<myapp.yml>, the use of C<lib/MyApp/Controller/Root.pm> 
+with C<myapp.conf>, the use of C<lib/MyApp/Controller/Root.pm> 
 vs. C<lib/MyApp.pm>, etc.
 
 =item * 

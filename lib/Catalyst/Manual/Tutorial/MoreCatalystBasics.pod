@@ -657,7 +657,7 @@ Your development server log output should display something like:
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
     [debug] Loaded engine "Catalyst::Engine::HTTP"
     [debug] Found home "/home/me/MyApp"
-    [debug] Loaded Config "/home/me/MyApp/myapp.yml"
+    [debug] Loaded Config "/home/me/MyApp/myapp.conf"
     [debug] Loaded components:
     .-----------------------------------------------------------------+----------.
     | Class                                                           | Type     |

@@ -145,7 +145,7 @@ directories and files it creates:
             View          # Directory for Views
         Hello.pm          # Base application module
     Makefile.PL           # Makefile to build application
-    hello.yml             # Application configuration file
+    hello.conf            # Application configuration file
     README                # README file
     root                  # Equiv of htdocs, dir for templates, css, javascript
         favicon.ico
