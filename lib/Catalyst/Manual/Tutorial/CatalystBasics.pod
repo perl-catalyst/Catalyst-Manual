@@ -192,7 +192,7 @@ server:
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
     [debug] Loaded engine "Catalyst::Engine::HTTP"
     [debug] Found home "/home/me/Hello"
-    [debug] Loaded Config "/home/me/Hello/hello.yml"
+    [debug] Loaded Config "/home/me/Hello/hello.conf"
     [debug] Loaded components:
     .-----------------------------------------------------------------+----------.
     | Class                                                           | Type     |
