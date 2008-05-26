@@ -620,7 +620,10 @@ running) and restart it:
 B<IMPORTANT NOTE:> If you are having issues with authentication on 
 Internet Explorer, be sure to check the system clocks on both your 
 server and client machines.  Internet Explorer is very picky about 
-timestamps for cookies.
+timestamps for cookies.  Note that you can quickly sync an Ubuntu
+system with the following command:
+
+    sudo ntpdate ntp.ubuntu.com
 
 Now trying going to L<http://localhost:3000/books/list> and you should
 be redirected to the login page, hitting Shift+Reload if necessary (the
