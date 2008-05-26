@@ -140,7 +140,7 @@ very similar to Apache configuration files.  We will see how to use
 this feature of Catalyst during the authentication and authorization
 sections (Part 5 and Part 6).
 
-B<IMPORTANT NOTE>: If you are following along in Ubuntu 8.04 or
+B<IMPORTANT NOTE:> If you are following along in Ubuntu 8.04 or
 otherwise using a version of L<Catalyst::Devel|Catalyst::Devel> prior
 to version 1.06, you need to be aware that Catalyst changed from a
 default format of YAML to the more straightforward C<Config::General>
@@ -158,12 +158,15 @@ L<Config::Any|Config::Any>, including YAML -- Catalyst will
 automatically look for any of the supported configuration file
 formats.
 
-C<TIP>: This script can be useful for converting between configuration 
+B<TIP>: This script can be useful for converting between configuration 
 formats:
 
     perl -Ilib -e 'use MyApp; use Config::General; 
         Config::General->new->save_file("myapp.conf", MyApp->config);'
 
+B<NOTE:> The default C<myapp.conf> should look like:
+
+    name   MyApp
 
 =item *
 
@@ -245,7 +248,7 @@ to the controller:
     
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
-        $c->stash->{books} = [$c->model('MyAppDB::Books')->all];
+        $c->stash->{books} = [$c->model('DB::Books')->all];
         
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
@@ -254,7 +257,7 @@ to the controller:
     }
 
 B<Note:> This won't actually work yet since you haven't set up your 
-model yet.
+model yet.  We will be covering the model soon.
 
 B<Note:> Programmers experienced with object-oriented Perl should 
 recognize C<$self> as a reference to the object where this method was 
@@ -264,8 +267,8 @@ C<$context>).  The Context object is automatically passed to all
 Catalyst components.  It is used to pass information between 
 components and provide access to Catalyst and plugin functionality.
 
-B<TIP>: You may see the C<$c-E<gt>model('MyAppDB::Book')> used above
-written as C<$c-E<gt>model('MyAppDB')-E<gt>resultset('Book)>.  The two
+B<TIP>: You may see the C<$c-E<gt>model('DB::Book')> used above
+written as C<$c-E<gt>model('DB')-E<gt>resultset('Book)>.  The two
 are equivalent.
 
 B<Note:> Catalyst actions are regular Perl methods, but they make use 
@@ -298,11 +301,11 @@ possibly using other display output- generation systems.  As with
 virtually every aspect of Catalyst, options abound when it comes to 
 the specific view technology you adopt inside your application. 
 However, most Catalyst applications use the Template Toolkit, known as 
-TT (for more information on TT, see L<http://www.template-
-toolkit.org>). Other popular view technologies include Mason 
-(L<http://www.masonhq.com> and L<http://www.masonbook.com>) and 
-L<HTML::Template|HTML::Template> (L<http://html-
-template.sourceforge.net>).
+TT (for more information on TT, see 
+L<http://www.template-toolkit.org>). Other popular view technologies 
+include Mason (L<http://www.masonhq.com> and 
+L<http://www.masonbook.com>) and L<HTML::Template> 
+(L<http://html- template.sourceforge.net>).
 
 =head2 Create a Catalyst View Using C<TTSite>
 
@@ -480,7 +483,7 @@ for details and examples).  In addition to the usual C<Template> module
 Pod documentation, you can access the TT manual at
 L<http://www.template-toolkit.org/docs/default/>.
 
-B<NOTE>: The C<TTSite> helper creates several TT files using an
+B<NOTE:> The C<TTSite> helper creates several TT files using an
 extension of C<.tt2>. Most other Catalyst and TT examples use an
 extension of C<.tt>.  You can use either extension (or no extension at
 all) with TTSite and TT, just be sure to use the appropriate extension
@@ -601,28 +604,27 @@ Use the C<create=dynamic> model helper option to build a model that
 dynamically reads your database structure every time the application
 starts:
 
-    $ script/myapp_create.pl model MyAppDB DBIC::Schema MyApp::Schema::MyAppDB create=dynamic dbi:SQLite:myapp.db
-     exists "/home/me/MyApp/script/../lib/MyApp/Model"
-     exists "/home/me/MyApp/script/../t"
-    created "/home/me/MyApp/script/../lib/MyApp/Schema"
-    created "/home/me/MyApp/script/../lib/MyApp/Schema/MyAppDB.pm"
-    created "/home/me/MyApp/script/../lib/MyApp/Model/MyAppDB.pm"
-    created "/home/me/MyApp/script/../t/model_MyAppDB.t"
+    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=dynamic dbi:SQLite:myapp.db
+     exists "/home/kclark/dev/MyApp/script/../lib/MyApp/Model"
+     exists "/home/kclark/dev/MyApp/script/../t"
+     exists "/home/kclark/dev/MyApp/script/../lib/MyApp"
+    created "/home/kclark/dev/MyApp/script/../lib/MyApp/Schema.pm"
+    created "/home/kclark/dev/MyApp/script/../lib/MyApp/Model/DB.pm"
+    created "/home/kclark/dev/MyApp/script/../t/model_DB.t"
 
 
-C<MyAppDB> is the name of the model class to be created by the helper in 
+C<DB> is the name of the model class to be created by the helper in 
 C<lib/MyApp/Model> (Catalyst has a separate directory under C<lib/MyApp> 
-for each of the three parts of MVC: C<Model>, C<View>, and C<Controller> 
-[although older Catalyst applications often use the directories C<M>, 
-C<V>, and C<C>]).  C<DBIC::Schema> is the type of the model to create. 
-C<MyApp::Schema::MyAppDB> is the name of the DBIC schema file written to 
-C<lib/MyApp/Schema/MyAppDB.pm>.  Because we specified C<create=dynamic> 
+for each of the three parts of MVC: C<Model>, C<View>, and C<Controller>).  
+C<DBIC::Schema> is the type of the model to create. 
+C<MyApp::Schema> is the name of the DBIC schema file written to 
+C<lib/MyApp/Schema.pm>.  Because we specified C<create=dynamic> 
 to the helper, it use L<DBIx::Class::Schema::Loader> to dynamically load 
 the schema information from the database every time the application 
 starts.  And finally, C<dbi:SQLite:myapp.db> is the standard DBI connect 
 string for use with SQLite.
 
-B<NOTE>: Although the C<create=dynamic> option to the DBIC helper
+B<NOTE:> Although the C<create=dynamic> option to the DBIC helper
 makes for a nifty demonstration, is only really suitable for very
 small applications. After this demonstration, you should almost always
 use the C<create=static> option that we switch to below.
@@ -640,7 +642,7 @@ This assumes you are using BASH as your shell -- adjust accordingly if
 you are using a different shell (for example, under tcsh, use
 C<setenv DBIC_TRACE 1>).
 
-B<NOTE>: You can also set this in your code using
+B<NOTE:> You can also set this in your code using
 C<$class-E<gt>storage-E<gt>debug(1);>.  See
 L<DBIx::Class::Manual::Troubleshooting> for details (including options
 to log to file instead of displaying to the Catalyst development server
@@ -671,10 +673,10 @@ Your development server log output should display something like:
     +-----------------------------------------------------------------+----------+
     | MyApp::Controller::Books                                        | instance |
     | MyApp::Controller::Root                                         | instance |
-    | MyApp::Model::MyAppDB                                           | instance |
-    | MyApp::Model::MyAppDB::Authors                                  | class    |
-    | MyApp::Model::MyAppDB::BookAuthors                              | class    |
-    | MyApp::Model::MyAppDB::Books                                    | class    |
+    | MyApp::Model::DB                                                | instance |
+    | MyApp::Model::DB::Authors                                       | class    |
+    | MyApp::Model::DB::BookAuthors                                   | class    |
+    | MyApp::Model::DB::Books                                         | class    |
     | MyApp::View::TT                                                 | instance |
     '-----------------------------------------------------------------+----------'
     
@@ -698,7 +700,7 @@ Your development server log output should display something like:
     [info] MyApp powered by Catalyst 5.7011
     You can connect to your server at http://localhost:3000
 
-B<NOTE>: Be sure you run the C<script/myapp_server.pl> command from 
+B<NOTE:> Be sure you run the C<script/myapp_server.pl> command from 
 the 'base' directory of your application, not inside the C<script> 
 directory itself or it will not be able to locate the C<myapp.db> 
 database file.  You can use a fully qualified or a relative path to 
@@ -713,8 +715,8 @@ Some things you should note in the output above:
 
 Catalyst::Model::DBIC::Schema dynamically created three model classes, 
 one to represent each of the three tables in our database 
-(C<MyApp::Model::MyAppDB::Authors>, C<MyApp::Model::MyAppDB::BookAuthors>,
-and C<MyApp::Model::MyAppDB::Books>).
+(C<MyApp::Model::DB::Authors>, C<MyApp::Model::DB::BookAuthors>,
+and C<MyApp::Model::DB::Books>).
 
 =item * 
 
@@ -758,29 +760,29 @@ the database, however, lets use the same L<DBIx::Class::Schema::Loader>
 used earlier with C<create=dynamic> to build the static files for us.
 First, lets remove the schema file created in Part 2:
 
-    $ rm lib/MyApp/Schema/MyAppDB.pm 
+    $ rm lib/MyApp/Schema.pm 
 
 Now regenerate the schema using the C<create=static> option:
 
-    $ script/myapp_create.pl model MyAppDB DBIC::Schema MyApp::Schema::MyAppDB create=static dbi:SQLite:myapp.db
-     exists "/home/me/MyApp/script/../lib/MyApp/Model"
-     exists "/home/me/MyApp/script/../t"
-    Dumping manual schema for MyApp::Schema::MyAppDB to directory /home/me/MyApp/script/../lib ...
+    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=static dbi:SQLite:myapp.db
+     exists "/home/kclark/dev/MyApp/script/../lib/MyApp/Model"
+     exists "/home/kclark/dev/MyApp/script/../t"
+    Dumping manual schema for MyApp::Schema to directory /home/kclark/dev/MyApp/script/../lib ...
     Schema dump completed.
-     exists "/home/me/MyApp/script/../lib/MyApp/Model/MyAppDB.pm"
+     exists "/home/kclark/dev/MyApp/script/../lib/MyApp/Model/DB.pm"
 
-We could have also deleted C<lib/MyApp/Model/MyAppDB.pm>, but it would 
+We could have also deleted C<lib/MyApp/Model/DB.pm>, but it would 
 have regenerated the same file (note the C<exists> in the output above).
-If you take a look at C<lib/MyApp/Model/MyAppDB.pm>, it simply contains
-a reference to the actual schema file in C<lib/MyApp/Schema/MyAppDB.pm>
+If you take a look at C<lib/MyApp/Model/DB.pm>, it simply contains
+a reference to the actual schema file in C<lib/MyApp/Schema.pm>
 along with the database connect string.
 
 If you look in the C<lib/MyApp/Schema> directory, you will find that 
-C<MyAppDB.pm> is no longer using L<DBIx::Class::Schema::Loader> as its 
+C<DB.pm> is no longer using L<DBIx::Class::Schema::Loader> as its 
 base class (L<DBIx::Class::Schema::Loader> is only being used by the 
 helper to load the schema once and then create the static files for us) 
 and that it only contains a call to the C<load_classes> method.  You 
-will also find that C<lib/MyApp/Schema> contains a C<MyAppDB> 
+will also find that C<lib/MyApp/Schema> contains a C<Schema> 
 subdirectory, with one file inside this directory for each of the tables 
 in our simple database (C<Authors.pm>, C<BookAuthors.pm>, and 
 C<Books.pm>).  These three files were created based on the information
@@ -795,10 +797,10 @@ structure get updated.
 
 Also note the "flow" of the model information across the various files 
 and directories.  Catalyst will initially load the model from 
-C<lib/MyApp/Model/MyAppDB.pm>.  This file contains a reference to
-C<lib/MyApp/Schema/MyAppDB.pm>, so that file is loaded next.  Finally,
+C<lib/MyApp/Model/DB.pm>.  This file contains a reference to
+C<lib/MyApp/Schema.pm>, so that file is loaded next.  Finally,
 the call to C<load_classes> in that file will load each of the 
-table-specific "results source" files from the C<lib/MyApp/Schema/MyAppDB>
+table-specific "results source" files from the C<lib/MyApp/Schema>
 subdirectory.  These three table-specific DBIC schema files will then be 
 used to create three table-specific Catalyst models every time the 
 application starts (you can see these three model files listed in
@@ -809,7 +811,7 @@ the debug output generated when you launch the application).
 
 
 Let's manually add some relationship information to the auto-generated
-schema files.  First edit C<lib/MyApp/Schema/MyAppDB/Books.pm> and
+schema files.  First edit C<lib/MyApp/Schema/Books.pm> and
 add the following text below the C<# You can replace this text...> 
 comment:
 
@@ -822,7 +824,7 @@ comment:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table
-    __PACKAGE__->has_many(book_authors => 'MyApp::Schema::MyAppDB::BookAuthors', 'book_id');
+    __PACKAGE__->has_many(book_authors => 'MyApp::Schema::BookAuthors', 'book_id');
     
     # many_to_many():
     #   args:
@@ -850,7 +852,7 @@ shorter C<$book-E<gt>authors-E<gt>first-E<gt>last_name>. Note that you
 cannot define a C<many_to_many> relationship without also having the 
 C<has_many> relationship in place.
 
-Then edit C<lib/MyApp/Schema/MyAppDB/Authors.pm> and add relationship
+Then edit C<lib/MyApp/Schema/Authors.pm> and add relationship
 information as follows (again, be careful to put in above the C<1;> but
 below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
 
@@ -863,7 +865,7 @@ below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table
-    __PACKAGE__->has_many(book_author => 'MyApp::Schema::MyAppDB::BookAuthors', 'author_id');
+    __PACKAGE__->has_many(book_author => 'MyApp::Schema::BookAuthors', 'author_id');
     
     # many_to_many():
     #   args:
@@ -874,7 +876,7 @@ below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
     __PACKAGE__->many_to_many(books => 'book_author', 'book');
 
 Finally, do the same for the "join table," 
-C<lib/MyApp/Schema/MyAppDB/BookAuthors.pm>:
+C<lib/MyApp/Schema/BookAuthors.pm>:
 
     #
     # Set relationships:
@@ -885,14 +887,14 @@ C<lib/MyApp/Schema/MyAppDB/BookAuthors.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(book => 'MyApp::Schema::MyAppDB::Books', 'book_id');
+    __PACKAGE__->belongs_to(book => 'MyApp::Schema::Books', 'book_id');
     
     # belongs_to():
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(author => 'MyApp::Schema::MyAppDB::Authors', 'author_id');
+    __PACKAGE__->belongs_to(author => 'MyApp::Schema::Authors', 'author_id');
 
 
 =head1 RUN THE APPLICATION
@@ -1055,7 +1057,7 @@ has changed):
     
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
-        $c->stash->{books} = [$c->model('MyAppDB::Books')->all];
+        $c->stash->{books} = [$c->model('DB::Books')->all];
     
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (actions methods respond to user input in

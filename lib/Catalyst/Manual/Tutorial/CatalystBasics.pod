@@ -73,7 +73,7 @@ clean "separation of control" between the different portions of your
 application. Given that many other documents cover this subject in
 detail, MVC will not be discussed in depth here (for an excellent
 introduction to MVC and general Catalyst concepts, please see
-L<Catalyst::Manual::About>. In short:
+L<Catalyst::Manual::About|Catalyst::Manual::About>. In short:
 
 =over 4
 
@@ -108,7 +108,7 @@ to persist and restore objects to/from a relational database.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::Intro>
+L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>
 
 
 =head1 CREATE A CATALYST PROJECT
@@ -244,18 +244,21 @@ reasonable, such as a "404" message but for now just leave it alone.
 
     sub default : Path : Args {
         my ( $self, $c ) = @_;
-
+    
         $c->response->body( $c->welcome_message );
     }
 
 The "C<$c>" here refers to the Catalyst context, which is used to 
 access the Catalyst application. In addition to many other things, 
 the Catalyst context provides access to "response" and "request" 
-objects. (See L<Catalyst>, L<Catalyst::Response>, and L<Catalyst::Request>) 
+objects. (See L<Catalyst|Catalyst>, 
+L<Catalyst::Response|Catalyst::Response>, and 
+L<Catalyst::Request|Catalyst::Request>) 
 
 C<$c->response->body> sets the HTTP response (see 
-L<Catalyst::Response>), while C<$c->welcome_message> is a special method 
-that returns the welcome message that you saw in your browser.
+L<Catalyst::Response|Catalyst::Response>), while C<$c->welcome_message> 
+is a special method that returns the welcome message that you saw in 
+your browser.
 
 The ": Path : Args" after the method name are attributes which determine 
 which URLs will be dispatched to this method. (Depending on your version of 
@@ -280,17 +283,19 @@ to the package C<Hello::Controller::Admin::Articles>, and the C<create>
 method. 
 
 
-Add the following subroutine to your Root.pm file:
+Add the following subroutine to your C<lib/Hello/Controller/Root.pm> 
+file:
 
     sub hello : Global {
         my ( $self, $c ) = @_;
+        
         $c->response->body("Hello, World!");
     }
 
 Here you're sending your own string to the webpage.
 
 Save the file, start the server (stop and restart it if it's still 
-up), and go to L<http://localhost:3000/hello|http://localhost:3000> to 
+up), and go to L<http://localhost:3000/hello> to 
 see "Hello, World!"
 
 =head2 Hello, World! Using a View and a Template
@@ -320,7 +325,7 @@ method that it inherits from the C<Catalyst::View::TT class>.
 
 Template Toolkit is a very full featured template facility, with 
 excellent documentation at 
-L<http://template-tookit.org/|http://template-tookit.org/>, 
+L<http://template-tookit.org/>, 
 but since this is not a TT tutorial, we'll stick to only basic TT 
 usage here (and explore some of the more common TT features in later 
 parts of the tutorial).
@@ -331,16 +336,17 @@ a simple sample:
   
     [% META title = 'Hello, World!' %]
     <p>
-        This is a TT view template, located in the root directory.
+        This is a TT view template, located in the 'root/' directory.
     </p>
 
 [% and %] are markers for the TT parts of the template. Inside you can 
 access Perl variables and classes, and use TT directives. The rest of 
-the template is normal HTML. Change the hello method in Root.pm to the 
-following:
+the template is normal HTML. Change the hello method in 
+C<lib/Hello/Controller/Root.pm> to the following:
 
     sub hello : Global {
         my ( $self, $c ) = @_;
+        
         $c->stash->{template} = 'hello.tt';
     }
 
@@ -354,7 +360,7 @@ rendered (unless there's a C<$c->response->body()> statement). So your
 template will be magically displayed at the end of your method.
 
 After saving the file, restart the development server, and look at 
-L<http://localhost:3000/hello|http://localhost:3000> again. You should 
+L<http://localhost:3000/hello> again. You should 
 see the template that you just made.
 
 
@@ -369,10 +375,11 @@ file). Bring Site.pm up in your editor, and you can see that there's
 not much there. Most people probably don't bother to use the create 
 script to make controllers after they're used to using Catalyst.
 
-In Site.pm, add the following method:
+In C<lib/Hello/Controller/Site.pm>, add the following method:
 
     sub test : Local {
         my ( $self, $c ) = @_;
+    
         $c->stash->{username} = "John";
         $c->stash->{template} = 'site/test.tt';
     }
@@ -389,14 +396,14 @@ naming convention). We've also put the variable "name" into the stash,
 for use in the template.
 
 Make a subdirectory "site" in the "root" directory. Copy the hello.tt 
-file into the directory as root/site/test.tt, or create a new template 
-file at that location. Include a line like: 
+file into the directory as C<root/site/test.tt>, or create a new 
+template file at that location. Include a line like: 
 
-    <p>Hello, [% username %]!</p> 
+    <p>Hello, [% username %]!</p>
 
 Bring up or restart the server.  Notice in the server output that 
 C</site/test> is listed in the Loaded Path actions. Go to 
-L<http://localhost:3000/site/test|http://localhosst:3000/site/test> 
+L<http://localhost:3000/site/test> 
 
 You should see your test.tt file displayed, including the name "John"
 that you set in the controller.

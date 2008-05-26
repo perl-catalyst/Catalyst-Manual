@@ -116,7 +116,7 @@ you can obviously indent them if you prefer):
             
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
-        $c->stash->{books} = [$c->model('MyAppDB::Books')->all];
+        $c->stash->{books} = [$c->model('DB::Books')->all];
             
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods.
@@ -125,6 +125,8 @@ you can obviously indent them if you prefer):
 
 This causes the Perl Debugger to enter "single step mode" when this command is 
 encountered (it has no effect when Perl is run without the C<-d> flag).
+
+B<NOTE:> The C<DB> here is the Perl Debugger, not the DB model.
 
 To now run the Catalyst development server under the Perl debugger, simply 
 prepend C<perl -d> to the front of C<script/myapp_server.pl>:
@@ -155,7 +157,7 @@ C<MyApp::Controller::list> method, the console session running the
 development server will drop to the Perl debugger prompt:
 
     MyApp::Controller::Books::list(/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm:40):
-    40:         $c->stash->{books} = [$c->model('MyAppDB::Books')->all];
+    40:         $c->stash->{books} = [$c->model('DB::Books')->all];
     
       DB<1>
 
@@ -177,7 +179,7 @@ output also shows up in the development server debug information.
 
 Next, list the methods available on our C<Book> model:
 
-      DB<1> m $c->model('MyAppDB::Books')
+      DB<1> m $c->model('DB::Books')
     ()
     (0+
     (bool
@@ -196,7 +198,7 @@ Next, list the methods available on our C<Book> model:
 
 We can also play with the model directly:
 
-      DB<2> x ($c->model('MyAppDB::Books')->all)[1]->title
+      DB<2> x ($c->model('DB::Books')->all)[1]->title
     SELECT me.id, me.title, me.rating FROM books me:
     0  'TCP/IP Illustrated, Volume 1'
 
@@ -207,7 +209,7 @@ argument to the C<x> command limits the depth of the dump to 4 levels):
 
       DB<3> x 4 $c->stash->{books}
     0  ARRAY(0xa8f3b7c)
-       0  MyApp::Model::MyAppDB::Book=HASH(0xb8e702c)
+       0  MyApp::Model::DB::Book=HASH(0xb8e702c)
           '_column_data' => HASH(0xb8e5e2c)
              'id' => 1
              'rating' => 5

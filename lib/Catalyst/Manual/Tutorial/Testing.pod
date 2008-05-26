@@ -328,12 +328,12 @@ L<Test::WWW::Mechanize::Catalyst|Test::WWW::Mechanize::Catalyst> is that
 it runs your full application; however, this can complicate things when
 you want to support multiple databases.  One solution is to allow the
 database specification to be overridden with an environment variable.
-For example, open C<lib/MyApp/Model/MyAppDB.pm> in your editor and
+For example, open C<lib/MyApp/Model/DB.pm> in your editor and
 change the C<__PACKAGE__-E<gt>config(...> declaration to resemble:
 
     my $dsn = $ENV{MYAPP_DSN} ||= 'dbi:SQLite:myapp.db';
     __PACKAGE__->config(
-        schema_class => 'MyApp::Schema::MyAppDB',
+        schema_class => 'MyApp::Schema',
         connect_info => [
             $dsn,
         ],

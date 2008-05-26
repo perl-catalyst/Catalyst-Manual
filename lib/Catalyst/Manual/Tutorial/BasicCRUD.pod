@@ -97,7 +97,7 @@ Edit C<lib/MyApp/Controller/Books.pm> and enter the following method:
     
         # Call create() on the book model object. Pass the table 
         # columns/field values we want to set as hash values
-        my $book = $c->model('MyAppDB::Books')->create({
+        my $book = $c->model('DB::Books')->create({
                 title  => $title,
                 rating => $rating
             });
@@ -298,7 +298,7 @@ save the form information to the database:
         my $author_id = $c->request->params->{author_id} || '1';
     
         # Create the book
-        my $book = $c->model('MyAppDB::Books')->create({
+        my $book = $c->model('DB::Books')->create({
                 title   => $title,
                 rating  => $rating,
             });
@@ -406,7 +406,7 @@ following method:
         my ($self, $c, $id) = @_;
     
         # Search for the book and then delete it
-        $c->model('MyAppDB::Books')->search({id => $id})->delete_all;
+        $c->model('DB::Books')->search({id => $id})->delete_all;
     
         # Set a status message to be displayed at the top of the view
         $c->stash->{status_msg} = "Book deleted.";
@@ -479,7 +479,7 @@ C<sub delete> method to match:
         my ($self, $c, $id) = @_;
     
         # Search for the book and then delete it
-        $c->model('MyAppDB::Books')->search({id => $id})->delete_all;
+        $c->model('DB::Books')->search({id => $id})->delete_all;
     
         # Set a status message to be displayed at the top of the view
         $c->stash->{status_msg} = "Book deleted.";
@@ -521,7 +521,7 @@ C<sub delete> method to match the following:
         my ($self, $c, $id) = @_;
     
         # Search for the book and then delete it
-        $c->model('MyAppDB::Books')->search({id => $id})->delete_all;
+        $c->model('DB::Books')->search({id => $id})->delete_all;
     
         # Redirect the user back to the list page with status msg as an arg
         $c->response->redirect($c->uri_for('/books/list', 

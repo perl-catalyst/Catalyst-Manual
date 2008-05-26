@@ -83,7 +83,7 @@ L<FormBuilder|Catalyst::Manual::Tutorial::AdvancedCRUD::FormBuilder>
 
 =back
 
-B<NOTE>: Please contact the author if you would like to assist with 
+B<NOTE:> Please contact the author if you would like to assist with 
 writing a new module.
 
 

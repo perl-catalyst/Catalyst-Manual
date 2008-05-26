@@ -125,8 +125,8 @@ Although we could manually edit the DBIC schema information to include
 the new tables added in the previous step, let's use the C<create=static>
 option on the DBIC model helper to do most of the work for us:
 
-    $ script/myapp_create.pl model MyAppDB DBIC::Schema MyApp::Schema::MyAppDB create=static dbi:SQLite:myapp.db
-    $ ls lib/MyApp/Schema/MyAppDB
+    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=static dbi:SQLite:myapp.db
+    $ ls lib/MyApp/Schema
     Authors.pm  BookAuthors.pm  Books.pm  Roles.pm  UserRoles.pm  Users.pm
 
 Notice how the helper has added three new table-specific result source 
@@ -142,7 +142,7 @@ relationship information to the three new result source files.  Edit
 each of these files and add the following information between the C<# 
 DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment and the closing C<1;>:
 
-C<lib/MyApp/Schema/MyAppDB/Users.pm>:
+C<lib/MyApp/Schema/Users.pm>:
 
     #
     # Set relationships:
@@ -153,7 +153,7 @@ C<lib/MyApp/Schema/MyAppDB/Users.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table
-    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::MyAppDB::UserRoles', 'user_id');
+    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::UserRoles', 'user_id');
     
     # many_to_many():
     #   args:
@@ -164,7 +164,7 @@ C<lib/MyApp/Schema/MyAppDB/Users.pm>:
     __PACKAGE__->many_to_many(roles => 'map_user_role', 'role');
 
 
-C<lib/MyApp/Schema/MyAppDB/Roles.pm>:
+C<lib/MyApp/Schema/Roles.pm>:
 
     #
     # Set relationships:
@@ -175,10 +175,10 @@ C<lib/MyApp/Schema/MyAppDB/Roles.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table
-    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::MyAppDB::UserRoles', 'role_id');
+    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::UserRoles', 'role_id');
 
 
-C<lib/MyApp/Schema/MyAppDB/UserRoles.pm>:
+C<lib/MyApp/Schema/UserRoles.pm>:
 
     #
     # Set relationships:
@@ -189,14 +189,14 @@ C<lib/MyApp/Schema/MyAppDB/UserRoles.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(user => 'MyApp::Schema::MyAppDB::Users', 'user_id');
+    __PACKAGE__->belongs_to(user => 'MyApp::Schema::Users', 'user_id');
     
     # belongs_to():
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(role => 'MyApp::Schema::MyAppDB::Roles', 'role_id');
+    __PACKAGE__->belongs_to(role => 'MyApp::Schema::Roles', 'role_id');
 
 
 The code for these three sets of updates is obviously very similar to 
@@ -204,9 +204,9 @@ the edits we made to the C<Books>, C<Authors>, and C<BookAuthors>
 classes created in Part 3.
 
 Note that we do not need to make any change to the 
-C<lib/MyApp/Schema/MyAppDB.pm> schema file.  It simple tells DBIC to 
+C<lib/MyApp/Schema.pm> schema file.  It simple tells DBIC to 
 load all of the result source files it finds in below the 
-C<lib/MyApp/Schema/MyAppDB> directory, so it will automatically pick 
+C<lib/MyApp/Schema> directory, so it will automatically pick 
 up our new table information.
 
 
@@ -227,13 +227,13 @@ Look for the three new model objects in the startup debug output:
     +-------------------------------------------------------------------+----------+
     | MyApp::Controller::Books                                          | instance |
     | MyApp::Controller::Root                                           | instance |
-    | MyApp::Model::MyAppDB                                             | instance |
-    | MyApp::Model::MyAppDB::Author                                     | class    |
-    | MyApp::Model::MyAppDB::Books                                      | class    |
-    | MyApp::Model::MyAppDB::BookAuthors                                | class    |
-    | MyApp::Model::MyAppDB::Roles                                      | class    |
-    | MyApp::Model::MyAppDB::Users                                      | class    |
-    | MyApp::Model::MyAppDB::UserRoles                                  | class    |
+    | MyApp::Model::DB                                                  | instance |
+    | MyApp::Model::DB::Author                                          | class    |
+    | MyApp::Model::DB::Books                                           | class    |
+    | MyApp::Model::DB::BookAuthors                                     | class    |
+    | MyApp::Model::DB::Roles                                           | class    |
+    | MyApp::Model::DB::Users                                           | class    |
+    | MyApp::Model::DB::UserRoles                                       | class    |
     | MyApp::View::TT                                                   | instance |
     '-------------------------------------------------------------------+----------'
     ...
@@ -325,19 +325,19 @@ C<myapp.conf> file and update it to match:
                     # Use DBIC to retrieve username, password & role information
                     class DBIx::Class
                     # This is the model object created by Catalyst::Model::DBIC 
-                    # from your schema (you created 'MyAppDB::User' but as the 
-                    # Catalyst startup debug messages show, it was loaded as 
-                    # 'MyApp::Model::MyAppDB::Users').
+                    # from your schema (you created 'MyApp::Schema::User' but as
+                    # the Catalyst startup debug messages show, it was loaded as 
+                    # 'MyApp::Model::DB::Users').
                     # NOTE: Omit 'MyApp::Model' here just as you would when using 
-                    # '$c->model("MyAppDB::Users)'
-                    user_class MyAppDB::Users
+                    # '$c->model("DB::Users)'
+                    user_class DB::Users
                     # This is the name of the field in your 'users' table that 
                     # contains the user's name
                     id_field username
                 </store>
             </dbic>
-          </realms>
-        </authentication>
+        </realms>
+    </authentication>
 
 Inline comments in the code above explain how each field is being used.
 
@@ -352,7 +352,7 @@ Use the Catalyst create script to create two stub controller files:
     $ script/myapp_create.pl controller Login
     $ script/myapp_create.pl controller Logout
 
-B<NOTE>: You could easily use a single controller here.  For example,
+B<NOTE:> You could easily use a single controller here.  For example,
 you could have a C<User> controller with both C<login> and C<logout>
 actions.  Remember, Catalyst is designed to be very flexible, and leaves
 such matters up to you, the designer and programmer.
@@ -617,7 +617,7 @@ running) and restart it:
 
     $ script/myapp_server.pl
 
-B<IMPORTANT NOTE>: If you happen to be using Internet Explorer, you may
+B<IMPORTANT NOTE:> If you happen to be using Internet Explorer, you may
 need to use the command C<script/myapp_server.pl -k> to enable the
 keepalive feature in the development server.  Otherwise, the HTTP
 redirect on successful login may not work correctly with IE (it seems to
@@ -684,6 +684,11 @@ dirty" way to do this:
     e727d1464ae12436e899a726da5b2f11d8381b26
     $
 
+B<Note:> If you are following along in Ubuntu, you will need to install 
+C<Digest::SHA> with the following command to run the example code above:
+
+    sudo apt-get install libdigest-sha-perl
+
 B<Note:> You should probably modify this code for production use to
 not read the password from the command line.  By having the script
 prompt for the cleartext password, it avoids having the password linger
@@ -719,7 +724,6 @@ C<Catalyst::Plugin::Authentication::Store::DBIC>
 Edit C<myapp.conf> and update it to match (the C<password_type> and
 C<password_hash_type> are new, everything else is the same):
 
-    ---
     name MyApp
     <authentication>
         default_realm dbic
@@ -739,24 +743,24 @@ C<password_hash_type> are new, everything else is the same):
                     password_type  hashed
                     # Use the SHA-1 hashing algorithm
                     password_hash_type SHA-1
-                 </credential>
+                </credential>
                 <store>
                     # Use DBIC to retrieve username, password & role information
                     class DBIx::Class
                     # This is the model object created by Catalyst::Model::DBIC 
-                    # from your schema (you created 'MyAppDB::User' but as the 
-                    # Catalyst startup debug messages show, it was loaded as 
-                    # 'MyApp::Model::MyAppDB::Users').
+                    # from your schema (you created 'MyApp::Schema::User' but as
+                    # the Catalyst startup debug messages show, it was loaded as 
+                    # 'MyApp::Model::DB::Users').
                     # NOTE: Omit 'MyApp::Model' here just as you would when using 
-                    # '$c->model("MyAppDB::Users)'
-                    user_class MyAppDB::Users
+                    # '$c->model("DB::Users)'
+                    user_class DB::Users
                     # This is the name of the field in your 'users' table that 
                     # contains the user's name
                     id_field username
-                 </store>
-              </dbic>
-           </realms>
-         </authentication>
+                </store>
+            </dbic>
+        </realms>
+    </authentication>
 
 =head2 Try Out the Hashed Passwords
 
@@ -797,7 +801,7 @@ has changed):
         my ($self, $c, $id) = @_;
     
         # Search for the book and then delete it
-        $c->model('MyAppDB::Books')->search({id => $id})->delete_all;
+        $c->model('DB::Books')->search({id => $id})->delete_all;
     
         # Use 'flash' to save information across requests until it's read
         $c->flash->{status_msg} = "Book deleted";

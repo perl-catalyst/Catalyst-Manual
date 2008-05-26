@@ -95,7 +95,6 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 Edit C<myapp.conf> and update it to match the following (the 
 C<role_relation> and C<role_field> definitions are new):
 
-    ---
     name MyApp
     <authentication>
         default_realm dbic
@@ -111,19 +110,21 @@ C<role_relation> and C<role_field> definitions are new):
                     # This is the name of the field in the users table with the
                     # password stored in it
                     password_field password
-                    # We are using an unencrypted password now
-                    password_type clear
-                 </credential>
+                    # Switch to more secure hashed passwords
+                    password_type  hashed
+                    # Use the SHA-1 hashing algorithm
+                    password_hash_type SHA-1
+                </credential>
                 <store>
                     # Use DBIC to retrieve username, password & role information
                     class DBIx::Class
                     # This is the model object created by Catalyst::Model::DBIC 
-                    # from your schema (you created 'MyAppDB::User' but as the 
-                    # Catalyst startup debug messages show, it was loaded as 
-                    # 'MyApp::Model::MyAppDB::Users').
+                    # from your schema (you created 'MyApp::Schema::User' but as
+                    # the Catalyst startup debug messages show, it was loaded as 
+                    # 'MyApp::Model::DB::Users').
                     # NOTE: Omit 'MyApp::Model' here just as you would when using 
-                    # '$c->model("MyAppDB::Users)'
-                    user_class MyAppDB::Users
+                    # '$c->model("DB::Users)'
+                    user_class DB::Users
                     # This is the name of the field in your 'users' table that 
                     # contains the user's name
                     id_field username
@@ -133,10 +134,10 @@ C<role_relation> and C<role_field> definitions are new):
                     # This is the name of field in the roles table that contains
                     # the role information
                     role_field role
-                  </store>
-                </dbic>
-              </realms>
-            </authentication>
+                </store>
+            </dbic>
+        </realms>
+    </authentication>
 
 
 =head2 Add Role-Specific Logic to the "Book List" Template
@@ -198,7 +199,7 @@ updating C<url_create> to match the following code:
         if ($c->check_user_roles('admin')) {
             # Call create() on the book model object. Pass the table 
             # columns/field values we want to set as hash values
-            my $book = $c->model('MyAppDB::Books')->create({
+            my $book = $c->model('DB::Books')->create({
                     title   => $title,
                     rating  => $rating
                 });
