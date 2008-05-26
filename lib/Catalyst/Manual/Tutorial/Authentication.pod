@@ -617,17 +617,10 @@ running) and restart it:
 
     $ script/myapp_server.pl
 
-B<IMPORTANT NOTE:> If you happen to be using Internet Explorer, you may
-need to use the command C<script/myapp_server.pl -k> to enable the
-keepalive feature in the development server.  Otherwise, the HTTP
-redirect on successful login may not work correctly with IE (it seems to
-work without -k if you are running the web browser and development
-server on the same machine).  If you are using browser a browser other
-than IE, it should work either way.  If you want to make keepalive the
-default, you can edit C<script/myapp_server.pl> and change the
-initialization value for C<$keepalive> to C<1>.  (You will need to do
-this every time you create a new Catalyst application or rebuild the
-C<myapp_server.pl> script.)
+B<IMPORTANT NOTE:> If you are having issues with authentication on 
+Internet Explorer, be sure to check the system clocks on both your 
+server and client machines.  Internet Explorer is very picky about 
+timestamps for cookies.
 
 Now trying going to L<http://localhost:3000/books/list> and you should
 be redirected to the login page, hitting Shift+Reload if necessary (the
