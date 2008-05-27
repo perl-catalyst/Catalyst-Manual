@@ -275,12 +275,12 @@ B<Note:> Catalyst actions are regular Perl methods, but they make use
 of Nicholas Clark's C<attributes> module (that's the C<: Local> next 
 to the C<sub list> in the code above) to provide additional 
 information to the Catalyst dispatcher logic.  Many newer Catalyst 
-applications are switching to the use of "Literal" C<: Path> actions 
+applications are switching to the use of "Literal" C<:Path> actions 
 and C<Args> attribute in lieu of C<: Local> and C<: Private>.  For 
-example, C<sub any_method : Path Args(0)> can be used instead of 
+example, C<sub any_method :Path :Args(0)> can be used instead of 
 C<sub index :Private> (because no path was supplied to C<Path> it 
 matches the "empty" URL in the namespace of that module... the same 
-thing C<sub index> would do) or C<sub list : Path('list') Args(0)> 
+thing C<sub index> would do) or C<sub list :Path('list') :Args(0)> 
 could be used instead of the C<sub list : Local> above (the C<list> 
 argument to C<Path> would make it match on the URL C<list> under 
 C<books>, the namespace of the current module).  See "Action Types" in 

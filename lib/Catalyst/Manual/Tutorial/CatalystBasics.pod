@@ -242,7 +242,7 @@ responsible for displaying the welcome screen that you just saw in
 your browser. Later on you'll want to change that to something more 
 reasonable, such as a "404" message but for now just leave it alone.
 
-    sub default : Path : Args {
+    sub default :Path :Args {
         my ( $self, $c ) = @_;
     
         $c->response->body( $c->welcome_message );
@@ -260,7 +260,7 @@ L<Catalyst::Response|Catalyst::Response>), while C<$c->welcome_message>
 is a special method that returns the welcome message that you saw in 
 your browser.
 
-The ": Path : Args" after the method name are attributes which determine 
+The ":Path :Args" after the method name are attributes which determine 
 which URLs will be dispatched to this method. (Depending on your version of 
 Catalyst, it used to say "Private" but using that with default is 
 currently deprecated.)
