@@ -405,11 +405,11 @@ will stay at the login page but receive an error message.  If the
 C<username> and C<password> values are not present in the form, the 
 user will be taken to the empty login form.
 
-Note that we could have used something like C<sub default :Path> (or 
-even C<sub default : Private>; however, the use of C<default> actions 
-is discouraged because it does not receive path args as with other 
-actions.  The recommended practice is to only use C<default> in 
-C<MyApp::Controller::Root>.
+Note that we could have used something like C<sub default :Path>,
+however partly for historical reasons, and partly for code clarity it
+is generally recommended only to use C<default> in
+C<MyApp::Controller::Root>, and then mainly to generate the 404 not
+found page for the application.
 
 Instead, we are using C<sub base :Path :Args(0) {...}> here to 
 specifically match the URL C</login>. C<Path> actions (aka, "literal 

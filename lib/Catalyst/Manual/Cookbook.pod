@@ -722,7 +722,7 @@ later) and SOAP::Lite (for XMLRPCsh.pl).
 5. Add a XMLRPC redispatch method and an add method with Remote
 attribute to lib/MyApp/Controller/API.pm
 
-    sub default : Private {
+    sub default :Path {
         my ( $self, $c ) = @_;
         $c->xmlrpc;
     }
@@ -1273,7 +1273,7 @@ part of your namespace, you'll get an error page instead. If you want
 to find out where it was the user was trying to go, you can look in
 the request object using C<< $c->req->path >>.
 
- sub default : Private { .. }
+ sub default :Path { .. }
 
 works for all unknown URLs, in this controller namespace, or every one
 if put directly into MyApp.pm.
@@ -1285,7 +1285,7 @@ namespace of your controller. If index, default and matching Path
 actions are defined, then index will be used instead of default and
 Path.
 
- sub index : Private { .. }
+ sub index :Path :Args(0) { .. }
 
 becomes
 

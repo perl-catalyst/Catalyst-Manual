@@ -1,6 +1,7 @@
 Revision history for Catalyst-Manual
 
 5.7012
+       - Expurgation of all use of default :Private and index :Private in favour of default :Path and index :Path :Args(0)
        - Expurgation of all yaml as configuration format
        - Major updates to tutorial, thanks hkclark and gerda 
 
