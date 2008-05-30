@@ -887,7 +887,8 @@ call these built-in private actions in your application class:
 
 Called when no other action matches. Could be used, for example, for
 displaying a generic frontpage for the main app, or an error page for
-individual controllers.
+individual controllers. B<Note>: in older Catalyst applications you
+will see C<default : Private> which is roughly speaking equivalent.
 
 
 =item * B<index : Path : Args (0) >
@@ -897,7 +898,9 @@ it is weighted slightly higher in the matching process. It is useful
 as a static entry point to a controller, e.g. to have a static welcome
 page. Note that it's also weighted higher than Path.  Actually the sub
 name C<index> can be called anything you want.  The sub attributes are
-what determines the behaviour of the action.
+what determines the behaviour of the action.  B<Note>: in older
+Catalyst applications, you will see C<index : Private> used, which is
+roughly speaking equivalent.
 
 =item * B<begin : Private>
 
