@@ -137,7 +137,20 @@ following method:
             # Return to the books list
             $c->response->redirect($c->uri_for('list')); 
             $c->detach;
-        }    
+        } else {
+            # Get the authors from the DB
+            my @authorObjs = $c->model("DB::Authors")->all();
+            # Create an array of arrayrefs where each arrayref is an author
+            my @authors;
+            foreach (sort {$a->last_name cmp $b->last_name} @authorObjs) {
+                push(@authors, [$_->id, $_->last_name]);
+            }
+            # Get the select added by the config file
+            my $select = $form->get_element({type => 'Select'});
+            # Add the authors to it
+            $select->options(\@authors);
+        }
+        
         # Set the template
         $c->stash->{template} = 'books/fu_form_create.tt2';
     }
@@ -155,11 +168,15 @@ Then create the file C<root/forms/books/fu_form_create.yml> and enter the
 following text:
 
     ---
+    # indicator is the field that is used to test for form submission
     indicator: submit
+    # Start listing the form elements
     elements:
+        # The first element will be a text field for the title
         - type: Text
           name: title
           label: Title
+          # This is an optional 'mouse over' title pop-up
           attributes:
             title: Enter a book title here
         - type: Text
@@ -167,6 +184,7 @@ following text:
           label: Rating
           attributes:
             title: Enter a rating between 1 and 5 here
+        # The submit button
         - type: Submit
           name: submit
           value: Submit
@@ -263,18 +281,26 @@ Open C<root/forms/books/fu_form_create.yml> in your editor and update it
 to match:
 
     ---
+    # indicator is the field that is used to test for form submission
     indicator: submit
+    # Start listing the form elements
     elements:
+        # The first element will be a text field for the title
         - type: Text
           name: title
           label: Title
+          # This is an optional 'mouse over' title pop-up
           attributes:
             title: Enter a book title here
+          # Add constraints for the field
           constraints:
+            # The user cannot leave this field blank
             - Required
+            # Force the length to be between 2 and 30 chars
             - type: Length
               min: 2
               max: 30
+              # Override the default of 'Invalid input'
               message: Length must be between 2 and 30 characters
         - type: Text
           name: rating
@@ -283,10 +309,13 @@ to match:
             title: Enter a rating between 1 and 5 here
           constraints:
             - Required
+            # Make sure it's a number
             - Integer
+        # The submit button
         - type: Submit
           name: submit
           value: Submit
+    # Globally ensure that each field only specified one value
     constraints:
         - SingleValue
 
