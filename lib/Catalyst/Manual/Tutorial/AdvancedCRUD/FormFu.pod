@@ -114,7 +114,7 @@ following method:
 
     =head2 formfu_create
     
-    Build an HTML::FormFu form for book creation and updates
+    Use HTML::FormFu to create a new book
     
     =cut
     
@@ -268,12 +268,12 @@ displayed.
 
 Also note that this implementation allows you to can create books with 
 bogus information.  Although we have constrained the authors with the 
-drop-down list (somewhat, we still have not prevented a user from 
-"hacking" the form to specify other values), there are no restrictions 
-on items such as the length of the title (for example, you can create a 
-one-letter title) and value for the rating (you can use any number you 
-want, and even non-numeric values with SQLite).  The next section will 
-address this concern.
+drop-down list (note that this isn't bulletproof because we still have 
+not prevented a user from "hacking" the form to specify other values), 
+there are no restrictions on items such as the length of the title (for 
+example, you can create a one-letter title) and value for the rating 
+(you can use any number you want, and even non-numeric values with 
+SQLite).  The next section will address this concern.
 
 B<Note:> Depending on the database you are using and how you established
 the columns in your tables, the database could obviously provide various
@@ -320,13 +320,13 @@ to match:
           # Add constraints for the field
           constraints:
             # The user cannot leave this field blank
-            - Required
-            # Force the length to be between 5 and 30 chars
+            - SingleValue
+            # Force the length to be between 5 and 40 chars
             - type: Length
               min: 5
-              max: 30
+              max: 40
               # Override the default of 'Invalid input'
-              message: Length must be between 5 and 30 characters
+              message: Length must be between 5 and 40 characters
     
         # Another text field for the numeric rating
         - type: Text
@@ -342,7 +342,7 @@ to match:
             - NonNumeric
           # Add constraints to the field
           constraints:
-            - Required
+            - SingleValue
             # Make sure it's a number
             - Integer
     
@@ -370,7 +370,6 @@ to match:
             - HTMLEscape
           # Add constraints to the field
           constraints:
-            - Required
             # Make sure it's a number
             - Integer
     
@@ -381,7 +380,8 @@ to match:
     
     # Globally ensure that each field only specified one value
     constraints:
-        - SingleValue
+        # The user cannot leave any fields blank
+        - Required
 
 The main changes are:
 
@@ -415,12 +415,135 @@ running) and restart it:
 
     $ script/myapp_server.pl
 
-Now try adding a book with various errors: title less than 5 characters, 
-non-numeric rating, a rating of 0 or 6, etc.  Also try selecting one, 
-two, and zero authors.  When you click Submit, the HTML::FormFu 
-C<constraint> items will validate the logic and insert feedback as 
-appropriate.  Try adding blank spaces at the front or the back of the 
-title and note that it will be removed.
+Make sure you are still logged in as C<test01> and try adding a book 
+with various errors: title less than 5 characters, non-numeric rating, a 
+rating of 0 or 6, etc.  Also try selecting one, two, and zero authors. 
+When you click Submit, the HTML::FormFu C<constraint> items will 
+validate the logic and insert feedback as appropriate.  Try adding blank 
+spaces at the front or the back of the title and note that it will be 
+removed.
+
+
+=head1 CREATE AND UPDATE/EDIT ACTION
+
+Let's expand the work done above to add an edit action.  First, open 
+C<lib/MyApp/Controller/Books.pm> and add the following method to the 
+bottom:
+
+    =head2 formfu_edit
+    
+    Use HTML::FormFu to update an existing book
+    
+    =cut
+    
+    sub formfu_edit :Local :FormConfig('books/formfu_create.yml') {
+        my ($self, $c, $id) = @_;
+    
+        # Get the specified book
+        my $book = $c->model('DB::Books')->find($id);
+    
+        # Make sure we were able to get a book
+        unless ($book) {
+            $c->flash->{error_msg} = "Invalid book -- Cannot edit";
+            $c->response->redirect($c->uri_for('list'));
+            $c->detach;
+        }
+    
+        # Get the form that the :FormConfig attribute saved in the stash
+        my $form = $c->stash->{form};
+    
+        # Check if the form as been submitted (vs. displaying the initial
+        # form) and if the data based validation.  "submitted_and_valid"
+        # is shorthand for "$form->submitted && !$form->has_errors"
+        if ($form->submitted_and_valid) {
+            # Save the form data for the book
+            $form->save_to_model($book);
+            # Set a status message for the user
+            $c->flash->{status_msg} = 'Book edited';
+            # Return to the books list
+            $c->response->redirect($c->uri_for('list'));
+            $c->detach;
+        } else {
+            # Get the authors from the DB
+            my @authorObjs = $c->model("DB::Authors")->all();
+            # Create an array of arrayrefs where each arrayref is an author
+            my @authors;
+            foreach (sort {$a->last_name cmp $b->last_name} @authorObjs) {
+                push(@authors, [$_->id, $_->last_name]);
+            }
+            # Get the select added by the config file
+            my $select = $form->get_element({type => 'Select'});
+            # Add the authors to it
+            $select->options(\@authors);
+            # Populate the form with existing values from DB
+            $form->defaults_from_model($book);
+        }
+    
+        # Set the template
+        $c->stash->{template} = 'books/formfu_create.tt2';
+    }
+
+Most of this code should look familiar to what we used in the 
+C<formfu_create> method (in fact, we should probably centralize some of 
+the common code in separate methods).  The main differences are:
+
+=over 4
+
+=item *
+
+We accept C<$id> as an argument via the URL.
+
+=item *
+
+We use C<$id> to look up the existing book from the database.
+
+=item *
+
+We make sure the C<$id> and book lookup returned a valid book.  If not, 
+we set the error message and return to the book list.
+
+=item *
+
+If the form has been submitted and passes validation, we skip creating a 
+new book and just use C<$form-E<gt>save_to_model> to update the existing 
+book.
+
+=item *
+
+If the form is being displayed for the first time (or has failed 
+validation and it being redisplayed), we use
+ C<$form-E<gt>default_from_model> to populate the form with data from the 
+database.
+
+=back
+
+Then, edit C<root/src/books/list.tt2> and add a new link below the 
+existing "Delete" link that allows us to edit/update each existing book. 
+The last E<lt>tdE<gt> cell in the book list table should look like the 
+following:
+
+    <td>
+      [% # Add a link to delete a book %]
+      <a href="[% Catalyst.uri_for('delete', book.id) %]">Delete</a>
+      [% # Add a link to edit a book %]
+      <a href="[% Catalyst.uri_for('formfu_edit', book.id) %]">Edit</a>
+    </td>
+
+
+=head2 Try Out the Edit/Update Feature
+
+Press C<Ctrl-C> to kill the previous server instance (if it's still 
+running) and restart it:
+
+    $ script/myapp_server.pl
+
+Make sure you are still logged in as C<test01> and go to the 
+L<http://localhost:3000/books/list> URL in your browser.  Click the 
+"Edit" link next to "Internetworking with TCP/IP Vol. II", change the 
+rating to a 3, the "II" at end of the title to the number "2", add 
+Stevens as a co-author (control-click), and click Submit.  You will then 
+be returned to the book list with a "Book edited" message at the top in 
+green.  Experiment with other edits to various books.
 
 
 =head1 AUTHOR
