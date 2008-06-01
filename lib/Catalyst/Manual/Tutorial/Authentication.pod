@@ -442,7 +442,7 @@ C<lib/MyApp/Controller/Logout.pm> to match:
     }
 
 As with the login controller, be sure to delete the 
-C<$c->response->body('Matched MyApp::Controller::Logout in Logout.');>
+C<$c-E<gt>response-E<gt>body('Matched MyApp::Controller::Logout in Logout.');>
 line of the C<sub index>.
 
 

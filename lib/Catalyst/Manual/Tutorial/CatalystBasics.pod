@@ -255,8 +255,8 @@ objects. (See L<Catalyst|Catalyst>,
 L<Catalyst::Response|Catalyst::Response>, and 
 L<Catalyst::Request|Catalyst::Request>) 
 
-C<$c->response->body> sets the HTTP response (see 
-L<Catalyst::Response|Catalyst::Response>), while C<$c->welcome_message> 
+C<$c-E<gt>response-E<gt>body> sets the HTTP response (see 
+L<Catalyst::Response|Catalyst::Response>), while C<$c-E<gt>welcome_message> 
 is a special method that returns the welcome message that you saw in 
 your browser.
 
@@ -350,13 +350,13 @@ C<lib/Hello/Controller/Root.pm> to the following:
         $c->stash->{template} = 'hello.tt';
     }
 
-This time, instead of doing C<$c->response->body()>, you are setting 
+This time, instead of doing C<$c-E<gt>response->body()>, you are setting 
 the value of the "template" hash key in the Catalyst "stash", an area 
 for putting information to share with other parts of your application. 
 The "template" key determines which template will be displayed at the 
 end of the method. Catalyst controllers have a default "end" action 
 for all methods which causes the first (or default) view to be 
-rendered (unless there's a C<$c->response->body()> statement). So your 
+rendered (unless there's a C<$c-E<gt>response->body()> statement). So your 
 template will be magically displayed at the end of your method.
 
 After saving the file, restart the development server, and look at 

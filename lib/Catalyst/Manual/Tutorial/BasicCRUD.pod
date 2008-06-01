@@ -380,7 +380,7 @@ and 2) the four lines for the Delete link near the bottom).
         </td>
         <td>
           [% # Add a link to delete a book %]
-          <a href="[% Catalyst.uri_for('delete/') _ book.id %]">Delete</a>
+          <a href="[% Catalyst.uri_for('delete', book.id) %]">Delete</a>
         </td>
       </tr>
     [% END -%]
