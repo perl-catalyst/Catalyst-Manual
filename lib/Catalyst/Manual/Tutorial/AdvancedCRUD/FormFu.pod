@@ -47,7 +47,7 @@ L<Testing|Catalyst::Manual::Tutorial::Testing>
 
 =item 9
 
-B<Advanced CRUD>
+B<Advanced CRUD::FormFu>
 
 =item 10
 
@@ -112,13 +112,13 @@ to use the FormFu base controller class:
 Open C<lib/MyApp/Controller/Books.pm> in your editor and add the
 following method:
 
-    =head2 fu_form_create
+    =head2 formfu_create
     
     Build an HTML::FormFu form for book creation and updates
     
     =cut
     
-    sub fu_form_create :Local :FormConfig {
+    sub formfu_create :Local :FormConfig {
         my ($self, $c) = @_;
     
         # Get the form that the :FormConfig attribute saved in the stash
@@ -152,7 +152,7 @@ following method:
         }
         
         # Set the template
-        $c->stash->{template} = 'books/fu_form_create.tt2';
+        $c->stash->{template} = 'books/formfu_create.tt2';
     }
 
 
@@ -164,7 +164,7 @@ create a directory to hold your form configuration files:
 
     mkdir -p root/forms/books
 
-Then create the file C<root/forms/books/fu_form_create.yml> and enter the 
+Then create the file C<root/forms/books/formfu_create.yml> and enter the 
 following text:
 
     ---
@@ -179,11 +179,24 @@ following text:
           # This is an optional 'mouse over' title pop-up
           attributes:
             title: Enter a book title here
+    
+        # Another text field for the numeric rating
         - type: Text
           name: rating
           label: Rating
           attributes:
             title: Enter a rating between 1 and 5 here
+    
+        # Add a drop-down list for the author selection.  Note that we will
+        # dynamically fill in all the authors from the controller but we
+        # could manually set items in the drop-list by adding this YAML code:
+        # options:
+        #   - [ '1', 'Bastien' ]
+        #   - [ '2', 'Nasseh'  ]
+        - type: Select
+          name: authors
+          label: Author
+    
         # The submit button
         - type: Submit
           name: submit
@@ -195,26 +208,27 @@ following text:
 Edit C<root/src/ttsite.css> and add the following lines to the bottom of
 the file:
 
-    label {
+    input {
+        display: block;
+    }
+    select {
         display: block;
     }
     .submit {
+        padding-top: .5em;
         display: block;
     }
-    .error_messages {
-        color: [% site.col.error %];
-    }
 
-These changes will display form elements vertically and also show error
-messages in red.  Note that we are pulling the color scheme settings
-from the C<root/lib/config/col> file that was created by the TTSite
-helper.  This allows us to change the color used by various error styles
-in the CSS from a single location.
+These changes will display form elements vertically.  Note that the 
+existing definition of the C<.error> class is pulling the color scheme 
+settings from the C<root/lib/config/col> file that was created by the 
+TTSite helper.  This allows control over the CSS color settings from a 
+single location.
 
 
 =head2 Create a Template Page To Display The Form
 
-Open C<root/src/books/fu_form_create.tt2> in your editor and enter the following:
+Open C<root/src/books/formfu_create.tt2> in your editor and enter the following:
 
     [% META title = 'Create/Update Book' %]
     
@@ -231,30 +245,35 @@ the bottom of the existing file:
 
     <p>
       HTML::FormFu:
-      <a href="[% Catalyst.uri_for('fu_form_create') %]">Create</a>
+      <a href="[% Catalyst.uri_for('formfu_create') %]">Create</a>
     </p>
 
+This adds a new link to the bottom of the book list page that we can
+use to easily launch our HTML::FormFu-based form.
 
-=head2 Test The <HTML::Widget> Create Form
+
+=head2 Test The <HTML::FormFu> Create Form
 
 Press C<Ctrl-C> to kill the previous server instance (if it's still
 running) and restart it:
 
     $ script/myapp_server.pl
 
-Login as C<test01>.  Once at the Book List page, click the HTML::FormFu 
-"Create" link to display for form produced by C<make_book_widget>.  Fill 
-out the form with the following values: Title = "Internetworking with 
-TCP/IP Vol. II", Rating = "4", and Author = "Comer".  Click Submit, and 
-you will be returned to the Book List page with a "Book created" status 
-message displayed.
+Login as C<test01>.  Once at the Book List page, click the new 
+HTML::FormFu "Create" link at the bottom to display the form.  Fill in 
+the following values: Title = "Internetworking with TCP/IP Vol. II", 
+Rating = "4", and Author = "Comer".  Click Submit, and you will be 
+returned to the Book List page with a "Book created" status message 
+displayed.
 
-Also note that this implementation allows you to can create books with
-bogus information.  Although we have constrained the authors with the
-drop-down list, there are no restrictions on items such as the length of
-the title (for example, you can create a one-letter title) and value for
-the rating (you can use any number you want, and even non-numeric values
-with SQLite).  The next section will address this concern.
+Also note that this implementation allows you to can create books with 
+bogus information.  Although we have constrained the authors with the 
+drop-down list (somewhat, we still have not prevented a user from 
+"hacking" the form to specify other values), there are no restrictions 
+on items such as the length of the title (for example, you can create a 
+one-letter title) and value for the rating (you can use any number you 
+want, and even non-numeric values with SQLite).  The next section will 
+address this concern.
 
 B<Note:> Depending on the database you are using and how you established
 the columns in your tables, the database could obviously provide various
@@ -265,19 +284,19 @@ performing any validation.
 
 =head1 C<HTML::FormFu> VALIDATION AND FILTERING
 
-Although the use of L<HTML::FormFu|HTML::FormFu> in the previous section
-did provide an automated mechanism to build the form, the real power of
-this module stems from functionality that can automatically validate and
-filter the user input.  Validation uses constraints to be sure that
-users input appropriate data (for example, that the email field of a
-form contains a valid email address).  Filtering can be used to remove
-extraneous whitespace from fields or to escape meta-characters in user
-input.
+Although the use of L<HTML::FormFu|HTML::FormFu> in the previous section 
+did provide an automated mechanism to build the form, the real power of 
+this module stems from functionality that can automatically validate and 
+filter the user input.  Validation uses constraints to be sure that 
+users input appropriate data (for example, that the email field of a 
+form contains a valid email address).  Filtering can also be used to 
+remove extraneous whitespace from fields or to escape meta-characters in 
+user input.
+
 
 =head2 Add Constraints
 
-
-Open C<root/forms/books/fu_form_create.yml> in your editor and update it 
+Open C<root/forms/books/formfu_create.yml> in your editor and update it 
 to match:
 
     ---
@@ -292,34 +311,117 @@ to match:
           # This is an optional 'mouse over' title pop-up
           attributes:
             title: Enter a book title here
+          # Use Filter to clean up the input data
+          filter:
+            # Remove whitespace at both ends
+            - TrimEdges
+            # Escape HTML characters for safety
+            - HTMLEscape
           # Add constraints for the field
           constraints:
             # The user cannot leave this field blank
             - Required
-            # Force the length to be between 2 and 30 chars
+            # Force the length to be between 5 and 30 chars
             - type: Length
-              min: 2
+              min: 5
               max: 30
               # Override the default of 'Invalid input'
-              message: Length must be between 2 and 30 characters
+              message: Length must be between 5 and 30 characters
+    
+        # Another text field for the numeric rating
         - type: Text
           name: rating
           label: Rating
           attributes:
             title: Enter a rating between 1 and 5 here
+          # Use Filter to clean up the input data
+          filter:
+            # Remove whitespace at both ends
+            - TrimEdges
+            # Remove everything except digits
+            - NonNumeric
+          # Add constraints to the field
           constraints:
             - Required
             # Make sure it's a number
             - Integer
+    
+        # Add a select list for the author selection.  Note that we will
+        # dynamically fill in all the authors from the controller but we
+        # could manually set items in the select by adding this YAML code:
+        # options:
+        #   - [ '1', 'Bastien' ]
+        #   - [ '2', 'Nasseh'  ]
+        - type: Select
+          name: authors
+          label: Author
+          # Convert the drop-down to a multi-select list
+          multiple: 1
+          # Display 3 entries (user can scroll to see others)
+          size: 3
+          # One could argue we don't need to do filters or constraints for
+          # a select list, but it's smart to do validation and sanity
+          # checks on this data in case a user "hacks" the input
+          # Use Filter to clean up the input data
+          filter:
+            # Remove whitespace at both ends
+            - TrimEdges
+            # Escape HTML characters for safety
+            - HTMLEscape
+          # Add constraints to the field
+          constraints:
+            - Required
+            # Make sure it's a number
+            - Integer
+    
         # The submit button
         - type: Submit
           name: submit
           value: Submit
+    
     # Globally ensure that each field only specified one value
     constraints:
         - SingleValue
 
-...
+The main changes are:
+
+=over 4
+
+=item *
+
+The C<Select> element for C<authors> is changed from a single-select
+drop-down to a multi-select list by adding configuration for the 
+C<multiple> and C<size> options in C<formfu_create.yml>.
+
+=item *
+
+Constraints are added to provide validation of the user input.  See
+L<HTML::FormFu::Constraint|HTML::FormFu::Constraint> for other
+constraints that are available.
+
+=item *
+
+A variety of filters are run on every field to remove and escape 
+unwanted input.  See L<HTML::FormFu::Filter|HTML::FormFu::Filter>
+for more filter options.
+
+=back
+
+
+=head2 Try Out the Updated Form
+
+Press C<Ctrl-C> to kill the previous server instance (if it's still 
+running) and restart it:
+
+    $ script/myapp_server.pl
+
+Now try adding a book with various errors: title less than 5 characters, 
+non-numeric rating, a rating of 0 or 6, etc.  Also try selecting one, 
+two, and zero authors.  When you click Submit, the HTML::FormFu 
+C<constraint> items will validate the logic and insert feedback as 
+appropriate.  Try adding blank spaces at the front or the back of the 
+title and note that it will be removed.
+
 
 =head1 AUTHOR
 
@@ -329,6 +431,6 @@ Please report any errors, issues or suggestions to the author.  The
 most recent version of the Catalyst Tutorial can be found at
 L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/Catalyst-Manual/lib/Catalyst/Manual/Tutorial/>.
 
-Copyright 2006, Kennedy Clark, under Creative Commons License
+Copyright 20066-2008, Kennedy Clark, under Creative Commons License
 (L<http://creativecommons.org/licenses/by-nc-sa/2.5/>).
     
