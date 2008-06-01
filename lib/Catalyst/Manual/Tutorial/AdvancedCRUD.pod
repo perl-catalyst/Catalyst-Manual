@@ -57,7 +57,7 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 =head1 DESCRIPTION
 
 This part of the tutorial explores more advanced functionality for
-Create, Read, Update, and Delete (CRUD) than we saw in Part 3.  In
+Create, Read, Update, and Delete (CRUD) than we saw in Part 4.  In
 particular, it looks at a number of techniques that can be useful for
 the Update portion of CRUD, such as automated form generation,
 validation of user-entered data, and automated transfer of data between

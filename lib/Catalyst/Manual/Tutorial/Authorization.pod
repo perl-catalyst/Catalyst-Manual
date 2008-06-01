@@ -57,7 +57,7 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 =head1 DESCRIPTION
 
 This part of the tutorial adds role-based authorization to the existing
-authentication implemented in Part 4.  It provides simple examples of
+authentication implemented in Part 5.  It provides simple examples of
 how to use roles in both TT templates and controller actions.  The first
 half looks at manually configured authorization.  The second half looks
 at how the ACL authorization plugin can simplify your code.
@@ -238,7 +238,7 @@ way to demonstrate that TT templates will not be used if the response
 body has already been set.  In reality you would probably want to use a
 technique that maintains the visual continuity of your template layout
 (for example, using the "status" or "error" message feature added in
-Part 2).
+Part 3).
 
 B<TIP>: If you want to keep your existing C<url_create> method, you can
 create a new copy and comment out the original by making it look like a

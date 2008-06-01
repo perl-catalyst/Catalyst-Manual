@@ -762,7 +762,7 @@ will use static schema files for more control.  This is typical of most
 One option would be to create a separate schema file for each table in
 the database, however, lets use the same L<DBIx::Class::Schema::Loader>
 used earlier with C<create=dynamic> to build the static files for us.
-First, lets remove the schema file created in Part 2:
+First, lets remove the schema file created earlier:
 
     $ rm lib/MyApp/Schema.pm 
 

@@ -58,7 +58,7 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 Now that we finally have a simple yet functional application, we can 
 focus on providing authentication (with authorization coming next in 
-Part 5).
+Part 6).
 
 This part of the tutorial is divided into two main sections: 1) basic,
 cleartext authentication and 2) hash-based authentication.
@@ -77,7 +77,7 @@ application.
 
 First, we add both user and role information to the database (we will
 add the role information here although it will not be used until the
-authorization section, Part 5).  Create a new SQL script file by opening
+authorization section, Part 6).  Create a new SQL script file by opening
 C<myapp02.sql> in your editor and insert:
 
     --

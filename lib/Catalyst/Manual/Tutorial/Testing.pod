@@ -288,7 +288,7 @@ or
 
 Experiment with the C<DBIC_TRACE>, C<CATALYST_DEBUG>
 and C<-v> settings.  If you find that there are errors, use the
-techniques discussed in the "Catalyst Debugging" section (Part 6) to
+techniques discussed in the "Catalyst Debugging" section (Part 7) to
 isolate and fix any problems.
 
 If you want to run the test case under the Perl interactive debugger,
