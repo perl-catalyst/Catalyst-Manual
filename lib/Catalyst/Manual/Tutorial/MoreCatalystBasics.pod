@@ -208,6 +208,10 @@ Note: L<StackTrace|Catalyst::Plugin::StackTrace> output appears in your
 browser, not in the console window from which you're running your
 application, which is where logging output usually goes.
 
+B<Note:> You will want to disable 
+L<StackTrace|Catalyst::Plugin::StackTrace> before you put your 
+application into production, but it can be helpful during development.
+
 =back
 
 Note that when specifying plugins on the C<use Catalyst> line, you can

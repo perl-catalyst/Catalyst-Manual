@@ -58,3 +58,248 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =head1 DESCRIPTION
 
+This portion of the tutorial explores L<HTML::FormFu|HTML::FormFu> and 
+how it can be used to manage forms, perform validation of form input, 
+as well as save and restore data to/from the database.
+
+See 
+L<Catalyst::Manual::Tutorial::AdvancedCRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+for additional form management options other than 
+L<HTML::FormFu|HTML::FormFu>.
+
+
+=head1 Install C<HTML::FormFu>
+
+If you are following along in Ubuntu, it turns out that C<HTML::FormFu> 
+is not yet available as a package at the time this was written.  To 
+install it with a combination of C<apt-get> packages and traditional 
+CPAN modules, first use C<apt-get> to install most of the modules 
+required by C<HTML::FormFu>:
+
+    sudo apt-get install libtest-nowarnings-perl libdatetime-format-builder-perl \
+    libdatetime-format-strptime-perl libdatetime-locale-perl \
+    libhtml-tokeparser-simple-perl liblist-moreutils-perl \
+    libregexp-copy-perl libregexp-common-perl libyaml-syck-perl libparams-util-perl
+
+Then use the following command to install directly from CPAN the modules 
+that aren't available as Ubuntu/Debian packages via C<apt-get>:
+
+    sudo cpan File::ShareDir Task::Weaken Config::Any HTML::FormFu \
+    Catalyst::Controller::HTML::FormFu
+
+
+=head1 C<HTML::FormFu> FORM CREATION
+
+This section looks at how L<HTML::FormFu|HTML::FormFu> can be used to 
+add additional functionality to the manually created form from Part 4.
+
+
+=head2 Inherit From C<Catalyst::Controller::HTML::FormFu>
+
+First, change your C<lib/MyApp/Controller/Books.pm> to inherit from
+L<Catalyst::Controller::HTML::FormFu|Catalyst::Controller::HTML::FormFu>
+by changing the C<use base> line from the default of:
+
+    use base 'Catalyst::Controller';
+
+to use the FormFu base controller class:
+
+    use base 'Catalyst::Controller::HTML::FormFu';
+
+
+=head2 Add Action to Display and Save the Form
+
+Open C<lib/MyApp/Controller/Books.pm> in your editor and add the
+following method:
+
+    =head2 fu_form_create
+    
+    Build an HTML::FormFu form for book creation and updates
+    
+    =cut
+    
+    sub fu_form_create :Local :FormConfig {
+        my ($self, $c) = @_;
+    
+        # Get the form that the :FormConfig attribute saved in the stash
+        my $form = $c->stash->{form};
+  
+        # Check if the form as been submitted (vs. displaying the initial
+        # form) and if the data based validation.  "submitted_and_valid"
+        # is shorthand for "$form->submitted && !$form->has_errors"
+        if ($form->submitted_and_valid) {
+            # Create a new book
+            my $book = $c->model('DB::Books')->new_result({});
+            # Save the form data for the book
+            $form->save_to_model($book);
+            # Set a status message for the user
+            $c->flash->{status_msg} = 'Book created';
+            # Return to the books list
+            $c->response->redirect($c->uri_for('list')); 
+            $c->detach;
+        }    
+        # Set the template
+        $c->stash->{template} = 'books/fu_form_create.tt2';
+    }
+
+
+=head2 Create a Form Config File
+
+Although C<HTML::FormFu> supports any configuration file handled by
+L<Config::Any|Config::Any>, most people tend to use YAML.  First
+create a directory to hold your form configuration files:
+
+    mkdir -p root/forms/books
+
+Then create the file C<root/forms/books/fu_form_create.yml> and enter the 
+following text:
+
+    ---
+    indicator: submit
+    elements:
+        - type: Text
+          name: title
+          label: Title
+          attributes:
+            title: Enter a book title here
+        - type: Text
+          name: rating
+          label: Rating
+          attributes:
+            title: Enter a rating between 1 and 5 here
+        - type: Submit
+          name: submit
+          value: Submit
+
+
+=head2 Update the CSS
+
+Edit C<root/src/ttsite.css> and add the following lines to the bottom of
+the file:
+
+    label {
+        display: block;
+    }
+    .submit {
+        display: block;
+    }
+    .error_messages {
+        color: [% site.col.error %];
+    }
+
+These changes will display form elements vertically and also show error
+messages in red.  Note that we are pulling the color scheme settings
+from the C<root/lib/config/col> file that was created by the TTSite
+helper.  This allows us to change the color used by various error styles
+in the CSS from a single location.
+
+
+=head2 Create a Template Page To Display The Form
+
+Open C<root/src/books/fu_form_create.tt2> in your editor and enter the following:
+
+    [% META title = 'Create/Update Book' %]
+    
+    [%# Render the HTML::FormFu Form %]
+    [% form %]
+    
+    <p><a href="[% Catalyst.uri_for('list') %]">Return to book list</a></p>
+
+
+=head2 Add Links for Create and Update via C<HTML::FormFu>
+
+Open C<root/src/books/list.tt2> in your editor and add the following to
+the bottom of the existing file:
+
+    <p>
+      HTML::FormFu:
+      <a href="[% Catalyst.uri_for('fu_form_create') %]">Create</a>
+    </p>
+
+
+=head2 Test The <HTML::Widget> Create Form
+
+Press C<Ctrl-C> to kill the previous server instance (if it's still
+running) and restart it:
+
+    $ script/myapp_server.pl
+
+Login as C<test01>.  Once at the Book List page, click the HTML::FormFu 
+"Create" link to display for form produced by C<make_book_widget>.  Fill 
+out the form with the following values: Title = "Internetworking with 
+TCP/IP Vol. II", Rating = "4", and Author = "Comer".  Click Submit, and 
+you will be returned to the Book List page with a "Book created" status 
+message displayed.
+
+Also note that this implementation allows you to can create books with
+bogus information.  Although we have constrained the authors with the
+drop-down list, there are no restrictions on items such as the length of
+the title (for example, you can create a one-letter title) and value for
+the rating (you can use any number you want, and even non-numeric values
+with SQLite).  The next section will address this concern.
+
+B<Note:> Depending on the database you are using and how you established
+the columns in your tables, the database could obviously provide various
+levels of "type enforcement" on your data.  The key point being made in
+the previous paragraph is that the I<web application> itself is not
+performing any validation.
+
+
+=head1 C<HTML::FormFu> VALIDATION AND FILTERING
+
+Although the use of L<HTML::FormFu|HTML::FormFu> in the previous section
+did provide an automated mechanism to build the form, the real power of
+this module stems from functionality that can automatically validate and
+filter the user input.  Validation uses constraints to be sure that
+users input appropriate data (for example, that the email field of a
+form contains a valid email address).  Filtering can be used to remove
+extraneous whitespace from fields or to escape meta-characters in user
+input.
+
+=head2 Add Constraints
+
+
+Open C<root/forms/books/fu_form_create.yml> in your editor and update it 
+to match:
+
+    ---
+    indicator: submit
+    elements:
+        - type: Text
+          name: title
+          label: Title
+          attributes:
+            title: Enter a book title here
+          constraints:
+            - Required
+            - type: Length
+              min: 2
+              max: 30
+              message: Length must be between 2 and 30 characters
+        - type: Text
+          name: rating
+          label: Rating
+          attributes:
+            title: Enter a rating between 1 and 5 here
+          constraints:
+            - Required
+            - Integer
+        - type: Submit
+          name: submit
+          value: Submit
+    constraints:
+        - SingleValue
+
+...
+
+=head1 AUTHOR
+
+Kennedy Clark, C<hkclark@gmail.com>
+
+Please report any errors, issues or suggestions to the author.  The
+most recent version of the Catalyst Tutorial can be found at
+L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/Catalyst-Manual/lib/Catalyst/Manual/Tutorial/>.
+
+Copyright 2006, Kennedy Clark, under Creative Commons License
+(L<http://creativecommons.org/licenses/by-nc-sa/2.5/>).
+    
