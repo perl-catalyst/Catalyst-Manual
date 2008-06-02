@@ -259,12 +259,12 @@ running) and restart it:
 
     $ script/myapp_server.pl
 
-Login as C<test01>.  Once at the Book List page, click the new 
-HTML::FormFu "Create" link at the bottom to display the form.  Fill in 
-the following values: Title = "Internetworking with TCP/IP Vol. II", 
-Rating = "4", and Author = "Comer".  Click Submit, and you will be 
-returned to the Book List page with a "Book created" status message 
-displayed.
+Login as C<test01> (password: mypass).  Once at the Book List page,
+click the new HTML::FormFu "Create" link at the bottom to display the
+form.  Fill in the following values: Title = "Internetworking with
+TCP/IP Vol. II", Rating = "4", and Author = "Comer".  Click Submit,
+and you will be returned to the Book List page with a "Book created"
+status message displayed.
 
 Also note that this implementation allows you to can create books with 
 bogus information.  Although we have constrained the authors with the 
