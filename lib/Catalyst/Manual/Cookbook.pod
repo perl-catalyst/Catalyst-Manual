@@ -62,10 +62,11 @@ nifty statistics in your debug messages.
 =head2 Enable debug status in the environment
 
 Normally you enable the debugging info by adding the C<-Debug> flag to
-your C<use Catalyst> statement. However, you can also enable it using
-environment variable, so you can (for example) get debug info without
-modifying your application scripts. Just set C<CATALYST_DEBUG> or
-C<E<lt>MYAPPE<gt>_DEBUG> to a true value.
+your C<use Catalyst> statement (or C<__PACKAGE__->setup(qw/-Debug/)
+). However, you can also enable it using environment variable, so you
+can (for example) get debug info without modifying your application
+scripts. Just set C<CATALYST_DEBUG> or C<E<lt>MYAPPE<gt>_DEBUG> to a
+true value.
 
 =head2 Sessions
 
@@ -112,11 +113,12 @@ reference.
 
 =head3 EXAMPLE
 
-  use Catalyst qw/
-                 Session
-                 Session::Store::FastMmap
-                 Session::State::Cookie
-                 /;
+  use parent qw/Catalyst/;
+  __PACKAGE__->setup( qw/
+                         Session
+                         Session::Store::FastMmap
+                         Session::State::Cookie
+                   /;)
 
 
   ## Write data into the session
@@ -266,12 +268,13 @@ in the previous example.
 The L<Catalyst::Plugin::Authorization::Roles> plugin is required when
 implementing roles:
 
- use Catalyst qw/
-    Authentication
-    Authentication::Credential::Password
-    Authentication::Store::Htpasswd
-    Authorization::Roles
-  /;
+ use parent qw/Catalyst/;
+ __PACKAGE__->setup (qw/
+     Authentication
+     Authentication::Credential::Password
+     Authentication::Store::Htpasswd
+     Authorization::Roles
+  /);
 
 Roles are implemented automatically when using
 L<Catalyst::Authentication::Store::Htpasswd>:
@@ -400,10 +403,11 @@ the user is a member.
 
 =head3 EXAMPLE
 
- use Catalyst qw/Authentication
-                 Authentication::Credential::Password
-                 Authentication::Store::Htpasswd
-                 Authorization::Roles/;
+ use parent qw/Catalyst/;
+ __PACKAGE__->setup( qw/Authentication
+                        Authentication::Credential::Password
+                        Authentication::Store::Htpasswd
+                        Authorization::Roles/);
 
  __PACKAGE__->config->{authentication}{htpasswd} = "passwdfile";
 
@@ -496,10 +500,11 @@ action, so that only a qualified moose feeder can perform that action.
 The Authorization::Roles plugin let's us perform role based access
 control checks. Let's load it:
 
-    use Catalyst qw/
+    use parent qw/Catalyst/;
+    __PACKAGE__->setup(qw/
         Authentication # yadda yadda
         Authorization::Roles
-    /;
+    /);
 
 And now our action should look like this:
 
@@ -713,7 +718,7 @@ later) and SOAP::Lite (for XMLRPCsh.pl).
 
 3. Add the XMLRPC plugin to MyApp.pm
 
-    use Catalyst qw/-Debug Static::Simple XMLRPC/;
+    __PACKAGE__->setup( qw/-Debug Static::Simple XMLRPC/);
 
 4. Add an API controller
 
@@ -1898,7 +1903,7 @@ B<root/images/me.jpg> is found and served.
 
 Using the plugin is as simple as setting your use line in MyApp.pm to include:
 
- use Catalyst qw/Static::Simple/;
+ __PACKAGE__->setup( qw/Static::Simple/);
 
 and already files will be served.
 
@@ -1983,7 +1988,7 @@ using L<Catalyst::Plugin::Static>.
 
 In your main application class (MyApp.pm), load the plugin:
 
-    use Catalyst qw/-Debug FormValidator Static OtherPlugin/;
+    __PACKAGE__->setup( qw/-Debug FormValidator Static OtherPlugin/);
 
 You will also need to make sure your end method does I<not> forward
 static content to the view, perhaps like this:
@@ -2093,12 +2098,12 @@ There are three wrapper plugins around common CPAN cache modules:
 Cache::FastMmap, Cache::FileCache, and Cache::Memcached.  These can be
 used to cache the result of slow operations.
 
-This very page you're viewing makes use of the FileCache plugin to cache the
+The Catalyst Advent Calendar uses the FileCache plugin to cache the
 rendered XHTML version of the source POD document.  This is an ideal
-application for a cache because the source document changes infrequently but
-may be viewed many times.
+application for a cache because the source document changes
+infrequently but may be viewed many times.
 
-    use Catalyst qw/Cache::FileCache/;
+    __PACKAGE__->setup( qw/Cache::FileCache/);
     
     ...
     
@@ -2146,7 +2151,7 @@ thing for every single user who views the page.
 
 We can add the PageCache plugin to speed things up.
 
-    use Catalyst qw/Cache::FileCache PageCache/;
+    __PACKAGE__->setup( qw/Cache::FileCache PageCache/);
     
     sub front_page : Path ('/') {
         my ( $self, $c ) = @_;
