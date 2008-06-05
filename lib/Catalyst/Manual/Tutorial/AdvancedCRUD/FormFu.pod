@@ -203,8 +203,8 @@ following text:
           value: Submit
 
 B<NOTE:> Copying and pasting YAML from perl documentation is sometimes
-tricky.  See the L<Copy-Paste versions of the YAML Config> section of
-this document for a foolproof procedure.
+tricky.  See the L<Config::General Config for this tutorial> section of
+this document for a more foolproof config format.
 
 
 =head2 Update the CSS
@@ -388,8 +388,8 @@ to match:
         - Required
 
 B<NOTE:> Copying and pasting YAML from perl documentation is sometimes
-tricky.  See the L<Copy-Paste versions of the YAML Config> section of
-this document for a foolproof procedure.
+tricky.  See the L<Config::General Config for this tutorial> section of
+this document for a more foolproof config format.
 
 The main changes are:
 
@@ -554,139 +554,62 @@ be returned to the book list with a "Book edited" message at the top in
 green.  Experiment with other edits to various books.
 
 
-=head2 Copy-Paste versions of the YAML Config.
+=head2  Config::General Config for this tutorial
 
-YAML, the config format used in formfu depends on whitespace and can
-behave strangely in perl documentation because POD is also whitespace
-dependent.  If you copy and paste the YAML below into the file
-C<root/forms/books/formfu_create.yml> and then run the following perl
-oneliner, you're pretty much guaranteed to get valid YAML:
+If you are having difficulty with YAML config above, please save the
+below into the file C<formfu_create.conf> and delete the
+C<formfu_create.yml> file.  The below is in
+L<Config::General|Config::General> format which follows the syntax of
+Apache config files.
 
- $ perl -p -i -e 's/\s+\|//g' root/forms/books/formfu_create.yml
+   constraints   Required
+   <elements>
+       constraints   SingleValue
+       <constraints>
+           min   5
+           max   40
+           type   Length
+           message   Length must be between 5 and 40 characters
+       </constraints>
+       filter   TrimEdges
+       filter   HTMLEscape
+       name   title
+       type   Text
+       label   Title
+       <attributes>
+           title   Enter a book title here
+       </attributes>
+   </elements>
+   <elements>
+       constraints   SingleValue
+       constraints   Integer
+       filter   TrimEdges
+       filter   NonNumeric
+       name   rating
+       type   Text
+       label   Rating
+       <attributes>
+           title   Enter a rating between 1 and 5 here
+       </attributes>
+   </elements>
+   <elements>
+       constraints   Integer
+       filter   TrimEdges
+       filter   HTMLEscape
+       name   authors
+       type   Select
+       label   Author
+       multiple   1
+       size   3
+   </elements>
+   <elements>
+       value   Submit
+       name   submit
+       type   Submit
+   </elements>
+   indicator   submit
+   
 
-=head2 YAML for the first half of the tutorial:
-
-    |---
-    |# indicator is the field that is used to test for form submission
-    |indicator: submit
-    |# Start listing the form elements
-    |elements:
-    |    # The first element will be a text field for the title
-    |    - type: Text
-    |      name: title
-    |      label: Title
-    |      # This is an optional 'mouse over' title pop-up
-    |      attributes:
-    |        title: Enter a book title here
-    |
-    |    # Another text field for the numeric rating
-    |    - type: Text
-    |      name: rating
-    |      label: Rating
-    |      attributes:
-    |        title: Enter a rating between 1 and 5 here
-    |
-    |    # Add a drop-down list for the author selection.  Note that we will
-    |    # dynamically fill in all the authors from the controller but we
-    |    # could manually set items in the drop-list by adding this YAML code:
-    |    # options:
-    |    #   - [ '1', 'Bastien' ]
-    |    #   - [ '2', 'Nasseh'  ]
-    |    - type: Select
-    |      name: authors
-    |      label: Author
-    |
-    |    # The submit button
-    |    - type: Submit
-    |      name: submit
-    |      value: Submit
-
-
-=head2  YAML for the second part of the tutorial
-
-    |---
-    |# indicator is the field that is used to test for form submission
-    |indicator: submit
-    |# Start listing the form elements
-    |elements:
-    |    # The first element will be a text field for the title
-    |    - type: Text
-    |      name: title
-    |      label: Title
-    |      # This is an optional 'mouse over' title pop-up
-    |      attributes:
-    |        title: Enter a book title here
-    |      # Use Filter to clean up the input data
-    |      filter:
-    |        # Remove whitespace at both ends
-    |        - TrimEdges
-    |        # Escape HTML characters for safety
-    |        - HTMLEscape
-    |      # Add constraints for the field
-    |      constraints:
-    |        # The user cannot leave this field blank
-    |        - SingleValue
-    |        # Force the length to be between 5 and 40 chars
-    |        - type: Length
-    |          min: 5
-    |          max: 40
-    |          # Override the default of 'Invalid input'
-    |          message: Length must be between 5 and 40 characters
-    |
-    |    # Another text field for the numeric rating
-    |    - type: Text
-    |      name: rating
-    |      label: Rating
-    |      attributes:
-    |        title: Enter a rating between 1 and 5 here
-    |      # Use Filter to clean up the input data
-    |      filter:
-    |        # Remove whitespace at both ends
-    |        - TrimEdges
-    |        # Remove everything except digits
-    |        - NonNumeric
-    |      # Add constraints to the field
-    |      constraints:
-    |        - SingleValue
-    |        # Make sure it's a number
-    |        - Integer
-    |
-    |    # Add a select list for the author selection.  Note that we will
-    |    # dynamically fill in all the authors from the controller but we
-    |    # could manually set items in the select by adding this YAML code:
-    |    # options:
-    |    #   - [ '1', 'Bastien' ]
-    |    #   - [ '2', 'Nasseh'  ]
-    |    - type: Select
-    |      name: authors
-    |      label: Author
-    |      # Convert the drop-down to a multi-select list
-    |      multiple: 1
-    |      # Display 3 entries (user can scroll to see others)
-    |      size: 3
-    |      # One could argue we don't need to do filters or constraints for
-    |      # a select list, but it's smart to do validation and sanity
-    |      # checks on this data in case a user "hacks" the input
-    |      # Use Filter to clean up the input data
-    |      filter:
-    |        # Remove whitespace at both ends
-    |        - TrimEdges
-    |        # Escape HTML characters for safety
-    |        - HTMLEscape
-    |      # Add constraints to the field
-    |      constraints:
-    |        # Make sure it's a number
-    |        - Integer
-    |
-    |    # The submit button
-    |    - type: Submit
-    |      name: submit
-    |      value: Submit
-    |
-    |# Globally ensure that each field only specified one value
-    |constraints:
-    |    # The user cannot leave any fields blank
-    |    - Required
 
 =head1 AUTHOR
 
