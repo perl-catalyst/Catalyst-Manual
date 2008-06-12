@@ -1,49 +1,48 @@
 Revision history for Catalyst-Manual
 
-5.7014   29 May 2008
-       - Expurgation of all use of default :Private and index :Private in favour of default :Path and index :Path :Args(0)
-       - Expurgation of all yaml as configuration format
-       - Major updates to tutorial, thanks hkclark and gerda 
+5.7012   29 May 2008
+        - Expurgation of all use of default :Private and index :Private in favour
+          of default :Path and index :Path :Args(0)
+        - Expurgation of all yaml as configuration format
+        - Major updates to tutorial, thanks hkclark and gerda 
 
-5.7011
-       - added warnings and poiinters to newer examples in HTML::Widget,
-         and Authentication parts of the tutorial.
-
-5.701005
-    - pod fix (RT #32636)
+5.7011   16 May 2008 
+        - added warnings and poiinters to newer examples in HTML::Widget,
+          and Authentication parts of the tutorial.
+        - pod fix (RT #32636)
 
 5.701004 09 Apr 2008
-    - rename placeholder back to Manual.pm, this will probably trigger
-       a ppm bug but that's ppm's problem
+        - rename placeholder back to Manual.pm, this will probably trigger
+          a ppm bug but that's ppm's problem
 
 5.701003 08 Oct 2007
-    - Patch to Cookbook from bits.
+        - Patch to Cookbook from bits.
 
 5.701002 25 Aug 2007
 
 5.701001 17 Aug 2007
-    - Changes to mocation of lib/Catalyst/Manual.pod to 
-      lib/Catalyst/ManualPlaceholder.pm to keep cpan indexer happy.
+        - Changes to mocation of lib/Catalyst/Manual.pod to 
+          lib/Catalyst/ManualPlaceholder.pm to keep cpan indexer happy.
 
 5.700704 08 Aug 2007
-    - Updated mailing list addresses to scsys.co.uk domains
+        - Updated mailing list addresses to scsys.co.uk domains
 
 5.700703 
-    - Cookbook: Updated development server deployment instructions, and 
-      included a better description of the POE engine.
+        - Cookbook: Updated development server deployment instructions, and 
+          included a better description of the POE engine.
 
 5.700702 26 April 2007
-    - Switch to Module::Install
+        - Switch to Module::Install
 
 5.700701 19 April 2007
-    - Removal of WritingPlugins. ExtendingCatalyst is now the main resource
-      for extensions to the framework and the application.
+        - Removal of WritingPlugins. ExtendingCatalyst is now the main resource
+          for extensions to the framework and the application.
 
 5.700501 10 November 2006
-    - Matches Catalyst-Runtime 5.7005
+        - Matches Catalyst-Runtime 5.7005
 
 5.700401 07 November 2006
-    - First release to CPAN; matches Catalyst-Runtime 5.7004.
+        - First release to CPAN; matches Catalyst-Runtime 5.7004.
 
 5.700301 20 October 2006
-    - Splitting manual into its own distro
+        - Splitting manual into its own distro
