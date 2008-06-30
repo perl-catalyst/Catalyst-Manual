@@ -78,12 +78,12 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
             -Debug
             ConfigLoader
             Static::Simple
-            
+
             StackTrace
-            
+
             Authentication
             Authorization::Roles
-            
+
             Session
             Session::Store::FastMmap
             Session::State::Cookie
@@ -92,7 +92,7 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 
 =head2 Add Config Information for Authorization
 
-Edit C<myapp.conf> and update it to match the following (the 
+Edit C<myapp.conf> and update it to match the following (the
 C<role_relation> and C<role_field> definitions are new):
 
     name MyApp
@@ -103,7 +103,7 @@ C<role_relation> and C<role_field> definitions are new):
                 <credential>
                     # Note this first definition would be the same as setting
                     # __PACKAGE__->config->{authentication}->{realms}->{dbic}
-                    #     ->{credential} = 'Password' in lib/MyApp.pm 
+                    #     ->{credential} = 'Password' in lib/MyApp.pm
                     #
                     # Specify that we are going to do password-based auth
                     class Password
@@ -118,14 +118,14 @@ C<role_relation> and C<role_field> definitions are new):
                 <store>
                     # Use DBIC to retrieve username, password & role information
                     class DBIx::Class
-                    # This is the model object created by Catalyst::Model::DBIC 
+                    # This is the model object created by Catalyst::Model::DBIC
                     # from your schema (you created 'MyApp::Schema::User' but as
-                    # the Catalyst startup debug messages show, it was loaded as 
+                    # the Catalyst startup debug messages show, it was loaded as
                     # 'MyApp::Model::DB::Users').
-                    # NOTE: Omit 'MyApp::Model' here just as you would when using 
+                    # NOTE: Omit 'MyApp::Model' here just as you would when using
                     # '$c->model("DB::Users)'
                     user_class DB::Users
-                    # This is the name of the field in your 'users' table that 
+                    # This is the name of the field in your 'users' table that
                     # contains the user's name
                     id_field username
                     # This is the name of a many_to_many relation in the users
@@ -146,12 +146,12 @@ Open C<root/src/books/list.tt2> in your editor and add the following
 lines to the bottom of the file:
 
     <p>Hello [% Catalyst.user.username %], you have the following roles:</p>
-    
+
     <ul>
       [% # Dump list of roles -%]
       [% FOR role = Catalyst.user.roles %]<li>[% role %]</li>[% END %]
     </ul>
-    
+
     <p>
     [% # Add some simple role-specific logic to template %]
     [% # Use $c->check_user_roles() to check authz -%]
@@ -159,7 +159,7 @@ lines to the bottom of the file:
       [% # Give normal users a link for 'logout' %]
       <a href="[% Catalyst.uri_for('/logout') %]">Logout</a>
     [% END %]
-    
+
     [% # Can also use $c->user->check_roles() to check authz -%]
     [% IF Catalyst.check_user_roles('admin') %]
       [% # Give admin users a link for 'create' %]
@@ -186,41 +186,41 @@ updating C<url_create> to match the following code:
 
     Create a book with the supplied title and rating,
     with manual authorization
-    
+
     =cut
-    
+
     sub url_create : Local {
         # In addition to self & context, get the title, rating & author_id args
         # from the URL.  Note that Catalyst automatically puts extra information
         # after the "/<controller_name>/<action_name/" into @_
         my ($self, $c, $title, $rating, $author_id) = @_;
-    
+
         # Check the user's roles
         if ($c->check_user_roles('admin')) {
-            # Call create() on the book model object. Pass the table 
+            # Call create() on the book model object. Pass the table
             # columns/field values we want to set as hash values
             my $book = $c->model('DB::Books')->create({
                     title   => $title,
                     rating  => $rating
                 });
-            
-            # Add a record to the join table for this book, mapping to 
+
+            # Add a record to the join table for this book, mapping to
             # appropriate author
             $book->add_to_book_authors({author_id => $author_id});
             # Note: Above is a shortcut for this:
             # $book->create_related('book_authors', {author_id => $author_id});
-            
+
             # Assign the Book object to the stash for display in the view
             $c->stash->{book} = $book;
-        
+
             # This is a hack to disable XSUB processing in Data::Dumper
             # (it's used in the view).  This is a work-around for a bug in
             # the interaction of some versions or Perl, Data::Dumper & DBIC.
             # You won't need this if you aren't using Data::Dumper (or if
-            # you are running DBIC 0.06001 or greater), but adding it doesn't 
+            # you are running DBIC 0.06001 or greater), but adding it doesn't
             # hurt anything either.
             $Data::Dumper::Useperl = 1;
-        
+
             # Set the TT template to use
             $c->stash->{template} = 'books/create_done.tt2';
         } else {
@@ -254,9 +254,9 @@ running) and restart it:
 
 Now trying going to L<http://localhost:3000/books/list> and you should
 be taken to the login page (you might have to C<Shift+Reload> your
-browser and/or click the "Logout" link on the book list page).  Try 
-logging in with both C<test01> and C<test02> (both use a password 
-of C<mypass>) and notice how the roles information updates at the 
+browser and/or click the "Logout" link on the book list page).  Try
+logging in with both C<test01> and C<test02> (both use a password
+of C<mypass>) and notice how the roles information updates at the
 bottom of the "Book List" page. Also try the C<Logout> link on the
 book list page.
 
@@ -267,7 +267,7 @@ C<test02>.  Try:
     http://localhost:3000/books/url_create/test/1/6
 
 while logged in as each user.  Use one of the 'Logout' links (or go to
-L<http://localhost:3000/logout> in you browser directly) when you are
+L<http://localhost:3000/logout> in your browser directly) when you are
 done.
 
 
@@ -275,7 +275,7 @@ done.
 
 This section takes a brief look at how the
 L<Catalyst::Plugin::Authorization::ACL|Catalyst::Plugin::Authorization::ACL>
-plugin can automate much of the work required to perform role-based 
+plugin can automate much of the work required to perform role-based
 authorization in a Catalyst application.
 
 =head2 Add the C<Catalyst::Plugin::Authorization::ACL> Plugin
@@ -320,14 +320,14 @@ ways.  The following provides a basic overview of the capabilities:
 
 =over 4
 
-=item * 
+=item *
 
 The ACL plugin only operates on the Catalyst "private namespace".  You
 are using the private namespace when you use C<Local> actions.  C<Path>,
 C<Regex>, and C<Global> allow you to specify actions where the path and
 the namespace differ -- the ACL plugin will not work in these cases.
 
-=item * 
+=item *
 
 Each rule is expressed in a separate
 C<__PACKAGE__-E<gt>deny_access_unless()> or
@@ -337,11 +337,11 @@ portion of the
 L<Catalyst::Plugin::Authorization::ACL|Catalyst::Plugin::Authorization::ACL>
 documentation for more details).
 
-=item * 
+=item *
 
 Each rule can contain multiple roles but only a single path.
 
-=item * 
+=item *
 
 The rules are tried in order (with the "most specific" rules tested
 first), and processing stops at the first "match" where an allow or deny
@@ -350,13 +350,13 @@ is specified.  Rules "fall through" if there is not a "match" (where a
 then processing stops there and the appropriate allow/deny action is
 taken.
 
-=item * 
+=item *
 
 If none of the rules match, then access is allowed.
 
-=item * 
+=item *
 
-The rules currently need to be specific in the application class
+The rules currently need to be specified in the application class
 C<lib\MyApp.pm> B<after> the C<__PACKAGE__-E<gt>setup;> line.
 
 =back
@@ -375,22 +375,22 @@ Open C<lib/MyApp/Controller/Books.pm> in your editor and add the
 following method:
 
     =head2 access_denied
-    
+
     Handle Catalyst::Plugin::Authorization::ACL access denied exceptions
-    
+
     =cut
-    
+
     sub access_denied : Private {
         my ($self, $c) = @_;
-    
+
         # Set the error message
         $c->stash->{error_msg} = 'Unauthorized!';
-    
+
         # Display the list
         $c->forward('list');
     }
 
-Then run the Catalyst development server script:    
+Then run the Catalyst development server script:
 
     $ script/myapp_server.pl
 
