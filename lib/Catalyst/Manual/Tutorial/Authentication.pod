@@ -247,7 +247,7 @@ by Catalyst under C<MyApp::Model>.
 Edit C<lib/MyApp.pm> and update it as follows (everything below
 C<StackTrace> is new):
 
-    use Catalyst qw/
+    __PACKAGE__->setup(qw/
             -Debug
             ConfigLoader
             Static::Simple
@@ -259,7 +259,7 @@ C<StackTrace> is new):
             Session
             Session::Store::FastMmap
             Session::State::Cookie
-            /;
+            /);
 
 The C<Authentication> plugin supports Authentication while the
 C<Session> plugins are required to maintain state across multiple HTTP
@@ -453,7 +453,7 @@ Create a login form by opening C<root/src/login.tt2> and inserting:
     [% META title = 'Login' %]
 
     <!-- Login form -->
-    <form method="post" action="[% Catalyst.uri_for('/login') %]">
+    <form method="post" action="[% c.uri_for('/login') %]">
       <table>
         <tr>
           <td>Username:</td>
@@ -589,9 +589,9 @@ lines to the bottom of the file:
        # This code illustrates how certain parts of the TT
        # template will only be shown to users who have logged in
     %]
-    [% IF Catalyst.user_exists %]
-        Please Note: You are already logged in as '[% Catalyst.user.username %]'.
-        You can <a href="[% Catalyst.uri_for('/logout') %]">logout</a> here.
+    [% IF c.user_exists %]
+        Please Note: You are already logged in as '[% c.user.username %]'.
+        You can <a href="[% c.uri_for('/logout') %]">logout</a> here.
     [% ELSE %]
         You need to log in to use this application.
     [% END %]
@@ -638,8 +638,8 @@ Open C<root/src/books/list.tt2> and add the following lines to the
 bottom (below the closing </table> tag):
 
     <p>
-      <a href="[% Catalyst.uri_for('/login') %]">Login</a>
-      <a href="[% Catalyst.uri_for('form_create') %]">Create</a>
+      <a href="[% c.uri_for('/login') %]">Login</a>
+      <a href="[% c.uri_for('form_create') %]">Create</a>
     </p>
 
 Reload your browser and you should now see a "Login" and "Create" links
@@ -813,7 +813,7 @@ flash vs. the C<status_msg> query parameter:
     <div id="header">[% PROCESS site/header %]</div>
 
     <div id="content">
-    <span class="message">[% status_msg || Catalyst.flash.status_msg %]</span>
+    <span class="message">[% status_msg || c.flash.status_msg %]</span>
     <span class="error">[% error_msg %]</span>
     [% content %]
     </div>
@@ -841,7 +841,7 @@ information.
 
 Although the a use of flash above is certainly an improvement over the
 C<status_msg> we employed in Part 4 of the tutorial, the C<status_msg
-|| Catalyst.flash.status_msg> statement is a little ugly. A nice
+|| c.flash.status_msg> statement is a little ugly. A nice
 alternative is to use the C<flash_to_stash> feature that automatically
 copies the content of flash to stash.  This makes your code controller
 and template code work regardless of where it was directly access, a
@@ -873,7 +873,7 @@ Restart the development server and go to
 L<http://localhost:3000/books/list> in your browser.  Delete another
 of the "Test" books you added in the previous step.  Flash should still
 maintain the status message across the redirect even though you are no
-longer explicitly accessing C<Catalyst.flash>.
+longer explicitly accessing C<c.flash>.
 
 
 =head1 AUTHOR

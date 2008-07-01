@@ -239,7 +239,7 @@ Open C<root/src/books/formfu_create.tt2> in your editor and enter the following:
     [%# Render the HTML::FormFu Form %]
     [% form %]
     
-    <p><a href="[% Catalyst.uri_for('list') %]">Return to book list</a></p>
+    <p><a href="[% c.uri_for('list') %]">Return to book list</a></p>
 
 
 =head2 Add Links for Create and Update via C<HTML::FormFu>
@@ -249,7 +249,7 @@ the bottom of the existing file:
 
     <p>
       HTML::FormFu:
-      <a href="[% Catalyst.uri_for('formfu_create') %]">Create</a>
+      <a href="[% c.uri_for('formfu_create') %]">Create</a>
     </p>
 
 This adds a new link to the bottom of the book list page that we can
@@ -532,9 +532,9 @@ following:
 
     <td>
       [% # Add a link to delete a book %]
-      <a href="[% Catalyst.uri_for('delete', book.id) %]">Delete</a>
+      <a href="[% c.uri_for('delete', book.id) %]">Delete</a>
       [% # Add a link to edit a book %]
-      <a href="[% Catalyst.uri_for('formfu_edit', book.id) %]">Edit</a>
+      <a href="[% c.uri_for('formfu_edit', book.id) %]">Edit</a>
     </td>
 
 

@@ -164,7 +164,7 @@ Edit C<root/src/books/create_done.tt2> and then enter:
     
     [% # Provide a link back to the list page                                    -%]
     [% # 'uri_for()' builds a full URI; e.g., 'http://localhost:3000/books/list' -%]
-    <p><a href="[% Catalyst.uri_for('/books/list') %]">Return to list</a></p>
+    <p><a href="[% c.uri_for('/books/list') %]">Return to list</a></p>
     
     [% # Try out the TT Dumper (for development only!) -%]
     <pre>
@@ -266,7 +266,7 @@ Open C<root/src/books/form_create.tt2> in your editor and enter:
 
     [% META title = 'Manual Form Book Create' -%]
     
-    <form method="post" action="[% Catalyst.uri_for('form_create_do') %]">
+    <form method="post" action="[% c.uri_for('form_create_do') %]">
     <table>
       <tr><td>Title:</td><td><input type="text" name="title"></td></tr>
       <tr><td>Rating:</td><td><input type="text" name="rating"></td></tr>
@@ -380,7 +380,7 @@ and 2) the four lines for the Delete link near the bottom).
         </td>
         <td>
           [% # Add a link to delete a book %]
-          <a href="[% Catalyst.uri_for('delete', book.id) %]">Delete</a>
+          <a href="[% c.uri_for('delete', book.id) %]">Delete</a>
         </td>
       </tr>
     [% END -%]
@@ -536,7 +536,7 @@ query parameter:
     <div id="header">[% PROCESS site/header %]</div>
     
     <div id="content">
-    <span class="message">[% status_msg || Catalyst.request.params.status_msg %]</span>
+    <span class="message">[% status_msg || c.request.params.status_msg %]</span>
     <span class="error">[% error_msg %]</span>
     [% content %]
     </div>

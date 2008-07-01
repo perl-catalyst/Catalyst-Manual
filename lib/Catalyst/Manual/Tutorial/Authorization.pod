@@ -74,7 +74,7 @@ In this section you learn how to manually configure authorization.
 
 Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 
-    use Catalyst qw/
+    __PACKAGE__->setup(qw/
             -Debug
             ConfigLoader
             Static::Simple
@@ -87,7 +87,7 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
             Session
             Session::Store::FastMmap
             Session::State::Cookie
-            /;
+            /);
 
 
 =head2 Add Config Information for Authorization
@@ -145,25 +145,25 @@ C<role_relation> and C<role_field> definitions are new):
 Open C<root/src/books/list.tt2> in your editor and add the following
 lines to the bottom of the file:
 
-    <p>Hello [% Catalyst.user.username %], you have the following roles:</p>
+    <p>Hello [% c.user.username %], you have the following roles:</p>
 
     <ul>
       [% # Dump list of roles -%]
-      [% FOR role = Catalyst.user.roles %]<li>[% role %]</li>[% END %]
+      [% FOR role = c.user.roles %]<li>[% role %]</li>[% END %]
     </ul>
 
     <p>
     [% # Add some simple role-specific logic to template %]
     [% # Use $c->check_user_roles() to check authz -%]
-    [% IF Catalyst.check_user_roles('user') %]
+    [% IF c.check_user_roles('user') %]
       [% # Give normal users a link for 'logout' %]
-      <a href="[% Catalyst.uri_for('/logout') %]">Logout</a>
+      <a href="[% c.uri_for('/logout') %]">Logout</a>
     [% END %]
 
     [% # Can also use $c->user->check_roles() to check authz -%]
-    [% IF Catalyst.check_user_roles('admin') %]
+    [% IF c.check_user_roles('admin') %]
       [% # Give admin users a link for 'create' %]
-      <a href="[% Catalyst.uri_for('form_create') %]">Create</a>
+      <a href="[% c.uri_for('form_create') %]">Create</a>
     [% END %]
     </p>
 

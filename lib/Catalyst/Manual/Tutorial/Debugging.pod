@@ -90,7 +90,7 @@ Then the Catalyst development server will display your message along
 with the other debug output. To accomplish the same thing in a TTSite
 view use:
 
-    [% Catalyst.log.debug("This is a test log message") %]
+    [% c.log.debug("This is a test log message") %]
 
 You can also use L<Data::Dumper|Data::Dumper> in both Catalyst code 
 (C<use Data::Dumper; $c-E<gt>log-E<gt>debug("\$var is: ".Dumper($var));)>) 
