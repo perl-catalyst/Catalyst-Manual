@@ -1768,7 +1768,7 @@ The development server is a mini web server written in perl.  If you
 expect a low number of hits or you don't need mod_perl/FastCGI speed,
 you could use the development server as the application server with a
 lightweight proxy web server at the front.  However, consider using
-L<Catalyst::Engine::HTTP::POE> for this kind of deployment instead, since
+L<Catalyst::Engine::HTTP::Prefork> for this kind of deployment instead, since
 it can better handle multiple concurrent requests without forking, or can
 prefork a set number of servers for improved performance.
 
@@ -1813,8 +1813,17 @@ Make sure mod_proxy is enabled and add:
         Order deny,allow
         Allow from all
     </Proxy>
+
+    # Need to specifically stop these paths from being passed to proxy
+    ProxyPass /static !
+    ProxyPass /favicon.ico !
+
     ProxyPass / http://localhost:8080/
     ProxyPassReverse / http://localhost:8080/
+
+    # This is optional if you'd like to show a custom error page 
+    # if the proxy is not available
+    ErrorDocument 502 /static/error_pages/http502.html
 
 You can wrap the above within a VirtualHost container if you want
 different apps served on the same host.
