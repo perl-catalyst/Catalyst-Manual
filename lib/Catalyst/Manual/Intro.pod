@@ -168,11 +168,14 @@ running, using the helper scripts described above.
 
 =head3 Install
 
-Installation of Catalyst can be a time-consuming and frustrating
-effort, due to its large number of dependencies. The easiest way
-to get up and running is to use Matt Trout's C<cat-install>
-script, from L<http://www.shadowcatsystems.co.uk/static/cat-install>,
-and then install L<Catalyst::Devel>.
+Installation of Catalyst can be a time-consuming effort, due to its
+large number of dependencies. Although most of the frustrations
+associated with this are now ironed out and a simple C<cpan
+Catalyst::Devel> or C<cpan Catalyst::Runtime> are now usually
+straightforward, if you still have problems, you can use use Matt
+Trout's C<cat-install> script, from
+L<http://www.shadowcatsystems.co.uk/static/cat-install>, and then
+install L<Catalyst::Devel>.
 
     # perl cat-install
     # perl -MCPAN -e 'install Catalyst::Devel'
@@ -183,6 +186,16 @@ and then install L<Catalyst::Devel>.
     # output omitted
     $ cd MyApp
     $ script/myapp_create.pl controller Library::Login
+
+=head4 Frank Speiser's Amazon EC2 Catalyst SDK
+
+There are currently two flavors of publicly available Amazon Machine
+Images (AMI) that include all the elements you'd need to begin
+developing in a fully functional Catalyst environment within
+minutes. See
+L<Catalyst::Manual::Installation|Catalyst::Manual::Installation> for
+more details.
+
 
 =head3 Run
 

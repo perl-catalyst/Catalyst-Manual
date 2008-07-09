@@ -272,7 +272,7 @@ Catalyst components.  It is used to pass information between
 components and provide access to Catalyst and plugin functionality.
 
 B<TIP>: You may see the C<$c-E<gt>model('DB::Book')> used above
-written as C<$c-E<gt>model('DB')-E<gt>resultset('Book)>.  The two
+written as C<$c-E<gt>model('DB')-E<gt>resultset('Book')>.  The two
 are equivalent.
 
 B<Note:> Catalyst actions are regular Perl methods, but they make use 
@@ -309,7 +309,7 @@ TT (for more information on TT, see
 L<http://www.template-toolkit.org>). Other popular view technologies 
 include Mason (L<http://www.masonhq.com> and 
 L<http://www.masonbook.com>) and L<HTML::Template> 
-(L<http://html- template.sourceforge.net>).
+(L<http://html-template.sourceforge.net>).
 
 =head2 Create a Catalyst View Using C<TTSite>
 
@@ -377,7 +377,7 @@ of the package where it is used.  Therefore, in C<TT.pm>,
 C<__PACKAGE__> is equivalent to C<TT>.
 
 There are a variety of options you can use, such as 'undef', 'all', 
-'service', 'context', 'parser', 'provider', and 'service'.  See
+'service', 'context', 'parser' and 'provider'.  See
 L<Template::Constants> for more information (remove the C<DEBUG_>
 portion of the name shown in the TT docs and convert to lower case
 for use inside Catalyst).
@@ -727,7 +727,7 @@ used the following SQL to retrieve the data:
 
 because we enabled DBIC_TRACE.
 
-You now the beginnings of a simple but workable web application. 
+You now have the beginnings of a simple but workable web application.
 Continue on to future sections and we will develop the application
 more fully.
 

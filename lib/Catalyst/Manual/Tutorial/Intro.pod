@@ -277,14 +277,14 @@ Explorer).
 
 =head1 CATALYST INSTALLATION
 
-If approach in the wrong manner, it can be a daunting tasks to get
-Catalyst initially installed.  Although a compelling strength of
-Catalyst is that it makes use of many of the modules in the
-vast repository that is CPAN, this can complicate the installation
-process.  However, there are a growing number of methods 
-that can dramatically ease this undertaking.  Of these, the following 
-are likely to be applicable to the largest number of potential new 
-users:
+While the rough edges of catalyst installation have been a problem in
+the past, this is now mostly solved.  Nonetheless, installing Catalyst
+can be a little time consuming. Although a compelling strength of
+Catalyst is that it makes use of many of the modules in the vast
+repository that is CPAN, this can complicate the installation process.
+However, there are a growing number of methods that can dramatically
+ease this undertaking.  Of these, the following are likely to be
+applicable to the largest number of potential new users:
 
 =over 4
 
@@ -365,6 +365,16 @@ Under the VMWare community program, work is ongoing to develop a number
 of VMWare images where an entire Catalyst development environment has
 already been installed, complete with database engines and a full
 complement of Catalyst plugins.
+
+=item * 
+
+Frank Speiser's Amazon EC2 Catalyst SDK
+
+There are currently two flavors of publicly available Amazon Machine
+Images (AMI) that include all the elements you'd need to begin
+developing in a fully functional Catalyst environment within minutes.
+See L<Catalyst::Manual::Installation|Catalyst::Manual::Installation>
+for more details.
 
 =back
 
