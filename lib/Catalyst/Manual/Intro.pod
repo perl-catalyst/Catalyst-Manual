@@ -574,9 +574,7 @@ configure your application, load plugins, and extend Catalyst.
 
     use strict;
     use parent qw/Catalyst/;
-    __PACKAGE__->setup(qw/-Debug ConfigLoader Static::Simple/);
-    # note you can still use use Catalyst qw/@plugins/ instead of the
-    # above two lines
+    use Catalyst qw/-Debug ConfigLoader Static::Simple/;
     MyApp->config(
         name => 'My Application',
 

@@ -247,7 +247,7 @@ by Catalyst under C<MyApp::Model>.
 Edit C<lib/MyApp.pm> and update it as follows (everything below
 C<StackTrace> is new):
 
-    __PACKAGE__->setup(qw/
+    use Catalyst qw/
             -Debug
             ConfigLoader
             Static::Simple
@@ -259,7 +259,7 @@ C<StackTrace> is new):
             Session
             Session::Store::FastMmap
             Session::State::Cookie
-            /);
+            /;
 
 The C<Authentication> plugin supports Authentication while the
 C<Session> plugins are required to maintain state across multiple HTTP

@@ -181,17 +181,17 @@ To modify the list of plugins, edit C<lib/MyApp.pm> (this file is
 generally referred to as your I<application class>) and delete the line
 with:
 
-    __PACKAGE__->setup(qw/-Debug ConfigLoader Static::Simple/);
+    use Catalyst qw/-Debug ConfigLoader Static::Simple/;
 
 Replace it with:
 
-    __PACKAGE__->setup(qw/
-            -Debug
-            ConfigLoader
-            Static::Simple
-            
-            StackTrace
-            /);
+    use Catalyst qw/
+                   -Debug
+                   ConfigLoader
+                   Static::Simple
+
+                   StackTrace
+                  /;
 
 This tells Catalyst to start using one new plugin:
 

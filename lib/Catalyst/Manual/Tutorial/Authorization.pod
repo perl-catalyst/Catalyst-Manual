@@ -74,7 +74,7 @@ In this section you learn how to manually configure authorization.
 
 Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 
-    __PACKAGE__->setup(qw/
+    use Catalyst qw/
             -Debug
             ConfigLoader
             Static::Simple
@@ -87,7 +87,7 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
             Session
             Session::Store::FastMmap
             Session::State::Cookie
-            /);
+            /;
 
 
 =head2 Add Config Information for Authorization
