@@ -1,5 +1,11 @@
 Revision history for Catalyst-Manual
 
+5.701X   XXXXX SOMEBODY FIX THIS, MISSING 5.7013 CHANGES (SEE BELOW)
+        - Fix Template Toolkit website link (RT #37574)
+
+5.7013   09 July 2008
+        - XXXXX SOMETHING, FIX ME!
+
 5.7012   29 May 2008
         - Expurgation of all use of default :Private and index :Private in favour
           of default :Path and index :Path :Args(0)

@@ -325,7 +325,7 @@ method that it inherits from the C<Catalyst::View::TT class>.
 
 Template Toolkit is a very full featured template facility, with 
 excellent documentation at 
-L<http://template-tookit.org/>, 
+L<http://template-toolkit.org/>, 
 but since this is not a TT tutorial, we'll stick to only basic TT 
 usage here (and explore some of the more common TT features in later 
 parts of the tutorial).
