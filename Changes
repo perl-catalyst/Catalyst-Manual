@@ -1,10 +1,10 @@
 Revision history for Catalyst-Manual
 
-5.701X   XXXXX SOMEBODY FIX THIS, MISSING 5.7013 CHANGES (SEE BELOW)
+5.701X   XXXXX 
         - Fix Template Toolkit website link (RT #37574)
 
-5.7013   09 July 2008
-        - XXXXX SOMETHING, FIX ME!
+7.7013   09 Jul 2008
+        - revert to use Catalyst qw/@plugins/ style
 
 5.7012   29 May 2008
         - Expurgation of all use of default :Private and index :Private in favour
