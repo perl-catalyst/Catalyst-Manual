@@ -3,7 +3,7 @@ Revision history for Catalyst-Manual
 5.701X   XXXXX 
         - Fix Template Toolkit website link (RT #37574)
 
-7.7013   09 Jul 2008
+5.7013   09 Jul 2008
         - revert to use Catalyst qw/@plugins/ style
 
 5.7012   29 May 2008
