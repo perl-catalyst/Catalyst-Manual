@@ -124,8 +124,8 @@ following method:
         # Get the form that the :FormConfig attribute saved in the stash
         my $form = $c->stash->{form};
   
-        # Check if the form as been submitted (vs. displaying the initial
-        # form) and if the data based validation.  "submitted_and_valid"
+        # Check if the form has been submitted (vs. displaying the initial
+        # form) and if the data passed validation.  "submitted_and_valid"
         # is shorthand for "$form->submitted && !$form->has_errors"
         if ($form->submitted_and_valid) {
             # Create a new book
@@ -460,8 +460,8 @@ bottom:
         # Get the form that the :FormConfig attribute saved in the stash
         my $form = $c->stash->{form};
     
-        # Check if the form as been submitted (vs. displaying the initial
-        # form) and if the data based validation.  "submitted_and_valid"
+        # Check if the form has been submitted (vs. displaying the initial
+        # form) and if the data passed validation.  "submitted_and_valid"
         # is shorthand for "$form->submitted && !$form->has_errors"
         if ($form->submitted_and_valid) {
             # Save the form data for the book
