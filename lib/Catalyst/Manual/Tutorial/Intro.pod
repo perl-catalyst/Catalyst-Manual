@@ -277,7 +277,7 @@ Explorer).
 
 =head1 CATALYST INSTALLATION
 
-While the rough edges of catalyst installation have been a problem in
+While the rough edges of Catalyst installation have been a problem in
 the past, this is now mostly solved.  Nonetheless, installing Catalyst
 can be a little time consuming. Although a compelling strength of
 Catalyst is that it makes use of many of the modules in the vast
@@ -292,7 +292,7 @@ applicable to the largest number of potential new users:
 
 Ubuntu
 
-Given the popularity of Ubuntu and it's ease of use, Ubuntu can be 
+Given the popularity of Ubuntu and its ease of use, Ubuntu can be 
 a great way for newcomers to experiment with Catalyst.  Because it 
 is a "live CD," you can simply boot from the CD, run a few commands,
 and you should have a fully functional environment in which to do 
