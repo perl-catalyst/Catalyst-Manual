@@ -205,7 +205,7 @@ classes created in Part 3.
 
 Note that we do not need to make any change to the
 C<lib/MyApp/Schema.pm> schema file.  It simply tells DBIC to
-load all of the result source files it finds in below the
+load all of the result class files it finds in below the
 C<lib/MyApp/Schema> directory, so it will automatically pick
 up our new table information.
 
@@ -238,7 +238,7 @@ Look for the three new model objects in the startup debug output:
     '-------------------------------------------------------------------+----------'
     ...
 
-Again, notice that your "result source" classes have been "re-loaded"
+Again, notice that your "result class" classes have been "re-loaded"
 by Catalyst under C<MyApp::Model>.
 
 
@@ -293,10 +293,11 @@ L<ConfigLoader|Catalyst::Plugin::ConfigLoader> plugin.
 
 First, as noted in Part 3 of the tutorial, Catalyst has recently
 switched from a default config file format of YAML to
-C<Config::General> (an apache-like format).  In case you are using
-a version of Catalyst earlier than v5.7014, delete the C<myapp.yml>
-file and simply follow the directions below to create a new
-C<myapp.conf> file.
+C<Config::General> (an apache-like format).  In case you are using a
+version of Catalyst earlier than v5.7014, delete the C<myapp.yml>, or
+convert it to .conf format using the TIP in
+L<Catalyst::Manual::MoreCatalystBasics>; then simply follow the
+directions below to create a new C<myapp.conf> file.
 
 Here, we need to load several parameters that tell
 L<Catalyst::Plugin::Authentication|Catalyst::Plugin::Authentication>

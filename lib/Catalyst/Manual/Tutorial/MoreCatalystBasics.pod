@@ -110,7 +110,7 @@ C<-Debug> Flag
 
 Enables the Catalyst debug output you saw when we started the
 C<script/myapp_server.pl> development server earlier.  You can remove
-this plugin when you place your application into production.
+this item when you place your application into production.
 
 As you may have noticed, C<-Debug> is not a plugin, but a I<flag>.
 Although most of the items specified on the C<use Catalyst> line of your
@@ -146,7 +146,7 @@ to version 1.06, you need to be aware that Catalyst changed from a
 default format of YAML to the more straightforward C<Config::General>
 format.  Because Catalyst has long supported both formats, this
 tutorial will simply use a configuration file called C<myapp.conf>
-instead of C<myapp.yml> and Catatlyst will automcatically use the new
+instead of C<myapp.yml> and Catalyst will automatically use the new
 format.  Just be aware that earlier versions of Catalyst will still
 create the C<myapp.yml> file and that you will need to B<remove
 C<myapp.yml>> and create a new C<myapp.conf> file by hand, but
