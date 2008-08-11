@@ -1,6 +1,7 @@
 Revision history for Catalyst-Manual
 
 5.701X   XXXXX 
+        - Changed some Template Toolkit links to perldoc links (RT #38354)
         - Fix Template Toolkit website link (RT #37574)
         - Fix part numbering (RT #37963)
 

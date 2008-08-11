@@ -464,10 +464,10 @@ files, looping, conditional logic, etc.  In general, TT simplifies the
 usual range of Perl operators down to the single dot (C<.>) operator.
 This applies to operations as diverse as method calls, hash lookups, and
 list index values (see
-L<http://www.template-toolkit.org/docs/default/Manual/Variables.html>
+L<http://search.cpan.org/perldoc?Template::Manual::Variables>
 for details and examples).  In addition to the usual C<Template> module
 Pod documentation, you can access the TT manual at
-L<http://www.template-toolkit.org/docs/default/>.
+L<http://search.cpan.org/perldoc?Template::Manual>.
 
 B<NOTE:> The C<TTSite> helper creates several TT files using an
 extension of C<.tt2>. Most other Catalyst and TT examples use an
