@@ -97,7 +97,7 @@ doesn't require mod_rewrite or class and method names in URLs.
 With Catalyst you register your actions and address them directly. For
 example:
 
-    sub hello : Global {
+    sub hello : Local {
         my ( $self, $context ) = @_;
         $context->response->body('Hello World!');
     }
@@ -105,10 +105,10 @@ example:
 Now http://localhost:3000/hello prints "Hello World!".
 
 Note that actions with the C< :Local > attribute are equivalent to
-using a C<:Path('/action_name') > attribute (note the leading slash).
-So our action could be equivalently:
+using a C<:Path('action_name') > attribute, so our action could be
+equivalently:
 
-    sub hello : Path('/hello') {
+    sub hi : Path('hello') {
         my ( $self, $context ) = @_;
         $context->response->body('Hello World!');
     }
