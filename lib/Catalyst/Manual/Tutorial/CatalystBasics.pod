@@ -312,8 +312,8 @@ To create a TT view, run:
 
 This creates the C<lib/Hello/View/TT.pm> module, which is a subclass of 
 C<Catalyst::View::TT>. The "view" keyword tells the create script that 
-you are creating a view, the first "TT" tells it that you are creating 
-a Template Toolkit view, and the second "TT" tells the script to name 
+you are creating a view, the second "TT" tells it that you are creating 
+a Template Toolkit view, and the first "TT" tells the script to name 
 the View module "TT.pm", which is a commonly used name for TT views. 
 (You can name it anything you want, such as "HTML.pm".) If you look at 
 TT.pm, you will find that it only contains a config statement to set 
