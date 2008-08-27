@@ -104,7 +104,7 @@ example:
 
 Now http://localhost:3000/hello prints "Hello World!".
 
-Note that actions with the C< :Local > attribute are equivalent to
+Note that actions with the C< :Global > attribute are equivalent to
 using a C<:Path('action_name') > attribute, so our action could be
 equivalently:
 
