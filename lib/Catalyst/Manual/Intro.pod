@@ -927,7 +927,7 @@ Called at the end of a request, after all matching actions are called.
 
 =head4 Built-in actions in controllers/autochaining
 
-    Package MyApp::Controller::Foo;
+    package MyApp::Controller::Foo;
     sub begin : Private { }
     sub default : Path  { }
     sub auto : Private { }
@@ -962,15 +962,13 @@ would be called:
 
 =item for a request for C</foo/foo>
 
-  MyApp::begin
-  MyApp::auto
+  MyApp::Controller::Foo::auto
   MyApp::Controller::Foo::default # in the absence of MyApp::Controller::Foo::Foo
-  MyApp::end
+  MyApp::Controller::Foo::end
 
 =item for a request for C</foo/bar/foo>
 
   MyApp::Controller::Foo::Bar::begin
-  MyApp::auto
   MyApp::Controller::Foo::auto
   MyApp::Controller::Foo::Bar::auto
   MyApp::Controller::Foo::Bar::default # for MyApp::Controller::Foo::Bar::foo
@@ -990,7 +988,6 @@ like this:
 false
 
   MyApp::Controller::Foo::Bar::begin
-  MyApp::auto
   MyApp::Controller::Foo::Bar::end
 
 =back
