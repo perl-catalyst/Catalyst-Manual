@@ -125,9 +125,6 @@ C<role_relation> and C<role_field> definitions are new):
                     # NOTE: Omit 'MyApp::Model' here just as you would when using
                     # '$c->model("DB::Users)'
                     user_class DB::Users
-                    # This is the name of the field in your 'users' table that
-                    # contains the user's name
-                    id_field username
                     # This is the name of a many_to_many relation in the users
                     # object that points to the roles for that user
                     role_relation  roles
