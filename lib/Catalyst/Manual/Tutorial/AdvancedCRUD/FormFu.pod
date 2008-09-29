@@ -1,5 +1,7 @@
 =head1 NAME
 
+
+
 Catalyst::Manual::Tutorial::AdvancedCRUD::FormFu - Catalyst Tutorial - Part 9: Advanced CRUD - FormFu
 
 
@@ -315,23 +317,15 @@ to match:
           # This is an optional 'mouse over' title pop-up
           attributes:
             title: Enter a book title here
-          # Use Filter to clean up the input data
-          filter:
-            # Remove whitespace at both ends
-            - TrimEdges
-            # Escape HTML characters for safety
-            - HTMLEscape
           # Add constraints for the field
           constraints:
-            # The user cannot leave this field blank
-            - SingleValue
             # Force the length to be between 5 and 40 chars
             - type: Length
               min: 5
               max: 40
               # Override the default of 'Invalid input'
               message: Length must be between 5 and 40 characters
-    
+
         # Another text field for the numeric rating
         - type: Text
           name: rating
@@ -340,15 +334,17 @@ to match:
             title: Enter a rating between 1 and 5 here
           # Use Filter to clean up the input data
           filter:
-            # Remove whitespace at both ends
-            - TrimEdges
             # Remove everything except digits
             - NonNumeric
           # Add constraints to the field
           constraints:
-            - SingleValue
+            - Required
             # Make sure it's a number
             - Integer
+            message: "Digits only, please."
+            # Filters apply before constraints.
+            # If a user gives the rating "excellent", the NonNumeric filter would remove the entire string as it contains no digits. 
+            # Remove the NonNumeric filter and let the Integer constraint handle the validation and error message.
     
         # Add a select list for the author selection.  Note that we will
         # dynamically fill in all the authors from the controller but we
@@ -366,12 +362,6 @@ to match:
           # One could argue we don't need to do filters or constraints for
           # a select list, but it's smart to do validation and sanity
           # checks on this data in case a user "hacks" the input
-          # Use Filter to clean up the input data
-          filter:
-            # Remove whitespace at both ends
-            - TrimEdges
-            # Escape HTML characters for safety
-            - HTMLEscape
           # Add constraints to the field
           constraints:
             # Make sure it's a number
@@ -382,10 +372,16 @@ to match:
           name: submit
           value: Submit
     
-    # Globally ensure that each field only specified one value
+    # Global filters and constraints.
     constraints:
-        # The user cannot leave any fields blank
-        - Required
+      # The user cannot leave any fields blank
+      - Required
+      # If not all fields are required, move the Required constraint to the fields that are.
+    filter:
+      # Remove whitespace at both ends
+      - TrimEdges
+      # Escape HTML characters for safety
+      - HTMLEscape
 
 B<NOTE:> Copying and pasting YAML from perl documentation is sometimes
 tricky.  See the L<Config::General Config for this tutorial> section of
@@ -564,7 +560,6 @@ Apache config files.
 
    constraints   Required
    <elements>
-       constraints   SingleValue
        <constraints>
            min   5
            max   40
@@ -581,7 +576,6 @@ Apache config files.
        </attributes>
    </elements>
    <elements>
-       constraints   SingleValue
        constraints   Integer
        filter   TrimEdges
        filter   NonNumeric
