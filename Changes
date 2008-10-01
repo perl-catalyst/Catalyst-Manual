@@ -4,6 +4,7 @@ Revision history for Catalyst-Manual
         - Changed some Template Toolkit links to perldoc links (RT #38354)
         - Fix Template Toolkit website link (RT #37574)
         - Fix part numbering (RT #37963)
+        - Improvements to the ACCEPT_CONTEXT docs in Manual::Intro
 
 5.7013   09 Jul 2008
         - revert to use Catalyst qw/@plugins/ style

@@ -526,27 +526,54 @@ instance of the model. If the component supports the C<ACCEPT_CONTEXT>
 method instead of returning the model itself, the return value of C<<
 $model->ACCEPT_CONTEXT( $c ) >> will be used.
 
-This means that whenever your model/view/controller needs to talk to C<$c> it
-gets a chance to do this when it's needed.
+This means that whenever your model/view/controller needs to talk to
+C<$c> it gets a chance to do this when it's needed.
 
 A typical C<ACCEPT_CONTEXT> method will either clone the model and return one
 with the context object set, or it will return a thin wrapper that contains
 C<$c> and delegates to the per-application model object.
 
-A typical C<ACCEPT_CONTEXT> method could look like this:
+Generally it's a bad idea to expose the context object (C<$c>) in your
+model or view code.  Instead you use the C<ACCEPT_CONTEXT> subroutine
+to grab the bits of the context object that you need, and provide
+accessors to them in the model.  This ensures that C<$c> is only in
+scope where it is neaded which reduces maintenance and debugging
+headaches.  So, if for example you needed two
+L<Catalyst::Model::DBIC::Schema> models in the same Catalyst model
+code, you might do something like this:
 
-    sub ACCEPT_CONTEXT {
-      my ( $self, $c, @extra_arguments ) = @_;
-      bless { %$self, c => $c }, ref($self);
-    }
+ __PACKAGE__->mk_accessors(qw(model1_schema model2_schema));
+ sub ACCEPT_CONTEXT {
+     my ( $self, $c, @extra_arguments ) = @_;
+     $self = bless({ %$self,
+             model1_schema  => $c->model('Model1')->schema,
+             model2_schema => $c->model('Model2')->schema
+         }, ref($self));
+     return $self;
+ }
 
-effectively treating $self as a B<prototype object> that gets a new parameter.
-C<@extra_arguments> comes from any trailing arguments to
-C<< $c->component( $bah, @extra_arguments ) >> (or C<< $c->model(...) >>,
-C<< $c->view(...) >> etc).
+This effectively treats $self as a B<prototype object> that gets a new
+parameter.  C<@extra_arguments> comes from any trailing arguments to
+C<< $c->component( $bah, @extra_arguments ) >> (or C<< $c->model(...)
+>>, C<< $c->view(...) >> etc).
 
-The life time of this value is B<per usage>, and not per request. To make this
-per request you can use the following technique:
+In a subroutine in the  model code, we can then do this:
+
+ sub whatever {
+     my ($self) = @_;
+     my $schema1 = $self->model1_schema;
+     my $schema2 = $self->model2_schema;
+     ...
+ }
+
+Note that we still want the Catalyst models to be a thin wrapper
+around classes that will work independently of the Catalyst
+application to promote reusability of code.  Here we might just want
+to grab the $c->model('DB')->schema so as to get the connection
+information from the Catalyst application's configuration for example.
+
+The life time of this value is B<per usage>, and not per request. To
+make this per request you can use the following technique:
 
 Add a field to C<$c>, like C<my_model_instance>. Then write your
 C<ACCEPT_CONTEXT> method to look like this:
@@ -563,6 +590,9 @@ C<ACCEPT_CONTEXT> method to look like this:
         return $new_instance;
       }
     }
+
+For a similar technique to grab a new component instance on each
+request, see L<Catalyst::Component::InstancePerContext>.
 
 =head3 Application Class
 
