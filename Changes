@@ -1,6 +1,7 @@
 Revision history for Catalyst-Manual
 
 5.701X   XXXXX 
+        - Remove a reference to a FOREACH loop that did not exist (RT #39046)
         - Changed some Template Toolkit links to perldoc links (RT #38354)
         - Fix Template Toolkit website link (RT #37574)
         - Fix part numbering (RT #37963)

@@ -453,10 +453,8 @@ Then create C<root/src/books/list.tt2> in your editor and enter:
 
 As indicated by the inline comments above, the C<META title> line uses
 TT's META feature to provide a title to C<root/lib/site/header>.
-Meanwhile, the outer C<FOREACH> loop iterates through each C<book> model
-object and prints the C<title> and C<rating> fields.  An inner
-C<FOREACH> loop prints the last name of each author in a comma-separated
-list within a single table cell.
+Meanwhile, the C<FOREACH> loop iterates through each C<book> model
+object and prints the C<title> and C<rating> fields.
 
 If you are new to TT, the C<[%> and C<%]> tags are used to delimit TT
 code.  TT supports a wide variety of directives for "calling" other
@@ -928,7 +926,7 @@ C<td> cells):
     <td>
       [% # First initialize a TT variable to hold a list.  Then use a TT FOREACH -%]
       [% # loop in 'side effect notation' to load just the last names of the     -%]
-      [% # authors into the list.  Note that the 'push' TT vmethod does not      -%]
+      [% # authors into the list. Note that the 'push' TT vmethod does not print -%]
       [% # a value, so nothing will be printed here.  But, if you have something -%]
       [% # in TT that does return a method and you don't want it printed, you    -%]
       [% # can: 1) assign it to a bogus value, or 2) use the CALL keyword to     -%]
