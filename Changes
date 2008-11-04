@@ -1,11 +1,12 @@
 Revision history for Catalyst-Manual
 
-5.701X   XXXXX 
+5.7014   04 Nov 2008
         - Remove a reference to a FOREACH loop that did not exist (RT #39046)
         - Changed some Template Toolkit links to perldoc links (RT #38354)
         - Fix Template Toolkit website link (RT #37574)
         - Fix part numbering (RT #37963)
         - Improvements to the ACCEPT_CONTEXT docs in Manual::Intro
+        - Happy Election Day, America!
 
 5.7013   09 Jul 2008
         - revert to use Catalyst qw/@plugins/ style
