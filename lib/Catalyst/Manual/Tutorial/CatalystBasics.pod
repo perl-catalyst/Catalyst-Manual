@@ -73,7 +73,7 @@ clean "separation of control" between the different portions of your
 application. Given that many other documents cover this subject in
 detail, MVC will not be discussed in depth here (for an excellent
 introduction to MVC and general Catalyst concepts, please see
-L<Catalyst::Manual::About|Catalyst::Manual::About>. In short:
+L<Catalyst::Manual::About|Catalyst::Manual::About>). In short:
 
 =over 4
 
@@ -88,8 +88,8 @@ database.
 The view takes model objects and renders them into something for the end
 user to look at. Normally this involves a template-generation tool that
 creates HTML for the user's web browser, but it could easily be code
-that generates other forms such as PDF documents, e-mails, or Excel
-spreadsheets.
+that generates other forms such as PDF documents, e-mails, spreadsheets, 
+or even "behind the scenes" formats such as XML and JSON.
 
 =item * Controller
 
@@ -138,8 +138,8 @@ The C<catalyst.pl> helper script will display the names of the
 directories and files it creates:
 
     Changes               # Record of application changes
-    lib                   # Lib directory for Perl modules
-        Hello             # Application code directory
+    lib                   # Lib directory for your app's Perl modules
+        Hello             # Application main code directory
             Controller    # Directory for Controller modules 
             Model         # Directory for Models
             View          # Directory for Views
@@ -183,9 +183,10 @@ server:
 
     $ script/hello_server.pl
     [debug] Debug messages enabled
+    [debug] Statistics enabled
     [debug] Loaded plugins:
     .----------------------------------------------------------------------------.
-    | Catalyst::Plugin::ConfigLoader  0.17                                       |
+    | Catalyst::Plugin::ConfigLoader  0.20                                       |
     | Catalyst::Plugin::Static::Simple  0.20                                     |
     '----------------------------------------------------------------------------'
     
@@ -208,7 +209,15 @@ server:
     | /end                 | Hello::Controller::Root              | end          |
     '----------------------+--------------------------------------+--------------'
     
-    [info] Hello powered by Catalyst 5.7011
+    [debug] Loaded Path actions:
+    .-------------------------------------+--------------------------------------.
+    | Path                                | Private                              |
+    +-------------------------------------+--------------------------------------+
+    | /                                   | /default                             |
+    | /                                   | /index                               |
+    '-------------------------------------+--------------------------------------'
+        
+    [info] Hello powered by Catalyst 5.7014
     You can connect to your server at http://localhost:3000
 
 Point your web browser to 
@@ -218,7 +227,7 @@ greeted by the Catalyst welcome screen.  Information similar to the
 following should be appended to the logging output of the development 
 server:
 
-    [info] *** Request 1 (1.000/s) [10301] [Sun May 18 10:11:36 2008] ***
+    [info] *** Request 1 (1.000/s) [10301] [Sun Nov 23 10:11:36 2008] ***
     [debug] "GET" request for "/" from "127.0.0.1"
     [info] Request took 0.017964s (55.667/s)
     .----------------------------------------------------------------+-----------.
@@ -237,14 +246,16 @@ Press Ctrl-C to break out of the development server.
 
 The Root.pm controller is a place to put global actions that usually 
 execute on the root URL. Open the C<lib/Hello/Controller/Root.pm> file in 
-your editor. You will see the "default" subroutine, which is 
+your editor. You will see the "index" subroutine, which is 
 responsible for displaying the welcome screen that you just saw in 
 your browser. Later on you'll want to change that to something more 
-reasonable, such as a "404" message but for now just leave it alone.
+reasonable, such as a "404" message or a redirect, but for now just 
+leave it alone.
 
-    sub default :Path :Args {
+    sub index :Path :Args(0) {
         my ( $self, $c ) = @_;
-    
+        
+        # Hello World
         $c->response->body( $c->welcome_message );
     }
 
@@ -260,17 +271,17 @@ L<Catalyst::Response|Catalyst::Response>), while C<$c-E<gt>welcome_message>
 is a special method that returns the welcome message that you saw in 
 your browser.
 
-The ":Path :Args" after the method name are attributes which determine 
+The ":Path :Args(0)" after the method name are attributes which determine 
 which URLs will be dispatched to this method. (Depending on your version of 
-Catalyst, it used to say "Private" but using that with default is 
-currently deprecated.)
+Catalyst, it used to say "Private" but using that with 'default' or 'index' 
+is currently deprecated.)
 
 Some MVC frameworks handle dispatching in a central place. Catalyst, 
 by policy, prefers to handle URL dispatching with attributes on 
 controller methods. There is a lot of flexibility in specifying which 
 URLs to match.  This particular method will match all URLs, because it 
-doesn't specify the path (nothing comes after "Path"), and will accept 
-any number of args (nothing after args). 
+doesn't specify the path (nothing comes after "Path"), but will only 
+accept a single args because of the ":Args(0)". 
 
 The default is to map URLs to controller names, and because of 
 the way that Perl handles namespaces through package names, 
@@ -281,7 +292,6 @@ nested actions in a clean and logical way.
 For example, the URL C<http://hello.com/admin/articles/create> maps 
 to the package C<Hello::Controller::Admin::Articles>, and the C<create>
 method. 
-
 
 Add the following subroutine to your C<lib/Hello/Controller/Root.pm> 
 file:
@@ -298,13 +308,15 @@ Save the file, start the server (stop and restart it if it's still
 up), and go to L<http://localhost:3000/hello> to 
 see "Hello, World!"
 
+
 =head2 Hello, World! Using a View and a Template
 
 In the Catalyst world  a "View" is not a page of XHTML or a template 
 designed to present a page to a browser. It is the module that 
-determines the type of view--HTML, pdf, XML. For the case of a 
-template view (such as the default Toolkit Template) the actual 
-templates go under the "root" directory.
+determines the I<type> of view -- HTML, pdf, XML, etc. For the 
+thing that generates the I<content> of that view, (such as the 
+default Toolkit Template) the actual templates go under the 
+"root" directory.
 
 To create a TT view, run:
 
@@ -324,8 +336,7 @@ able to use it to display the view templates, using the "process"
 method that it inherits from the C<Catalyst::View::TT class>.
 
 Template Toolkit is a very full featured template facility, with 
-excellent documentation at 
-L<http://template-toolkit.org/>, 
+excellent documentation at L<http://template-toolkit.org/>, 
 but since this is not a TT tutorial, we'll stick to only basic TT 
 usage here (and explore some of the more common TT features in later 
 parts of the tutorial).
@@ -403,7 +414,7 @@ template file at that location. Include a line like:
 
 Bring up or restart the server.  Notice in the server output that 
 C</site/test> is listed in the Loaded Path actions. Go to 
-L<http://localhost:3000/site/test> 
+L<http://localhost:3000/site/test> in your browser.
 
 You should see your test.tt file displayed, including the name "John"
 that you set in the controller.
@@ -419,4 +430,4 @@ most recent version of the Catalyst Tutorial can be found at
 L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/Catalyst-Manual/lib/Catalyst/Manual/Tutorial/>.
 
 Copyright 2006-2008, Kennedy Clark & Gerda Shank, under Creative Commons License
-(L<http://creativecommons.org/licenses/by-nc-sa/2.5/>).
+(L<http://creativecommons.org/licenses/by-sa/3.0/us/>).

@@ -84,7 +84,7 @@ part of the tutorial.>
 
 B<NOTE: You can use any perl-supported OS and environment to run 
 Catalyst.> It should make little or no difference to Catalyst's 
-operation, but this tutorial has been written using Ubuntu 8.04 
+operation, but this tutorial has been written using Ubuntu 8.10 
 because that represents a quick and easy for most people to try out 
 Catalyst with virtually zero setup time and hassles.  See the Catalyst 
 installation section below for more information.
@@ -188,19 +188,19 @@ versions:
 
 =item * 
 
-Ubuntu 8.04 Hardy Heron
+Ubuntu 8.10 (Intrepid Ibex)
 
 =item * 
 
-Catalyst v5.7011
+Catalyst v5.7014
 
 =item *
 
-Catalyst::Devel v1.03
+Catalyst::Devel v1.07
 
 =item * 
 
-DBIx::Class v0.08008
+DBIx::Class v0.08010
 
 =item * 
 
@@ -215,11 +215,7 @@ use. This tutorial has been tested against the following set of plugins:
 
 =item * 
 
-Catalyst::Plugin::Authentication -- v0.10002
-
-=item *
-
-Catalyst::Plugin::Authentication::Store::DBIC -- v0.09
+Catalyst::Plugin::Authentication -- v0.10006
 
 =item *
 
@@ -231,23 +227,23 @@ Catalyst::Plugin::Authorization::Roles -- v0.05
 
 =item *
 
-Catalyst::Plugin::ConfigLoader -- v0.17
+Catalyst::Plugin::ConfigLoader -- v0.20
 
 =item *
 
-Catalyst::Plugin::Session -- v0.18
+Catalyst::Plugin::Session -- v0.19
 
 =item *
 
-Catalyst::Plugin::Session::State::Cookie -- v0.08
+Catalyst::Plugin::Session::State::Cookie -- v0.09
 
 =item *
 
-Catalyst::Plugin::Session::Store::FastMmap -- v0.03
+Catalyst::Plugin::Session::Store::FastMmap -- v0.05
 
 =item *
 
-Catalyst::Plugin::StackTrace -- v0.06
+Catalyst::Plugin::StackTrace -- v0.08
 
 =item *
 
@@ -256,6 +252,14 @@ Catalyst::Plugin::Static::Simple -- v0.20
 =back
 
 =item * 
+
+B<NOTE:> You can check the versions you have installed with the
+following command:
+
+    perl -ME<lt>mod_nameE<gt> -e '"print $E<lt>mod_nameE<gt>::VERSION\n"'
+
+For example:
+    perl -MCatalyst::Plugin::StackTrace -e 'print "$Catalyst::Plugin::StackTrace::VERSION\n"'
 
 Since the web browser is being used on the same box where Perl and the
 Catalyst development server is running, the URL of
@@ -302,7 +306,7 @@ this tutorial in a matter of minutes.
 
 =item * 
 
-Download Ubuntu 8.04 (aka, Hardy Heron) Desktop edition and boot from 
+Download Ubuntu 8.10 (aka, Intrepid Ibex) Desktop edition and boot from 
 the CD and/or image file, select your language, and then "Try Ubuntu 
 without any changes to your computer."
 
@@ -427,6 +431,4 @@ most recent version of the Catalyst Tutorial can be found at
 L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/Catalyst-Manual/lib/Catalyst/Manual/Tutorial/>.
 
 Copyright 2006-2008, Kennedy Clark, under Creative Commons License
-(L<http://creativecommons.org/licenses/by-nc-sa/2.5/>).
-
-
+(L<http://creativecommons.org/licenses/by-sa/3.0/us/>).
