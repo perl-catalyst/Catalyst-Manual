@@ -942,8 +942,8 @@ C<td> cells):
 
 Then hit C<Ctrl+R> in your browser (note that you don't need to reload 
 the development server or use the C<-r> option when updating TT 
-templates) and you should now see the the number of authors each book 
-along with a comma-separated list of the author's last names.  
+templates) and you should now see the number of authors each book has
+along with a comma-separated list of the authors' last names.  
 
 If you are still running the development server with C<DBIC_TRACE> 
 enabled, you should also now see five more C<SELECT> statements in the 
