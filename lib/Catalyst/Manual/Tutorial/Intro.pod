@@ -135,9 +135,7 @@ vs. C<lib/MyApp.pm>, etc.
 
 =item * 
 
-The use of Template Toolkit (TT) and the
-L<Catalyst::Helper::View::TTSite|Catalyst::Helper::View::TTSite> 
-view helper.
+The use of Template Toolkit (TT).
 
 =item * 
 
@@ -177,6 +175,7 @@ B<Note:> There are a variety of other introductory materials available
 through the Catalyst web site and at
 L<http://dev.catalyst.perl.org/wiki/UserIntroductions> and
 L<http://dev.catalyst.perl.org/>.
+
 
 =head1 VERSIONS AND CONVENTIONS USED IN THIS TUTORIAL
 
@@ -271,13 +270,16 @@ will need to update the URL you use accordingly.
 
 =item * 
 
-Depending on the web browser you are using, you might need to hit
-C<Shift+Reload> to pull a fresh page when testing your application at
-various points.  Also, the C<-k> keepalive option to the development
-server can be necessary with some browsers (especially Internet
-Explorer).
+Depending on the web browser you are using, you might need to hit 
+C<Shift+Reload> or C<Ctrl+Reload> to pull a fresh page when testing 
+your application at various points (see 
+L<http://en.wikipedia.org/wiki/Bypass_your_cache> for a comprehensive
+list of options for each browser).  Also, the C<-k> keepalive option 
+to the development server can be necessary with some browsers 
+(especially Internet Explorer).
 
 =back
+
 
 =head1 CATALYST INSTALLATION
 
@@ -393,6 +395,7 @@ Using these instructions, you should be able to build a complete CentOS
 4.X server with Catalyst and all the plugins required to run this
 tutorial.
 
+
 =head1 DATABASES
 
 This tutorial will primarily focus on SQLite because of its simplicity
@@ -404,6 +407,7 @@ applications become much more database independent.  As such, you will
 notice that only the C<.sql> files used to initialize the database
 change between database systems: the Catalyst code generally remains the
 same.
+
 
 =head1 WHERE TO GET WORKING CODE
 

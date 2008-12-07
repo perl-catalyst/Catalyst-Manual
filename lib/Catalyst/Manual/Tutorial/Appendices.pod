@@ -457,60 +457,59 @@ Create the C<.sql> file and load the data:
 Open the C<myapp01_psql.sql> in your editor and enter:
 
 
-     --
-     -- Create a very simple database to hold book and author information
-     --
-     -- The sequence is how we get a unique id in PostgreSQL
-     --
-     CREATE SEQUENCE books_seq START 5 ;
-     SELECT nextval ('books_seq');
-
-     CREATE TABLE books (
-        id          INTEGER PRIMARY KEY DEFAULT nextval('books_seq'),
-        title       TEXT ,
-        rating      INTEGER
-        );
-
-     -- 'book_authors' is a many-to-many join table between books & authors
-     CREATE TABLE book_authors (
-        book_id     INTEGER,
-        author_id   INTEGER,
-        PRIMARY KEY (book_id, author_id)
-
-        );
-
-     CREATE SEQUENCE authors_seq START 8 ;
-     SELECT nextval ('authors_seq');
-
-     CREATE TABLE authors (
-     id          INTEGER PRIMARY KEY DEFAULT nextval('authors_seq'),
-     first_name  TEXT,
-     last_name   TEXT
-     );
-     ---
-     --- Load some sample data
-     ---
-     INSERT INTO books VALUES (1, 'CCSP SNRS Exam Certification Guide', 5);
-     INSERT INTO books VALUES (2, 'TCP/IP Illustrated, Volume 1', 5);
-     INSERT INTO books VALUES (3, 'Internetworking with TCP/IP Vol.1', 4);
-     INSERT INTO books VALUES (4, 'Perl Cookbook', 5);
-     INSERT INTO books VALUES (5, 'Designing with Web Standards', 5);
-     INSERT INTO authors VALUES (1, 'Greg', 'Bastien');
-     INSERT INTO authors VALUES (2, 'Sara', 'Nasseh');
-     INSERT INTO authors VALUES (3, 'Christian', 'Degu');
-     INSERT INTO authors VALUES (4, 'Richard', 'Stevens');
-     INSERT INTO authors VALUES (5, 'Douglas', 'Comer');
-     INSERT INTO authors VALUES (6, 'Tom', 'Christiansen');
-     INSERT INTO authors VALUES (7, 'Nathan', 'Torkington');
-     INSERT INTO authors VALUES (8, 'Jeffrey', 'Zeldman');
-     INSERT INTO book_authors VALUES (1, 1);
-     INSERT INTO book_authors VALUES (1, 2);
-     INSERT INTO book_authors VALUES (1, 3);
-     INSERT INTO book_authors VALUES (2, 4);
-     INSERT INTO book_authors VALUES (3, 5);
-     INSERT INTO book_authors VALUES (4, 6);
-     INSERT INTO book_authors VALUES (4, 7);
-     INSERT INTO book_authors VALUES (5, 8);
+    --
+    -- Create a very simple database to hold book and author information
+    --
+    -- The sequence is how we get a unique id in PostgreSQL
+    --
+    CREATE SEQUENCE books_seq START 5 ;
+    SELECT nextval ('books_seq');
+    
+    CREATE TABLE books (
+       id          INTEGER PRIMARY KEY DEFAULT nextval('books_seq'),
+       title       TEXT ,
+       rating      INTEGER
+       );
+    
+    -- 'book_authors' is a many-to-many join table between books & authors
+    CREATE TABLE book_authors (
+       book_id     INTEGER,
+       author_id   INTEGER,
+       PRIMARY KEY (book_id, author_id)
+       );
+    
+    CREATE SEQUENCE authors_seq START 8 ;
+    SELECT nextval ('authors_seq');
+    
+    CREATE TABLE authors (
+    id          INTEGER PRIMARY KEY DEFAULT nextval('authors_seq'),
+    first_name  TEXT,
+    last_name   TEXT
+    );
+    ---
+    --- Load some sample data
+    ---
+    INSERT INTO books VALUES (1, 'CCSP SNRS Exam Certification Guide', 5);
+    INSERT INTO books VALUES (2, 'TCP/IP Illustrated, Volume 1', 5);
+    INSERT INTO books VALUES (3, 'Internetworking with TCP/IP Vol.1', 4);
+    INSERT INTO books VALUES (4, 'Perl Cookbook', 5);
+    INSERT INTO books VALUES (5, 'Designing with Web Standards', 5);
+    INSERT INTO authors VALUES (1, 'Greg', 'Bastien');
+    INSERT INTO authors VALUES (2, 'Sara', 'Nasseh');
+    INSERT INTO authors VALUES (3, 'Christian', 'Degu');
+    INSERT INTO authors VALUES (4, 'Richard', 'Stevens');
+    INSERT INTO authors VALUES (5, 'Douglas', 'Comer');
+    INSERT INTO authors VALUES (6, 'Tom', 'Christiansen');
+    INSERT INTO authors VALUES (7, 'Nathan', 'Torkington');
+    INSERT INTO authors VALUES (8, 'Jeffrey', 'Zeldman');
+    INSERT INTO book_authors VALUES (1, 1);
+    INSERT INTO book_authors VALUES (1, 2);
+    INSERT INTO book_authors VALUES (1, 3);
+    INSERT INTO book_authors VALUES (2, 4);
+    INSERT INTO book_authors VALUES (3, 5);
+    INSERT INTO book_authors VALUES (4, 6);
+    INSERT INTO book_authors VALUES (4, 7);
+    INSERT INTO book_authors VALUES (5, 8);
 
 =item *
 
@@ -519,21 +518,21 @@ Load the data:
     $ psql -U catmyapp -W mycatapp
     Password for user catmyapp: catalyst 
     Welcome to psql 8.1.8, the PostgreSQL interactive terminal.
-
+    
     Type:  \copyright for distribution terms
            \h for help with SQL commands
            \? for help with psql commands
            \g or terminate with semicolon to execute query
            \q to quit
-
+    
     mycatapp=> \i myapp01_psql.sql
-
+    
     CREATE SEQUENCE
     nextval 
     ---------
            5
     (1 row)
-
+    
     psql:myapp01_psql.sql:11: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "books_pkey" for table "books"
     CREATE TABLE
     psql:myapp01_psql.sql:19: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "book_authors_pkey" for table 
@@ -544,7 +543,7 @@ Load the data:
     ---------
           8
     (1 row)
-
+    
     psql:myapp01_psql.sql:30: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "authors_pkey" for table "authors"
     CREATE TABLE
     INSERT 0 1
@@ -565,7 +564,7 @@ Make sure the data loaded correctly:
      public | book_authors | table | catmyapp
      public | books        | table | catmyapp
     (3 rows)
-
+    
     mycatapp=> select * from books;
      id |               title                | rating 
     ----+------------------------------------+--------
@@ -575,7 +574,7 @@ Make sure the data loaded correctly:
       4 | Perl Cookbook                      |      5
       5 | Designing with Web Standards       |      5
      (5 rows)
-
+    
     mycatapp=> \q
 
 =back
@@ -585,13 +584,13 @@ Make sure the data loaded correctly:
 After the steps where you:
 
     edit lib/MyApp.pm 
-
+    
     create lib/MyAppDB.pm 
-
+    
     create lib/MyAppDB/Book.pm
-
+    
     create lib/MyAppDB/Author.pm
-
+    
     create lib/MyAppDB/BookAuthor.pm 
 
 
@@ -619,10 +618,10 @@ Open C<myapp02_psql.sql> in your editor and enter:
     --
     -- Add users and roles tables, along with a many-to-many join table
     --
-
+    
     CREATE SEQUENCE users_seq START 3 ;
     SELECT nextval ('users_seq');
-
+    
     CREATE TABLE users (
             id            INTEGER PRIMARY KEY DEFAULT nextval('users_seq'),
             username      TEXT,
@@ -632,21 +631,21 @@ Open C<myapp02_psql.sql> in your editor and enter:
             last_name     TEXT,
             active        INTEGER
     );
-
+    
     CREATE SEQUENCE roles_seq START 2 ;
     SELECT nextval ('roles_seq');
-
+    
     CREATE TABLE roles (
             id   INTEGER PRIMARY KEY DEFAULT nextval('roles_seq'),
             role TEXT
     );
-
+    
     CREATE TABLE user_roles (
             user_id INTEGER,
             role_id INTEGER,
             PRIMARY KEY (user_id, role_id)
     );
-
+    
     --
     -- Load up some initial test data
     --
@@ -667,21 +666,21 @@ Load the data:
     $ psql -U catmyapp -W mycatapp
     Password for user catmyapp: catalyst 
     Welcome to psql 8.1.8, the PostgreSQL interactive terminal.
-
+    
     Type:  \copyright for distribution terms
            \h for help with SQL commands
            \? for help with psql commands
            \g or terminate with semicolon to execute query
            \q to quit
-
+    
     mycatapp=> \i myapp02_psql.sql
-
+    
     CREATE SEQUENCE
      nextval 
     ---------
            3
     (1 row)
-
+    
     psql:myapp02_psql.sql:16: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "users_pkey" for table "users"
     CREATE TABLE
     CREATE SEQUENCE
@@ -689,7 +688,7 @@ Load the data:
     ---------
            2
     (1 row)
-
+    
     psql:myapp02_psql.sql:24: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "roles_pkey" for table "roles"
     CREATE TABLE
     psql:myapp02_psql.sql:30: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "user_roles_pkey" for table "user_roles"
@@ -704,7 +703,7 @@ Load the data:
     INSERT 0 1
     INSERT 0 1
     mycatapp=> 
-
+    
     mycatapp=> select * from users;
      id | username | password | email_address | first_name | last_name | active 
     ----+----------+----------+---------------+------------+-----------+--------
@@ -734,13 +733,13 @@ Load in the data
     $ psql -U catmyapp -W mycatapp
     Password for user catmyapp: 
     Welcome to psql 8.1.8, the PostgreSQL interactive terminal.
-
+    
     Type:  \copyright for distribution terms
            \h for help with SQL commands
            \? for help with psql commands
            \g or terminate with semicolon to execute query
            \q to quit
-
+    
     mycatapp=> \i myapp03_psql.sql
     UPDATE 1
     UPDATE 1

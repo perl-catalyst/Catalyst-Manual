@@ -64,30 +64,32 @@ at how the ACL authorization plugin can simplify your code.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::Intro>
+L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
+
 
 =head1 BASIC AUTHORIZATION
 
 In this section you learn how to manually configure authorization.
 
+
 =head2 Update Plugins to Include Support for Authorization
 
 Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 
-    use Catalyst qw/
+    __PACKAGE__->setup(qw/
             -Debug
             ConfigLoader
             Static::Simple
-
+    
             StackTrace
-
+    
             Authentication
             Authorization::Roles
-
+    
             Session
             Session::Store::FastMmap
             Session::State::Cookie
-            /;
+        /;
 
 
 =head2 Add Config Information for Authorization
@@ -95,6 +97,8 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 Edit C<myapp.conf> and update it to match the following (the
 C<role_relation> and C<role_field> definitions are new):
 
+    # rename this file to MyApp.yml and put a : in front of "name" if
+    # you want to use yaml like in old versions of Catalyst
     name MyApp
     <authentication>
         default_realm dbic
@@ -143,12 +147,12 @@ Open C<root/src/books/list.tt2> in your editor and add the following
 lines to the bottom of the file:
 
     <p>Hello [% c.user.username %], you have the following roles:</p>
-
+    
     <ul>
       [% # Dump list of roles -%]
       [% FOR role = c.user.roles %]<li>[% role %]</li>[% END %]
     </ul>
-
+    
     <p>
     [% # Add some simple role-specific logic to template %]
     [% # Use $c->check_user_roles() to check authz -%]
@@ -156,7 +160,7 @@ lines to the bottom of the file:
       [% # Give normal users a link for 'logout' %]
       <a href="[% c.uri_for('/logout') %]">Logout</a>
     [% END %]
-
+    
     [% # Can also use $c->user->check_roles() to check authz -%]
     [% IF c.check_user_roles('admin') %]
       [% # Give admin users a link for 'create' %]
@@ -166,6 +170,7 @@ lines to the bottom of the file:
 
 This code displays a different combination of links depending on the
 roles assigned to the user.
+
 
 =head2 Limit C<Books::add> to C<admin> Users
 
@@ -180,18 +185,18 @@ admin-level users by editing C<lib/MyApp/Controller/Books.pm> and
 updating C<url_create> to match the following code:
 
     =head2 url_create
-
+    
     Create a book with the supplied title and rating,
     with manual authorization
-
+    
     =cut
-
+    
     sub url_create : Local {
         # In addition to self & context, get the title, rating & author_id args
         # from the URL.  Note that Catalyst automatically puts extra information
         # after the "/<controller_name>/<action_name/" into @_
         my ($self, $c, $title, $rating, $author_id) = @_;
-
+    
         # Check the user's roles
         if ($c->check_user_roles('admin')) {
             # Call create() on the book model object. Pass the table
@@ -200,16 +205,16 @@ updating C<url_create> to match the following code:
                     title   => $title,
                     rating  => $rating
                 });
-
+    
             # Add a record to the join table for this book, mapping to
             # appropriate author
             $book->add_to_book_authors({author_id => $author_id});
             # Note: Above is a shortcut for this:
             # $book->create_related('book_authors', {author_id => $author_id});
-
+    
             # Assign the Book object to the stash for display in the view
             $c->stash->{book} = $book;
-
+    
             # This is a hack to disable XSUB processing in Data::Dumper
             # (it's used in the view).  This is a work-around for a bug in
             # the interaction of some versions or Perl, Data::Dumper & DBIC.
@@ -217,7 +222,7 @@ updating C<url_create> to match the following code:
             # you are running DBIC 0.06001 or greater), but adding it doesn't
             # hurt anything either.
             $Data::Dumper::Useperl = 1;
-
+    
             # Set the TT template to use
             $c->stash->{template} = 'books/create_done.tt2';
         } else {
@@ -242,6 +247,7 @@ create a new copy and comment out the original by making it look like a
 Pod comment.  For example, put something like C<=begin> before C<sub add
 : Local {> and C<=end> after the closing C<}>.
 
+
 =head2 Try Out Authentication And Authorization
 
 Press C<Ctrl-C> to kill the previous server instance (if it's still
@@ -249,13 +255,13 @@ running) and restart it:
 
     $ script/myapp_server.pl
 
-Now trying going to L<http://localhost:3000/books/list> and you should
-be taken to the login page (you might have to C<Shift+Reload> your
-browser and/or click the "Logout" link on the book list page).  Try
-logging in with both C<test01> and C<test02> (both use a password
-of C<mypass>) and notice how the roles information updates at the
-bottom of the "Book List" page. Also try the C<Logout> link on the
-book list page.
+Now trying going to L<http://localhost:3000/books/list> and you should 
+be taken to the login page (you might have to C<Shift+Reload> or 
+C<Ctrl+Reload> your browser and/or click the "Logout" link on the book 
+list page).  Try logging in with both C<test01> and C<test02> (both 
+use a password of C<mypass>) and notice how the roles information 
+updates at the bottom of the "Book List" page. Also try the C<Logout> 
+link on the book list page.
 
 Now the "url_create" URL will work if you are already logged in as user
 C<test01>, but receive an authorization failure if you are logged in as
@@ -263,8 +269,8 @@ C<test02>.  Try:
 
     http://localhost:3000/books/url_create/test/1/6
 
-while logged in as each user.  Use one of the 'Logout' links (or go to
-L<http://localhost:3000/logout> in your browser directly) when you are
+while logged in as each user.  Use one of the 'Logout' links (or go to 
+L<http://localhost:3000/logout> in your browser directly) when you are 
 done.
 
 
@@ -275,20 +281,22 @@ L<Catalyst::Plugin::Authorization::ACL|Catalyst::Plugin::Authorization::ACL>
 plugin can automate much of the work required to perform role-based
 authorization in a Catalyst application.
 
+
 =head2 Add the C<Catalyst::Plugin::Authorization::ACL> Plugin
 
 Open C<lib/MyApp.pm> in your editor and add the following plugin to the
-C<use Catalyst> statement:
+C<__PACKAGE__-E<gt>setup> statement:
 
     Authorization::ACL
 
 Note that the remaining C<use Catalyst> plugins from earlier sections
 are not shown here, but they should still be included.
 
+
 =head2 Add ACL Rules to the Application Class
 
 Open C<lib/MyApp.pm> in your editor and add the following B<BELOW> the
-C<__PACKAGE__-E<gt>setup;> statement:
+C<__PACKAGE__-E<gt>setup> statement:
 
     # Authorization::ACL Rules
     __PACKAGE__->deny_access_unless(
@@ -358,6 +366,7 @@ C<lib\MyApp.pm> B<after> the C<__PACKAGE__-E<gt>setup;> line.
 
 =back
 
+
 =head2 Add a Method to Handle Access Violations
 
 By default,
@@ -372,17 +381,17 @@ Open C<lib/MyApp/Controller/Books.pm> in your editor and add the
 following method:
 
     =head2 access_denied
-
+    
     Handle Catalyst::Plugin::Authorization::ACL access denied exceptions
-
+    
     =cut
-
+    
     sub access_denied : Private {
         my ($self, $c) = @_;
-
+    
         # Set the error message
         $c->stash->{error_msg} = 'Unauthorized!';
-
+    
         # Display the list
         $c->forward('list');
     }

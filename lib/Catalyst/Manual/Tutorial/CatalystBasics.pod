@@ -108,7 +108,7 @@ to persist and restore objects to/from a relational database.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>
+L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
 
 
 =head1 CREATE A CATALYST PROJECT

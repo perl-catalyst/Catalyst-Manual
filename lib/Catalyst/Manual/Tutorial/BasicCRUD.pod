@@ -66,9 +66,17 @@ focus on the Create and Delete aspects of CRUD.  More advanced
 capabilities, including full Update functionality, will be addressed in
 Part 9.
 
+Although this part of the tutorial will show you how to build CRUD 
+functionality yourself, another option is to use a "CRUD builder" type 
+of tool to automate the process.  You get less control, but it's quick 
+and easy.  For example, see 
+L<CatalystX::ListFramework::Builder|CatalystX::ListFramework::Builder>,
+L<CatalystX::CRUD|CatalystX::CRUD>, and 
+L<CatalystX::CRUD:YUI|CatalystX::CRUD:YUI>.
+
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::Intro>
+L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
 
 
 =head1 FORMLESS SUBMISSION
@@ -172,22 +180,20 @@ Edit C<root/src/books/create_done.tt2> and then enter:
     [% Dumper.dump(book) %]
     </pre>
 
-The TT C<USE> directive allows access to a variety of plugin modules (TT
-plugins, that is, not Catalyst plugins) to add extra functionality to
-the base TT capabilities.  Here, the plugin allows L<Data::Dumper>
-"pretty printing" of objects and variables.  Other than that, the rest
-of the code should be familiar from the examples in Part 3.
+The TT C<USE> directive allows access to a variety of plugin modules 
+(TT plugins, that is, not Catalyst plugins) to add extra functionality 
+to the base TT capabilities.  Here, the plugin allows 
+L<Data::Dumper|Data::Dumper> "pretty printing" of objects and 
+variables.  Other than that, the rest of the code should be familiar 
+from the examples in Part 3.
 
-B<IMPORTANT NOTE> As mentioned earlier, the C<MyApp::View::TT.pm> view
-class created by TTSite redefines the name used to access the Catalyst
-context object in TT templates from the usual C<c> to C<Catalyst>.
 
 =head2 Try the C<url_create> Feature
 
 If the application is still running from before, use C<Ctrl-C> to kill
 it. Then restart the server:
 
-    $ script/myapp_server.pl
+    $ DBIC_TRACE=1 script/myapp_server.pl
 
 Note that new path for C</books/url_create> appears in the startup debug
 output.
@@ -218,9 +224,9 @@ The C<INSERT> statements are obviously adding the book and linking it to
 the existing record for Richard Stevens.  The C<SELECT> statement results
 from DBIC automatically fetching the book for the C<Dumper.dump(book)>.
 
-If you then click the "Return to list" link, you should find that there
-are now six books shown (if necessary, Shift-Reload your browser at the
-C</books/list> page).
+If you then click the "Return to list" link, you should find that 
+there are now six books shown (if necessary, Shift+Reload or 
+Ctrl+Reload your browser at the C</books/list> page).
 
 Then I<add 2 more copies of the same book> so that we have some extras for
 our delete logic that will be coming up soon.  Enter the same URL above
@@ -260,6 +266,7 @@ Edit C<lib/MyApp/Controller/Books.pm> and add the following method:
 
 This action simply invokes a view containing a book creation form.
 
+
 =head2 Add a Template for the Form
 
 Open C<root/src/books/form_create.tt2> in your editor and enter:
@@ -277,6 +284,7 @@ Open C<root/src/books/form_create.tt2> in your editor and enter:
 
 Note that we have specified the target of the form data as
 C<form_create_do>, the method created in the section that follows.
+
 
 =head2 Add a Method to Process Form Values and Update Database
 
@@ -326,7 +334,7 @@ it.  Then restart the server:
 
 Point your browser to L<http://localhost:3000/books/form_create> and
 enter "TCP/IP Illustrated, Vol 3" for the title, a rating of 5, and an
-author ID of 4.  You should then be forwarded to the same
+author ID of 4.  You should then see the output of the same
 C<create_done.tt2> template seen in earlier examples.  Finally, click
 "Return to list" to view the full list of books.
 
@@ -390,12 +398,13 @@ The additional code is obviously designed to add a new column to the
 right side of the table with a C<Delete> "button" (for simplicity, links
 will be used instead of full HTML buttons).
 
+
 =head2 Add a Delete Action to the Controller
 
 Open C<lib/MyApp/Controller/Books.pm> in your editor and add the
 following method:
 
-    =head2 delete 
+    =head2 delete
     
     Delete a book
         
@@ -530,18 +539,23 @@ C<sub delete> method to match the following:
 
 This modification simply leverages the ability of C<uri_for> to include
 an arbitrary number of name/value pairs in a hash reference.  Next, we 
-need to update C<root/lib/site/layout> to handle C<status_msg> as a 
+need to update C<root/src/wrapper> to handle C<status_msg> as a 
 query parameter:
 
-    <div id="header">[% PROCESS site/header %]</div>
-    
+    ...
     <div id="content">
-    <span class="message">[% status_msg || c.request.params.status_msg %]</span>
-    <span class="error">[% error_msg %]</span>
-    [% content %]
-    </div>
-    
-    <div id="footer">[% PROCESS site/footer %]</div>
+        [%# Status and error messages %]
+        <span class="message">[% status_msg || c.request.params.status_msg %]</span>
+        <span class="error">[% error_msg %]</span>
+        [%# This is where TT will stick all of your template's contents. -%]
+        [% content %]
+    </div><!-- end content -->
+    ...
+
+Although the sample above only shows the C<content> div, leave the 
+rest of the file intact -- the only change we made to the C<wrapper.tt2>
+was to add "C<|| c.request.params.status_msg>" to the 
+C<E<lt>span class="message"E<gt>> line.
 
 
 =head2 Try the Delete and Redirect With Query Param Logic
