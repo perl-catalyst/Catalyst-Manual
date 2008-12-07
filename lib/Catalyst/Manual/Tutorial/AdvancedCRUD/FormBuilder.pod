@@ -2,7 +2,7 @@
 
 Catalyst::Manual::Tutorial::AdvancedCRUD::FormBuilder - Catalyst Tutorial - Part 9: Advanced CRUD - FormBuilder
 
-NOTE:  This part of the tutorial is in progress and will be ready soon.
+NOTE:  This part of the tutorial is in progress.  Feel free to volunteer to help out. :-)
 
 =head1 OVERVIEW
 

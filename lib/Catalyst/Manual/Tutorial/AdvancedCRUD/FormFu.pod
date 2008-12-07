@@ -5,8 +5,6 @@
 Catalyst::Manual::Tutorial::AdvancedCRUD::FormFu - Catalyst Tutorial - Part 9: Advanced CRUD - FormFu
 
 
-NOTE:  This part of the tutorial is in progress and will be ready soon.
-
 =head1 OVERVIEW
 
 This is B<Part 9 of 10> for the Catalyst tutorial.
@@ -62,7 +60,8 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 This portion of the tutorial explores L<HTML::FormFu|HTML::FormFu> and 
 how it can be used to manage forms, perform validation of form input, 
-as well as save and restore data to/from the database.
+as well as save and restore data to/from the database.  This was written
+using HTML::FormFu version 0.03006.
 
 See 
 L<Catalyst::Manual::Tutorial::AdvancedCRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
@@ -81,13 +80,22 @@ required by C<HTML::FormFu>:
     sudo apt-get install libtest-nowarnings-perl libdatetime-format-builder-perl \
     libdatetime-format-strptime-perl libdatetime-locale-perl \
     libhtml-tokeparser-simple-perl liblist-moreutils-perl \
-    libregexp-copy-perl libregexp-common-perl libyaml-syck-perl libparams-util-perl
+    libregexp-copy-perl libregexp-common-perl libyaml-syck-perl libparams-util-perl \
+    libcrypt-des-perl libcaptcha-recaptcha-perl libcrypt-cbc-perl \
+    libreadonly-xs-perl libmoose-perl libregexp-assemble-perl
 
 Then use the following command to install directly from CPAN the modules 
 that aren't available as Ubuntu/Debian packages via C<apt-get>:
 
-    sudo cpan File::ShareDir Task::Weaken Config::Any HTML::FormFu \
-    Catalyst::Controller::HTML::FormFu
+    sudo cpan File::ShareDir Task::Weaken Config::Any Test::Harness Test::Aggregate \
+    boolean Test::MockTime DateTime::Format::Natural HTML::FormFu \
+    Catalyst::Component::InstancePerContext Catalyst::Controller::HTML::FormFu \
+    HTML::FormFu::Model::DBIC
+
+B<Note:> If you are following along with the Ubuntu LiveCD, you might 
+want to make sure you still have adequate free disk space in the root 
+partition with the C<df> command.  You can free up some space with 
+C<rm -rf /root/.cpan/*>.
 
 
 =head1 C<HTML::FormFu> FORM CREATION
@@ -102,11 +110,11 @@ First, change your C<lib/MyApp/Controller/Books.pm> to inherit from
 L<Catalyst::Controller::HTML::FormFu|Catalyst::Controller::HTML::FormFu>
 by changing the C<use base> line from the default of:
 
-    use base 'Catalyst::Controller';
+    use parent 'Catalyst::Controller';
 
 to use the FormFu base controller class:
 
-    use base 'Catalyst::Controller::HTML::FormFu';
+    use parent 'Catalyst::Controller::HTML::FormFu';
 
 
 =head2 Add Action to Display and Save the Form
@@ -211,7 +219,7 @@ this document for a more foolproof config format.
 
 =head2 Update the CSS
 
-Edit C<root/src/ttsite.css> and add the following lines to the bottom of
+Edit C<root/static/css/main.css> and add the following lines to the bottom of
 the file:
 
     input {
@@ -325,7 +333,7 @@ to match:
               max: 40
               # Override the default of 'Invalid input'
               message: Length must be between 5 and 40 characters
-
+    
         # Another text field for the numeric rating
         - type: Text
           name: rating
@@ -333,18 +341,22 @@ to match:
           attributes:
             title: Enter a rating between 1 and 5 here
           # Use Filter to clean up the input data
-          filter:
+          # Could use 'NonNumeric' below, but since Filters apply *before*
+          # constraints, it would conflict with the 'Integer' constraint below.
+          # So let's skip this and just use the constraint.
+          #filter:
             # Remove everything except digits
-            - NonNumeric
+            #- NonNumeric
           # Add constraints to the field
           constraints:
-            - Required
             # Make sure it's a number
-            - Integer
-            message: "Digits only, please."
-            # Filters apply before constraints.
-            # If a user gives the rating "excellent", the NonNumeric filter would remove the entire string as it contains no digits. 
-            # Remove the NonNumeric filter and let the Integer constraint handle the validation and error message.
+            - type: Integer
+              message: "Required. Digits only, please."
+            # Check the min & max values
+            - type: Range
+              min: 1
+              max: 5
+              message: "Must be between 1 and 5."
     
         # Add a select list for the author selection.  Note that we will
         # dynamically fill in all the authors from the controller but we
@@ -376,7 +388,8 @@ to match:
     constraints:
       # The user cannot leave any fields blank
       - Required
-      # If not all fields are required, move the Required constraint to the fields that are.
+      # If not all fields are required, move the Required constraint to the 
+      # fields that are
     filter:
       # Remove whitespace at both ends
       - TrimEdges
@@ -526,12 +539,18 @@ existing "Delete" link that allows us to edit/update each existing book.
 The last E<lt>tdE<gt> cell in the book list table should look like the 
 following:
 
+    ...
     <td>
       [% # Add a link to delete a book %]
       <a href="[% c.uri_for('delete', book.id) %]">Delete</a>
       [% # Add a link to edit a book %]
       <a href="[% c.uri_for('formfu_edit', book.id) %]">Edit</a>
     </td>
+    ...
+
+B<Note:> Only add two lines (the "Add a link to edit a book" comment
+and the href for C<formfu_edit>).  Make sure you add it below the
+existing C<delete> link.
 
 
 =head2 Try Out the Edit/Update Feature
