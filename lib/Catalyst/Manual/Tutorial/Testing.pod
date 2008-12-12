@@ -315,7 +315,7 @@ lies.  A simple technique that can be used in such situations is to
 temporarily insert a line similar to the following right after the 
 failed test:
 
-    warn $ua1->content;
+    diag $ua1->content;
 
 This will cause the full HTML returned by the request to be displayed.
 

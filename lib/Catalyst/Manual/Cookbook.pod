@@ -1195,6 +1195,8 @@ becomes
 
  http://localhost:3000/handles
 
+See also: L<Catalyst::DispatchType::Path>
+
 =item Local
 
 When using a Local attribute, no parameters are needed, instead, the
@@ -1236,6 +1238,8 @@ and
 
 etc.
 
+See also: L<Catalyst::DispatchType::Regex>
+
 =item LocalRegex
 
 A LocalRegex is similar to a Regex, except it only matches below the current
@@ -1252,6 +1256,11 @@ and
  http://localhost:3000/buckets/handles_and_other_parts
 
 etc.
+
+=item Chained
+
+See L<Catalyst::DispatchType::Chained> for a description of how the chained
+dispatch type works.
 
 =item Private
 
@@ -1360,6 +1369,71 @@ L<http://search.cpan.org/author/SRI/Catalyst-5.61/lib/Catalyst/Manual/Intro.pod>
 
 L<http://dev.catalyst.perl.org/wiki/FlowChart>
 
+=head2 DRY Controllers with Chained actions.
+
+Imagine that you would like the following paths in your application:
+
+=over
+
+=item B</cd/<ID>/track/<ID>>
+
+Displays info on a particular track.
+                                       
+In the case of a multi-volume CD, this is the track sequence.
+
+=item B</cd/<ID>/volume/<ID>/track/<ID>>
+
+Displays info on a track on a specific volume.
+
+=back
+
+Here is some example code, showing how to do this with chained controllers:
+
+    package CD::Controller;
+    use base qw/Catalyst::Controller/;
+    
+    sub root : Chained('/') PathPart('/cd') CaptureArgs(1) {
+        my ($self, $c, $cd_id) = @_;
+        $c->stash->{cd_id} = $cd_id;
+        $c->stash->{cd} = $self->model('CD')->find_by_id($cd_id);
+    }
+    
+    sub trackinfo : Chained('track') PathPart('') Args(0) RenderView {
+        my ($self, $c) = @_;
+    }
+    
+    package CD::Controller::ByTrackSeq;
+    use base qw/CD::Controller/;
+    
+    sub track : Chained('root') PathPart('track') CaptureArgs(1) {
+        my ($self, $c, $track_seq) = @_;
+        $c->stash->{track} = $self->stash->{cd}->find_track_by_seq($track_seq);
+    }
+    
+    package CD::Controller::ByTrackVolNo;
+    use base qw/CD::Controller/;
+    
+    sub volume : Chained('root') PathPart('volume') CaptureArgs(1) {
+        my ($self, $c, $volume) = @_;
+        $c->stash->{volume} = $volume;
+    }
+    
+    sub track : Chained('volume') PathPart('track') CaptureArgs(1) {
+        my ($self, $c, $track_no) = @_;
+        $c->stash->{track} = $self->stash->{cd}->find_track_by_vol_and_track_no(
+            $c->stash->{volume}, $track_no
+        );
+    }
+    
+Note that adding other actions (i.e. chain endpoints) which operate on a track 
+is simply a matter of adding a new sub to CD::Controller - no code is duplicated,
+even though there are two different methods of looking up a track.
+
+This technique can be expanded as needed to fulfil your requirements - for example,
+if you inherit the first action of a chain from a base class, then mixing in a
+different base class can be used to duplicate an entire URL hieratchy at a different
+point within your application.
+
 =head2 Component-based Subrequests
 
 See L<Catalyst::Plugin::SubRequest>.
@@ -1466,6 +1540,12 @@ the Catalyst Request object:
 (See the L<Catalyst::Manual::Intro> Flow_Control section for more 
 information on passing arguments via C<forward>.)
 
+=head2 Chained dispatch using base classes, and inner packages.
+
+  package MyApp::Controller::Base;
+  use base qw/Catalyst::Controller/;
+
+  sub key1 : Chained('/') 
 
 =head1 Deployment
 
