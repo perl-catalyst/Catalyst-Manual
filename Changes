@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+        - Change use of Class::C3 to MRO::Compat, as rafl tells me
+          this is best practice, and gives you native next::method in 
+          5.10. (t0m)
+
 5.7014   04 Nov 2008
         - Remove a reference to a FOREACH loop that did not exist (RT #39046)
         - Changed some Template Toolkit links to perldoc links (RT #38354)

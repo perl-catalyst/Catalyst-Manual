@@ -110,8 +110,8 @@ L<Catalyst::Model::Adaptor|Catalyst::Model::Adaptor>.
 
 While Catalyst itself is still based on L<NEXT> (for multiple
 inheritance), extension developers are encouraged to use L<Class::C3>,
-which is what Catalyst will be switching to in some point in the
-future.
+via MRO::Compat, which is what Catalyst will be switching to in the 
+5.80 release.
 
 When overriding a method, keep in mind that some day additionally
 arguments may be provided to the method, if the last parameter is not
@@ -119,7 +119,7 @@ a flat list. It is thus better to override a method by shifting the
 invocant off of C<@_> and assign the rest of the used arguments, so
 you can pass your complete arguments to the original method via C<@_>:
 
-  use Class::C3; ...
+  use MRO::Compat; ...
 
   sub foo { my $self = shift;
             my ($bar, $baz) = @_; # ...  return
@@ -277,9 +277,11 @@ method. The execute method of the action will naturally call the
 methods code. You can surround this by overriding the method in a
 subclass:
 
-  package Catalyst::Action::MyFoo; use strict;
+  package Catalyst::Action::MyFoo; 
+  use strict;
 
-  use Class::C3; use base 'Catalyst::Action';
+  use MRO::Compat; 
+  use base 'Catalyst::Action';
 
   sub execute {
       my $self = shift;
@@ -291,8 +293,10 @@ subclass:
   }
   1;
 
-We are using L<Class::C3> to re-dispatch to the original C<execute> method
-in the L<Catalyst::Action> class.
+We are using L<MRO::Compat> to ensure that you have the next::method
+call, from L<Class::C3> (in older perls), or natively (if you are using 
+perl 5.10) to re-dispatch to the original C<execute> method in the 
+L<Catalyst::Action> class.
 
 The Catalyst dispatcher handles an incoming request and, depending
 upon the dispatch type, will call the appropriate target or chain. 
@@ -306,7 +310,7 @@ Mondays:
 
   package Catalyst::Action::OnlyMondays; use strict;
 
-  use Class::C3;
+  use MRO::Compat;
   use base 'Catalyst::Action';
 
   sub match {
@@ -548,7 +552,7 @@ implementation (excuse the lame class name, it's just an example):
 
   package Catalyst::Plugin::UriforUndefWarning;
   use strict;
-  use Class::C3;
+  use MRO::Compat;
 
   sub uri_for {
       my $c = shift;
@@ -573,8 +577,9 @@ C<config>uration with the application wide overrides and call the
 class' C<new> method to return the component object.
 
 You can override this method and do and return whatever you want.
-However, you should use L<Class::C3> to forward to the original
-C<COMPONENT> method to merge the configuration of your component.
+However, you should use L<Class::C3> (via L<MRO::Compat>) to forward 
+to the original C<COMPONENT> method to merge the configuration of 
+your component.
 
 Here is a stub C<COMPONENT> method:
 
@@ -582,7 +587,7 @@ Here is a stub C<COMPONENT> method:
   use strict;
   use base 'Catalyst::Component';
 
-  use Class::C3;
+  use MRO::Compat;
 
   sub COMPONENT {
       my $class = shift;
