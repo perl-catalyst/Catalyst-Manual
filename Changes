@@ -1,5 +1,14 @@
 Revision history for Catalyst-Manual
 
+5.7015  15 Dec 2008
+        - Remove TTSite from Tutorial (thanks to dhoss for the help)
+        - Update Tutorial for Ubuntu 8.10 (therefore update to 
+          Cat v5.7014, C::Devel v1.07, DBIC v0.08010, etc.)
+        - Reorganize MoreCatalystBasics.pod so user is able to run 
+          the app the first time much earlier and build on it from 
+          there (running the app each time along the way)
+        - Update URL for latest copy in SVN to match new location of repo
+        - Misc typo fix
         - Change use of Class::C3 to MRO::Compat, as rafl tells me
           this is best practice, and gives you native next::method in 
           5.10. (t0m)
