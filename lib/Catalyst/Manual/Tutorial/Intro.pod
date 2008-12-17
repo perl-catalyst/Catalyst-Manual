@@ -414,13 +414,17 @@ same.
 Each part of the tutorial has complete code available in the main
 Catalyst Subversion repository (see the note at the beginning of each
 part for the appropriate svn command to use).  Additionally, the final
-code is available as a ready-to-run tarball at
-L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/Final_Tarball/MyApp.tgz>.
+code through Part 8 of the tutorial is available as a ready-to-run 
+tarball at
+L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/Final_Tarball/MyApp_Part8.tgz>.
+The final code for other parts of the tutorial are available at:
+L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/Final_Tarballs_Per_Part/>.
+
 
 B<NOTE:> You can run the test cases for the final code with the following 
 commands:
 
-    wget http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/Final_Tarball/MyApp.tgz
+    wget http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/Final_Tarball/MyApp_Part8.tgz
     tar zxvf MyApp.tgz
     cd MyApp
     CATALYST_DEBUG=0 prove --lib lib  t
