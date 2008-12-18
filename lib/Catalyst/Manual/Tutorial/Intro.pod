@@ -56,7 +56,7 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =head1 DESCRIPTION
 
-This tutorial provides a multipart introduction to the Catalyst web
+This tutorial provides a multi-part introduction to the Catalyst web
 framework. It seeks to provide a rapid overview of many of its most
 commonly used features. The focus is on the real-world best practices
 required in the construction of nearly all Catalyst applications.
@@ -82,12 +82,19 @@ ensure that your system is set up correctly, and that you have not
 inadvertently made any typographic errors, or accidentally skipped
 part of the tutorial.>
 
-B<NOTE: You can use any perl-supported OS and environment to run 
+B<NOTE: You can use any Perl-supported OS and environment to run 
 Catalyst.> It should make little or no difference to Catalyst's 
-operation, but this tutorial has been written using Ubuntu 8.10 
+operation, B<but this tutorial has been written using Ubuntu 8.10> 
 because that represents a quick and easy for most people to try out 
-Catalyst with virtually zero setup time and hassles.  See the Catalyst 
-installation section below for more information.
+Catalyst with virtually zero setup time and hassles.  Also, the tutorial 
+has been tested to work correctly with the versions of Catalyst and all 
+the supporting modules in Ubuntu 8.10 (see "VERSIONS AND CONVENTIONS 
+USED IN THIS TUTORIAL" below for the specific versions for some of the 
+key modules), so B<if you think you might be running into an issue 
+related to versions> (for example, a module changed its behavior in a 
+newer version or a bug was introduced), B<it might be worth giving 
+Ubuntu 8.10 a try>.  See the "CATALYST INSTALLATION" section below for 
+more information.
 
 If you're reading this manual online, you can download the example 
 program and all the necessary dependencies to your local machine by 
@@ -298,11 +305,13 @@ applicable to the largest number of potential new users:
 
 Ubuntu
 
-Given the popularity of Ubuntu and its ease of use, Ubuntu can be 
-a great way for newcomers to experiment with Catalyst.  Because it 
-is a "live CD," you can simply boot from the CD, run a few commands,
-and you should have a fully functional environment in which to do 
-this tutorial in a matter of minutes.  
+Given the popularity of Ubuntu and its ease of use, Ubuntu can be a 
+great way for newcomers to experiment with Catalyst.  Because it is a 
+"live CD," you can simply boot from the CD, run a few commands, and you 
+should have a fully functional environment in which to do this tutorial 
+in a matter of minutes.  B<The tutorial was fully tested to work under 
+Ubuntu 8.10.  Although it SHOULD work under any Catalyst installation 
+method you might choose, it can be hard to guarantee this.>
 
 =over 4
 
@@ -349,21 +358,48 @@ options to install Ubuntu on your drive.
 
 Matt Trout's C<cat-install>
 
-Available at L<http://www.shadowcatsystems.co.uk/static/cat-install>,
-C<cat-install> can be a quick and painless way to get Catalyst up and
-running.  Just download the script from the link above and type C<perl
-cat-install>.
+Available at L<http://www.shadowcatsystems.co.uk/static/cat-install>, 
+C<cat-install> can be a fairly painless way to get Catalyst up and 
+running.  Just download the script from the link above and type C<perl 
+cat-install>.  Depending on the speed of your Internet connection and 
+your computer, it will probably take 30 to 60 minutes to install because 
+it downloads, makes, compiles, and tests every module.  But this is an 
+excellent way to automate the installation of all the latest modules 
+used by Catalyst from CPAN.
+
 
 =item * 
 
-Chris Laco's CatInABox
+Other Possibilities
 
-Download the tarball from
-L<http://handelframework.com/downloads/CatInABox.tar.gz> and unpack it
-on your machine.  Depending on your OS platform, either run C<start.bat>
-or C<start.sh>.
+=over 4
+
+=item *
+
+OpenBSD Packages
+
+The 2008 Advent Day 4 entry has more information on using OpenBSD 
+packages to quickly build a system: 
+L<http://www.catalystframework.org/calendar/2008/4>.
+
+=item *
+
+NetBSD Package Collection on Solaris
+
+The 2008 Advent Day 15 entry has more information on using C<pkgsrc> and 
+NetBSD packages on Solaris: 
+L<http://www.catalystframework.org/calendar/2008/15|>.
 
 =item * 
+
+CatInABox
+
+You can get more information at 
+L<http://www.catalystframework.org/calendar/2008/7>
+or L<Perl::Dist::CatInABox|Perl::Dist::CatInABox>.
+
+
+=item *
 
 Pre-Built VMWare Images
 
@@ -381,6 +417,8 @@ Images (AMI) that include all the elements you'd need to begin
 developing in a fully functional Catalyst environment within minutes.
 See L<Catalyst::Manual::Installation|Catalyst::Manual::Installation>
 for more details.
+
+=back
 
 =back
 
