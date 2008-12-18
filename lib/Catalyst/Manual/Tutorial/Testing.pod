@@ -67,11 +67,6 @@ You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
 L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
 
-B<Note:> Some of the tests in this section currently fail under 
-Ubuntu 8.10 and Catalyst v5.7014.  We are looking for a fix.  They
-do work under Ubuntu 8.04 and Catalyst v5.7011.
-
-
 
 =head1 RUNNING THE "CANNED" CATALYST TESTS
 
@@ -108,6 +103,8 @@ C<request('/logout')-E<gt>is_redirect> in C<t/controller_Logout.t>.
 
 3) Change the C<request('/books')-E<gt>is_success> to 
 C<request('/books')-E<gt>is_redirect> in C<t/controller_Books.t>.
+
+4) Add C<use MyApp;> to the top of C<t/view_TT.t>.
 
 As you can see in the C<prove> command line above, the C<--lib> option
 is used to set the location of the Catalyst C<lib> directory.  With this
