@@ -139,10 +139,10 @@ Notice how the helper has added three new table-specific result source
 files to the C<lib/MyApp/Schema/MyApp> directory.  And, more
 importantly, even if there were changes to the existing result source
 files, those changes would have only been written above the C<# DO NOT
-MODIFY THIS OR ANYTHING ABOVE!> comment and your hand-editted
+MODIFY THIS OR ANYTHING ABOVE!> comment and your hand-edited
 enhancements would have been preserved.
 
-Speaking of "hand-editted enhancements," we should now add
+Speaking of "hand-edit ted enhancements," we should now add
 relationship information to the three new result source files.  Edit
 each of these files and add the following information between the C<#
 DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment and the closing C<1;>:
@@ -501,7 +501,7 @@ the following method:
         my ($self, $c) = @_;
     
         # Allow unauthenticated users to reach the login page.  This
-        # allows anauthenticated users to reach any action in the Login
+        # allows unauthenticated users to reach any action in the Login
         # controller.  To lock it down to a single action, we could use:
         #   if ($c->action eq $c->controller('Login')->action_for('index'))
         # to only allow unauthenticated access to the 'index' action we

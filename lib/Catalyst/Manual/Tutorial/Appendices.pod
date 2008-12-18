@@ -107,8 +107,8 @@ Removes four leading space from the current line through line 44
 
 =head2 "Un-indenting" with Emacs
 
-Although there author has not used emacs for many years (apologies to 
-the emacs fans out there), here is a quick hint to get you started.  To
+Although there author has not used Emacs for many years (apologies to 
+the Emacs fans out there), here is a quick hint to get you started.  To
 replace the leading spaces of every line in a file, use:
 
     M-x replace-regexp<RET>
@@ -121,7 +121,7 @@ four spaces after the "^" on the "Replace regexp:" line and no spaces
 entered on the last line.
 
 You can limit the replacement operation by selecting text first (depending
-on your version of emacs, you can either use the mouse or experiment with 
+on your version of Emacs, you can either use the mouse or experiment with 
 commands such as C<C-SPC> to set the mark at the cursor location and 
 C<C-E<lt>> and C<C-E<gt>> to set the mark at the beginning and end of the
 file respectively.

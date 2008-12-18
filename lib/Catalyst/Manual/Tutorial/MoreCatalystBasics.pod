@@ -343,7 +343,7 @@ information, configuration values, a CSS stylesheet, and more.
 
 While TTSite is useful to bootstrap a project, most in the Catalyst 
 community recommend that it's easier to learn both Catalyst and 
-Tempalte Toolkit if you use the more basic TT approach.  Consequently, 
+Template Toolkit if you use the more basic TT approach.  Consequently, 
 this tutorial will use "plain old TT."
 
 Enter the following command to enable the C<TT> style of view
@@ -383,7 +383,7 @@ And update it to match:
 B<NOTE:> Make sure to add a comma after '.tt2' outside the single
 quote.
 
-This changes the default extenstion for Template Toolkit from '.tt' to
+This changes the default extension for Template Toolkit from '.tt' to
 '.tt2' and changes the base directory for your template files from
 C<root> to C<root/src>.
 
@@ -553,16 +553,16 @@ your OS command prompt.
 
 =head1 DATABASE ACCESS WITH C<DBIx::Class>
 
-Catalyst can be used with virtually any form of persistent datastore
-available via Perl.  For example,
-L<Catalyst::Model::DBI|Catalyst::Model::DBI> can be used to
-easily access databases through the traditional Perl C<DBI> interface.
-However, most Catalyst applications use some form of ORM technology to
-automatically create and save model objects as they are used.  Although
-Tony Bowden's L<Class::DBI|Class::DBI> has been a popular choice
-in the past, Matt Trout's L<DBIx::Class|DBIx::Class> (abbreviated
-as "DBIC") has rapidly emerged as the Perl-based ORM technology of choice.
-Most new Catalyst applications rely on DBIC, as will this tutorial.
+Catalyst can be used with virtually any form of persistent datastore 
+available via Perl.  For example, 
+L<Catalyst::Model::DBI|Catalyst::Model::DBI> can be used to easily 
+access databases through the traditional Perl C<DBI> interface. However, 
+most Catalyst applications use some form of ORM technology to 
+automatically create and save model objects as they are used.  Although 
+L<Class::DBI|Class::DBI> has been a popular choice in the past, Matt 
+Trout's L<DBIx::Class|DBIx::Class> (abbreviated as "DBIC") has rapidly 
+emerged as the Perl-based ORM technology of choice. Most new Catalyst 
+applications rely on DBIC, as will this tutorial.
 
 
 =head2 Create a Dynamic DBIC Model
@@ -598,8 +598,8 @@ use the C<create=static> option that we switch to below.
 
 =head1 ENABLE THE MODEL IN THE CONTROLLER
 
-Open C<lib/MyApp/Controller/Books.pm> and uncomment the model code we
-left disabled earlier (uncomment the line containing
+Open C<lib/MyApp/Controller/Books.pm> and un-comment the model code we
+left disabled earlier (un-comment the line containing
 C<[$c-E<gt>model('DB::Books')-E<gt>all]> and delete the next 2 lines):
 
     =head2 list
@@ -624,7 +624,7 @@ C<[$c-E<gt>model('DB::Books')-E<gt>all]> and delete the next 2 lines):
         $c->stash->{template} = 'books/list.tt2';
     }
 
-B<TIP>: You may see the C<$c-E<gt>model('DB::Book')> uncommented above
+B<TIP>: You may see the C<$c-E<gt>model('DB::Book')> un-commented above
 written as C<$c-E<gt>model('DB')-E<gt>resultset('Book')>.  The two
 are equivalent.
 
@@ -733,7 +733,7 @@ Next, to view the book list, change the URL in your browser to
 L<http://localhost:3000/books/list>. You should get a list of the five
 books loaded by the C<myapp01.sql> script above without any formatting.
 The rating for each book should appear on each row, but the "Author(s)"
-column will sitll be blank (we will fill that in later).
+column will still be blank (we will fill that in later).
 
 Also notice in the output of the C<script/myapp_server.pl> that DBIC
 used the following SQL to retrieve the data:

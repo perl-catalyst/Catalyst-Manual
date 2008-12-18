@@ -67,6 +67,11 @@ You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
 L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
 
+B<Note:> Some of the tests in this section currently fail under 
+Ubuntu 8.10 and Catalyst v5.7014.  We are looking for a fix.  They
+do work under Ubuntu 8.04 and Catalyst v5.7011.
+
+
 
 =head1 RUNNING THE "CANNED" CATALYST TESTS
 
