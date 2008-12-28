@@ -174,7 +174,7 @@ as images and CSS files under the development server.
 
 =back
 
-For out application, we want to add one new plugin into the mix.  To 
+For our application, we want to add one new plugin into the mix.  To 
 do this, edit C<lib/MyApp.pm> (this file is generally referred to as 
 your I<application class>) and delete the line with:
 
@@ -189,6 +189,21 @@ Then replace it with:
     
             StackTrace
         /);
+
+B<Note:> Recent versions of C<Catalyst::Devel> have used a variety of 
+techniques to load these plugins/flags.  If you are following along in 
+Ubuntu 8.10, you should have C<Catalyst::Devel> v1.07 and see the 
+default code shown above.  If you are using v1.08, you should see the 
+following by default:
+
+    use Catalyst qw/-Debug
+                ConfigLoader
+                Static::Simple/;
+    ...
+    __PACKAGE__->setup();
+
+Don't let these variations confuse you -- they all accomplish the same 
+result.
 
 This tells Catalyst to start using one new plugin, 
 L<Catalyst::Plugin::StackTrace|Catalyst::Plugin::StackTrace>, to add a 

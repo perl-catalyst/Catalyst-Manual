@@ -266,6 +266,10 @@ C<StackTrace> is new):
             Session::State::Cookie
         /);
 
+B<Note:> As discussed in MoreCatalystBasics, different versions of 
+C<Catalyst::Devel> have used a variety of methods to load the plugins. 
+You put the plugins in the C<use Catalyst> statement if you prefer.
+
 The C<Authentication> plugin supports Authentication while the
 C<Session> plugins are required to maintain state across multiple HTTP
 requests.
@@ -366,12 +370,8 @@ such matters up to you, the designer and programmer.
 Then open C<lib/MyApp/Controller/Login.pm>, locate the C<sub index
 :Path :Args(0)> method (or C<sub index : Private> if you are using an
 older version of Catalyst) that was automatically inserted by the
-helpers when we created the Login controller above, and delete this
-line:
-
-    $c->response->body('Matched MyApp::Controller::Login in Login.');
-
-Then update it to match:
+helpers when we created the Login controller above, and update the
+definition of C<sub index> to match:
 
     =head2 index
     

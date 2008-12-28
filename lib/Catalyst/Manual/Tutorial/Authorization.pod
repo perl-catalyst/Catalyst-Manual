@@ -91,6 +91,10 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
             Session::State::Cookie
         /;
 
+B<Note:> As discussed in MoreCatalystBasics, different versions of 
+C<Catalyst::Devel> have used a variety of methods to load the plugins. 
+You put the plugins in the C<use Catalyst> statement if you prefer.
+
 
 =head2 Add Config Information for Authorization
 
