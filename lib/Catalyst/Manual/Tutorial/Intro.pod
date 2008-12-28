@@ -342,15 +342,16 @@ Install Catalyst:
     sudo apt-get update
     sudo apt-get install libdbd-sqlite3-perl libcatalyst-perl libcatalyst-modules-perl libconfig-general-perl
 
-Accept all of the dependencies.  Done.
+Accept all of the dependencies.  Done.  
 
-NOTE: If you are low on disk space after the above commands (use C<df /> 
-to tell), you can free up some space with 
-C<sudo rm /var/cache/apt/archives/*.deb> (the Live CD uses memory for 
-disk space, so having a decent amount of memory will help).  And, 
-while the instructions above mention the Live CD because that makes it 
-easy for people new to Linux, you can obviously also use one of the 
-options to install Ubuntu on your drive.
+If you are running from the Live CD, you probably also want to free up 
+some disk space with the following:
+
+    sudo apt-get clean
+
+NOTE: While the instructions above mention the Live CD because that 
+makes it easy for people new to Linux, you can obviously also use one 
+of the options to install Ubuntu on your drive.
 
 =back
 
