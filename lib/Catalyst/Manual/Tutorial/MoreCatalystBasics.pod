@@ -654,7 +654,7 @@ returned.
 We are using the C<-E<gt>all> to fetch all of the books.  DBIC 
 supports a wide variety of more advanced operations to easily do 
 things like filtering and sorting the results.  For example, the 
-following could be used to sort the results by desending title:
+following could be used to sort the results by descending title:
 
     $c->model('DB::Books')->search({}, {order_by => 'title DESC'});
 
