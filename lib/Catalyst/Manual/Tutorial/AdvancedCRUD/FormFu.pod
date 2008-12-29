@@ -61,7 +61,7 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 This portion of the tutorial explores L<HTML::FormFu|HTML::FormFu> and 
 how it can be used to manage forms, perform validation of form input, 
 as well as save and restore data to/from the database.  This was written
-using HTML::FormFu version 0.03006.
+using HTML::FormFu version 0.03007.
 
 See 
 L<Catalyst::Manual::Tutorial::AdvancedCRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>

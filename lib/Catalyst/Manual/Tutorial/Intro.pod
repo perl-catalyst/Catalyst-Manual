@@ -452,7 +452,7 @@ B<NOTE:> You can run the test cases for the final code through Part 8
 with the following commands:
 
     wget http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Part8.tgz
-    tar zxvf MyApp.tgz
+    tar zxvf MyApp_Part8.tgz
     cd MyApp
     CATALYST_DEBUG=0 prove --lib lib  t
 
