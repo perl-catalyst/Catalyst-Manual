@@ -602,8 +602,12 @@ to C<lib/MyApp/Schema.pm>.  Because we specified C<create=dynamic> to
 the helper, it use 
 L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> to 
 dynamically load the schema information from the database every time 
-the application starts. And finally, C<dbi:SQLite:myapp.db> is the 
-standard DBI connect string for use with SQLite.
+the application starts. DBIC uses the schema to load other classes 
+that represent the tables in your database (DBIC refers to these 
+"table objects" as "result sources," see 
+L<DBIx::Class::ResultSource|DBIx::Class::ResultSource>). And finally, 
+C<dbi:SQLite:myapp.db> is the standard DBI connect string for use with 
+SQLite.
 
 B<NOTE:> Although the C<create=dynamic> option to the DBIC helper
 makes for a nifty demonstration, is only really suitable for very
@@ -639,9 +643,27 @@ C<[$c-E<gt>model('DB::Books')-E<gt>all]> and delete the next 2 lines):
         $c->stash->{template} = 'books/list.tt2';
     }
 
-B<TIP>: You may see the C<$c-E<gt>model('DB::Book')> un-commented above
-written as C<$c-E<gt>model('DB')-E<gt>resultset('Book')>.  The two
-are equivalent.
+
+B<TIP>: You may see the C<$c-E<gt>model('DB::Book')> un-commented 
+above written as C<$c-E<gt>model('DB')-E<gt>resultset('Book')>.  The 
+two are equivalent.  Either way, C<$c-E<gt>model> returns a 
+L<DBIx::Class::ResultSet|DBIx::Class::ResultSet> which handles queries 
+against the database and iterating over the set of results that are 
+returned.
+
+We are using the C<-E<gt>all> to fetch all of the books.  DBIC 
+supports a wide variety of more advanced operations to easily do 
+things like filtering and sorting the results.  For example, the 
+following could be used to sort the results by desending title:
+
+    $c->model('DB::Books')->search({}, {order_by => 'title DESC'});
+
+Some other examples are provided in 
+L<DBIx::Class::Manual::Cookbook/Complex WHERE clauses>, with 
+additional information found at L<DBIx::Class::ResultSet/search>, 
+L<DBIx::Class::Manual::FAQ/Searching>, 
+L<DBIx::Class::Manual::Intro|DBIx::Class::Manual::Intro> 
+and L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema>.
 
 
 =head2 Test Run The Application
