@@ -58,8 +58,7 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =back
 
-Tarballs for the final code for each part of the tutorial is available 
-at
+Final code tarballs for each part of the tutorial are available at 
 L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/>.
 
 

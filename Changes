@@ -1,5 +1,11 @@
 Revision history for Catalyst-Manual
 
+5.7016  28 Dec 2008
+        - Updates to make Parts 8 & 9 run correctly
+        - Adjust URLs for final config tarballs
+        - Add note about changes across different C::Devel on how plugins enabled
+        - Misc minor updates
+
 5.7015  15 Dec 2008
         - Remove TTSite from Tutorial (thanks to dhoss for the help)
         - Update Tutorial for Ubuntu 8.10 (therefore update to 

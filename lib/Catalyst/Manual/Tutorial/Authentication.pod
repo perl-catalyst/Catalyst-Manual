@@ -268,7 +268,7 @@ C<StackTrace> is new):
 
 B<Note:> As discussed in MoreCatalystBasics, different versions of 
 C<Catalyst::Devel> have used a variety of methods to load the plugins. 
-You put the plugins in the C<use Catalyst> statement if you prefer.
+You can put the plugins in the C<use Catalyst> statement if you prefer.
 
 The C<Authentication> plugin supports Authentication while the
 C<Session> plugins are required to maintain state across multiple HTTP
