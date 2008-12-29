@@ -58,8 +58,9 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =back
 
-A tarball of the final application is available at
-L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/Final_Tarball/MyApp.tgz>.
+Tarballs for the final code for each part of the tutorial is available 
+at
+L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/>.
 
 
 =head1 Detailed Table of Contents

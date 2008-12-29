@@ -83,6 +83,10 @@ required by C<HTML::FormFu>:
     libregexp-copy-perl libregexp-common-perl libyaml-syck-perl libparams-util-perl \
     libcrypt-des-perl libcaptcha-recaptcha-perl libcrypt-cbc-perl \
     libreadonly-xs-perl libmoose-perl libregexp-assemble-perl
+    
+    ...
+    
+    sudo apt-get clean
 
 Then use the following command to install directly from CPAN the modules 
 that aren't available as Ubuntu/Debian packages via C<apt-get>:
@@ -91,6 +95,13 @@ that aren't available as Ubuntu/Debian packages via C<apt-get>:
     boolean Test::MockTime DateTime::Format::Natural HTML::FormFu \
     Catalyst::Component::InstancePerContext Catalyst::Controller::HTML::FormFu \
     HTML::FormFu::Model::DBIC
+    
+    ...
+    
+    Is it OK to try to connect to the Internet? [yes] yes
+    
+    ...
+    
 
 B<Note:> If you are following along with the Ubuntu LiveCD, you might 
 want to make sure you still have adequate free disk space in the root 

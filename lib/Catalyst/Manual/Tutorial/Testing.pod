@@ -77,14 +77,27 @@ directory, enter:
 
     $ prove --lib lib t
 
-There will be a lot of output because we have the C<-Debug> flag enabled 
-in C<lib/MyApp.pm> (see the C<CATALYST_DEBUG=0> tip below for a quick 
-and easy way to reduce the clutter). Look for lines like this for 
-errors:
+There will be a lot of output because we have the C<-Debug> flag 
+enabled in C<lib/MyApp.pm> (see the C<CATALYST_DEBUG=0> tip below for 
+a quick and easy way to reduce the clutter).  Look for lines like this 
+for errors:
 
     #   Failed test 'Request should succeed'
     #   in t/controller_Books.t at line 8.
     # Looks like you failed 1 test of 3.
+
+B<Note:> Depending on the versions of various modules you have 
+installed, you might get some C<used only once> warnings -- you can 
+ignore these. If you are following along in Ubuntu 8.10, you can 
+prevent them by adding C<no warnings;> above line 49 in 
+C</usr/lib/perl5/Template/Base.pm> to match the following:
+
+    ...
+    {   no strict qw( refs );
+        no warnings;
+        $argnames = \@{"$class\::BASEARGS"} || [ ];
+    }
+    ...
 
 The redirection used by the Authentication plugins will cause several 
 failures in the default tests.  You can fix this by making the following
@@ -212,7 +225,7 @@ editor and enter the following:
         "Check we ARE logged in" ) for $ua1, $ua2;
     
     # 'Click' the 'Logout' link (see also 'text_regex' and 'url_regex' options)
-    $_->follow_link_ok({n => 1}, "Logout via first link on page") for $ua1, $ua2;
+    $_->follow_link_ok({n => 4}, "Logout via first link on page") for $ua1, $ua2;
     $_->title_is("Login", "Check for login title") for $ua1, $ua2;
     $_->content_contains("You need to log in to use this application",
         "Check we are NOT logged in") for $ua1, $ua2;

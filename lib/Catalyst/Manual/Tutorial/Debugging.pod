@@ -139,12 +139,12 @@ This will start the interactive debugger and produce output similar to:
 
     $ perl -d script/myapp_server.pl  
     
-    Loading DB routines from perl5db.pl version 1.27
+    Loading DB routines from perl5db.pl version 1.3
     Editor support available.
     
     Enter h or `h h' for help, or `man perldebug' for more help.
     
-    main::(script/myapp_server.pl:14):      my $debug         = 0;
+    main::(script/myapp_server.pl:16):      my $debug         = 0;
     
       DB<1> 
 
@@ -158,8 +158,8 @@ in.  Once the breakpoint is encountered in the
 C<MyApp::Controller::list> method, the console session running the
 development server will drop to the Perl debugger prompt:
 
-    MyApp::Controller::Books::list(/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm:40):
-    40:         $c->stash->{books} = [$c->model('DB::Books')->all];
+    MyApp::Controller::Books::list(/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm:48):
+    48:         $c->stash->{books} = [$c->model('DB::Books')->all];
     
       DB<1>
 
@@ -170,8 +170,8 @@ C<single-step> into methods/subroutines):
 
       DB<1> n
     SELECT me.id, me.authors, me.title, me.rating FROM books me:
-    MyApp::Controller::Books::list(/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm:44):
-    44:         $c->stash->{template} = 'books/list.tt2';
+    MyApp::Controller::Books::list(/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm:53):
+    53:         $c->stash->{template} = 'books/list.tt2';
     
       DB<1>
 
@@ -185,15 +185,11 @@ Next, list the methods available on our C<Book> model:
     ()
     (0+
     (bool
-    MODIFY_CODE_ATTRIBUTES
-    _attr_cache
-    _collapse_result
-    _construct_object
-    _count
-    _result_class_accessor
-    _result_source_accessor
-    all
-    carp
+    __source_handle_accessor
+    _add_alias
+    _build_unique_query
+    _calculate_score
+    _collapse_cond
     <lines removed for brevity>
     
       DB<2>
