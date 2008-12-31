@@ -391,7 +391,7 @@ And update it to match:
         TEMPLATE_EXTENSION => '.tt2',
         # Set the location for TT files
         INCLUDE_PATH => [
-                MyApp->path_to( 'root/src' ),
+                MyApp->path_to( 'root', 'src' ),
             ],
     );
 
