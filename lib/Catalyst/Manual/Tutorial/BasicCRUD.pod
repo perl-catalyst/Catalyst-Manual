@@ -72,7 +72,7 @@ of tool to automate the process.  You get less control, but it's quick
 and easy.  For example, see 
 L<CatalystX::ListFramework::Builder|CatalystX::ListFramework::Builder>,
 L<CatalystX::CRUD|CatalystX::CRUD>, and 
-L<CatalystX::CRUD:YUI|CatalystX::CRUD:YUI>.
+L<CatalystX::CRUD::YUI|CatalystX::CRUD::YUI>.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
