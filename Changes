@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+5.7XXX  XXX
+        - Fix typo in Authorization section (RT #42091)
+        - Misc minor updates
+
 5.7016  28 Dec 2008
         - Updates to make Parts 8 & 9 run correctly
         - Adjust URLs for final config tarballs
