@@ -412,7 +412,7 @@ is inside an C<IF> statement that only displays the list to
 admin-level users.)  If you log in as C<test01> you should be able to
 view the C<form_create> form and add a new book.
 
-When you are done, use one of the 'Logout' links (or go to the
+Use one of the 'Logout' links (or go to the
 L<http://localhost:3000/logout> URL directly) when you are done.
 
 
