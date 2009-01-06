@@ -2,6 +2,8 @@ Revision history for Catalyst-Manual
 
 5.7XXX  XXX
         - Fix typo in Authorization section (RT #42091)
+        - Fix typo in BasicCRUD (RT #42034)
+        - Resolve outstanding typo and suggestions in MoreCatalystBasics (RT #41491)
         - Misc minor updates
 
 5.7016  28 Dec 2008

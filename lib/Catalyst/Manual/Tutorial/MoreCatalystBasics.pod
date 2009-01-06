@@ -643,7 +643,6 @@ C<[$c-E<gt>model('DB::Books')-E<gt>all]> and delete the next 2 lines):
         $c->stash->{template} = 'books/list.tt2';
     }
 
-
 B<TIP>: You may see the C<$c-E<gt>model('DB::Book')> un-commented 
 above written as C<$c-E<gt>model('DB')-E<gt>resultset('Book')>.  The 
 two are equivalent.  Either way, C<$c-E<gt>model> returns a 
@@ -806,7 +805,7 @@ Edit C<lib/MyApp/View/TT.pm> and change it to match the following:
         TEMPLATE_EXTENSION => '.tt2',
         # Set the location for TT files
         INCLUDE_PATH => [
-                MyApp->path_to( 'root/src' ),
+                MyApp->path_to( 'root', 'src' ),
             ],
         # Set to 1 for detailed timer stats in your HTML as comments
         TIMER              => 0,
@@ -858,7 +857,7 @@ For the tutorial, open C<root/src/wrapper.tt2> and input the following:
     </div><!-- end bodyblock -->
     
     <div id="footer">Copyright (c) your name goes here</div>
-    </div><!-- end outter -->
+    </div><!-- end outer -->
     
     </body>
     </html>
@@ -996,7 +995,7 @@ L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> as its base
 class (L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> is 
 only being used by the helper to load the schema once and then create 
 the static files for us) and C<Schema.pm> only contains a call to the 
-C<load_classes> method.  You will also find that C<lib/MyApp/Schema> 
+C<load_classes> method.  You will also find that C<lib/MyApp> 
 contains a C<Schema> subdirectory, with one file inside this directory 
 for each of the tables in our simple database (C<Authors.pm>, 
 C<BookAuthors.pm>, and C<Books.pm>).  These three files were created 
@@ -1125,11 +1124,13 @@ Make sure that the application loads correctly and that you see the
 three dynamically created model class (one for each of the
 table-specific schema classes we created).
 
-Then hit the URL L<http://localhost:3000/books/list> and be sure that
-the book list is displayed.
+Then hit the URL L<http://localhost:3000/books/list> and be sure that 
+the book list is displayed via the relationships established above. You 
+can leave the development server running for the next step if you wish.
 
-You can leave the development server running for the next step if you
-wish.
+B<Note:> You will not see the authors yet because the view does not yet 
+use the new relations. Read on to the next section where we update the 
+template to do that.
 
 
 =head1 UPDATING THE VIEW
@@ -1171,15 +1172,23 @@ enabled, you should also now see five more C<SELECT> statements in the
 debug output (one for each book as the authors are being retrieved by
 DBIC).
 
-Also note that we are using "| html", a type of TT filter, to escape
-characters such as E<lt> and E<gt> to &lt; and &gt; and avoid various
-types of dangerous hacks against your application.  In a real
-application, you would probably want to put "| html" at the end of
-every field where a user has control over the information that can
-appear in that field (and can therefore inject markup or code if you
-don't "neutralize" those fields).  In addition to "| html", Template
-Toolkit has a variety of other useful filters that can found in the
-documentation for L<Template::Filters|Template::Filters>.
+    SELECT me.id, me.title, me.rating FROM books me:
+    SELECT me.book_id, me.author_id FROM book_authors me WHERE ( me.book_id = ? ): '1'
+    SELECT me.book_id, me.author_id FROM book_authors me WHERE ( me.book_id = ? ): '2'
+    SELECT me.book_id, me.author_id FROM book_authors me WHERE ( me.book_id = ? ): '3'
+    SELECT me.book_id, me.author_id FROM book_authors me WHERE ( me.book_id = ? ): '4'
+    SELECT me.book_id, me.author_id FROM book_authors me WHERE ( me.book_id = ? ): '5'
+
+Also note in C<root/src/books/list.tt2> that we are using "| html", a 
+type of TT filter, to escape characters such as E<lt> and E<gt> to &lt; 
+and &gt; and avoid various types of dangerous hacks against your 
+application.  In a real application, you would probably want to put 
+"| html" at the end of every field where a user has control over the 
+information that can appear in that field (and can therefore inject 
+markup or code if you don't "neutralize" those fields).  In addition to 
+"| html", Template Toolkit has a variety of other useful filters that 
+can found in the documentation for 
+L<Template::Filters|Template::Filters>.
 
 
 =head1 RUNNING THE APPLICATION FROM THE COMMAND LINE
