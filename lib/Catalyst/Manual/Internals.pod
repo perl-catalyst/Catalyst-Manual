@@ -4,7 +4,7 @@ Catalyst::Manual::Internals - Catalyst Internals
 
 =head1 DESCRIPTION
 
-This document provides an overview of the internals of
+This document provides a brief overview of the internals of
 Catalyst.  As Catalyst is still developing rapidly, details
 may become out of date: please treat this as a guide, and
 look at the source for the last word.
@@ -13,8 +13,7 @@ The coverage is split into initialization and request lifecycle.
 
 =head2 Initialization
 
-Catalyst initializes itself in two stages (I may be wrong in some of
-the details here - AF):
+Catalyst initializes itself in two stages:
 
 =over 4
 
@@ -33,7 +32,7 @@ When the application module makes the first call to C<< __PACKAGE__->action() >>
 (implemented in C<Catalyst::Engine>), Catalyst automatically loads all
 components it finds in the C<$class::Controller>, C<$class::C>,
 C<$class::Model>, C<$class::M>, C<$class::View> and C<$class::V>
-namespaces (using C<Module::Pluggable::Fast>).  A table of actions is built up
+namespaces (using C<Module::Pluggable>).  A table of actions is built up
 and added to on subsequent calls to C<action()>.
 
 =back
@@ -72,7 +71,7 @@ extend Catalyst.
         finalize_body
 
 These steps are normally overloaded from engine classes, and may also be
-extended by plugins.  Extending means using multiple inheritance with L<NEXT>.
+extended by plugins. For more on extending Catalyst, see L<Catalyst::Manual::ExtendingCatalyst>.
 
 The specialized engine classes populate the Catalyst request object with
 information from the underlying layer (C<Apache::Request> or C<CGI::Simple>)
