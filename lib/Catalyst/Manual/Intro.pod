@@ -1221,6 +1221,14 @@ Mailing lists:
     http://lists.scsys.co.uk/mailman/listinfo/catalyst
     http://lists.scsys.co.uk/mailman/listinfo/catalyst-dev
 
+Wiki:
+
+    http://dev.catalystframework.org/wiki
+
+FAQ:
+
+    http://dev.catalystframework.org/wiki/faq
+
 =head1 AUTHOR
 
 Sebastian Riedel, C<sri@oook.de> 
