@@ -535,7 +535,7 @@ quick introduction:
 
 =item *
 
-The majority of application have traditionally used C<Local> actions
+The majority of applications have traditionally used C<Local> actions
 for items that respond to user requests and C<Private> actions for
 those that do not directly respond to user input.
 
