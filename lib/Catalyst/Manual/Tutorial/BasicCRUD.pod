@@ -394,9 +394,17 @@ and 2) the four lines for the Delete link near the bottom).
     [% END -%]
     </table>
 
-The additional code is obviously designed to add a new column to the
-right side of the table with a C<Delete> "button" (for simplicity, links
-will be used instead of full HTML buttons).
+The additional code is obviously designed to add a new column to the 
+right side of the table with a C<Delete> "button" (for simplicity, 
+links will be used instead of full HTML buttons).
+
+B<Note:> You should use more than just a simple link with your 
+applications. Consider using some sort of of confirmation page 
+(typically with unique actions in your controller for both the 
+confirmation and the actual delete operation).  Also, you should try 
+to use an HTTP POST operation (versus the GET used here) for 
+operations that change the state of your application (e.g., the 
+database).
 
 
 =head2 Add a Delete Action to the Controller
