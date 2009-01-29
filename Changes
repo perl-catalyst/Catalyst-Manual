@@ -2,13 +2,13 @@ Revision history for Catalyst-Manual
 
 5.7XXX  XXX
         - MoreCatalystBasics - Additional clarification about TTSite
-          (Dell Merrit)
+          (Del Merrit)
         - Tutorial::Authorization - Corrects the ACL for "/books/delete"
                                   - Additional comments 
-          (Dell Merrit)
+          (Del Merrit)
         - Tutorial::AdvancedCRUD::FormFu - suggest how the intrepid
           user might now proceed, having completed the Tutorial.
-          (Dell Merrit)
+          (Del Merrit)
         - Fix typo in Authorization section (RT #42091)
         - Fix typo in BasicCRUD (RT #42034)
         - Resolve outstanding typo and suggestions in MoreCatalystBasics (RT #41491)
