@@ -311,7 +311,7 @@ C<__PACKAGE__-E<gt>setup> statement:
             "/books/form_create_do",
             [qw/admin/],
         );
-    __PACKAGE__->deny_access_unless(
+    __PACKAGE__->allow_access_if(
             "/books/delete",
             [qw/user admin/],
         );
@@ -320,9 +320,10 @@ Each of the three statements above comprises an ACL plugin "rule".  The
 first two rules only allow admin-level users to create new books using
 the form (both the form itself and the data submission logic are
 protected).  The third statement allows both users and admins to delete
-books.  The C</books/url_create> action will continue to be protected by
-the "manually configured" authorization created earlier in this part of
-the tutorial.
+books; letting users delete but not create book entries may sound odd in
+the "real world", but this is just an example.  The C</books/url_create>
+action will continue to be protected by the "manually configured"
+authorization created earlier in this part of the tutorial.
 
 The ACL plugin permits you to apply allow/deny logic in a variety of
 ways.  The following provides a basic overview of the capabilities:

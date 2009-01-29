@@ -579,6 +579,36 @@ Stevens as a co-author (control-click), and click Submit.  You will then
 be returned to the book list with a "Book edited" message at the top in 
 green.  Experiment with other edits to various books.
 
+=head2 More Things to Try
+
+You are now armed with enough knowledge to be dangerous.  You can keep
+tweaking the example application; some things you might want to do:
+
+=over 4
+
+=item *
+
+Add an appropriate ACL to the new Edit function.
+
+=item *
+
+Cleanup the List page so that the Login link only displays when the user
+isn't logged in and the Logout link only displays when a user is logged
+in.
+
+=item *
+
+Add a more sensible policy for when and how users and admins can do
+things in the CRUD cycle.
+
+=item *
+
+Support the CRUD cycle for authors.
+
+=back
+
+Or you can proceed to write your own application, which is probably the
+real reason you worked through this Tutorial in the first place.
 
 =head2  Config::General Config for this tutorial
 
