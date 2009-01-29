@@ -1,6 +1,8 @@
 Revision history for Catalyst-Manual
 
 5.7XXX  XXX
+        - MoreCatalystBasics - Additional clarification about TTSite
+          (Dell Merrit)
         - Tutorial::Authorization - Corrects the ACL for "/books/delete"
                                   - Additional comments 
           (Dell Merrit)

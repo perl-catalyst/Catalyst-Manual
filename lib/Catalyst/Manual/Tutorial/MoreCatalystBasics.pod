@@ -348,18 +348,20 @@ L<Catalyst::Helper::View::TTSite|Catalyst::Helper::View::TTSite>
 
 =back
 
-Both are similar, but C<TT> merely creates the C<lib/MyApp/View/TT.pm>
+Both helpers are similar. C<TT> creates the C<lib/MyApp/View/TT.pm>
 file and leaves the creation of any hierarchical template organization
 entirely up to you. (It also creates a C<t/view_TT.t> file for testing;
-test cases will be discussed in Part 8.) On the other hand, the
-C<TTSite> helper creates a modular and hierarchical view layout with
+test cases will be discussed in Part 8.) C<TTSite>, on the other hand, 
+creates a modular and hierarchical view layout with
 separate Template Toolkit (TT) files for common header and footer
 information, configuration values, a CSS stylesheet, and more.
 
-While TTSite is useful to bootstrap a project, most in the Catalyst 
-community recommend that it's easier to learn both Catalyst and 
-Template Toolkit if you use the more basic TT approach.  Consequently, 
-this tutorial will use "plain old TT."
+While C<TTSite> was useful to bootstrap a project, its use is now
+deprecated and to be considered historical.  For most Catalyst
+applications it adds redundant functionality and structure; many in the
+Catalyst community recommend that it's easier to learn both Catalyst and
+Template Toolkit if you use the more basic C<TT> approach.
+Consequently, this tutorial will use "plain old TT."
 
 Enter the following command to enable the C<TT> style of view
 rendering for this tutorial:
@@ -400,7 +402,9 @@ quote.
 
 This changes the default extension for Template Toolkit from '.tt' to
 '.tt2' and changes the base directory for your template files from
-C<root> to C<root/src>.
+C<root> to C<root/src>.  These changes from the default are done mostly
+to facilitate the application we're developing in this tutorial; as with
+most things Perl, there's more than one way to do it...
 
 
 =head2 Create a TT Template Page
