@@ -116,8 +116,11 @@ equivalently:
 
 =item * B<Support for CGI, mod_perl, Apache::Request, FastCGI>
 
-Use L<Catalyst::Engine::Apache> or L<Catalyst::Engine::CGI>. Other
-engines are also available.
+Use L<Catalyst::Engine::Apache> or L<Catalyst::Engine::CGI>. Another
+interesting engine is L<Catalyst::Engine::HTTP::Prefork> - available from CPAN
+separately - which will turn the built server into a fully fledged production
+ready server (although you'll probably want to run it behind a front end proxy
+if you end up using it).
 
 =back
 
