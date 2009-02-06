@@ -1,8 +1,9 @@
 Revision history for Catalyst-Manual
 
 5.7XXX  XXX
+        - Change FormFu tutorial to not use deprecated methods (Del Merritt)
         - MoreCatalystBasics - Additional clarification about TTSite
-          (Del Merrit)
+          (Del Merritt)
         - Tutorial::Authorization - Corrects the ACL for "/books/delete"
                                   - Additional comments 
           (Del Merrit)

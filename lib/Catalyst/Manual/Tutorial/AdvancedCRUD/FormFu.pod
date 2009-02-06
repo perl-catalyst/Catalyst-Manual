@@ -152,7 +152,7 @@ following method:
             # Create a new book
             my $book = $c->model('DB::Books')->new_result({});
             # Save the form data for the book
-            $form->save_to_model($book);
+            $form->model->update($book);
             # Set a status message for the user
             $c->flash->{status_msg} = 'Book created';
             # Return to the books list
@@ -485,7 +485,7 @@ bottom:
         # is shorthand for "$form->submitted && !$form->has_errors"
         if ($form->submitted_and_valid) {
             # Save the form data for the book
-            $form->save_to_model($book);
+            $form->model->update($book);
             # Set a status message for the user
             $c->flash->{status_msg} = 'Book edited';
             # Return to the books list
@@ -504,7 +504,7 @@ bottom:
             # Add the authors to it
             $select->options(\@authors);
             # Populate the form with existing values from DB
-            $form->defaults_from_model($book);
+            $form->model->default_values($book);
         }
     
         # Set the template
@@ -533,14 +533,14 @@ we set the error message and return to the book list.
 =item *
 
 If the form has been submitted and passes validation, we skip creating a 
-new book and just use C<$form-E<gt>save_to_model> to update the existing 
+new book and just use C<$form-E<gt>model-E<gt>update> to update the existing 
 book.
 
 =item *
 
 If the form is being displayed for the first time (or has failed 
 validation and it being redisplayed), we use
- C<$form-E<gt>default_from_model> to populate the form with data from the 
+ C<$form-E<gt>model-E<gt>default_values> to populate the form with data from the
 database.
 
 =back
