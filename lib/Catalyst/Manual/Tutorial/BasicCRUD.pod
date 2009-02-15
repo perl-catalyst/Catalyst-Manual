@@ -209,7 +209,7 @@ Next, use your browser to enter the following URL:
 
     http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
 
-Your browser should display " Added book 'TCPIP_Illustrated_Vol-2' by
+Your browser should display "Added book 'TCPIP_Illustrated_Vol-2' by
 'Stevens' with a rating of 5." along with a dump of the new book model
 object.  You should also see the following DBIC debug messages displayed
 in the development server log messages if you have DBIC_TRACE set:
@@ -228,15 +228,224 @@ If you then click the "Return to list" link, you should find that
 there are now six books shown (if necessary, Shift+Reload or 
 Ctrl+Reload your browser at the C</books/list> page).
 
-Then I<add 2 more copies of the same book> so that we have some extras for
-our delete logic that will be coming up soon.  Enter the same URL above
-two more times (or refresh your browser twice if it still contains this
-URL):
 
-    http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
+=head1 CONVERT TO A CHAINED ACTION
 
-You should be able to click "Return to list" and now see 3 copies of 
-"TCP_Illustrated_Vol-2".
+Although the example above uses the same C<Local> action type for the 
+method that we saw in the previous part of the tutorial, there is an 
+alternate approach that allows us to be more specific while also 
+paving the way for more advanced capabilities.  Change the method 
+declaration for C<url_create> in C<lib/MyApp/Controller/Books.pm> you 
+entered above to match the following:
+
+    sub url_create :Chained('/') :PathPart('books/url_create') :Args(3) {
+
+This converts the method to take advantage of the Chained 
+action/dispatch type. Chaining let's you have a single URL 
+automatically dispatch to several controller methods, each of which 
+can have precise control over the number of arguments that it will 
+receive.  A chain can essentially be thought of having three parts --
+a beginning, a middle and an end.  The bullets below summarize the key 
+points behind each of these parts of a chain:
+
+
+=over 4
+
+
+=item *
+
+Beginning
+
+=over 4
+
+=item *
+
+B<Use "C<:Chained('/')>" to start a chain>
+
+=item *
+
+Get arguments through C<CaptureArgs()>
+
+=item *
+
+Specify the path to match with C<PathPart()>
+
+=back
+
+
+=item *
+
+Middle
+
+=over 4
+
+=item *
+
+Link to previous part of the chain with C<:Chained('_name_')>
+
+=item *
+
+Get arguments through C<CaptureArgs()>
+
+=item *
+
+Specify the path to match with C<PathPart()>
+
+=back
+
+
+=item *
+
+End
+
+=over 4
+
+=item *
+
+Link to previous part of the chain with C<:Chained('_name_')>
+
+=item *
+
+B<Do NOT get arguments through "C<CaptureArgs()>," use "C<Args()>" instead to end a chain>
+
+=item *
+
+Specify the path to match with C<PathPart()>
+
+=back
+
+
+=back
+
+In our C<url_create> method above, we have combined all 3 parts into a 
+single method: C<:Chained('/')> to start the chain, 
+C<:PathPart('books/url_create')> to specify the base URL to match, 
+along with C<:Args(3)> to capture exactly 3 arguments and also end the 
+chain.
+
+As we will see shortly, a chain can consist of as many "links" as you 
+wish, with each part capturing some arguments and doing some work 
+along the way.  We will continue to use the Chained action type in this 
+part of the tutorial and explore slightly more advanced capabilities 
+with the base method and delete feature below.  But Chained dispatch 
+is capable of far more.  For additional information, see 
+L<Catalyst::Manual::Intro/Action types>, 
+L<Catalyst::DispatchType::Chained|Catalyst::DispatchType::Chained>, 
+and the 2006 advent calendar entry on the subject: 
+L<http://www.catalystframework.org/calendar/2006/10>.
+
+
+=head2 Try the Chained Action
+
+If you look back at the development server startup logs from your 
+initial version of the C<url_create> method (the one using the 
+C<:Local> attribute), you will notice that it produced output similar
+to the following:
+
+	[debug] Loaded Path actions:
+	.-------------------------------------+--------------------------------------.
+	| Path                                | Private                              |
+	+-------------------------------------+--------------------------------------+
+	| /                                   | /default                             |
+	| /                                   | /index                               |
+	| /books                              | /books/index                         |
+	| /books/list                         | /books/list                          |
+	| /books/url_create                   | /books/url_create                    |
+	'-------------------------------------+--------------------------------------'
+
+Now start the development server with our basic chained method in 
+place and the startup debug output should change to something along 
+the lines of the following:
+
+	[debug] Loaded Path actions:
+	.-------------------------------------+--------------------------------------.
+	| Path                                | Private                              |
+	+-------------------------------------+--------------------------------------+
+	| /                                   | /default                             |
+	| /                                   | /index                               |
+	| /books                              | /books/index                         |
+	| /books/list                         | /books/list                          |
+	'-------------------------------------+--------------------------------------'
+	
+	[debug] Loaded Chained actions:
+	.-------------------------------------+--------------------------------------.
+	| Path Spec                           | Private                              |
+	+-------------------------------------+--------------------------------------+
+	| /books/url_create/*/*/*             | /books/url_create                    |
+	'-------------------------------------+--------------------------------------'
+
+C<url_create> has disappeared form the "Loaded Path actions" section 
+but it now shows up under the newly created "Loaded Chained actions" 
+section.  And, the "/*/*/*" portion clearly shows that we have 
+specified that 3 arguments are required.
+
+As with our non-chained version of C<url_create>, use your browser to 
+enter the following URL:
+
+	http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
+
+You should see the same "Added book 'TCPIP_Illustrated_Vol-2' by 
+'Stevens' with a rating of 5." along with a dump of the new book model 
+object.  Click the "Return to list" link, you should find that there 
+are now seven books shown (two copies of TCPIP_Illustrated_Vol-2).
+
+
+=head2 Refactor to Use a "Base" Method to Start The Chains
+
+Let's make a quick update to our initial Chained action to show a 
+little more of the power of chaining.  First, open 
+C<lib/MyApp/Controller/Books.pm> in your editor and add the following
+method:
+
+	=head2 base
+	
+	Can place common logic to start chained dispatch here
+	
+	=cut
+	
+	sub base :Chained('/') :PathPart('books') :CaptureArgs(0) {
+	    my ($self, $c) = @_;
+	
+	    $c->log->debug('*** INSIDE BASE METHOD ***');
+	}
+
+Although we only use the C<base> method to create a log message, we 
+could obviously do any number of things here.  For example, if your 
+controller always needs a book ID as it's first argument, you could 
+have the base method capture that argument (with C<:CaptureArgs(1)>) 
+and use it to pull the book object with that ID from the database and 
+leave it in the stash for later parts of your chains to then act upon.
+
+In our case, let's modify our C<url_create> method to first call 
+C<base>.  Open up C<lib/MyApp/Controller/Books.pm> and edit the 
+declaration for C<url_create> to match the following:
+
+    sub url_create :Chained('base') :PathPart('url_create') :Args(3) {
+
+Next, let's try out our refactored chain.  Restart the development
+server and notice that our "Loaded Chained actions" section has 
+changed slightly:
+	
+	[debug] Loaded Chained actions:
+	.-------------------------------------+--------------------------------------.
+	| Path Spec                           | Private                              |
+	+-------------------------------------+--------------------------------------+
+	| /books/url_create/*/*/*             | /books/base (0)                      |
+	|                                     | => /books/url_create                 |
+	'-------------------------------------+--------------------------------------'
+
+The "Path Spec" is the same, but now it maps to two Private actions as 
+we would expect.
+
+Once again, enter the following URL into your browser:
+
+	http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
+
+The same "Added book 'TCPIP_Illustrated_Vol-2' by 'Stevens' with a 
+rating of 5." and dump of the new book object should appear.  Also 
+notice the extra debug message in the development server output from 
+the C<base> method.  Click the "Return to list" link, you should find 
+that there are now eight books shown. 
 
 
 =head1 MANUALLY BUILDING A CREATE FORM
@@ -257,7 +466,7 @@ Edit C<lib/MyApp/Controller/Books.pm> and add the following method:
     
     =cut
     
-    sub form_create : Local {
+    sub form_create :Chained('base') :PathPart('form_create') :Args(0) {
         my ($self, $c) = @_;
     
         # Set the TT template to use
@@ -297,7 +506,7 @@ save the form information to the database:
     
     =cut
     
-    sub form_create_do : Local {
+    sub form_create_do :Chained('base') :PathPart('form_create_do') :Args(0) {
         my ($self, $c) = @_;
     
         # Retrieve the values from the form
@@ -331,6 +540,21 @@ If the application is still running from before, use C<Ctrl-C> to kill
 it.  Then restart the server:
 
     $ script/myapp_server.pl
+
+Notice that the server startup log reflects the two new chained 
+methods that we added:
+
+	[debug] Loaded Chained actions:
+	.-------------------------------------+--------------------------------------.
+	| Path Spec                           | Private                              |
+	+-------------------------------------+--------------------------------------+
+	| /books/form_create                  | /books/base (0)                      |
+	|                                     | => /books/form_create                |
+	| /books/form_create_do               | /books/base (0)                      |
+	|                                     | => /books/form_create_do             |
+	| /books/url_create/*/*/*             | /books/base (0)                      |
+	|                                     | => /books/url_create                 |
+	'-------------------------------------+--------------------------------------'
 
 Point your browser to L<http://localhost:3000/books/form_create> and
 enter "TCP/IP Illustrated, Vol 3" for the title, a rating of 5, and an
@@ -418,7 +642,7 @@ following method:
         
     =cut
     
-    sub delete : Local {
+    sub delete :Chained('base') :PathPart('delete') :Args(1) {
         # $id = primary key of book to delete
         my ($self, $c, $id) = @_;
     
@@ -457,6 +681,23 @@ it.  Then restart the server:
 
     $ script/myapp_server.pl
 
+The C<delete> method now appears in the "Loaded Chained actions" section
+of the startup debug output:
+
+	[debug] Loaded Chained actions:
+	.-------------------------------------+--------------------------------------.
+	| Path Spec                           | Private                              |
+	+-------------------------------------+--------------------------------------+
+	| /books/delete/*                     | /books/base (0)                      |
+	|                                     | => /books/delete                     |
+	| /books/form_create                  | /books/base (0)                      |
+	|                                     | => /books/form_create                |
+	| /books/form_create_do               | /books/base (0)                      |
+	|                                     | => /books/form_create_do             |
+	| /books/url_create/*/*/*             | /books/base (0)                      |
+	|                                     | => /books/url_create                 |
+	'-------------------------------------+--------------------------------------'
+
 Then point your browser to L<http://localhost:3000/books/list> and click
 the "Delete" link next to the first "TCPIP_Illustrated_Vol-2".  A green 
 "Book deleted" status message should display at the top of the page, 
@@ -491,7 +732,7 @@ C<sub delete> method to match:
         
     =cut
     
-    sub delete : Local {
+    sub delete :Chained('base') :PathPart('delete') :Args(1) {
         # $id = primary key of book to delete
         my ($self, $c, $id) = @_;
     
@@ -509,23 +750,23 @@ C<sub delete> method to match:
 =head2 Try the Delete and Redirect Logic
 
 Restart the development server and point your browser to 
-L<http://localhost:3000/books/list> and delete the first copy of 
-"TCPIP_Illustrated_Vol-2".  The URL in your browser should return to 
-the L<http://localhost:3000/books/list> URL, so that is an 
-improvement, but notice that I<no green "Book deleted" status message 
-is displayed>.  Because the stash is reset on every request (and a 
-redirect involves a second request), the C<status_msg> is cleared 
-before it can be displayed.
+L<http://localhost:3000/books/list> and delete the first copy of the 
+remaining two "TCPIP_Illustrated_Vol-2" books.  The URL in your 
+browser should return to the L<http://localhost:3000/books/list> URL, 
+so that is an improvement, but notice that I<no green "Book deleted" 
+status message is displayed>.  Because the stash is reset on every 
+request (and a redirect involves a second request), the C<status_msg> 
+is cleared before it can be displayed.
 
 
 =head2 Using C<uri_for> to Pass Query Parameters
 
-There are several ways to pass information across a redirect. 
-In general, the best option is to use the C<flash> technique that we
-will see in Part 5 of the tutorial; however, here we will pass the
-information via query parameters on the redirect itself.  Open 
-C<lib/MyApp/Controller/Books.pm> and update the existing 
-C<sub delete> method to match the following:
+There are several ways to pass information across a redirect. One 
+option is to use the C<flash> technique that we will see in Part 5 of 
+the tutorial; however, here we will pass the information via query 
+parameters on the redirect itself.  Open 
+C<lib/MyApp/Controller/Books.pm> and update the existing C<sub delete> 
+method to match the following:
 
     =head2 delete 
     
@@ -533,7 +774,7 @@ C<sub delete> method to match the following:
         
     =cut
     
-    sub delete : Local {
+    sub delete :Chained('base') :PathPart('delete') :Args(1) {
         # $id = primary key of book to delete
         my ($self, $c, $id) = @_;
     
@@ -547,7 +788,7 @@ C<sub delete> method to match the following:
 
 This modification simply leverages the ability of C<uri_for> to include
 an arbitrary number of name/value pairs in a hash reference.  Next, we 
-need to update C<root/src/wrapper> to handle C<status_msg> as a 
+need to update C<root/src/wrapper.tt2> to handle C<status_msg> as a 
 query parameter:
 
     ...
@@ -573,14 +814,19 @@ L<http://localhost:3000/books/list>.  Then delete the remaining copy
 of "TCPIP_Illustrated_Vol-2".  The green "Book deleted" status message
 should return.
 
-B<NOTE:> Although this did present an opportunity to show a handy
-capability of C<uri_for>, it would be much better to use Catalyst's
-C<flash> feature in this situation.  Although the technique here is 
-less dangerous than leaving the delete URL in the client's browser, 
-we have still exposed the status message to the user.  With C<flash>, 
-this message returns to its rightful place as a service-side 
-mechanism (we will migrate this code to C<flash> in the next part 
-of the tutorial).
+B<NOTE:> Another popular method for maintaining server-side 
+information across a redirect is to use the C<flash> technique we 
+discuss in the next part of the tutorial, 
+L<Authentication|Catalyst::Manual::Tutorial::Authentication>. While 
+C<flash> is a "slicker" mechanism in that it's all handled by the 
+server and doesn't "pollute" your URLs, B<it is important to note that 
+C<flash> can lead to situations where the wrong information shows up 
+in the wrong browser window if the user has multiple windows or 
+browser tabs open.> (For example, Window A causes something to be 
+placed in the stash, but before that window performs a redirect, 
+Window B makes a request to the server and gets the status information 
+that should really go to Window A.)  For this reason, you may wish
+to use the "query param" technique shown here in your applications.
 
 
 =head1 AUTHOR
@@ -593,4 +839,3 @@ L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Manual/5.70/trunk/lib/Cat
 
 Copyright 2006-2008, Kennedy Clark, under Creative Commons License
 (L<http://creativecommons.org/licenses/by-sa/3.0/us/>).
-
