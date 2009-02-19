@@ -19,7 +19,51 @@ Catalyst::Manual - The Catalyst developer's manual
 
 Install L<Task::Catalyst::Tutorial|Task::Catalyst::Tutorial> to
 install all the dependencies you need to follow along with the
-Tutorial.
+Tutorial.  You can also refer to 
+L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>
+for more information on installation options.
+
+Documentation Map:
+
+=over 4
+
+=item *
+
+L<Catalyst::Manual::About|Catalyst::Manual::About>
+
+=item *
+
+L<Catalyst::Manual::Intro|Catalyst::Manual::Intro>
+
+=item *
+
+L<Catalyst::Manual::Tutorial|Catalyst::Manual::Tutorial>
+
+=item *
+
+L<Catalyst::Manual::Actions|Catalyst::Manual::Actions>
+
+=item *
+
+L<Catalyst::Manual::Cookbook|Catalyst::Manual::Cookbook>
+
+=item *
+
+L<Catalyst::Manual::DevelopmentProcess|Catalyst::Manual::DevelopmentProcess>
+
+=item *
+
+L<Catalyst::Manual::ExtendingCatalyst|Catalyst::Manual::ExtendingCatalyst>
+
+=item *
+
+L<Catalyst::Manual::Internals|Catalyst::Manual::Internals>
+
+=item *
+
+L<Catalyst::Manual::Plugins|Catalyst::Manual::Plugins>
+
+=back
 
 =cut
 
