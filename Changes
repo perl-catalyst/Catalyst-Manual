@@ -14,6 +14,7 @@ Revision history for Catalyst-Manual
         - Fix typo in BasicCRUD (RT #42034)
         - Resolve outstanding typo and suggestions in MoreCatalystBasics (RT #41491)
         - Misc minor updates
+        - Fix DBIC create for MySQL in Appendix (Jarom)
 
 5.7016  28 Dec 2008
         - Updates to make Parts 8 & 9 run correctly
