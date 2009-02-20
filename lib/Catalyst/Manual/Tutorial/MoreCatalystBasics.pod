@@ -569,6 +569,8 @@ required if you do a single SQL statement on the command line).  Use
 ".q" to exit from SQLite from the SQLite interactive mode and return to
 your OS command prompt.
 
+For using other databases, such as PostgreSQL or MySQL, see 
+L<Appendix 2|Catalyst::Manual::Tutorial::Appendices>.
 
 =head1 DATABASE ACCESS WITH C<DBIx::Class>
 
