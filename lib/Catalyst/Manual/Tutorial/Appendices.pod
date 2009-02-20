@@ -75,28 +75,28 @@ regex patterns).  I<Note that all 3 of the regexs end in 4 spaces>:
 
 =over 4
 
-=item * 
+=item *
 
 ":0,$s/^    "
 
 Removes four leading spaces from the entire file (from the first line,
 C<0>, to the last line, C<$>).
 
-=item * 
+=item *
 
 "%s/^    "
 
 A shortcut for the previous item (C<%> specifies the entire file; so
 this removes four leading spaces from every line).
 
-=item * 
+=item *
 
 ":.,$s/^    "
 
 Removes the first four spaces from the line the cursor is on at the time
 the regex command is executed (".") to the last line of the file.
 
-=item * 
+=item *
 
 ":.,44s/^    "
 
@@ -107,7 +107,7 @@ Removes four leading space from the current line through line 44
 
 =head2 "Un-indenting" with Emacs
 
-Although there author has not used Emacs for many years (apologies to 
+Although there author has not used Emacs for many years (apologies to
 the Emacs fans out there), here is a quick hint to get you started.  To
 replace the leading spaces of every line in a file, use:
 
@@ -116,13 +116,13 @@ replace the leading spaces of every line in a file, use:
     with: <RET>
 
 All of that will occur on the single line at the bottom of your screen.
-Note that "<RET>" represents the return key/enter.  Also, there are 
+Note that "<RET>" represents the return key/enter.  Also, there are
 four spaces after the "^" on the "Replace regexp:" line and no spaces
 entered on the last line.
 
 You can limit the replacement operation by selecting text first (depending
-on your version of Emacs, you can either use the mouse or experiment with 
-commands such as C<C-SPC> to set the mark at the cursor location and 
+on your version of Emacs, you can either use the mouse or experiment with
+commands such as C<C-SPC> to set the mark at the cursor location and
 C<C-E<lt>> and C<C-E<gt>> to set the mark at the beginning and end of the
 file respectively.
 
@@ -146,7 +146,7 @@ field types/constraints.
 
 =head2 MySQL
 
-Use the following steps to adapt the tutorial to MySQL.  Thanks to Jim 
+Use the following steps to adapt the tutorial to MySQL.  Thanks to Jim
 Howard for the help.
 
 =over 4
@@ -173,7 +173,7 @@ The Perl C<DBD::MySQL> module
 
 =back
 
-For CentOS users (see 
+For CentOS users (see
 L<Catalyst::Manual::Installation::CentOS4|Catalyst::Manual::Installation::CentOS4>),
 you can use the following commands to install the software and start the MySQL
 daemon:
@@ -405,7 +405,7 @@ Load the user/roles data:
 =head2 PostgreSQL
 
 Use the following steps to adapt the tutorial to PostgreSQL.  Thanks to
-Louis Moore for the help who was in turn helped by Marcello Romani and 
+Louis Moore for the help who was in turn helped by Marcello Romani and
 Tom Lanyon.
 
 =over 4
@@ -436,14 +436,14 @@ The Perl C<DBD::Pg> module
 
 Create the database and a user for the database
 
-    $ createuser -P catmyapp
-    Enter password for new role: <catalyst> 
+    $ createuser -P catappuser
+    Enter password for new role: <catalyst>
     Enter it again: <catalyst>
     Shall the new role be a superuser? (y/n) n
     Shall the new role be allowed to create databases? (y/n) n
     Shall the new role be allowed to create more new roles? (y/n) n
     CREATE ROLE
-    $ createdb -O catmyapp mycatapp
+    $ createdb -O catappuser catappdb
     CREATE DATABASE
 
 =item *
@@ -515,8 +515,8 @@ Open the C<myapp01_psql.sql> in your editor and enter:
 
 Load the data:
 
-    $ psql -U catmyapp -W mycatapp
-    Password for user catmyapp: catalyst 
+    $ psql -U catappuser -W catappdb
+    Password for user catappuser: <catalyst>
     Welcome to psql 8.1.8, the PostgreSQL interactive terminal.
     
     Type:  \copyright for distribution terms
@@ -525,21 +525,21 @@ Load the data:
            \g or terminate with semicolon to execute query
            \q to quit
     
-    mycatapp=> \i myapp01_psql.sql
+    catappdb=> \i myapp01_psql.sql
     
     CREATE SEQUENCE
-    nextval 
+    nextval
     ---------
            5
     (1 row)
     
     psql:myapp01_psql.sql:11: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "books_pkey" for table "books"
     CREATE TABLE
-    psql:myapp01_psql.sql:19: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "book_authors_pkey" for table 
+    psql:myapp01_psql.sql:19: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "book_authors_pkey" for table
     "book_authors"
     CREATE TABLE
     CREATE SEQUENCE
-     nextval 
+     nextval
     ---------
           8
     (1 row)
@@ -556,17 +556,17 @@ Load the data:
 
 Make sure the data loaded correctly:
 
-    mycatapp=> \dt
+    catappdb=> \dt
                 List of relations
-     Schema |     Name     | Type  |  Owner   
+     Schema |     Name     | Type  |  Owner
     --------+--------------+-------+----------
-     public | authors      | table | catmyapp
-     public | book_authors | table | catmyapp
-     public | books        | table | catmyapp
+     public | authors      | table | catappuser
+     public | book_authors | table | catappuser
+     public | books        | table | catappuser
     (3 rows)
     
-    mycatapp=> select * from books;
-     id |               title                | rating 
+    catappdb=> select * from books;
+     id |               title                | rating
     ----+------------------------------------+--------
       1 | CCSP SNRS Exam Certification Guide |      5
       2 | TCP/IP Illustrated, Volume 1       |      5
@@ -575,7 +575,7 @@ Make sure the data loaded correctly:
       5 | Designing with Web Standards       |      5
      (5 rows)
     
-    mycatapp=> \q
+    catappdb=> \q
 
 =back
 
@@ -583,22 +583,22 @@ Make sure the data loaded correctly:
 
 After the steps where you:
 
-    edit lib/MyApp.pm 
+    edit lib/MyApp.pm
     
-    create lib/MyAppDB.pm 
+    create lib/MyAppDB.pm
     
     create lib/MyAppDB/Book.pm
     
     create lib/MyAppDB/Author.pm
     
-    create lib/MyAppDB/BookAuthor.pm 
+    create lib/MyAppDB/BookAuthor.pm
 
 
 =item *
 
 Generate the model using the Catalyst "_create.pl" script:
 
-    script/myapp_create.pl model MyAppDB DBIC::Schema MyAppDB 'dbi:Pg:dbname=mycatapp' 'catmyapp' 'catalyst' '{ AutoCommit => 1 }'
+    script/myapp_create.pl model MyAppDB DBIC::Schema MyAppDB 'dbi:Pg:dbname=catappdb' 'catappuser' 'catalyst' '{ AutoCommit => 1 }'
 
 
 =back
@@ -663,8 +663,8 @@ Open C<myapp02_psql.sql> in your editor and enter:
 
 Load the data:
 
-    $ psql -U catmyapp -W mycatapp
-    Password for user catmyapp: catalyst 
+    $ psql -U catappuser -W catappdb
+    Password for user catappuser: catalyst
     Welcome to psql 8.1.8, the PostgreSQL interactive terminal.
     
     Type:  \copyright for distribution terms
@@ -673,10 +673,10 @@ Load the data:
            \g or terminate with semicolon to execute query
            \q to quit
     
-    mycatapp=> \i myapp02_psql.sql
+    catappdb=> \i myapp02_psql.sql
     
     CREATE SEQUENCE
-     nextval 
+     nextval
     ---------
            3
     (1 row)
@@ -684,7 +684,7 @@ Load the data:
     psql:myapp02_psql.sql:16: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "users_pkey" for table "users"
     CREATE TABLE
     CREATE SEQUENCE
-     nextval 
+     nextval
     ---------
            2
     (1 row)
@@ -702,10 +702,10 @@ Load the data:
     INSERT 0 1
     INSERT 0 1
     INSERT 0 1
-    mycatapp=> 
+    catappdb=>
     
-    mycatapp=> select * from users;
-     id | username | password | email_address | first_name | last_name | active 
+    catappdb=> select * from users;
+     id | username | password | email_address | first_name | last_name | active
     ----+----------+----------+---------------+------------+-----------+--------
       1 | test01   | mypass   | t01@na.com    | Joe        | Blow      |      1
       2 | test02   | mypass   | t02@na.com    | Jane       | Doe       |      1
@@ -730,8 +730,8 @@ Open C<myapp03_psql.sql> in your editor and enter:
 
 Load in the data
 
-    $ psql -U catmyapp -W mycatapp
-    Password for user catmyapp: 
+    $ psql -U catappuser -W catappdb
+    Password for user catappuser:
     Welcome to psql 8.1.8, the PostgreSQL interactive terminal.
     
     Type:  \copyright for distribution terms
@@ -740,7 +740,7 @@ Load in the data
            \g or terminate with semicolon to execute query
            \q to quit
     
-    mycatapp=> \i myapp03_psql.sql
+    catappdb=> \i myapp03_psql.sql
     UPDATE 1
     UPDATE 1
     UPDATE 1
