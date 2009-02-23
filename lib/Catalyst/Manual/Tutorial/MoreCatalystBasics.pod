@@ -151,7 +151,7 @@ C<myapp.yml> (or any other format supported by
 L<Catalyst::Plugin::ConfigLoader|Catalyst::Plugin::ConfigLoader> and
 L<Config::Any|Config::Any>).  If you are using a versions of
 Catalyst::Devel prior to 1.06, you can convert to the newer format by
-simply creating the C<myapp.yml> file manually and deleting
+simply creating the C<myapp.conf> file manually and deleting
 C<myapp.yml>.  The default contents of C<myapp.conf> should only
 consist of one line: C<name MyApp>.
 
