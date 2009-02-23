@@ -620,7 +620,7 @@ and 2) the four lines for the Delete link near the bottom).
         </td>
         <td>
           [% # Add a link to delete a book %]
-          <a href="[% c.uri_for('id', book.id, 'delete') %]">Delete</a>
+          <a href="[% c.uri_for(c.controller.action_for('delete'), [ book.id ]) %]">Delete</a>
         </td>
       </tr>
     [% END -%]
@@ -629,6 +629,14 @@ and 2) the four lines for the Delete link near the bottom).
 The additional code is obviously designed to add a new column to the 
 right side of the table with a C<Delete> "button" (for simplicity, 
 links will be used instead of full HTML buttons).
+
+Also notice that we are using a more advanced form of C<uri_for> than 
+we have seen before.  Here we use C<$c-E<gt>controller-E<gt>action_for>
+to automatically generate a URI appropriate for that action while
+inserting the C<book.id> value into the appropriate place.  Now, if 
+you ever change C<:PathPart('delete')> in your controller method to
+C<:PathPart('kill')>, then your links will automatically update without
+any changes to your .tt2 template file.
 
 B<Note:> You should use more than just a simple link with your 
 applications. Consider using some sort of of confirmation page 
@@ -806,7 +814,7 @@ C<sub delete> method to match:
         $c->stash->{status_msg} = "Book deleted.";
     
         # Redirect the user back to the list page
-        $c->response->redirect($c->uri_for('/books/list'));
+        $c->response->redirect($c->uri_for($c->controller->action_for('list'));
     }
 
 
@@ -848,7 +856,7 @@ method to match the following:
         $c->stash->{object}->delete;
     
         # Redirect the user back to the list page with status msg as an arg
-        $c->response->redirect($c->uri_for('/books/list', 
+        $c->response->redirect($c->uri_for($c->controller->action_for('list'), 
             {status_msg => "Book deleted."}));
     }
 
