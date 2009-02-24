@@ -162,13 +162,13 @@ lines to the bottom of the file:
     [% # Use $c->check_user_roles() to check authz -%]
     [% IF c.check_user_roles('user') %]
       [% # Give normal users a link for 'logout' %]
-      <a href="[% c.uri_for('/logout') %]">Logout</a>
+      <a href="[% c.uri_for('/logout') %]">User Logout</a>
     [% END %]
     
     [% # Can also use $c->user->check_roles() to check authz -%]
     [% IF c.check_user_roles('admin') %]
       [% # Give admin users a link for 'create' %]
-      <a href="[% c.uri_for('form_create') %]">Create</a>
+      <a href="[% c.uri_for(c.controller('books').action_for('form_create')) %]">Admin Create</a>
     [% END %]
     </p>
 
@@ -195,7 +195,7 @@ updating C<url_create> to match the following code:
     
     =cut
     
-    sub url_create : Local {
+    sub url_create :Chained('base') :PathPart('url_create') :Args(3) {
         # In addition to self & context, get the title, rating & author_id args
         # from the URL.  Note that Catalyst automatically puts extra information
         # after the "/<controller_name>/<action_name/" into @_
@@ -230,7 +230,7 @@ updating C<url_create> to match the following code:
             # Set the TT template to use
             $c->stash->{template} = 'books/create_done.tt2';
         } else {
-            # Provide very simple feedback to the user
+            # Provide very simple feedback to the user.
             $c->response->body('Unauthorized!');
         }
     }
@@ -244,12 +244,12 @@ way to demonstrate that TT templates will not be used if the response
 body has already been set.  In reality you would probably want to use a
 technique that maintains the visual continuity of your template layout
 (for example, using the "status" or "error" message feature added in
-Part 3).
+Part 3 or C<detach> to an action that shows an "unauthorized" page).
 
 B<TIP>: If you want to keep your existing C<url_create> method, you can
 create a new copy and comment out the original by making it look like a
-Pod comment.  For example, put something like C<=begin> before C<sub add
-: Local {> and C<=end> after the closing C<}>.
+Pod comment.  For example, put something like C<=begin> before 
+C<sub add : Local {> and C<=end> after the closing C<}>.
 
 
 =head2 Try Out Authentication And Authorization
@@ -408,7 +408,7 @@ Then run the Catalyst development server script:
 Log in as C<test02>.  Once at the book list, click the "Create" link
 to try the C<form_create> action.  You should receive a red
 "Unauthorized!"  error message at the top of the list.  (Note that in
-the example code the "Create" link code in C<root/src/books/list.tt2>
+the example code the "Admin Create" link code in C<root/src/books/list.tt2>
 is inside an C<IF> statement that only displays the list to
 admin-level users.)  If you log in as C<test01> you should be able to
 view the C<form_create> form and add a new book.

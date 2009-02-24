@@ -417,7 +417,7 @@ and partly for code clarity) only to use C<default> in
 C<MyApp::Controller::Root>, and then mainly to generate the 404 not 
 found page for the application.
 
-Instead, we are using C<sub base :Path :Args(0) {...}> here to
+Instead, we are using C<sub somename :Path :Args(0) {...}> here to
 specifically match the URL C</login>. C<Path> actions (aka, "literal
 actions") create URI matches relative to the namespace of the
 controller where they are defined.  Although C<Path> supports
@@ -525,36 +525,42 @@ the following method:
     }
 
 
-B<Note:> Catalyst provides a number of different types of actions,
-such as C<Local>, C<Regex>, C<Private> and the new C<Path>.  You
-should refer to L<Catalyst::Manual::Intro|Catalyst::Manual::Intro> for
-a more detailed explanation, but the following bullet points provide a
-quick introduction:
+B<Note:> Catalyst provides a number of different types of actions, 
+such as C<Chained>, C<Local>, C<Regex>, C<Private> and C<Path>.  You 
+should refer to L<Catalyst::Manual::Intro/Action_types> for a more 
+detailed explanation, but the following bullet points provide a quick 
+introduction:
 
 =over 4
 
 =item *
 
-The majority of applications have traditionally used C<Local> actions
-for items that respond to user requests and C<Private> actions for
-those that do not directly respond to user input.
+In the past, the majority of applications have traditionally used 
+C<Local> actions for items that respond to user requests and 
+C<Private> actions for those that do not directly respond to user 
+input.
 
 =item *
 
-Newer Catalyst applications tend to use C<Path> actions and the
-C<Args> attribute because of their power and flexibility.  You can
-specify the path to match relative to the namespace of the current
-module as an argument to C<Path>.  For example C<Path('list')> in
-C<lib/MyApp/Controller/Books.pm> would match on the URL
-C<http://localhost:3000/books/list> but C<Path('/list')> would
-match on C<http://localhost:3000/list>.
-
-=item *
-
-Automatic "chaining" of actions by the dispatcher is a powerful
-feature that allows multiple methods to handle a single URL.  See
+As discussed in Part 4 of the tutorial, newer Catalyst applications 
+tend to use the Chained dispatch form of action types because of its
+power and flexibility. See 
+L<Catalyst::Manual::Tutorial::BasicCRUD|Catalyst::Manual::Tutorial::BasicCRUD>
+and
 L<Catalyst::DispatchType::Chained|Catalyst::DispatchType::Chained>
 for more information on chained actions.
+
+=item *
+
+C<Path> actions provide a limited subset of what can be found done 
+with Chained actions.  You can match on different portions of the URI 
+(for example C<Path('list')> in C<lib/MyApp/Controller/Books.pm> would 
+match on the URL C<http://localhost:3000/books/list> but 
+C<Path('/list')> would match on C<http://localhost:3000/list>).  You 
+can also specify the number of arguments to match via C<Args> much 
+like the endpoint of a chain.  However, becaused Chained actions offer 
+these features and so much more (at the expense of some additional 
+complexity), Chained action types are generally recommened.
 
 =item *
 

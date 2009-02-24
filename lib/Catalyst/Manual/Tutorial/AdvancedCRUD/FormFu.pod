@@ -156,7 +156,7 @@ following method:
             # Set a status message for the user
             $c->flash->{status_msg} = 'Book created';
             # Return to the books list
-            $c->response->redirect($c->uri_for('list')); 
+            $c->response->redirect($c->uri_for($self->action_for('list'))); 
             $c->detach;
         } else {
             # Get the authors from the DB
@@ -260,7 +260,7 @@ Open C<root/src/books/formfu_create.tt2> in your editor and enter the following:
     [%# Render the HTML::FormFu Form %]
     [% form %]
     
-    <p><a href="[% c.uri_for('list') %]">Return to book list</a></p>
+    <p><a href="[% c.uri_for(c.controller.action_for('list')) %]">Return to book list</a></p>
 
 
 =head2 Add Links for Create and Update via C<HTML::FormFu>
@@ -270,7 +270,7 @@ the bottom of the existing file:
 
     <p>
       HTML::FormFu:
-      <a href="[% c.uri_for('formfu_create') %]">Create</a>
+      <a href="[% c.uri_for(c.controller.action_for('formfu_create')) %]">Create</a>
     </p>
 
 This adds a new link to the bottom of the book list page that we can
@@ -473,7 +473,7 @@ bottom:
         # Make sure we were able to get a book
         unless ($book) {
             $c->flash->{error_msg} = "Invalid book -- Cannot edit";
-            $c->response->redirect($c->uri_for('list'));
+            $c->response->redirect($c->uri_for($self->action_for('list')));
             $c->detach;
         }
     
@@ -489,7 +489,7 @@ bottom:
             # Set a status message for the user
             $c->flash->{status_msg} = 'Book edited';
             # Return to the books list
-            $c->response->redirect($c->uri_for('list'));
+            $c->response->redirect($c->uri_for($self->action_for('list')));
             $c->detach;
         } else {
             # Get the authors from the DB
@@ -553,9 +553,9 @@ following:
     ...
     <td>
       [% # Add a link to delete a book %]
-      <a href="[% c.uri_for('delete', book.id) %]">Delete</a>
+      <a href="[% c.uri_for(c.controller.action_for('delete', [book.id])) %]">Delete</a>
       [% # Add a link to edit a book %]
-      <a href="[% c.uri_for('formfu_edit', book.id) %]">Edit</a>
+      <a href="[% c.uri_for(c.controller.action_for('formfu_edit', [book.id])) %]">Edit</a>
     </td>
     ...
 

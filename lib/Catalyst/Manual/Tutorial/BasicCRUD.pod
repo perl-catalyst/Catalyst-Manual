@@ -1,4 +1,4 @@
-=head1 NAME
+ =head1 NAME
 
 Catalyst::Manual::Tutorial::BasicCRUD - Catalyst Tutorial - Part 4: Basic CRUD
 
@@ -620,7 +620,7 @@ and 2) the four lines for the Delete link near the bottom).
         </td>
         <td>
           [% # Add a link to delete a book %]
-          <a href="[% c.uri_for(c.controller.action_for('delete'), [ book.id ]) %]">Delete</a>
+          <a href="[% c.uri_for(c.controller.action_for('delete'), [book.id]) %]">Delete</a>
         </td>
       </tr>
     [% END -%]
@@ -663,6 +663,13 @@ operate on an existing book can chain directly off base.
 To add the C<object> method, edit C<lib/MyApp/Controller/Books.pm>
 and add the following code:
 
+    =head2 object
+    
+    Fetch the specified book object based on the book ID and store
+    it in the stash
+    
+    =cut
+    
     sub object :Chained('base') :PathPart('id') :CaptureArgs(1) {
         my ($self, $c, $id) = @_;
         
@@ -814,7 +821,7 @@ C<sub delete> method to match:
         $c->stash->{status_msg} = "Book deleted.";
     
         # Redirect the user back to the list page
-        $c->response->redirect($c->uri_for($c->controller->action_for('list'));
+        $c->response->redirect($c->uri_for($self->action_for('list'));
     }
 
 
@@ -856,7 +863,7 @@ method to match the following:
         $c->stash->{object}->delete;
     
         # Redirect the user back to the list page with status msg as an arg
-        $c->response->redirect($c->uri_for($c->controller->action_for('list'), 
+        $c->response->redirect($c->uri_for($self->action_for('list'), 
             {status_msg => "Book deleted."}));
     }
 
