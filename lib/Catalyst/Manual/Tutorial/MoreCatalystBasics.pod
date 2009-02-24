@@ -294,26 +294,89 @@ Context object is automatically passed to all Catalyst components.  It
 is used to pass information between components and provide access to 
 Catalyst and plugin functionality.
 
-B<Note:> Catalyst actions are regular Perl methods, but they make use 
-of Nicholas Clark's C<attributes> module (that's the "C<: Local>" next 
-to the C<sub list> in the code above) to provide additional 
-information to the Catalyst dispatcher logic.  Many newer Catalyst 
-applications are switching to the use of "Literal" C<:Path> actions 
-and C<Args> attribute in lieu of C<: Local> and C<: Private>.  For 
-example, C<sub any_method :Path :Args(0)> can be used instead of C<sub 
-index :Private> (because no path was supplied to C<Path> it matches 
-the "empty" URL in the namespace of that module... the same thing 
-C<sub index> would do) or C<sub list :Path('list') :Args(0)> could be 
-used instead of the C<sub list : Local> above (the C<list> argument to 
-C<Path> would make it match on the URL C<list> under C<books>, the 
-namespace of the current module).  See "Action Types" in 
-L<Catalyst::Manual::Intro|Catalyst::Manual::Intro> as well as Part 5 
-of this tutorial (Authentication) for additional information.  Another 
-popular but more advanced feature is C<Chained> actions that allow a 
-single URL to "chain together" multiple action method calls, each with 
-an appropriate number of arguments (see 
-L<Catalyst::DispatchType::Chained|Catalyst::DispatchType::Chained> for 
-details).
+Catalyst actions are regular Perl methods, but they make use 
+of attributes (the "C<: Local>" next to the "C<sub list>" in the code 
+above) to provide additional information to the Catalyst dispatcher 
+logic (note that the space between the colon and the attribute name is 
+optional... you will see them written both ways).  Over time, the 
+recommended style for most Catalyst applications has changed:
+
+=over 4
+
+=item * From "C<:Local>" and "C<:Private>"
+
+=item * To "C<:Path>" and "C<:Args>"
+
+=item * To "C<:Chained>"
+
+=back
+
+Although all three styles work just fine, the newer forms offer more 
+advanced capbilities and allow you to be more expressive with the URIs 
+that your application uses.
+
+Here is a quick summary of the most commonly used action types: 
+C<Local>, C<Private>, C<Path> and C<Chained>:
+
+=over 4
+
+=item *
+
+B<Local and Private> -- In the past, the majority of applications have 
+traditionally used C<Local> actions for items that respond to user 
+requests and C<Private> actions for those that do not directly respond 
+to user input.
+
+=over 4
+
+There are five types of build-in C<Private> actions: C<begin>, 
+C<end>, C<default>, C<index>, and C<auto>.
+
+=item *
+
+With C<begin>, C<end>, C<default>, C<index> private actions, only the
+most specific action of each type will be called.  For example, if you
+define a C<begin> action in your controller it will I<override> a
+C<begin> action in your application/root controller -- I<only> the
+action in your controller will be called.
+
+=item *
+
+Unlike the other actions where only a single method is called for each
+request, I<every> auto action along the chain of namespaces will be
+called.  Each C<auto> action will be called I<from the application/root
+controller down through the most specific class>.
+
+=back
+
+=item *
+
+B<Path> -- C<Path> actions were the next style of action types to
+become popular and essentially provide a limited subset of what can be 
+found done with Chained actions.  You can match on different portions 
+of the URI (for example C<Path('list')> in 
+C<lib/MyApp/Controller/Books.pm> would match on the URL 
+C<http://localhost:3000/books/list> but C<Path('/list')> would match 
+on C<http://localhost:3000/list>) and it let's you be very specific with
+what arguments each controller method will accept.  See
+L<Catalyst::Manual::Intro/Action_types> for more information and a few
+examples.
+
+=item *
+
+B<Chained> -- Newer Catalyst applications tend to use the Chained 
+dispatch form of action types because of its power and flexibility.  
+It allows a series of controller methods to automatically be dispatched
+to service a single user request.  See 
+L<Catalyst::Manual::Tutorial::BasicCRUD|Catalyst::Manual::Tutorial::BasicCRUD> 
+and L<Catalyst::DispatchType::Chained|Catalyst::DispatchType::Chained> 
+for more information on chained actions.
+
+=back
+
+You should refer to L<Catalyst::Manual::Intro/Action_types> for 
+additional information and for coverage of some lesser-used action 
+types not discussed here (C<Regex>, C<LocalRegex> and C<Global>).
 
 
 =head1 CATALYST VIEWS

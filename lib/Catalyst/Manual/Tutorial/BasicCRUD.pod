@@ -631,12 +631,31 @@ right side of the table with a C<Delete> "button" (for simplicity,
 links will be used instead of full HTML buttons).
 
 Also notice that we are using a more advanced form of C<uri_for> than 
-we have seen before.  Here we use C<$c-E<gt>controller-E<gt>action_for>
-to automatically generate a URI appropriate for that action while
-inserting the C<book.id> value into the appropriate place.  Now, if 
-you ever change C<:PathPart('delete')> in your controller method to
-C<:PathPart('kill')>, then your links will automatically update without
-any changes to your .tt2 template file.
+we have seen before.  Here we use C<$c-E<gt>controller-
+E<gt>action_for> to automatically generate a URI appropriate for that 
+action based on the method we want to link to while inserting the 
+C<book.id> value into the appropriate place.  Now, if you ever change 
+C<:PathPart('delete')> in your controller method to 
+C<:PathPart('kill')>, then your links will automatically update 
+without any changes to your .tt2 template file.  As long as the name 
+of your method does not changed ("delete" here), then your links will 
+still be correct.  There are a few shortcuts and options when using
+C<action_for()>:
+
+=over 4
+
+=item *
+
+If you are referring to a method in the current controller, you can
+use C<$self-E<gt>action_for('_method_name_')>.
+
+=item *
+
+If you are referring to a method in a different controller, you need
+to include that as an argument to C<controller()>, as in
+C<$c-E<gt>controller('_controller_name_')-E<gt>action_for('_method_name_')>.
+
+=back
 
 B<Note:> You should use more than just a simple link with your 
 applications. Consider using some sort of of confirmation page 
@@ -820,7 +839,8 @@ C<sub delete> method to match:
         # Set a status message to be displayed at the top of the view
         $c->stash->{status_msg} = "Book deleted.";
     
-        # Redirect the user back to the list page
+        # Redirect the user back to the list page.  Note the use
+        # of $self->action_for as earlier in this section (BasicCRUD)
         $c->response->redirect($c->uri_for($self->action_for('list'));
     }
 

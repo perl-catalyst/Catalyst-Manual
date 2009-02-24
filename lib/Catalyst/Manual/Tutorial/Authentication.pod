@@ -392,7 +392,8 @@ definition of C<sub index> to match:
             if ($c->authenticate({ username => $username,
                                    password => $password  } )) {
                 # If successful, then let them use the application
-                $c->response->redirect($c->uri_for('/books/list'));
+                $c->response->redirect($c->uri_for(
+                    $c->controller('Books')->action_for('list')));
                 return;
             } else {
                 # Set an error message
@@ -524,69 +525,14 @@ the following method:
         return 1;
     }
 
-
-B<Note:> Catalyst provides a number of different types of actions, 
-such as C<Chained>, C<Local>, C<Regex>, C<Private> and C<Path>.  You 
-should refer to L<Catalyst::Manual::Intro/Action_types> for a more 
-detailed explanation, but the following bullet points provide a quick 
-introduction:
-
-=over 4
-
-=item *
-
-In the past, the majority of applications have traditionally used 
-C<Local> actions for items that respond to user requests and 
-C<Private> actions for those that do not directly respond to user 
-input.
-
-=item *
-
-As discussed in Part 4 of the tutorial, newer Catalyst applications 
-tend to use the Chained dispatch form of action types because of its
-power and flexibility. See 
-L<Catalyst::Manual::Tutorial::BasicCRUD|Catalyst::Manual::Tutorial::BasicCRUD>
-and
-L<Catalyst::DispatchType::Chained|Catalyst::DispatchType::Chained>
-for more information on chained actions.
-
-=item *
-
-C<Path> actions provide a limited subset of what can be found done 
-with Chained actions.  You can match on different portions of the URI 
-(for example C<Path('list')> in C<lib/MyApp/Controller/Books.pm> would 
-match on the URL C<http://localhost:3000/books/list> but 
-C<Path('/list')> would match on C<http://localhost:3000/list>).  You 
-can also specify the number of arguments to match via C<Args> much 
-like the endpoint of a chain.  However, becaused Chained actions offer 
-these features and so much more (at the expense of some additional 
-complexity), Chained action types are generally recommened.
-
-=item *
-
-There are five types of build-in C<Private> actions: C<begin>, C<end>,
-C<default>, C<index>, and C<auto>.
-
-=item *
-
-With C<begin>, C<end>, C<default>, C<index> private actions, only the
-most specific action of each type will be called.  For example, if you
-define a C<begin> action in your controller it will I<override> a
-C<begin> action in your application/root controller -- I<only> the
-action in your controller will be called.
-
-=item *
-
-Unlike the other actions where only a single method is called for each
-request, I<every> auto action along the chain of namespaces will be
-called.  Each C<auto> action will be called I<from the application/root
-controller down through the most specific class>.
-
-=back
-
-By placing the authentication enforcement code inside the C<auto> method
-of C<lib/MyApp/Controller/Root.pm> (or C<lib/MyApp.pm>), it will be
-called for I<every> request that is received by the entire application.
+As discussed in 
+L<Catalyst::Manual::Tutorial::MoreCatalystBasics/CREATE A CATALYST CONTROLLER>, 
+every C<auto> method from the application/root controller down to the 
+most specific controller will be called.  By placing the 
+authentication enforcement code inside the C<auto> method of 
+C<lib/MyApp/Controller/Root.pm> (or C<lib/MyApp.pm>), it will be 
+called for I<every> request that is received by the entire 
+application.
 
 
 =head2 Displaying Content Only to Authenticated Users
@@ -655,7 +601,7 @@ bottom (below the closing </table> tag):
 
     <p>
       <a href="[% c.uri_for('/login') %]">Login</a>
-      <a href="[% c.uri_for('form_create') %]">Create</a>
+      <a href="[% c.uri_for(c.controller.action_for('form_create')) %]">Create</a>
     </p>
 
 Reload your browser and you should now see a "Login" and "Create" links
@@ -820,7 +766,7 @@ has changed):
         $c->flash->{status_msg} = "Book deleted";
     
         # Redirect the user back to the list page
-        $c->response->redirect($c->uri_for('/books/list'));
+        $c->response->redirect($c->uri_for($self->action_for('list')));
     }
 
 Next, open C<root/src/wrapper.tt2> and update the TT code to pull from

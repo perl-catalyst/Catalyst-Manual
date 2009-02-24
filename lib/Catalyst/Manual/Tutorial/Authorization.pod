@@ -168,7 +168,7 @@ lines to the bottom of the file:
     [% # Can also use $c->user->check_roles() to check authz -%]
     [% IF c.check_user_roles('admin') %]
       [% # Give admin users a link for 'create' %]
-      <a href="[% c.uri_for(c.controller('books').action_for('form_create')) %]">Admin Create</a>
+      <a href="[% c.uri_for(c.controller.action_for('form_create')) %]">Admin Create</a>
     [% END %]
     </p>
 
