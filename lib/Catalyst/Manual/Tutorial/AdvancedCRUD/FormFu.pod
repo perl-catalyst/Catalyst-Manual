@@ -119,7 +119,7 @@ add additional functionality to the manually created form from Part 4.
 
 First, change your C<lib/MyApp/Controller/Books.pm> to inherit from
 L<Catalyst::Controller::HTML::FormFu|Catalyst::Controller::HTML::FormFu>
-by changing the C<use base> line from the default of:
+by changing the C<use parent> line from the default of:
 
     use parent 'Catalyst::Controller';
 
