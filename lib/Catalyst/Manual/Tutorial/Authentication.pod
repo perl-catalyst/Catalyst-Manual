@@ -633,7 +633,9 @@ using a SHA-1 hash. If you are concerned about cleartext passwords
 between the browser and your application, consider using SSL/TLS, made
 easy with the Catalyst plugin Catalyst::Plugin:RequireSSL.  You should
 also consider adding a "salt" mechanism to your hashed passwords to 
-mitigate the risk of a "rainbow table" crack against your passwords.
+mitigate the risk of a "rainbow table" crack against your passwords (see
+L<Catalyst::Authentication::Credential::Password|Catalyst::Authentication::Credential::Password>
+for more information on using a salt value).
 
 
 =head2 Get a SHA-1 Hash for the Password
