@@ -1,4 +1,4 @@
- =head1 NAME
+=head1 NAME
 
 Catalyst::Manual::Tutorial::BasicCRUD - Catalyst Tutorial - Part 4: Basic CRUD
 
@@ -209,10 +209,11 @@ Next, use your browser to enter the following URL:
 
     http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
 
-Your browser should display "Added book 'TCPIP_Illustrated_Vol-2' by
-'Stevens' with a rating of 5." along with a dump of the new book model
-object.  You should also see the following DBIC debug messages displayed
-in the development server log messages if you have DBIC_TRACE set:
+Your browser should display "Added book 'TCPIP_Illustrated_Vol-2' by 
+'Stevens' with a rating of 5." along with a dump of the new book model 
+object as it was returned by DBIC.  You should also see the following 
+DBIC debug messages displayed in the development server log messages 
+if you have DBIC_TRACE set:
 
     INSERT INTO books (rating, title) VALUES (?, ?): `5', `TCPIP_Illustrated_Vol-2'
     INSERT INTO book_authors (author_id, book_id) VALUES (?, ?): `4', `6'
@@ -342,47 +343,47 @@ initial version of the C<url_create> method (the one using the
 C<:Local> attribute), you will notice that it produced output similar
 to the following:
 
-	[debug] Loaded Path actions:
-	.-------------------------------------+--------------------------------------.
-	| Path                                | Private                              |
-	+-------------------------------------+--------------------------------------+
-	| /                                   | /default                             |
-	| /                                   | /index                               |
-	| /books                              | /books/index                         |
-	| /books/list                         | /books/list                          |
-	| /books/url_create                   | /books/url_create                    |
-	'-------------------------------------+--------------------------------------'
+    [debug] Loaded Path actions:
+    .-------------------------------------+--------------------------------------.
+    | Path                                | Private                              |
+    +-------------------------------------+--------------------------------------+
+    | /                                   | /default                             |
+    | /                                   | /index                               |
+    | /books                              | /books/index                         |
+    | /books/list                         | /books/list                          |
+    | /books/url_create                   | /books/url_create                    |
+    '-------------------------------------+--------------------------------------'
 
 Now start the development server with our basic chained method in 
 place and the startup debug output should change to something along 
 the lines of the following:
 
-	[debug] Loaded Path actions:
-	.-------------------------------------+--------------------------------------.
-	| Path                                | Private                              |
-	+-------------------------------------+--------------------------------------+
-	| /                                   | /default                             |
-	| /                                   | /index                               |
-	| /books                              | /books/index                         |
-	| /books/list                         | /books/list                          |
-	'-------------------------------------+--------------------------------------'
-	
-	[debug] Loaded Chained actions:
-	.-------------------------------------+--------------------------------------.
-	| Path Spec                           | Private                              |
-	+-------------------------------------+--------------------------------------+
-	| /books/url_create/*/*/*             | /books/url_create                    |
-	'-------------------------------------+--------------------------------------'
+    [debug] Loaded Path actions:
+    .-------------------------------------+--------------------------------------.
+    | Path                                | Private                              |
+    +-------------------------------------+--------------------------------------+
+    | /                                   | /default                             |
+    | /                                   | /index                               |
+    | /books                              | /books/index                         |
+    | /books/list                         | /books/list                          |
+    '-------------------------------------+--------------------------------------'
+    
+    [debug] Loaded Chained actions:
+    .-------------------------------------+--------------------------------------.
+    | Path Spec                           | Private                              |
+    +-------------------------------------+--------------------------------------+
+    | /books/url_create/*/*/*             | /books/url_create                    |
+    '-------------------------------------+--------------------------------------'
 
 C<url_create> has disappeared form the "Loaded Path actions" section 
 but it now shows up under the newly created "Loaded Chained actions" 
-section.  And, the "/*/*/*" portion clearly shows that we have 
-specified that 3 arguments are required.
+section.  And, the "/*/*/*" portion clearly shows our requirement for
+three arguments.
 
 As with our non-chained version of C<url_create>, use your browser to 
 enter the following URL:
 
-	http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
+    http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
 
 You should see the same "Added book 'TCPIP_Illustrated_Vol-2' by 
 'Stevens' with a rating of 5." along with a dump of the new book model 
@@ -397,28 +398,28 @@ little more of the power of chaining.  First, open
 C<lib/MyApp/Controller/Books.pm> in your editor and add the following
 method:
 
-	=head2 base
-	
-	Can place common logic to start chained dispatch here
-	
-	=cut
-	
-	sub base :Chained('/') :PathPart('books') :CaptureArgs(0) {
-	    my ($self, $c) = @_;
-	    
-	    # Store the resultset in stash so it's available for other methods
-	    $c->stash->{resultset} = $c->model('DB::Books');
-	
-	    # Print a message to the debug log
-	    $c->log->debug('*** INSIDE BASE METHOD ***');
-	}
+    =head2 base
+    
+    Can place common logic to start chained dispatch here
+    
+    =cut
+    
+    sub base :Chained('/') :PathPart('books') :CaptureArgs(0) {
+        my ($self, $c) = @_;
+        
+        # Store the resultset in stash so it's available for other methods
+        $c->stash->{resultset} = $c->model('DB::Books');
+    
+        # Print a message to the debug log
+        $c->log->debug('*** INSIDE BASE METHOD ***');
+    }
 
-Here we print a log message and store the resultset in 
+Here we print a log message and store the DBIC resultset in 
 C<$c-E<gt>stash-E<gt>{resultset}> so that it's automatically available 
 for other actions that chain off C<base>.  If your controller always 
 needs a book ID as it's first argument, you could have the base method 
 capture that argument (with C<:CaptureArgs(1)>) and use it to pull the 
-book object with that ID from the database and leave it in the stash for 
+book object with C<-E<gt>find($id)> and leave it in the stash for 
 later parts of your chains to then act upon. Because we have several 
 actions that don't need to retrieve a book (such as the C<url_create>
 we are working with now), we will instead add that functionality
@@ -430,30 +431,30 @@ C<url_create> to match the following:
 
     sub url_create :Chained('base') :PathPart('url_create') :Args(3) {
 
-Next, let's try out our refactored chain.  Restart the development
-server and notice that our "Loaded Chained actions" section has 
-changed slightly:
-	
-	[debug] Loaded Chained actions:
-	.-------------------------------------+--------------------------------------.
-	| Path Spec                           | Private                              |
-	+-------------------------------------+--------------------------------------+
-	| /books/url_create/*/*/*             | /books/base (0)                      |
-	|                                     | => /books/url_create                 |
-	'-------------------------------------+--------------------------------------'
+Next, try out the refactored chain by restarting the development 
+server.  Notice that our "Loaded Chained actions" section has changed 
+slightly:
+    
+    [debug] Loaded Chained actions:
+    .-------------------------------------+--------------------------------------.
+    | Path Spec                           | Private                              |
+    +-------------------------------------+--------------------------------------+
+    | /books/url_create/*/*/*             | /books/base (0)                      |
+    |                                     | => /books/url_create                 |
+    '-------------------------------------+--------------------------------------'
 
 The "Path Spec" is the same, but now it maps to two Private actions as 
 we would expect.
 
 Once again, enter the following URL into your browser:
 
-	http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
+    http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
 
 The same "Added book 'TCPIP_Illustrated_Vol-2' by 'Stevens' with a 
-rating of 5." and dump of the new book object should appear.  Also 
-notice the extra debug message in the development server output from 
-the C<base> method.  Click the "Return to list" link, you should find 
-that there are now eight books shown. 
+rating of 5" message and dump of the new book object should appear. 
+Also notice the extra debug message in the development server output 
+from the C<base> method.  Click the "Return to list" link, you should 
+find that there are now eight books shown. 
 
 
 =head1 MANUALLY BUILDING A CREATE FORM
@@ -552,17 +553,17 @@ it.  Then restart the server:
 Notice that the server startup log reflects the two new chained 
 methods that we added:
 
-	[debug] Loaded Chained actions:
-	.-------------------------------------+--------------------------------------.
-	| Path Spec                           | Private                              |
-	+-------------------------------------+--------------------------------------+
-	| /books/form_create                  | /books/base (0)                      |
-	|                                     | => /books/form_create                |
-	| /books/form_create_do               | /books/base (0)                      |
-	|                                     | => /books/form_create_do             |
-	| /books/url_create/*/*/*             | /books/base (0)                      |
-	|                                     | => /books/url_create                 |
-	'-------------------------------------+--------------------------------------'
+    [debug] Loaded Chained actions:
+    .-------------------------------------+--------------------------------------.
+    | Path Spec                           | Private                              |
+    +-------------------------------------+--------------------------------------+
+    | /books/form_create                  | /books/base (0)                      |
+    |                                     | => /books/form_create                |
+    | /books/form_create_do               | /books/base (0)                      |
+    |                                     | => /books/form_create_do             |
+    | /books/url_create/*/*/*             | /books/base (0)                      |
+    |                                     | => /books/url_create                 |
+    '-------------------------------------+--------------------------------------'
 
 Point your browser to L<http://localhost:3000/books/form_create> and
 enter "TCP/IP Illustrated, Vol 3" for the title, a rating of 5, and an
@@ -652,13 +653,13 @@ use C<$self-E<gt>action_for('_method_name_')>.
 =item *
 
 If you are referring to a method in a different controller, you need
-to include that as an argument to C<controller()>, as in
+to include that controller's name as an argument to C<controller()>, as in
 C<$c-E<gt>controller('_controller_name_')-E<gt>action_for('_method_name_')>.
 
 =back
 
-B<Note:> You should use more than just a simple link with your 
-applications. Consider using some sort of of confirmation page 
+B<Note:> In general, you should use more than just a simple link with 
+your applications. Consider using some sort of of confirmation page 
 (typically with unique actions in your controller for both the 
 confirmation and the actual delete operation).  Also, you should try 
 to use an HTTP POST operation (versus the GET used here) for 
@@ -668,16 +669,17 @@ database).
 
 =head2 Add a Common Method to Retrieve a Book for the Chain
 
-As mentioned earlier, since we have a mixture of actions that operate on 
-a single book ID and others that do no, we should not have C<base> 
+As mentioned earlier, since we have a mixture of actions that operate 
+on a single book ID and others that do no, we should not have C<base> 
 capture the book ID, find the corresponding book in the database and 
 save it in the stash for later links in the chain.  However, just 
-because that logic does not belong in C<base> doesn't mean that we can't 
-create another location to centralize that logic.  In our case, we will 
-create a method called C<object> that will store the specific book in 
-the stash. Chains that always operate on a single existing book can 
-chain off this method, but methods such as C<url_create> that don't 
-operate on an existing book can chain directly off base.
+because that logic does not belong in C<base> doesn't mean that we 
+can't create another location to centralize the book lookup code.  In 
+our case, we will create a method called C<object> that will store the 
+specific book in the stash.  Chains that always operate on a single 
+existing book can chain off this method, but methods such as 
+C<url_create> that don't operate on an existing book can chain 
+directly off base.
 
 To add the C<object> method, edit C<lib/MyApp/Controller/Books.pm>
 and add the following code:
@@ -690,6 +692,7 @@ and add the following code:
     =cut
     
     sub object :Chained('base') :PathPart('id') :CaptureArgs(1) {
+        # $id = primary key of book to delete
         my ($self, $c, $id) = @_;
         
         # Find the book object and store it in the stash
@@ -717,7 +720,7 @@ or as a hashref:
     $c->stash({object => $c->stash->{resultset}->find($id),
               another_thing => 1});
 
-Either format works, but the C<$c-E<gt>stash(name => value);>
+Either format works, but the C<$c-E<gt>stash(name =E<gt> value);>
 style is growing in popularity -- you may which to use it all
 the time (even when you are only setting a single value).
 
@@ -734,7 +737,6 @@ following method:
     =cut
     
     sub delete :Chained('object') :PathPart('delete') :Args(0) {
-        # $id = primary key of book to delete
         my ($self, $c) = @_;
     
         # Use the book object saved by 'object' and delete it along
@@ -750,8 +752,7 @@ following method:
 
 This method first deletes the book object saved by the C<object> method. 
 However, it also removes the corresponding entry from the 
-C<book_authors> table.  Note that C<delete> will cascade to also delete 
-the related join table entries in C<book_authors>.
+C<book_authors> table with a cascading delete.
 
 Then, rather than forwarding to a "delete done" page as we did with the
 earlier create example, it simply sets the C<status_msg> to display a
@@ -774,7 +775,7 @@ it.  Then restart the server:
 The C<delete> method now appears in the "Loaded Chained actions" section
 of the startup debug output:
 
-	[debug] Loaded Chained actions:
+    [debug] Loaded Chained actions:
     .-------------------------------------+--------------------------------------.
     | Path Spec                           | Private                              |
     +-------------------------------------+--------------------------------------+
@@ -807,9 +808,11 @@ prior step -- it is still referencing the delete action:
 
     http://localhost:3000/books/delete/6
 
-What if the user were to press reload with this URL still active?  In
-this case the redundant delete is harmless, but in other cases this
-could clearly be extremely dangerous.
+What if the user were to press reload with this URL still active?  In 
+this case the redundant delete is harmless (although it does generate 
+an exception screen, it doesn't perform any undesirable actions on the 
+application or database), but in other cases this could clearly be 
+extremely dangerous.
 
 We can improve the logic by converting to a redirect.  Unlike
 C<$c-E<gt>forward('list'))> or C<$c-E<gt>detach('list'))> that perform
@@ -829,8 +832,7 @@ C<sub delete> method to match:
     =cut
     
     sub delete :Chained('object') :PathPart('delete') :Args(0) {
-        # $id = primary key of book to delete
-        my ($self, $c, $id) = @_;
+        my ($self, $c) = @_;
     
         # Use the book object saved by 'object' and delete it along
         # with related 'book_authors' entries
@@ -841,7 +843,7 @@ C<sub delete> method to match:
     
         # Redirect the user back to the list page.  Note the use
         # of $self->action_for as earlier in this section (BasicCRUD)
-        $c->response->redirect($c->uri_for($self->action_for('list'));
+        $c->response->redirect($c->uri_for($self->action_for('list')));
     }
 
 
@@ -875,8 +877,7 @@ method to match the following:
     =cut
     
     sub delete :Chained('object') :PathPart('delete') :Args(0) {
-        # $id = primary key of book to delete
-        my ($self, $c, $id) = @_;
+        my ($self, $c) = @_;
     
         # Use the book object saved by 'object' and delete it along
         # with related 'book_authors' entries

@@ -89,7 +89,7 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
             Session
             Session::Store::FastMmap
             Session::State::Cookie
-        /;
+        /);
 
 B<Note:> As discussed in MoreCatalystBasics, different versions of 
 C<Catalyst::Devel> have used a variety of methods to load the plugins. 
@@ -261,10 +261,10 @@ running) and restart it:
 
 Now trying going to L<http://localhost:3000/books/list> and you should 
 be taken to the login page (you might have to C<Shift+Reload> or 
-C<Ctrl+Reload> your browser and/or click the "Logout" link on the book 
+C<Ctrl+Reload> your browser and/or click the "User Logout" link on the book 
 list page).  Try logging in with both C<test01> and C<test02> (both 
 use a password of C<mypass>) and notice how the roles information 
-updates at the bottom of the "Book List" page. Also try the C<Logout> 
+updates at the bottom of the "Book List" page. Also try the "User Logout"
 link on the book list page.
 
 Now the "url_create" URL will work if you are already logged in as user
@@ -273,7 +273,7 @@ C<test02>.  Try:
 
     http://localhost:3000/books/url_create/test/1/6
 
-while logged in as each user.  Use one of the 'Logout' links (or go to 
+while logged in as each user.  Use one of the "logout" links (or go to 
 L<http://localhost:3000/logout> in your browser directly) when you are 
 done.
 

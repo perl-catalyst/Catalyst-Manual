@@ -86,19 +86,6 @@ for errors:
     #   in t/controller_Books.t at line 8.
     # Looks like you failed 1 test of 3.
 
-B<Note:> Depending on the versions of various modules you have 
-installed, you might get some C<used only once> warnings -- you can 
-ignore these. If you are following along in Ubuntu 8.10, you can 
-prevent them by adding C<no warnings;> above line 49 in 
-C</usr/lib/perl5/Template/Base.pm> to match the following:
-
-    ...
-    {   no strict qw( refs );
-        no warnings;
-        $argnames = \@{"$class\::BASEARGS"} || [ ];
-    }
-    ...
-
 The redirection used by the Authentication plugins will cause several 
 failures in the default tests.  You can fix this by making the following
 changes:
@@ -111,13 +98,13 @@ to:
 
     ok( request('/login')->is_success, 'Request should succeed' );
 
-2) Change the C<request('/logout')-E<gt>is_success> to 
-C<request('/logout')-E<gt>is_redirect> in C<t/controller_Logout.t>.
+2) Change the "C<request('/logout')-E<gt>is_success>" to 
+"C<request('/logout')-E<gt>is_redirect>" in C<t/controller_Logout.t>.
 
-3) Change the C<request('/books')-E<gt>is_success> to 
-C<request('/books')-E<gt>is_redirect> in C<t/controller_Books.t>.
+3) Change the "C<request('/books')-E<gt>is_success>" to 
+"C<request('/books')-E<gt>is_redirect>" in C<t/controller_Books.t>.
 
-4) Add C<use MyApp;> to the top of C<t/view_TT.t>.
+4) Add "C<use MyApp;>" to the top of C<t/view_TT.t>.
 
 As you can see in the C<prove> command line above, the C<--lib> option
 is used to set the location of the Catalyst C<lib> directory.  With this
@@ -128,6 +115,19 @@ plugin, it's generally easier to simply set the C<CATALYST_DEBUG=0>
 environment variable.  For example:
 
     $ CATALYST_DEBUG=0 prove --lib lib t
+
+B<Note:> Depending on the versions of various modules you have 
+installed, you might get some C<used only once> warnings -- you can 
+ignore these. If you are following along in Ubuntu 8.10, you can 
+prevent them by adding C<no warnings;> above line 49 in 
+C</usr/lib/perl5/Template/Base.pm> to match the following:
+
+    ...
+    {   no strict qw( refs );
+        no warnings;
+        $argnames = \@{"$class\::BASEARGS"} || [ ];
+    }
+    ...
 
 During the C<t/02pod> and C<t/03podcoverage> tests, you might notice the
 C<all skipped: set TEST_POD to enable this test> warning message.  To
@@ -242,7 +242,7 @@ editor and enter the following:
     
     $_->content_contains("Book List", "Check for book list title") for $ua1, $ua2;
     # Make sure the appropriate logout buttons are displayed
-    $_->content_contains("/logout\">Logout</a>",
+    $_->content_contains("/logout\">User Logout</a>",
         "Both users should have a 'User Logout'") for $ua1, $ua2;
     $ua1->content_contains("/books/form_create\">Create</a>",
         "Only 'test01' should have a create link");
@@ -333,6 +333,12 @@ failed test:
     diag $ua1->content;
 
 This will cause the full HTML returned by the request to be displayed.
+
+Another approach to see the full HTML content at the failure point in 
+a series of tests would be to insert a "C<$DB::single=1;> right above 
+the location of the failure and run the test under the perl debugger 
+(with C<-d>) as shown above.  Then you can use the debugger to explore 
+the state of the application right before or after the failure.
 
 
 =head1 SUPPORTING BOTH PRODUCTION AND TEST DATABASES
