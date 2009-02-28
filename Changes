@@ -1,7 +1,7 @@
 Revision history for Catalyst-Manual
 
-5.7XXX  XXX
-        - Add Chained dispatch starting in BasicCRUD (Part 4)
+5.7017  28 Feb 2009
+        - Main change = adding Chained dispatch starting in BasicCRUD (Part 4)
         - Add some "getting started" links to the Catalyst::Manual page
         - Change FormFu tutorial to not use deprecated methods (Del Merritt)
         - MoreCatalystBasics - Additional clarification about TTSite
@@ -9,9 +9,8 @@ Revision history for Catalyst-Manual
         - Tutorial::Authorization - Corrects the ACL for "/books/delete"
                                   - Additional comments 
           (Del Merritt)
-        - Tutorial::AdvancedCRUD::FormFu - suggest how the intrepid
-          user might now proceed, having completed the Tutorial.
-          (Del Merritt)
+        - Tutorial::AdvancedCRUD::FormFu - suggest how the intrepid user 
+          might now proceed, having completed the Tutorial. (Del Merritt)
         - Fix typo in Authorization section (RT #42091)
         - Fix typo in BasicCRUD (RT #42034)
         - Resolve outstanding typo and suggestions in MoreCatalystBasics (RT #41491)
