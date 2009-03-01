@@ -315,8 +315,6 @@ method" that you don't want to be an action at all, then just define
 the method without any attribute -- you can call it in your code, but 
 the Catalyst dispatcher will ignore it.)
 
-=over 4
-
 There are five types of "special" build-in C<:Private> actions: 
 C<begin>, C<end>, C<default>, C<index>, and C<auto>.
 
