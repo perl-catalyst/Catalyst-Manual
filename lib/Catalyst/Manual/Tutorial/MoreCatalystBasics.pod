@@ -318,6 +318,8 @@ the Catalyst dispatcher will ignore it.)
 There are five types of "special" build-in C<:Private> actions: 
 C<begin>, C<end>, C<default>, C<index>, and C<auto>.
 
+=over 4
+
 =item *
 
 With C<begin>, C<end>, C<default>, C<index> private actions, only the
