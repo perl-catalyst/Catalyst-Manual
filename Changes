@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+5.7XXX
+        - Suggestions and fixes with thanks to Murray Walker
+        - Misc updates and fixes
+
 5.7017  28 Feb 2009
         - Main change = adding Chained dispatch starting in BasicCRUD (Part 4)
         - Add some "getting started" links to the Catalyst::Manual page

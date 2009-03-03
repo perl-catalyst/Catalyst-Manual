@@ -383,7 +383,7 @@ NetBSD Package Collection on Solaris
 
 The 2008 Advent Day 15 entry has more information on using C<pkgsrc> and 
 NetBSD packages on Solaris: 
-L<http://www.catalystframework.org/calendar/2008/15|>.
+L<http://www.catalystframework.org/calendar/2008/15>.
 
 =item * 
 

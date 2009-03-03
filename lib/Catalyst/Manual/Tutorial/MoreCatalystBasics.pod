@@ -140,30 +140,27 @@ very similar to Apache configuration files.  We will see how to use
 this feature of Catalyst during the authentication and authorization
 sections (Part 5 and Part 6).
 
-B<IMPORTANT NOTE:> If you are using a version of
-L<Catalyst::Devel|Catalyst::Devel> prior to version 1.06, you need to
-be aware that Catalyst changed from a default format of YAML to the
-more straightforward C<Config::General> format.  This tutorial use the
-newer C<myapp.conf> configuration file for C<Config::General> instead
-of C<myapp.yml> for YAML. However, Catalyst has long supported both
-formats and Catalyst will automatically use either C<myapp.conf> or
-C<myapp.yml> (or any other format supported by
-L<Catalyst::Plugin::ConfigLoader|Catalyst::Plugin::ConfigLoader> and
-L<Config::Any|Config::Any>).  If you are using a versions of
-Catalyst::Devel prior to 1.06, you can convert to the newer format by
-simply creating the C<myapp.conf> file manually and deleting
-C<myapp.yml>.  The default contents of C<myapp.conf> should only
-consist of one line: C<name MyApp>.
+B<IMPORTANT NOTE:> If you are using a version of 
+L<Catalyst::Devel|Catalyst::Devel> prior to version 1.06, be aware 
+that Catalyst changed the default format from YAML to the more 
+straightforward C<Config::General> style.  This tutorial uses the 
+newer C<myapp.conf> file for C<Config::General>. However, Catalyst 
+supports both formats and will automatically use either C<myapp.conf> 
+or C<myapp.yml> (or any other format supported by 
+L<Catalyst::Plugin::ConfigLoader|Catalyst::Plugin::ConfigLoader> and 
+L<Config::Any|Config::Any>).  If you are using a version of 
+Catalyst::Devel prior to 1.06, you can convert to the newer format by 
+simply creating the C<myapp.conf> file manually and deleting 
+C<myapp.yml>.  The default contents of the C<myapp.conf> you create 
+should only consist of one line: 
+
+    name MyApp
 
 B<TIP>: This script can be useful for converting between configuration
 formats:
 
     perl -Ilib -e 'use MyApp; use Config::General;
         Config::General->new->save_file("myapp.conf", MyApp->config);'
-
-B<NOTE:> The default C<myapp.conf> should look like:
-
-    name   MyApp
 
 =item *
 
@@ -664,19 +661,37 @@ starts:
     created "/home/me/MyApp/script/../t/model_DB.t"
 
 
+The C<script/myapp_create.pl> command breaks down like this:
+
+=over 4
+
+=item *
+
 C<DB> is the name of the model class to be created by the helper in 
-C<lib/MyApp/Model>.  C<DBIC::Schema> is the type of the model to 
-create. C<MyApp::Schema> is the name of the DBIC schema file written 
-to C<lib/MyApp/Schema.pm>.  Because we specified C<create=dynamic> to 
-the helper, it use 
+C<lib/MyApp/Model>.
+
+=item *
+
+C<DBIC::Schema> is the type of the model to create.
+
+=item *
+
+C<MyApp::Schema> is the name of the DBIC schema file written to
+C<lib/MyApp/Schema.pm>.
+
+=item *
+
+Because we specified C<create=dynamic> to the helper, it use 
 L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> to 
 dynamically load the schema information from the database every time 
-the application starts. DBIC uses the schema to load other classes 
-that represent the tables in your database (DBIC refers to these 
-"table objects" as "result sources," see 
-L<DBIx::Class::ResultSource|DBIx::Class::ResultSource>). And finally, 
-C<dbi:SQLite:myapp.db> is the standard DBI connect string for use with 
-SQLite.
+the application starts.
+
+=item *
+
+And finally, C<dbi:SQLite:myapp.db> is the standard DBI connect string 
+for use with SQLite.
+
+=back
 
 B<NOTE:> Although the C<create=dynamic> option to the DBIC helper
 makes for a nifty demonstration, is only really suitable for very
@@ -712,8 +727,8 @@ C<[$c-E<gt>model('DB::Books')-E<gt>all]> and delete the next 2 lines):
         $c->stash->{template} = 'books/list.tt2';
     }
 
-B<TIP>: You may see the C<$c-E<gt>model('DB::Book')> un-commented 
-above written as C<$c-E<gt>model('DB')-E<gt>resultset('Book')>.  The 
+B<TIP>: You may see the C<$c-E<gt>model('DB::Books')> un-commented 
+above written as C<$c-E<gt>model('DB')-E<gt>resultset('Books')>.  The 
 two are equivalent.  Either way, C<$c-E<gt>model> returns a 
 L<DBIx::Class::ResultSet|DBIx::Class::ResultSet> which handles queries 
 against the database and iterating over the set of results that are 
@@ -736,9 +751,10 @@ and L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema>.
 
 =head2 Test Run The Application
 
-First, let's enable an environment variable option that causes
-DBIx::Class to dump the SQL statements it's using to access the database
-(this option can provide extremely helpful troubleshooting information):
+First, let's enable an environment variable that causes DBIx::Class to 
+dump the SQL statements usedß to access the database.  This is a 
+helpful trick when you are trying to debug your database-oriented 
+code:
 
     $ export DBIC_TRACE=1
 
@@ -1106,7 +1122,7 @@ comment:
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
-    #     3) Column name in *foreign* table
+    #     3) Column name in *foreign* table (aka, foreign key in peer table)
     __PACKAGE__->has_many(book_authors => 'MyApp::Schema::BookAuthors', 'book_id');
     
     # many_to_many():
@@ -1148,7 +1164,7 @@ below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
-    #     3) Column name in *foreign* table
+    #     3) Column name in *foreign* table (aka, foreign key in peer table)
     __PACKAGE__->has_many(book_author => 'MyApp::Schema::BookAuthors', 'author_id');
     
     # many_to_many():

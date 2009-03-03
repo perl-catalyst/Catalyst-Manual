@@ -158,7 +158,7 @@ C<lib/MyApp/Schema/Users.pm>:
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
-    #     3) Column name in *foreign* table
+    #     3) Column name in *foreign* table (aka, foreign key in peer table)
     __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::UserRoles', 'user_id');
     
     # many_to_many():
@@ -180,7 +180,7 @@ C<lib/MyApp/Schema/Roles.pm>:
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
-    #     3) Column name in *foreign* table
+    #     3) Column name in *foreign* table (aka, foreign key in peer table)
     __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::UserRoles', 'role_id');
 
 
