@@ -1,8 +1,10 @@
 Revision history for Catalyst-Manual
 
-5.7XXX
+5.7018  2 Mar 2009
         - Suggestions and fixes with thanks to Murray Walker
-        - Misc updates and fixes
+        - Fix misplaced "=over 4" in previous release
+        - Reword warning about not using GET for delete based on input from kd
+        - A few minor updates and fixes
 
 5.7017  28 Feb 2009
         - Main change = adding Chained dispatch starting in BasicCRUD (Part 4)

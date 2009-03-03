@@ -658,13 +658,9 @@ C<$c-E<gt>controller('_controller_name_')-E<gt>action_for('_method_name_')>.
 
 =back
 
-B<Note:> In general, you should use more than just a simple link with 
-your applications. Consider using some sort of of confirmation page 
-(typically with unique actions in your controller for both the 
-confirmation and the actual delete operation).  Also, you should try 
-to use an HTTP POST operation (versus the GET used here) for 
-operations that change the state of your application (e.g., the 
-database).
+B<Note:> In practice you should B<never> use a GET request to delete a 
+record -- always use POST for actions that will modify data.  We are 
+doing it here for illustrative and simplicity purposes only.
 
 
 =head2 Add a Common Method to Retrieve a Book for the Chain

@@ -23,7 +23,7 @@ Tutorial.  You can also refer to
 L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>
 for more information on installation options.
 
-Documentation Map:
+Some "Getting Started" Links:
 
 =over 4
 
