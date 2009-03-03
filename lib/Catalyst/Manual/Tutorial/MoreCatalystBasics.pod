@@ -1095,16 +1095,46 @@ changes below that point in the file, you can regenerate the
 automatically created information at the top of each file should your 
 database structure get updated.
 
-Also note the "flow" of the model information across the various files
-and directories.  Catalyst will initially load the model from
-C<lib/MyApp/Model/DB.pm>.  This file contains a reference to
-C<lib/MyApp/Schema.pm>, so that file is loaded next.  Finally,
-the call to C<load_classes> in C<Schema.pm> will load each of the
-table-specific "results source" files from the C<lib/MyApp/Schema>
-subdirectory.  These three table-specific DBIC schema files will then be
-used to create three table-specific Catalyst models every time the
-application starts (you can see these three model files listed in
-the debug output generated when you launch the application).
+Also note the "flow" of the model information across the various files 
+and directories.  Catalyst will initially load the model from 
+C<lib/MyApp/Model/DB.pm>.  This file contains a reference to 
+C<lib/MyApp/Schema.pm>, so that file is loaded next.  Finally, the 
+call to C<load_classes> in C<Schema.pm> will load each of the "result 
+class" files from the C<lib/MyApp/Schema> subdirectory.  The end 
+result is that Catalyst will dynamically create three table-specific 
+Catalyst models every time the application starts (you can see these 
+three model files listed in the debug output generated when you launch 
+the application).
+
+B<NOTE:> The version of 
+L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> in 
+Ubuntu 8.10 uses the older DBIC C<load_classes> vs. the newer 
+C<load_namspaces> technique.  For new applications, please try to use 
+C<load_namespaces> since it more easily supports a very useful DBIC
+technique called "ResultSet Classes."  This tutorial expects to migrate to 
+C<load_namespaces> when the next release of Ubuntu comes out.
+
+If you wish to try C<load_namespaces> now, you can manually do the
+equivalent of the C<create=static> operation outside of the Catalyst
+helper:
+
+    perl -MDBIx::Class::Schema::Loader=make_schema_at,dump_to_dir:./lib -e \
+        'make_schema_at("MyApp::Schema", { debug => 1, use_namespaces => 1, \
+        components => ["InflateColumn::DateTime"] },["dbi:SQLite:myapp.db", "", "" ])'
+
+And then use the helper to only create the Catalyst model class:
+
+    script/myapp_create.pl model DB DBIC::Schema MyApp::Schema dbi:SQLite:myapp.db
+
+B<However>, it is important to note that C<load_namespaces> will look 
+for your C<Books.pm>, <Authors.pm>, etc. files in 
+C<lib/MyApp/Schema/Result> (it adds the subdirection "Result" so that 
+there can also be a "ResultSet" directory next to it in the 
+hierarchy).  Therefore, if you switch to C<load_namespaces>, you will 
+need to modify the path to these "result class" files throughout the 
+rest of the tutorial.  Our recommendation for now would be to complete 
+the tutorial using C<load_classes> and the try converting to 
+C<load_namespaces> after you are done.
 
 
 =head2 Updating the Generated DBIC Schema Files

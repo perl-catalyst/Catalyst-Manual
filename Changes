@@ -2,6 +2,7 @@ Revision history for Catalyst-Manual
 
 5.7018  2 Mar 2009
         - Suggestions and fixes with thanks to Murray Walker
+        - DBIC-related updates in MoreCatalystBasics
         - Fix misplaced "=over 4" in previous release
         - Reword warning about not using GET for delete based on input from kd
         - A few minor updates and fixes
