@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+5.7XXX  XXXXXX
+        - Add a new section to BasicCRUD covering more advanced features of 
+            DBIC ("EXPLORING THE POWER OF DBIC")
+
 5.7018  2 Mar 2009
         - Suggestions and fixes with thanks to mintywalker@gmail.com
         - DBIC-related updates in MoreCatalystBasics

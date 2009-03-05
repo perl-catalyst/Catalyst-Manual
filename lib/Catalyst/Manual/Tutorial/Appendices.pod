@@ -321,7 +321,8 @@ Delete the existing model:
 
 Regenerate the model using the Catalyst "_create.pl" script:
 
-    script/myapp_create.pl model MyAppDB DBIC::Schema MyApp::Schema dbi:mysql:myapp 'tutorial' '' '{ AutoCommit => 1 }'
+    script/myapp_create.pl model MyAppDB DBIC::Schema MyApp::Schema \
+        dbi:mysql:myapp '_username_here_' '_password_here_' '{ AutoCommit => 1 }'
 
 =back
 
