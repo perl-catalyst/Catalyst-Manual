@@ -932,7 +932,7 @@ to use the "query param" technique shown here in your applications.
 
 In this section we will explore some additional capabilities offered 
 by DBIx::Class.  Although these features have relatively little to do 
-with Catalyst per-se, you will almost certainly want to take advantage 
+with Catalyst per se, you will almost certainly want to take advantage 
 of them in your applications.
 
 
@@ -1132,7 +1132,7 @@ incorporate the datetime logic:
 
 =head2 Create a ResultSet Class
 
-An often overlooked but extremly powerful features of DBIC is that it 
+An often overlooked but extremely powerful features of DBIC is that it 
 allows you to supply your own subclasses of C<DBIx::Class::ResultSet>. 
 It allows you to pull complex and unsightly "query code" out of your 
 controllers and encapsulate it in a method of your ResultSet Class.
