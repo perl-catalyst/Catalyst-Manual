@@ -964,7 +964,7 @@ Then make sure you are running an appropriate version:
 
 Make sure you get version 0.22 or higher.
 
-B<Note:> Utuntu will automatically "do the right thing" and use the 
+B<Note:> Ubuntu will automatically "do the right thing" and use the 
 module we installed from CPAN and ignore the older version we picked 
 up via the C<apt-get> command.  If you are using a different 
 environment, you will need to make sure you are using v0.22 or higher 
