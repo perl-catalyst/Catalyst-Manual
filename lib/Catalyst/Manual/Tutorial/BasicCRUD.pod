@@ -1161,14 +1161,14 @@ Then open C<lib/MyApp/Schema/ResultSet/Books.pm> and enter the following:
     =cut
     
     sub created_after {
-      my ($self, $datetime) = @_;
-      
-      my $date_str = $self->_source_handle->schema->storage
-                            ->datetime_parser->format_datetime($datetime);
-    
-      return $self->search({
-          created => { '>' => $date_str }
-      });
+        my ($self, $datetime) = @_;
+        
+        my $date_str = $self->_source_handle->schema->storage
+                              ->datetime_parser->format_datetime($datetime);
+        
+        return $self->search({
+            created => { '>' => $date_str }
+        });
     }
     
     1;
@@ -1289,11 +1289,11 @@ C<lib/MyApp/Schema/ResultSet/Books.pm> and add the following method:
     =cut
     
     sub title_like {
-      my ($self, $title_str) = @_;
+        my ($self, $title_str) = @_;
       
-      return $self->search({
-          title => { 'like' => "%$title_str%" }
-      });
+        return $self->search({
+            title => { 'like' => "%$title_str%" }
+        });
     }
 
 We defined the search string as C<$title_str> to make the method more 
