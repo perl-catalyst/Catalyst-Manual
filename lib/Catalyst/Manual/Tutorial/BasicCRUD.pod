@@ -962,12 +962,12 @@ Then make sure you are running an appropriate version:
         'print "$Catalyst::Model::DBIC::Schema::VERSION\n"'
     0.23
 
-Make sure you get version 0.22 or higher.
+Make sure you get version 0.23 or higher.
 
 B<Note:> Ubuntu will automatically "do the right thing" and use the 
 module we installed from CPAN and ignore the older version we picked 
 up via the C<apt-get> command.  If you are using a different 
-environment, you will need to make sure you are using v0.22 or higher 
+environment, you will need to make sure you are using v0.23 or higher 
 with the command above.
 
 While we are at it, let's install a few other modules from CPAN for 
