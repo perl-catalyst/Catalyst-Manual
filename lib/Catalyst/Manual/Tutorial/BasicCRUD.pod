@@ -952,7 +952,7 @@ C<load_namespaces>.
 If you are following along in Ubuntu 8.10, you will need to
 upgrade your version of 
 L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema>
-to 0.22 or higher.  To do this, we can install directly from CPAN:
+to 0.23 or higher.  To do this, we can install directly from CPAN:
 
     $ cpan Catalyst::Model::DBIC::Schema
 
@@ -960,7 +960,7 @@ Then make sure you are running an appropriate version:
 
     $ perl -MCatalyst::Model::DBIC::Schema -e \
         'print "$Catalyst::Model::DBIC::Schema::VERSION\n"'
-    0.22
+    0.23
 
 Make sure you get version 0.22 or higher.
 
