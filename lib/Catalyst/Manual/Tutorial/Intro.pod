@@ -83,17 +83,17 @@ part of the tutorial.>
 
 B<NOTE: You can use any Perl-supported OS and environment to run 
 Catalyst.> It should make little or no difference to Catalyst's 
-operation, B<but this tutorial has been written using Ubuntu 8.10> 
-because that represents a quick and easy for most people to try out 
-Catalyst with virtually zero setup time and hassles.  Also, the tutorial 
-has been tested to work correctly with the versions of Catalyst and all 
-the supporting modules in Ubuntu 8.10 (see "VERSIONS AND CONVENTIONS 
-USED IN THIS TUTORIAL" below for the specific versions for some of the 
-key modules), so B<if you think you might be running into an issue 
-related to versions> (for example, a module changed its behavior in a 
-newer version or a bug was introduced), B<it might be worth giving 
-Ubuntu 8.10 a try>.  See the "CATALYST INSTALLATION" section below for 
-more information.
+operation, B<but this tutorial has been written using the Debian 5 
+live CD> because that represents a quick and easy for most people to 
+try out Catalyst with virtually zero setup time and hassles.  Also, 
+the tutorial has been tested to work correctly with the versions of 
+Catalyst and all the supporting modules in Debian 5 (see "VERSIONS 
+AND CONVENTIONS USED IN THIS TUTORIAL" below for the specific versions 
+for some of the key modules), so B<if you think you might be running 
+into an issue related to versions> (for example, a module changed its 
+behavior in a newer version or a bug was introduced), B<it might be 
+worth giving Debian 5 a try>.  See the "CATALYST INSTALLATION" 
+section below for more information.
 
 If you're reading this manual online, you can download the example 
 program and all the necessary dependencies to your local machine by 
@@ -115,7 +115,9 @@ A simple application that lists and adds books.
 
 =item *
 
-The use of L<DBIx::Class|DBIx::Class> (DBIC) for the model.
+The use of L<DBIx::Class|DBIx::Class> (DBIC) for the model (including 
+some of the more advanced techniques you will probably want to use in 
+your applications).
 
 =item * 
 
@@ -188,19 +190,19 @@ versions:
 
 =item * 
 
-Ubuntu 8.10 (Intrepid Ibex)
+Debian 5 (Lenny)
 
 =item * 
 
-Catalyst v5.7014
+Catalyst v5.71000
 
 =item *
 
-Catalyst::Devel v1.07
+Catalyst::Devel v1.08
 
 =item * 
 
-DBIx::Class v0.08010
+DBIx::Class v0.08012
 
 =item * 
 
@@ -216,10 +218,6 @@ use. This tutorial has been tested against the following set of plugins:
 =item * 
 
 Catalyst::Plugin::Authentication -- v0.10006
-
-=item *
-
-Catalyst::Plugin::Authorization::ACL -- v0.08
 
 =item *
 
@@ -284,36 +282,201 @@ to the development server can be necessary with some browsers
 
 =head1 CATALYST INSTALLATION
 
-While the rough edges of Catalyst installation have been a problem in
-the past, this is now mostly solved.  Nonetheless, installing Catalyst
-can be a little time consuming. Although a compelling strength of
-Catalyst is that it makes use of many of the modules in the vast
-repository that is CPAN, this can complicate the installation process.
-However, there are a growing number of methods that can dramatically
-ease this undertaking.  Of these, the following are likely to be
-applicable to the largest number of potential new users:
+Although Catalyst installation has been a challenge in the past, the 
+good news is that there are a growing number of options to eliminate 
+(or at least dramatically simplify) this concern.  Although a 
+compelling strength of Catalyst is that it makes use of many of the 
+modules in the vast repository that is CPAN, this can complicate the 
+installation process if you approach it in the wrong way.  Consider 
+the following suggestions on the most common ways to get started with 
+a Catalyst development environment:
 
 =over 4
 
 =item *
 
-Ubuntu
+Debian
 
-Given the popularity of Ubuntu and its ease of use, Ubuntu can be a 
-great way for newcomers to experiment with Catalyst.  Because it is a 
-"live CD," you can simply boot from the CD, run a few commands, and you 
-should have a fully functional environment in which to do this tutorial 
-in a matter of minutes.  B<The tutorial was fully tested to work under 
-Ubuntu 8.10.  Although it SHOULD work under any Catalyst installation 
-method you might choose, it can be hard to guarantee this.>
+The Debian 5 live CD represents a great way for newcomers to 
+experiment with Catalyst.  As a "live CD," you can simple boot from 
+the CD, run a few commands, and in a matter of minutes you should have 
+a fully function environment in which do this tutorial. B<The tutorial 
+was fully tested to work under Debian 5.  Although it SHOULD work 
+under any Catalyst installation method you might choose, it can be 
+hard to guarantee this.>
 
 =over 4
 
 =item * 
 
-Download Ubuntu 8.10 (aka, Intrepid Ibex) Desktop edition and boot from 
-the CD and/or image file, select your language, and then "Try Ubuntu 
-without any changes to your computer."
+Download one of the ISO files from 
+L<http://cdimage.debian.org/cdimage/release/current-live/i386/iso-cd/>. 
+You can pick any one of the live CD variations will work, but 
+you may wish to consider the following points:
+
+=over 4
+
+=item *
+
+"C<debian-live-500-i386-rescue.iso>" is probably the best all-around 
+option for most people because it includes many extra tools such as 
+the GCC compiler, therefore saving RAM (every package you need to 
+install when running from live CD consumes memory because RAM disk is 
+being used in lieu of real disk space).  When initially booting under 
+this image, you may see some cryptic warning messages having to do 
+with various diagnostic tools it tries to load or enable, but you 
+should be able to safely ignore these.
+
+=item *
+
+"C<debian-live-500-i386-standard.iso>" is a great option because of 
+its compact size, but you will probably need approximately 1 GB of RAM 
+in the computer where you will run the tutorial.  Because the 
+"standard" live CD comes with with a minimal set of tools, we will 
+have to install extra packages (such as the GCC compiler), all of 
+which will require RAM when running from a live CD. 
+
+=item *
+
+The other ISO images include different flavors of X-Windows desktop 
+managers.  You can select one of these if you don't mind the larger 
+download size and prefer a graphical environment.  Be aware that these 
+disks do not come with the extra tools found on the "rescue" image, so 
+you will need adequate RAM to be able to install them just as you 
+would under the "standard" image. B<Use one of the "graphical" ISO 
+images if you want a graphical web browser on the same machine as 
+where you will run the tutorial.>  (If you are using one of the non-
+graphical images discussed above, you can still use a graphical web 
+browser from another machine and point it to your Catalyst development 
+machine.)
+
+=back
+
+=item *
+
+Boot off the CD.
+
+=item *
+
+Select "C<Live>" from the initial boot menu.
+
+=item *
+
+Once the system has booted to a "C<user@debian:~$>" prompt, enter the 
+following command to add the more current "unstable" package 
+repository:
+
+    sudo vi /etc/apt/sources.list
+
+Add the following line to the bottom of this file:
+
+    deb http://ftp.us.debian.org/debian/ unstable main
+
+If you are not familiar with VI, you can move to the bottom of this 
+file and press the "o" key to insert a new line and type the line 
+above.  Then press the "Esc" key followed by a colon (":"), the 
+letters "wq" and then the "Enter" key.  The rest of the tutorial will 
+assume that you know how to use some editor that is available from the 
+Linux command-line environment.
+
+=item *
+
+Install Catalyst:
+
+    sudo aptitude update
+    sudo aptitude -y install sqlite3 libdbd-sqlite3-perl libcatalyst-perl \
+        libcatalyst-modules-perl libconfig-general-perl libsql-translator-perl \
+        libdatetime-perl libdatetime-format-mysql-perl libio-all-perl \
+        libperl6-junction-perl
+
+Let it install (normally about a 30-second operaton) and you are 
+done.  
+
+If you are using an image other than the "rescue" ISO, you will also need
+to run the following command to install additional packages:
+
+    sudo aptitude -y install gcc make libc6-dev
+
+If you are running from the Live CD, you probably also want to free up 
+some RAM disk space with the following:
+
+    sudo aptitude clean
+
+NOTE: While the instructions above mention the Live CD because that 
+makes it easy for people new to Linux, you can obviously pick a 
+different Debian ISO image and install it to your hard drive. 
+Although there are many different ways to download and install Debian, 
+the "netinst" ISO image (such as "C<debian-500-i386-netinst.iso>" 
+represents a great option because it keeps your initial download small 
+(but still let's you install anything you want "over the network").
+
+Here are some tips if you are running from a live CD and are running
+out of disk space (which really means you are running out of RAM):
+
+=over 4
+
+=item *
+
+Always run "C<aptitude clean>" after you install new packages to 
+delete the original .deb files (the files installed B<by> the .deb 
+package B<will> remain available, just the .deb package itself is 
+deleted).
+
+=item *
+
+If you are installing modules from CPAN, you can free up some space 
+with "C<rm -rf /root/.cpan/*>".
+
+=item *
+
+If necessary, you can remove the cached package information with the 
+command "C<rm -f /var/lib/apt/lists/*>".  You can later pull this 
+information again via the command "C<aptitude update>".
+
+=item * 
+
+You can save a small amount of space by commenting out the lines in 
+C</etc/apt/sources.list> that reference "deb-src" and 
+"security.debian.org".  If you have already done an "C<aptitude 
+update>" with these repositories enabled, you can use the tip in the 
+previous bullet to free the space up (and then do another "C<aptitude 
+update>").
+
+=item *
+
+Although you can free up space by removing packages you installed 
+since you last booted (check out "C<aptitude remove _pkg_name>"), 
+don't bother trying to remove packages already available at the time 
+of boot. Instead of freeing up space, it will actual I<consume> some 
+space. (The live CD uses these "burn in" packages right from the CD 
+disk vs. first loading them on the virtual RAM disk. However, if you 
+remove them, the system has to update various files, something that 
+I<does> consume some space on the virtual RAM disk.)
+
+=back
+
+=back
+
+=item *
+
+Ubuntu
+
+Ubuntu is an extremely popular offshoot of Debian.  It provides 
+cutting edge versions of many common tools, application and libraries 
+in an easy-to-run live CD configuration (and because a single download 
+option can be used for both live CD and install-to-disk usage, it 
+keeps your download options nice and simple).  As with Debian 5, you 
+should be able to generate a fully function Catalyst environment in a 
+matter of minutes.  Here are quick instructions on how to use Ubuntu 
+to prepare for the tutorial:
+
+=over 4
+
+=item * 
+
+Download the Ubuntu Desktop edition and boot from the CD and/or image 
+file, select your language, and then "Try Ubuntu without any changes 
+to your computer."
 
 =item *
 
@@ -333,17 +496,17 @@ And remove the comments from the lines under the comments about the
 
 Install Catalyst:
 
-    sudo apt-get update
-    sudo apt-get install libdbd-sqlite3-perl libcatalyst-perl libcatalyst-modules-perl libconfig-general-perl
+    sudo aptitude update
+    sudo aptitude install libdbd-sqlite3-perl libcatalyst-perl libcatalyst-modules-perl libconfig-general-perl
 
 Accept all of the dependencies.  Done.  
 
 If you are running from the Live CD, you probably also want to free up 
 some disk space with the following:
 
-    sudo apt-get clean
+    sudo aptitude clean
 
-NOTE: While the instructions above mention the Live CD because that 
+NOTE: While the instructions above mention the live CD because that 
 makes it easy for people new to Linux, you can obviously also use one 
 of the options to install Ubuntu on your drive.
 
@@ -393,16 +556,6 @@ You can get more information at
 L<http://www.catalystframework.org/calendar/2008/7>
 or L<Perl::Dist::CatInABox|Perl::Dist::CatInABox>.
 
-
-=item *
-
-Pre-Built VMWare Images
-
-Under the VMWare community program, work is ongoing to develop a number
-of VMWare images where an entire Catalyst development environment has
-already been installed, complete with database engines and a full
-complement of Catalyst plugins.
-
 =item * 
 
 Frank Speiser's Amazon EC2 Catalyst SDK
@@ -421,19 +574,12 @@ For additional information and recommendations on Catalyst installation,
 please refer to 
 L<Catalyst::Manual::Installation|Catalyst::Manual::Installation>.
 
-B<NOTE:> Step-by-step instructions to replicate the environment on
-which this tutorial was developed can be found at
-L<Catalyst::Manual::Installation::CentOS4|Catalyst::Manual::Installation::CentOS4>. 
-Using these instructions, you should be able to build a complete CentOS
-4.X server with Catalyst and all the plugins required to run this
-tutorial.
-
 
 =head1 DATABASES
 
 This tutorial will primarily focus on SQLite because of its simplicity
 of installation and use; however, modifications in the script required
-to support MySQL and PostgreSQL will be presented in Appendix 2.
+to support MySQL and PostgreSQL will be presented in Appendix.
 
 B<Note:> One of the advantages of the MVC design patterns is that
 applications become much more database independent.  As such, you will
@@ -451,10 +597,37 @@ of each part for the appropriate svn command to use).
 B<NOTE:> You can run the test cases for the final code through Part 8 
 with the following commands:
 
+    sudo cpan Catalyst::Model::DBIC::Schema Time::Warp DBICx::TestDatabase \
+        DBIx::Class::DynamicDefault DBIx::Class::TimeStamp
     wget http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Part8.tgz
     tar zxvf MyApp_Part8.tgz
     cd MyApp
     CATALYST_DEBUG=0 prove --lib lib  t
+
+If you wish to include the L<HTML::FormFu|HTML::FormFu> section in 
+your tests, substitute C<MyApp_Part9_FormFu.tgz> for 
+C<MyApp_Part8.tgz> in the URL above.  However, you will also need to 
+run the following additional commands:
+
+    sudo aptitude -y install libhtml-formfu-perl libmoose-perl \
+        libregexp-assemble-perl libhtml-formfu-model-dbic-perl
+    sudo aptitude clean
+    sudo cpan Catalyst::Component::InstancePerContext Catalyst::Controller::HTML::FormFu
+
+You can also fire up the application under the development server that is conveniently
+built in to Catalyst.  Just issue this command from the C<MyApp> directory where you
+ran the test suite above:
+
+    script/myapp_server.pl
+
+And the application will start.  You can try out the application by 
+pulling up C<http://localhost:3000> in your web browser (as mentioned 
+earlier, change C<localhost> to a different IP address or DNS name if 
+you are running your web browser and your Catalyst development on 
+different boxes).  We will obviously see more about how to use the 
+application as we go through the remaining parts of the tutorial, but 
+for now you can log in using the username "test01" and a password of 
+"mypass".
 
 
 =head1 AUTHOR

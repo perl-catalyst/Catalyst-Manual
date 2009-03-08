@@ -75,7 +75,7 @@ The remainder of the tutorial will build an application called C<MyApp>.
 First use the Catalyst C<catalyst.pl> script to initialize the framework
 for the C<MyApp> application (make sure you aren't still inside the
 directory of the C<Hello> application from the previous part of the
-tutorial):
+tutorial or in a directory that already has a "MyApp" subdirectory):
 
     $ catalyst.pl MyApp
     created "MyApp"
@@ -173,31 +173,27 @@ as images and CSS files under the development server.
 
 For our application, we want to add one new plugin into the mix.  To 
 do this, edit C<lib/MyApp.pm> (this file is generally referred to as 
-your I<application class>) and delete the line with:
+your I<application class>) and delete the lines with:
 
-    __PACKAGE__->setup(qw/-Debug ConfigLoader Static::Simple/);
+    use Catalyst qw/-Debug
+                    ConfigLoader
+                    Static::Simple/;
 
 Then replace it with:
 
-    __PACKAGE__->setup(qw/
-            -Debug
-            ConfigLoader
-            Static::Simple
-    
-            StackTrace
-        /);
-
-B<Note:> Recent versions of C<Catalyst::Devel> have used a variety of 
-techniques to load these plugins/flags.  If you are following along in 
-Ubuntu 8.10, you should have C<Catalyst::Devel> v1.07 and see the 
-default code shown above.  If you are using v1.08, you should see the 
-following by default:
-
+    # Load plugins
     use Catalyst qw/-Debug
                 ConfigLoader
-                Static::Simple/;
-    ...
-    __PACKAGE__->setup();
+                Static::Simple
+                
+                StackTrace
+                /;
+
+B<Note:> Recent versions of C<Catalyst::Devel> have used a variety of 
+techniques to load these plugins/flags.  For example, you might see
+the following:
+
+    __PACKAGE__->setup(qw/-Debug ConfigLoader Static::Simple/);
 
 Don't let these variations confuse you -- they all accomplish the same 
 result.
@@ -466,6 +462,12 @@ C<root> to C<root/src>.  These changes from the default are done mostly
 to facilitate the application we're developing in this tutorial; as with
 most things Perl, there's more than one way to do it...
 
+B<Note:> We will use C<root/src> as the base directory for our 
+template files, which a full naming convention of 
+C<root/src/_controller_name_/_action_name_.tt2>.  Another popular option is to
+use C<root/> as the base (with a full filename pattern of 
+C<root/_controller_name_/_action_name_.tt2>).
+
 
 =head2 Create a TT Template Page
 
@@ -603,7 +605,7 @@ can use the SQLite command line environment to do a quick dump of the
 database contents:
 
     $ sqlite3 myapp.db
-    SQLite version 3.4.2
+    SQLite version 3.5.9
     Enter ".help" for instructions
     sqlite> select * from books;
     1|CCSP SNRS Exam Certification Guide|5
@@ -631,6 +633,7 @@ your OS command prompt.
 
 For using other databases, such as PostgreSQL or MySQL, see 
 L<Appendix 2|Catalyst::Manual::Tutorial::Appendices>.
+
 
 =head1 DATABASE ACCESS WITH C<DBIx::Class>
 
@@ -701,9 +704,10 @@ use the C<create=static> option that we switch to below.
 
 =head1 ENABLE THE MODEL IN THE CONTROLLER
 
-Open C<lib/MyApp/Controller/Books.pm> and un-comment the model code we
-left disabled earlier (un-comment the line containing
-C<[$c-E<gt>model('DB::Books')-E<gt>all]> and delete the next 2 lines):
+Open C<lib/MyApp/Controller/Books.pm> and un-comment the model code we 
+left disabled earlier so that your version matches the following (un-
+comment the line containing C<[$c-E<gt>model('DB::Books')-E<gt>all]> 
+and delete the next 2 lines):
 
     =head2 list
     
@@ -752,7 +756,7 @@ and L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema>.
 =head2 Test Run The Application
 
 First, let's enable an environment variable that causes DBIx::Class to 
-dump the SQL statements usedß to access the database.  This is a 
+dump the SQL statements used to access the database.  This is a 
 helpful trick when you are trying to debug your database-oriented 
 code:
 
@@ -771,7 +775,7 @@ log).
 Then launch the Catalyst development server.  The log output should
 display something like:
 
-    $script/myapp_server.pl
+    $ script/myapp_server.pl
     [debug] Debug messages enabled
     [debug] Statistics enabled
     [debug] Loaded plugins:
@@ -819,8 +823,8 @@ display something like:
     | /books/list                         | /books/list                          |
     '-------------------------------------+--------------------------------------'
     
-    [info] MyApp powered by Catalyst 5.7014
-    You can connect to your server at http://localhost:3000
+    [info] MyApp powered by Catalyst 5.71000
+    You can connect to your server at http://debian:3000
 
 B<NOTE:> Be sure you run the C<script/myapp_server.pl> command from
 the 'base' directory of your application, not inside the C<script>
@@ -870,7 +874,7 @@ more fully.
 
 =head1 CREATE A WRAPPER FOR THE VIEW
 
-When using TT, you can (and should!) create a wrapper that will
+When using TT, you can (and should) create a wrapper that will
 literally wrap content around each of your templates.  This is
 certainly useful as you have one main source for changing things that
 will appear across your entire site/application instead of having to
@@ -928,7 +932,6 @@ For the tutorial, open C<root/src/wrapper.tt2> and input the following:
         <ul>
             <li><a href="[% c.uri_for('/books/list') %]">Home</a></li>
             <li><a href="[% c.uri_for('/') %]" title="Catalyst Welcome Page">Welcome</a></li>
-            <li><a href="mailto:nobody@nowhere.com" title="Contact Us">Contact Us</a></li>
         </ul>
     </div><!-- end menu -->
     
@@ -1062,11 +1065,11 @@ First, lets remove the schema file created earlier:
 Now regenerate the schema using the C<create=static> option:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=static dbi:SQLite:myapp.db
-     exists "/home/kclark/dev/MyApp/script/../lib/MyApp/Model"
-     exists "/home/kclark/dev/MyApp/script/../t"
-    Dumping manual schema for MyApp::Schema to directory /home/kclark/dev/MyApp/script/../lib ...
+     exists "/home/me/MyApp/script/../lib/MyApp/Model"
+     exists "/home/me/MyApp/script/../t"
+    Dumping manual schema for MyApp::Schema to directory /home/me/MyApp/script/../lib ...
     Schema dump completed.
-     exists "/home/kclark/dev/MyApp/script/../lib/MyApp/Model/DB.pm"
+     exists "/home/me/MyApp/script/../lib/MyApp/Model/DB.pm"
 
 We could have also deleted C<lib/MyApp/Model/DB.pm>, but it would
 have regenerated the same file (note the C<exists> in the output above).
@@ -1080,20 +1083,22 @@ L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> as its base
 class (L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> is 
 only being used by the helper to load the schema once and then create 
 the static files for us) and C<Schema.pm> only contains a call to the 
-C<load_classes> method.  You will also find that C<lib/MyApp> 
-contains a C<Schema> subdirectory, with one file inside this directory 
-for each of the tables in our simple database (C<Authors.pm>, 
-C<BookAuthors.pm>, and C<Books.pm>).  These three files were created 
-based on the information found by 
-L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> as the 
-helper ran.
+C<load_classes> method.  You will also find that C<lib/MyApp> contains 
+a C<Schema> subdirectory, with files inside this directory named 
+according to each of the tables in our simple database (C<Authors.pm>, 
+C<BookAuthors.pm>, and C<Books.pm>).  These three files are called 
+"Result Classes" in DBIC nomenclature. Although the Result Class files 
+are named after tables in our database, the classes correspond to the 
+I<row-level data> that is returned by DBIC (more on this later, 
+especially in 
+L<Catalyst::Manual::Tutorial::BasicCRUD/EXPLORING THE POWER OF DBIC>.
 
-The idea with all of the files created under C<lib/MyApp/Schema> by 
-the C<create=static> option is to only edit the files below the C<# DO 
-NOT MODIFY THIS OR ANYTHING ABOVE!> warning.  If you place all of your 
-changes below that point in the file, you can regenerate the 
-automatically created information at the top of each file should your 
-database structure get updated.
+The idea with the Result Source files created under 
+C<lib/MyApp/Schema> by the C<create=static> option is to only edit the 
+files below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> warning. 
+If you place all of your changes below that point in the file, you can 
+regenerate the automatically created information at the top of each 
+file should your database structure get updated.
 
 Also note the "flow" of the model information across the various files 
 and directories.  Catalyst will initially load the model from 
@@ -1108,7 +1113,7 @@ the application).
 
 B<NOTE:> The version of 
 L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> in 
-Ubuntu 8.10 uses the older DBIC C<load_classes> vs. the newer 
+Debian 5 uses the older DBIC C<load_classes> vs. the newer 
 C<load_namspaces> technique.  For new applications, please try to use 
 C<load_namespaces> since it more easily supports a very useful DBIC
 technique called "ResultSet Classes."  We will migrate to 
@@ -1117,10 +1122,12 @@ C<load_namespaces> in Part 4 (BasicCRUD) of this tutorial.
 
 =head2 Updating the Generated DBIC Schema Files
 
-Let's manually add some relationship information to the auto-generated
-schema files.  First edit C<lib/MyApp/Schema/Books.pm> and
-add the following text below the C<# You can replace this text...>
-comment:
+Let's manually add some relationship information to the auto-generated 
+Result Class files. (Note: if you are using a database other than 
+SQLite, such as PostgreSQL, then the relationship could have been 
+automatically placed in the Result Class files.  If so, you can skip 
+this step.)  First edit C<lib/MyApp/Schema/Books.pm> and add the 
+following text below the C<# You can replace this text...> comment:
 
     #
     # Set relationships:
@@ -1146,6 +1153,17 @@ B<Note:> Be careful to put this code I<above> the C<1;> at the end of the
 file.  As with any Perl package, we need to end the last line with
 a statement that evaluates to C<true>.  This is customarily done with
 C<1;> on a line by itself.
+
+C<Important Note:> Although this tutorial uses plural names for both 
+the names of the SQL tables and therefore the Result Classes (after 
+all, C<Schema::Loader> automatically named the Result Classes from the 
+names of the SQL tables it found), DBIC users prefer singular names 
+for these items.  B<Please try to use singular table and DBIC 
+model/Result Class names in your applications.>  This tutorial will 
+migrate to singular names as soon as possible (patches welcomed). 
+B<Note that while singular is preferred for the DBIC model, plural is 
+perfectly acceptable for the names of the controller classes.>  After 
+all, the C<Books.pm> controller operates on multiple books.
 
 This code defines both a C<has_many> and a C<many_to_many> relationship.
 The C<many_to_many> relationship is optional, but it makes it easier to
@@ -1217,9 +1235,10 @@ Make sure that the application loads correctly and that you see the
 three dynamically created model class (one for each of the
 table-specific schema classes we created).
 
-Then hit the URL L<http://localhost:3000/books/list> and be sure that 
-the book list is displayed via the relationships established above. You 
-can leave the development server running for the next step if you wish.
+Then hit the URL L<http://localhost:3000/books/list> with your browser 
+and be sure that the book list is displayed via the relationships 
+established above. You can leave the development server running for 
+the next step if you wish.
 
 B<Note:> You will not see the authors yet because the view does not yet 
 use the new relations. Read on to the next section where we update the 
@@ -1228,13 +1247,15 @@ template to do that.
 
 =head1 UPDATING THE VIEW
 
-Let's add a new column to our book list page that takes advantage of
-the relationship information we manually added to our schema files
-in the previous section.  Edit C<root/src/books/list.tt2> add add the
-following code below the existing table cell that contains
-C<book.rating> (IOW, add a new table cell below the existing two
-C<td> cells):
+Let's add a new column to our book list page that takes advantage of 
+the relationship information we manually added to our schema files in 
+the previous section.  Edit C<root/src/books/list.tt2> add add the 
+following code below the existing table cell that contains 
+C<book.rating> (IOW, add a new table cell below the existing two 
+C<E<lt>tdE<gt>> tags but above the closing C<E<lt>/trE<gt>> and 
+C<E<lt>/tableE<gt>> tags):
 
+    ...
     <td>
       [% # First initialize a TT variable to hold a list.  Then use a TT FOREACH -%]
       [% # loop in 'side effect notation' to load just the last names of the     -%]
@@ -1251,6 +1272,7 @@ C<td> cells):
       [% # Use another TT vmethod to join & print the names & comma separators   -%]
       [% tt_authors.join(', ') | html %]
     </td>
+    ...
 
 Then hit "Reload" in your browser (note that you don't need to reload 
 the development server or use the C<-r> option when updating TT 
@@ -1263,14 +1285,19 @@ browser window.)
 If you are still running the development server with C<DBIC_TRACE>
 enabled, you should also now see five more C<SELECT> statements in the
 debug output (one for each book as the authors are being retrieved by
-DBIC).
+DBIC):
 
     SELECT me.id, me.title, me.rating FROM books me:
-    SELECT me.book_id, me.author_id FROM book_authors me WHERE ( me.book_id = ? ): '1'
-    SELECT me.book_id, me.author_id FROM book_authors me WHERE ( me.book_id = ? ): '2'
-    SELECT me.book_id, me.author_id FROM book_authors me WHERE ( me.book_id = ? ): '3'
-    SELECT me.book_id, me.author_id FROM book_authors me WHERE ( me.book_id = ? ): '4'
-    SELECT me.book_id, me.author_id FROM book_authors me WHERE ( me.book_id = ? ): '5'
+    SELECT author.id, author.first_name, author.last_name FROM book_authors me  
+    JOIN authors author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '1'
+    SELECT author.id, author.first_name, author.last_name FROM book_authors me  
+    JOIN authors author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '2'
+    SELECT author.id, author.first_name, author.last_name FROM book_authors me  
+    JOIN authors author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '3'
+    SELECT author.id, author.first_name, author.last_name FROM book_authors me  
+    JOIN authors author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '4'
+    SELECT author.id, author.first_name, author.last_name FROM book_authors me  
+    JOIN authors author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '5'
 
 Also note in C<root/src/books/list.tt2> that we are using "| html", a 
 type of TT filter, to escape characters such as E<lt> and E<gt> to &lt; 
@@ -1306,6 +1333,7 @@ and asked your browser to view the page source.
 B<NOTE: The rest of this part of the tutorial is optional.  You can
 skip to Part 4, L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>,
 if you wish.>
+
 
 =head2 Using C<RenderView> for the Default View
 

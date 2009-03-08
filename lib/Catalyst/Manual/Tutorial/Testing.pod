@@ -90,7 +90,7 @@ The redirection used by the Authentication plugins will cause several
 failures in the default tests.  You can fix this by making the following
 changes:
 
-1) Change the line in C<t/01app.t> that read:
+1) Change the line in C<t/01app.t> that reads:
 
     ok( request('/')->is_success, 'Request should succeed' );
 
@@ -115,19 +115,6 @@ plugin, it's generally easier to simply set the C<CATALYST_DEBUG=0>
 environment variable.  For example:
 
     $ CATALYST_DEBUG=0 prove --lib lib t
-
-B<Note:> Depending on the versions of various modules you have 
-installed, you might get some C<used only once> warnings -- you can 
-ignore these. If you are following along in Ubuntu 8.10, you can 
-prevent them by adding C<no warnings;> above line 49 in 
-C</usr/lib/perl5/Template/Base.pm> to match the following:
-
-    ...
-    {   no strict qw( refs );
-        no warnings;
-        $argnames = \@{"$class\::BASEARGS"} || [ ];
-    }
-    ...
 
 During the C<t/02pod> and C<t/03podcoverage> tests, you might notice the
 C<all skipped: set TEST_POD to enable this test> warning message.  To

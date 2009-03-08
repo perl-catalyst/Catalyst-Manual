@@ -632,15 +632,15 @@ right side of the table with a C<Delete> "button" (for simplicity,
 links will be used instead of full HTML buttons).
 
 Also notice that we are using a more advanced form of C<uri_for> than 
-we have seen before.  Here we use C<$c-E<gt>controller-
-E<gt>action_for> to automatically generate a URI appropriate for that 
-action based on the method we want to link to while inserting the 
-C<book.id> value into the appropriate place.  Now, if you ever change 
-C<:PathPart('delete')> in your controller method to 
+we have seen before.  Here we use 
+C<$c-E<gt>controller-E<gt>action_for> to automatically generate a URI 
+appropriate for that action based on the method we want to link to 
+while inserting the C<book.id> value into the appropriate place.  Now, 
+if you ever change C<:PathPart('delete')> in your controller method to 
 C<:PathPart('kill')>, then your links will automatically update 
 without any changes to your .tt2 template file.  As long as the name 
 of your method does not changed ("delete" here), then your links will 
-still be correct.  There are a few shortcuts and options when using
+still be correct.  There are a few shortcuts and options when using 
 C<action_for()>:
 
 =over 4
@@ -702,7 +702,7 @@ and add the following code:
 
 Now, any other method that chains off C<object> will automatically
 have the appropriate book waiting for it in 
-C<$c-E<gt>stash-Egt>{object}>.
+C<$c-E<gt>stash-E<gt>{object}>.
 
 Also note that we are using different technique for setting
 C<$c-E<gt>stash>.  The advantage of this style is that it let's you
@@ -792,6 +792,7 @@ the "Delete" link next to the first "TCPIP_Illustrated_Vol-2".  A green
 along with a list of the eight remaining books.  You will also see the
 cascading delete operation via the DBIC_TRACE output:
 
+    SELECT me.id, me.title, me.rating FROM books me WHERE ( ( me.id = ? ) ): '6'
     DELETE FROM books WHERE ( id = ? ): '6'
     SELECT me.book_id, me.author_id FROM book_authors me WHERE ( me.book_id = ? ): '6'
     DELETE FROM book_authors WHERE ( author_id = ? AND book_id = ? ): '4', '6'
@@ -802,7 +803,7 @@ cascading delete operation via the DBIC_TRACE output:
 Note the URL in your browser once you have performed the deletion in the 
 prior step -- it is still referencing the delete action:
 
-    http://localhost:3000/books/delete/6
+    http://localhost:3000/books/id/6/delete
 
 What if the user were to press reload with this URL still active?  In 
 this case the redundant delete is harmless (although it does generate 
@@ -949,12 +950,13 @@ variety of advanced features.  Since we want to explore some of these
 features below, let's first migrate our configuration over to use 
 C<load_namespaces>.
 
-If you are following along in Ubuntu 8.10, you will need to
-upgrade your version of 
-L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema>
-to 0.23 or higher.  To do this, we can install directly from CPAN:
+If you are following along in Debian 5, you will need to upgrade your 
+version of 
+L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> to 0.23 
+or higher.  To do this, we can install directly from CPAN via the 
+following command:
 
-    $ cpan Catalyst::Model::DBIC::Schema
+    $ sudo cpan Catalyst::Model::DBIC::Schema
 
 Then make sure you are running an appropriate version:
 
@@ -964,9 +966,9 @@ Then make sure you are running an appropriate version:
 
 Make sure you get version 0.23 or higher.
 
-B<Note:> Ubuntu will automatically "do the right thing" and use the 
+B<Note:> Debian will automatically "do the right thing" and use the 
 module we installed from CPAN and ignore the older version we picked 
-up via the C<apt-get> command.  If you are using a different 
+up via the C<aptitude> command.  If you are using a different 
 environment, you will need to make sure you are using v0.23 or higher 
 with the command above.
 
@@ -1047,14 +1049,18 @@ each book was added and when each book is updated:
     sqlite> ALTER TABLE books ADD updated INTEGER;
     sqlite> UPDATE books SET created = DATETIME('NOW'), updated = DATETIME('NOW');
     sqlite> SELECT * FROM books;
-    1|CCSP SNRS Exam Certification Guide|5|2009-03-03 07:31:32|2009-03-03 07:31:32
-    2|TCP/IP Illustrated, Volume 1|5|2009-03-03 07:31:32|2009-03-03 07:31:32
-    ...
+    1|CCSP SNRS Exam Certification Guide|5|2009-03-08 16:26:35|2009-03-08 16:26:35
+    2|TCP/IP Illustrated, Volume 1|5|2009-03-08 16:26:35|2009-03-08 16:26:35
+    3|Internetworking with TCP/IP Vol.1|4|2009-03-08 16:26:35|2009-03-08 16:26:35
+    4|Perl Cookbook|5|2009-03-08 16:26:35|2009-03-08 16:26:35
+    5|Designing with Web Standards|5|2009-03-08 16:26:35|2009-03-08 16:26:35
+    9|TCP/IP Illustrated, Vol 3|5|2009-03-08 16:26:35|2009-03-08 16:26:35
     sqlite> .quit
     $
 
 This will modify the C<books> table to include the two new fields
 and populate those fields with the current time.
+
 
 =head2 Update DBIC to Automatically Handle the Datetime Columns
 
@@ -1114,19 +1120,19 @@ you will see that the new book we added has an appropriate date and
 time entered for it (see the last line in the listing below):
 
     sqlite3 myapp.db "select * from books"
-    1|CCSP SNRS Exam Certification Guide|5|2009-03-05 17:18:53|2009-03-05 17:18:53
-    2|TCP/IP Illustrated, Volume 1|5|2009-03-05 17:18:53|2009-03-05 17:18:53
-    3|Internetworking with TCP/IP Vol.1|4|2009-03-05 17:18:53|2009-03-05 17:18:53
-    4|Perl Cookbook|5|2009-03-05 17:18:53|2009-03-05 17:18:53
-    5|Designing with Web Standards|5|2009-03-05 17:18:53|2009-03-05 17:18:53
-    9|TCP/IP Illustrated, Vol 3|5|2009-03-05 17:18:53|2009-03-05 17:18:53
-    10|TCPIP_Illustrated_Vol-2|5|2009-03-05 17:24:18|2009-03-05 17:24:18
+    1|CCSP SNRS Exam Certification Guide|5|2009-03-08 16:26:35|2009-03-08 16:26:35
+    2|TCP/IP Illustrated, Volume 1|5|2009-03-08 16:26:35|2009-03-08 16:26:35
+    3|Internetworking with TCP/IP Vol.1|4|2009-03-08 16:26:35|2009-03-08 16:26:35
+    4|Perl Cookbook|5|2009-03-08 16:26:35|2009-03-08 16:26:35
+    5|Designing with Web Standards|5|2009-03-08 16:26:35|2009-03-08 16:26:35
+    9|TCP/IP Illustrated, Vol 3|5|2009-03-08 16:26:35|2009-03-08 16:26:35
+    10|TCPIP_Illustrated_Vol-2|5|2009-03-08 16:29:08|2009-03-08 16:29:08
 
 Notice in the debug log that the SQL DBIC generated has changed to 
 incorporate the datetime logic:
 
     INSERT INTO books (created, rating, title, updated) VALUES (?, ?, ?, ?): 
-    '2009-03-05 17:24:18', '5', 'TCPIP_Illustrated_Vol-2', '2009-03-05 17:24:18'
+    '2009-03-08 16:29:08', '5', 'TCPIP_Illustrated_Vol-2', '2009-03-08 16:29:08'
     INSERT INTO book_authors (author_id, book_id) VALUES (?, ?): '4', '10'
 
 
@@ -1231,7 +1237,7 @@ controller that lists books that are both recent I<and> have "TCP" in
 the title.  Open up C<lib/MyApp/Controller/Books.pm> and add the 
 following method:
 
-    =head2 list_recent
+    =head2 list_recent_tcp
     
     List recently created books
     
@@ -1275,7 +1281,7 @@ Take a look at the DBIC_TRACE output in the development server log for
 the first URL and you should see something similar to the following:
 
     SELECT me.id, me.title, me.rating, me.created, me.updated FROM books me 
-    WHERE ( ( ( title LIKE ? ) AND ( created > ? ) ) ): '%TCP%', '2009-03-05 15:52:57'
+    WHERE ( ( ( title LIKE ? ) AND ( created > ? ) ) ): '%TCP%', '2009-03-08 14:52:54'
 
 However, let's not pollute our controller code with this raw "TCP" 
 query -- it would be cleaner to encapsulate that code in a method on 
@@ -1358,13 +1364,17 @@ This will allow us to conveniently retrieve both the first and last
 name for an author in one shot.  Now open C<root/src/books/list.tt2> 
 and change the definition of C<tt_authors> from this:
 
+    ...
       [% tt_authors = [ ];
          tt_authors.push(author.last_name) FOREACH author = book.authors %]
+    ...
 
 to:
 
+    ...
       [% tt_authors = [ ];
          tt_authors.push(author.full_name) FOREACH author = book.authors %]
+    ...
 
 (Only C<author.last_name> was changed to C<author.full_name> -- the 
 rest of the file should remain the same.)

@@ -71,42 +71,26 @@ L<HTML::FormFu|HTML::FormFu>.
 
 =head1 Install C<HTML::FormFu>
 
-If you are following along in Ubuntu, it turns out that C<HTML::FormFu> 
-is not yet available as a package at the time this was written.  To 
-install it with a combination of C<apt-get> packages and traditional 
-CPAN modules, first use C<apt-get> to install most of the modules 
-required by C<HTML::FormFu>:
+If you are following along in Debian 5, it turns out that some of the 
+modules we need are not yet available as Debian packages at the time 
+this was written.  To install it with a combination of Debian packages 
+and traditional CPAN modules, first use C<aptitude> to install most of 
+the modules:
 
-    sudo apt-get install libtest-nowarnings-perl libdatetime-format-builder-perl \
-    libdatetime-format-strptime-perl libdatetime-locale-perl \
-    libhtml-tokeparser-simple-perl liblist-moreutils-perl \
-    libregexp-copy-perl libregexp-common-perl libyaml-syck-perl libparams-util-perl \
-    libcrypt-des-perl libcaptcha-recaptcha-perl libcrypt-cbc-perl \
-    libreadonly-xs-perl libmoose-perl libregexp-assemble-perl
-    
+we need to install the
+L<HTML::FormFu|HTML::FormFu> package: 
+
+    sudo aptitude -y install libhtml-formfu-perl libmoose-perl \
+        libregexp-assemble-perl libhtml-formfu-model-dbic-perl
+        
     ...
     
-    sudo apt-get clean
+    sudo aptitude clean
 
 Then use the following command to install directly from CPAN the modules 
-that aren't available as Ubuntu/Debian packages via C<apt-get>:
+that aren't available as Debian packages:
 
-    sudo cpan File::ShareDir Task::Weaken Config::Any Test::Harness Test::Aggregate \
-    boolean Test::MockTime DateTime::Format::Natural HTML::FormFu \
-    Catalyst::Component::InstancePerContext Catalyst::Controller::HTML::FormFu \
-    HTML::FormFu::Model::DBIC
-    
-    ...
-    
-    Is it OK to try to connect to the Internet? [yes] yes
-    
-    ...
-    
-
-B<Note:> If you are following along with the Ubuntu LiveCD, you might 
-want to make sure you still have adequate free disk space in the root 
-partition with the C<df> command.  You can free up some space with 
-C<rm -rf /root/.cpan/*>.
+    sudo cpan Catalyst::Component::InstancePerContext Catalyst::Controller::HTML::FormFu
 
 
 =head1 C<HTML::FormFu> FORM CREATION
@@ -139,7 +123,7 @@ following method:
     
     =cut
     
-    sub formfu_create :Local :FormConfig {
+    sub formfu_create :Chained('base) :PathPart('formfu_create') :Args(0) :FormConfig {
         my ($self, $c) = @_;
     
         # Get the form that the :FormConfig attribute saved in the stash
@@ -160,10 +144,10 @@ following method:
             $c->detach;
         } else {
             # Get the authors from the DB
-            my @authorObjs = $c->model("DB::Authors")->all();
+            my @author_objs = $c->model("DB::Authors")->all();
             # Create an array of arrayrefs where each arrayref is an author
             my @authors;
-            foreach (sort {$a->last_name cmp $b->last_name} @authorObjs) {
+            foreach (sort {$a->last_name cmp $b->last_name} @author_objs) {
                 push(@authors, [$_->id, $_->last_name]);
             }
             # Get the select added by the config file
@@ -233,6 +217,7 @@ this document for a more foolproof config format.
 Edit C<root/static/css/main.css> and add the following lines to the bottom of
 the file:
 
+    ...
     input {
         display: block;
     }
@@ -268,6 +253,7 @@ Open C<root/src/books/formfu_create.tt2> in your editor and enter the following:
 Open C<root/src/books/list.tt2> in your editor and add the following to
 the bottom of the existing file:
 
+    ...
     <p>
       HTML::FormFu:
       <a href="[% c.uri_for(c.controller.action_for('formfu_create')) %]">Create</a>
@@ -464,7 +450,8 @@ bottom:
     
     =cut
     
-    sub formfu_edit :Local :FormConfig('books/formfu_create.yml') {
+    sub formfu_edit :Chained('object') :PathPart('formfu_edit') :Args(0) 
+            :FormConfig('books/formfu_create.yml') {
         my ($self, $c, $id) = @_;
     
         # Get the specified book
@@ -493,10 +480,10 @@ bottom:
             $c->detach;
         } else {
             # Get the authors from the DB
-            my @authorObjs = $c->model("DB::Authors")->all();
+            my @author_objs = $c->model("DB::Authors")->all();
             # Create an array of arrayrefs where each arrayref is an author
             my @authors;
-            foreach (sort {$a->last_name cmp $b->last_name} @authorObjs) {
+            foreach (sort {$a->last_name cmp $b->last_name} @author_bjs) {
                 push(@authors, [$_->id, $_->last_name]);
             }
             # Get the select added by the config file
@@ -553,9 +540,9 @@ following:
     ...
     <td>
       [% # Add a link to delete a book %]
-      <a href="[% c.uri_for(c.controller.action_for('delete', [book.id])) %]">Delete</a>
+      <a href="[% c.uri_for(c.controller.action_for('delete'), [book.id]) %]">Delete</a>
       [% # Add a link to edit a book %]
-      <a href="[% c.uri_for(c.controller.action_for('formfu_edit', [book.id])) %]">Edit</a>
+      <a href="[% c.uri_for(c.controller.action_for('formfu_edit'), [book.id]) %]">Edit</a>
     </td>
     ...
 
@@ -588,7 +575,7 @@ tweaking the example application; some things you might want to do:
 
 =item *
 
-Add an appropriate ACL to the new Edit function.
+Add an appropriate authorization check to the new Edit function.
 
 =item *
 

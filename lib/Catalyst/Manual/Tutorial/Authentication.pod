@@ -126,18 +126,19 @@ Although we could manually edit the DBIC schema information to include
 the new tables added in the previous step, let's use the C<create=static>
 option on the DBIC model helper to do most of the work for us:
 
-    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=static dbi:SQLite:myapp.db
+    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
+        create=static components=TimeStamp dbi:SQLite:myapp.db
      exists "/root/dev/MyApp/script/../lib/MyApp/Model"
      exists "/root/dev/MyApp/script/../t"
     Dumping manual schema for MyApp::Schema to directory /root/dev/MyApp/script/../lib ...
     Schema dump completed.
      exists "/root/dev/MyApp/script/../lib/MyApp/Model/DB.pm"
     $
-    $ ls lib/MyApp/Schema
+    $ ls lib/MyApp/Schema/Result
     Authors.pm  BookAuthors.pm  Books.pm  Roles.pm  UserRoles.pm  Users.pm
 
 Notice how the helper has added three new table-specific result source
-files to the C<lib/MyApp/Schema/MyApp> directory.  And, more
+files to the C<lib/MyApp/Schema/Result> directory.  And, more
 importantly, even if there were changes to the existing result source
 files, those changes would have only been written above the C<# DO NOT
 MODIFY THIS OR ANYTHING ABOVE!> comment and your hand-edited
@@ -148,7 +149,7 @@ relationship information to the three new result source files.  Edit
 each of these files and add the following information between the C<#
 DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment and the closing C<1;>:
 
-C<lib/MyApp/Schema/Users.pm>:
+C<lib/MyApp/Schema/Result/Users.pm>:
 
     #
     # Set relationships:
@@ -159,7 +160,7 @@ C<lib/MyApp/Schema/Users.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::UserRoles', 'user_id');
+    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::Result::UserRoles', 'user_id');
     
     # many_to_many():
     #   args:
@@ -170,7 +171,7 @@ C<lib/MyApp/Schema/Users.pm>:
     __PACKAGE__->many_to_many(roles => 'map_user_role', 'role');
 
 
-C<lib/MyApp/Schema/Roles.pm>:
+C<lib/MyApp/Schema/Result/Roles.pm>:
 
     #
     # Set relationships:
@@ -181,10 +182,10 @@ C<lib/MyApp/Schema/Roles.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::UserRoles', 'role_id');
+    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::Result::UserRoles', 'role_id');
 
 
-C<lib/MyApp/Schema/UserRoles.pm>:
+C<lib/MyApp/Schema/Result/UserRoles.pm>:
 
     #
     # Set relationships:
@@ -195,25 +196,25 @@ C<lib/MyApp/Schema/UserRoles.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(user => 'MyApp::Schema::Users', 'user_id');
+    __PACKAGE__->belongs_to(user => 'MyApp::Schema::Result::Users', 'user_id');
     
     # belongs_to():
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(role => 'MyApp::Schema::Roles', 'role_id');
+    __PACKAGE__->belongs_to(role => 'MyApp::Schema::Result::Roles', 'role_id');
 
 
 The code for these three sets of updates is obviously very similar to
 the edits we made to the C<Books>, C<Authors>, and C<BookAuthors>
 classes created in Part 3.
 
-Note that we do not need to make any change to the
-C<lib/MyApp/Schema.pm> schema file.  It simply tells DBIC to
-load all of the result class files it finds in below the
-C<lib/MyApp/Schema> directory, so it will automatically pick
-up our new table information.
+Note that we do not need to make any change to the 
+C<lib/MyApp/Schema.pm> schema file.  It simply tells DBIC to load all 
+of the Result Class and ResultSet Class files it finds in below the 
+C<lib/MyApp/Schema> directory, so it will automatically pick up our 
+new table information.
 
 
 =head2 Sanity-Check Reload of Development Server
@@ -244,7 +245,7 @@ Look for the three new model objects in the startup debug output:
     '-------------------------------------------------------------------+----------'
     ...
 
-Again, notice that your "result class" classes have been "re-loaded"
+Again, notice that your "Result Class" classes have been "re-loaded"
 by Catalyst under C<MyApp::Model>.
 
 
@@ -253,19 +254,19 @@ by Catalyst under C<MyApp::Model>.
 Edit C<lib/MyApp.pm> and update it as follows (everything below
 C<StackTrace> is new):
 
-    __PACKAGE__->setup(qw/
-            -Debug
-            ConfigLoader
-            Static::Simple
-    
-            StackTrace
-    
-            Authentication
-    
-            Session
-            Session::Store::FastMmap
-            Session::State::Cookie
-        /);
+    # Load plugins
+    use Catalyst qw/-Debug
+                ConfigLoader
+                Static::Simple
+                
+                StackTrace
+                
+                Authentication
+        
+                Session
+                Session::Store::FastMmap
+                Session::State::Cookie
+                /;
 
 B<Note:> As discussed in MoreCatalystBasics, different versions of 
 C<Catalyst::Devel> have used a variety of methods to load the plugins. 
@@ -344,9 +345,9 @@ C<myapp.conf> file and update it to match:
                     # Use DBIC to retrieve username, password & role information
                     class DBIx::Class
                     # This is the model object created by Catalyst::Model::DBIC
-                    # from your schema (you created 'MyApp::Schema::User' but as
-                    # the Catalyst startup debug messages show, it was loaded as
-                    # 'MyApp::Model::DB::Users').
+                    # from your schema (you created 'MyApp::Schema::Result::User'
+                    # but as the Catalyst startup debug messages show, it was 
+                    # loaded as 'MyApp::Model::DB::Users').
                     # NOTE: Omit 'MyApp::Model' here just as you would when using
                     # '$c->model("DB::Users)'
                     user_class DB::Users
@@ -545,6 +546,7 @@ changes depending on whether the user has authenticated yet.  To do
 this, open C<root/src/login.tt2> in your editor and add the following
 lines to the bottom of the file:
 
+    ...
     <p>
     [%
        # This code illustrates how certain parts of the TT
@@ -582,14 +584,23 @@ running) and restart it:
 B<IMPORTANT NOTE:> If you are having issues with authentication on 
 Internet Explorer, be sure to check the system clocks on both your 
 server and client machines.  Internet Explorer is very picky about 
-timestamps for cookies.  You can quickly sync an Ubuntu system with 
-the following command:
+timestamps for cookies.  You can quickly sync a Debian system by
+installing the "ntpdate" package:
 
-    sudo ntpdate ntp.ubuntu.com
+    sudo aptitude -y install ntpdate
 
-Or possibly try C<sudo ntpdate -u ntp.ubuntu.com> (to us an 
-unpriviledged port) or C<sudo ntpdate pool.ntp.org> (to try a 
-different server in case the Ubuntu NTP server is down).
+And then run the following command:
+
+    sudo ntpdate-debian
+
+Or, depending on your firewall configuration:
+
+    sudo ntpdate-debian -u
+
+Note: NTP can be a little more finicky about firewalls because it uses 
+UDP vs. the more common TCP that you see with most Internet protocols.
+Worse case, you might have to manually set the time on your development
+box instead of using NTP.
 
 Now trying going to L<http://localhost:3000/books/list> and you should 
 be redirected to the login page, hitting Shift+Reload or Ctrl+Reload 
@@ -648,12 +659,6 @@ dirty" way to do this:
 
     $ perl -MDigest::SHA -e 'print Digest::SHA::sha1_hex("mypass"), "\n"'
     e727d1464ae12436e899a726da5b2f11d8381b26
-    $
-
-B<Note:> If you are following along in Ubuntu, you will need to install
-C<Digest::SHA> with the following command to run the example code above:
-
-    sudo aptitude install libdigest-sha-perl
 
 B<Note:> You should probably modify this code for production use to
 not read the password from the command line.  By having the script
@@ -716,9 +721,9 @@ C<password_hash_type> are new, everything else is the same):
                     # Use DBIC to retrieve username, password & role information
                     class DBIx::Class
                     # This is the model object created by Catalyst::Model::DBIC
-                    # from your schema (you created 'MyApp::Schema::User' but as
-                    # the Catalyst startup debug messages show, it was loaded as
-                    # 'MyApp::Model::DB::Users').
+                    # from your schema (you created 'MyApp::Schema::Result::User'
+                    # but as the Catalyst startup debug messages show, it was 
+                    # loaded as 'MyApp::Model::DB::Users').
                     # NOTE: Omit 'MyApp::Model' here just as you would when using
                     # '$c->model("DB::Users)'
                     user_class DB::Users

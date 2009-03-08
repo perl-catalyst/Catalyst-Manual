@@ -254,9 +254,9 @@ copy of an installed module:
 
     mkdir -p lib/Module; cp `perldoc -l Module::Name` lib/Module/
 
-Note: If you are following along in Ubuntu, you will need to install
+Note: If you are following along in Debian 5, you will need to install
 the C<perl-doc> package to use the C<perldoc> command.  Use 
-C<sudo apt-get install perl-doc> to do that.
+C<sudo aptitude install perl-doc> to do that.
 
 For example, you could make a copy of 
 L<Catalyst::Plugin::Authentication|Catalyst::Plugin::Authentication>

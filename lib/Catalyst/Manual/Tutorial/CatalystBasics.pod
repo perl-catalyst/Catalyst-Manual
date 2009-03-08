@@ -179,7 +179,8 @@ the base directory of your application, so change to the Hello
 directory.
 
 Run the following command to start up the built-in development web 
-server:
+server (make sure you didn't forget the "C<cd Hello>" from the 
+previous step):
 
     $ script/hello_server.pl
     [debug] Debug messages enabled
@@ -207,6 +208,7 @@ server:
     +----------------------+--------------------------------------+--------------+
     | /default             | Hello::Controller::Root              | default      |
     | /end                 | Hello::Controller::Root              | end          |
+    | /index               | Hello::Controller::Root              | index        |
     '----------------------+--------------------------------------+--------------'
     
     [debug] Loaded Path actions:
@@ -216,24 +218,25 @@ server:
     | /                                   | /default                             |
     | /                                   | /index                               |
     '-------------------------------------+--------------------------------------'
-        
-    [info] Hello powered by Catalyst 5.7014
-    You can connect to your server at http://localhost:3000
+    
+    [info] Hello powered by Catalyst 5.71000
+    You can connect to your server at http://debian:3000
 
 Point your web browser to L<http://localhost:3000> (substituting a 
 different hostname or IP address as appropriate) and you should be 
-greeted by the Catalyst welcome screen.  Information similar to the 
-following should be appended to the logging output of the development 
-server:
+greeted by the Catalyst welcome screen (if you get some other welcome 
+screen or an "Index" screen, you probably forgot to specify port 3000 
+in your URL).  Information similar to the following should be appended 
+to the logging output of the development server:
 
-    [info] *** Request 1 (1.000/s) [10301] [Sun Nov 23 10:11:36 2008] ***
-    [debug] "GET" request for "/" from "127.0.0.1"
-    [info] Request took 0.017964s (55.667/s)
+    [info] *** Request 1 (0.005/s) [20712] [Sun Mar  8 15:49:09 2009] ***
+    [debug] "GET" request for "/" from "1.1.1.98"
+    [info] Request took 0.007342s (136.203/s)
     .----------------------------------------------------------------+-----------.
     | Action                                                         | Time      |
     +----------------------------------------------------------------+-----------+
-    | /default                                                       | 0.000540s |
-    | /end                                                           | 0.001246s |
+    | /index                                                         | 0.000491s |
+    | /end                                                           | 0.000595s |
     '----------------------------------------------------------------+-----------'
 
 Press Ctrl-C to break out of the development server.
@@ -300,6 +303,9 @@ file:
         
         $c->response->body("Hello, World!");
     }
+
+B<TIP>: See Appendix 1 for tips on removing the leading spaces when
+cutting and pasting example code from POD-based documents.
 
 Here you're sending your own string to the webpage.
 

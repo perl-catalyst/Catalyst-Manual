@@ -56,11 +56,12 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =head1 DESCRIPTION
 
-This part of the tutorial adds role-based authorization to the existing
-authentication implemented in Part 5.  It provides simple examples of
-how to use roles in both TT templates and controller actions.  The first
-half looks at manually configured authorization.  The second half looks
-at how the ACL authorization plugin can simplify your code.
+This part of the tutorial adds role-based authorization to the 
+existing authentication implemented in Part 5.  It provides simple 
+examples of how to use roles in both TT templates and controller 
+actions.  The first half looks at basic authorization concepts. The 
+second half looks at how moving your authorization code to your model 
+can simplify your code and make things easier to maintain.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
@@ -69,31 +70,33 @@ L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
 
 =head1 BASIC AUTHORIZATION
 
-In this section you learn how to manually configure authorization.
+In this section you learn the basics of how authorization works under 
+Catalyst.
 
 
 =head2 Update Plugins to Include Support for Authorization
 
 Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 
-    __PACKAGE__->setup(qw/
-            -Debug
-            ConfigLoader
-            Static::Simple
-    
-            StackTrace
-    
-            Authentication
-            Authorization::Roles
-    
-            Session
-            Session::Store::FastMmap
-            Session::State::Cookie
-        /);
+    # Load plugins
+    use Catalyst qw/-Debug
+                ConfigLoader
+                Static::Simple
+                
+                StackTrace
+                
+                Authentication
+                Authorization::Roles
+        
+                Session
+                Session::Store::FastMmap
+                Session::State::Cookie
+                /;
 
 B<Note:> As discussed in MoreCatalystBasics, different versions of 
 C<Catalyst::Devel> have used a variety of methods to load the plugins. 
-You can put the plugins in the C<use Catalyst> statement if you prefer.
+You can put the plugins in the C<use Catalyst> statement if you 
+prefer.
 
 
 =head2 Add Config Information for Authorization
@@ -127,9 +130,9 @@ C<role_relation> and C<role_field> definitions are new):
                     # Use DBIC to retrieve username, password & role information
                     class DBIx::Class
                     # This is the model object created by Catalyst::Model::DBIC
-                    # from your schema (you created 'MyApp::Schema::User' but as
-                    # the Catalyst startup debug messages show, it was loaded as
-                    # 'MyApp::Model::DB::Users').
+                    # from your schema (you created 'MyApp::Schema::Result::User'
+                    # but as the Catalyst startup debug messages show, it was 
+                    # loaded as 'MyApp::Model::DB::Users').
                     # NOTE: Omit 'MyApp::Model' here just as you would when using
                     # '$c->model("DB::Users)'
                     user_class DB::Users
@@ -150,6 +153,7 @@ C<role_relation> and C<role_field> definitions are new):
 Open C<root/src/books/list.tt2> in your editor and add the following
 lines to the bottom of the file:
 
+    ...
     <p>Hello [% c.user.username %], you have the following roles:</p>
     
     <ul>
@@ -278,140 +282,120 @@ L<http://localhost:3000/logout> in your browser directly) when you are
 done.
 
 
-=head1 ENABLE ACL-BASED AUTHORIZATION
+=head1 ENABLE MODEL-BASED AUTHORIZATION
 
-This section takes a brief look at how the
-L<Catalyst::Plugin::Authorization::ACL|Catalyst::Plugin::Authorization::ACL>
-plugin can automate much of the work required to perform role-based
-authorization in a Catalyst application.
+Hopefully it's fairly obvious that adding detailed permission checking 
+logic to our controllers and view templates isn't a very clean or 
+scalable way to build role-based permissions into out application.  As 
+with many other aspects of MVC web development, the goal is to have 
+your controllers and views be an "thin" as possible, with all of the 
+"fancy business logic" built into your model.
 
+For example, let's add a method to our C<Books.pm> Result Class to 
+check if a user is allowed to delete a book.  Open 
+C<lib/MyApp/Schema/Result/Books.pm> and add the following method 
+(be sure to add it below the "C<DO NOT MODIFY ...>" line):
 
-=head2 Add the C<Catalyst::Plugin::Authorization::ACL> Plugin
-
-Open C<lib/MyApp.pm> in your editor and add the following plugin to the
-C<__PACKAGE__-E<gt>setup> statement:
-
-    Authorization::ACL
-
-Note that the remaining C<use Catalyst> plugins from earlier sections
-are not shown here, but they should still be included.
-
-
-=head2 Add ACL Rules to the Application Class
-
-Open C<lib/MyApp.pm> in your editor and add the following B<BELOW> the
-C<__PACKAGE__-E<gt>setup> statement:
-
-    # Authorization::ACL Rules
-    __PACKAGE__->deny_access_unless(
-            "/books/form_create",
-            [qw/admin/],
-        );
-    __PACKAGE__->deny_access_unless(
-            "/books/form_create_do",
-            [qw/admin/],
-        );
-    __PACKAGE__->allow_access_if(
-            "/books/delete",
-            [qw/user admin/],
-        );
-
-Each of the three statements above comprises an ACL plugin "rule".  The
-first two rules only allow admin-level users to create new books using
-the form (both the form itself and the data submission logic are
-protected).  The third statement allows both users and admins to delete
-books; letting users delete but not create book entries may sound odd in
-the "real world", but this is just an example.  The C</books/url_create>
-action will continue to be protected by the "manually configured"
-authorization created earlier in this part of the tutorial.
-
-The ACL plugin permits you to apply allow/deny logic in a variety of
-ways.  The following provides a basic overview of the capabilities:
-
-=over 4
-
-=item *
-
-The ACL plugin only operates on the Catalyst "private namespace".  You
-are using the private namespace when you use C<Local> actions.  C<Path>,
-C<Regex>, and C<Global> allow you to specify actions where the path and
-the namespace differ -- the ACL plugin will not work in these cases.
-
-=item *
-
-Each rule is expressed in a separate
-C<__PACKAGE__-E<gt>deny_access_unless()> or
-C<__PACKAGE__-E<gt>allow_access_if()> line (there are several other
-methods that can be used for more complex policies, see the C<METHODS>
-portion of the
-L<Catalyst::Plugin::Authorization::ACL|Catalyst::Plugin::Authorization::ACL>
-documentation for more details).
-
-=item *
-
-Each rule can contain multiple roles but only a single path.
-
-=item *
-
-The rules are tried in order (with the "most specific" rules tested
-first), and processing stops at the first "match" where an allow or deny
-is specified.  Rules "fall through" if there is not a "match" (where a
-"match" means the user has the specified role).  If a "match" is found,
-then processing stops there and the appropriate allow/deny action is
-taken.
-
-=item *
-
-If none of the rules match, then access is allowed.
-
-=item *
-
-The rules currently need to be specified in the application class
-C<lib\MyApp.pm> B<after> the C<__PACKAGE__-E<gt>setup;> line.
-
-=back
-
-
-=head2 Add a Method to Handle Access Violations
-
-By default,
-L<Catalyst::Plugin::Authorization::ACL|Catalyst::Plugin::Authorization::ACL>
-throws an exception when authorization fails.  This will take the user
-to the Catalyst debug screen, or a "Please come back later" message if
-you are not using the C<-Debug> flag. This step uses the
-C<access_denied> method in order to provide more appropriate feedback to
-the user.
-
-Open C<lib/MyApp/Controller/Books.pm> in your editor and add the
-following method:
-
-    =head2 access_denied
+    =head2 delete_allowed_by
     
-    Handle Catalyst::Plugin::Authorization::ACL access denied exceptions
+    Can the specified user delete the current book?
     
     =cut
     
-    sub access_denied : Private {
+    sub delete_allowed_by {
+        my ($self, $user) = @_;
+        
+        # Only allow delete if user has 'admin' role
+        return $user->has_role('admin');
+    }
+
+Here we call a C<has_role> method on our user object, so we should add 
+this method to our Result Class.  Open 
+C<lib/MyApp/Schema/Result/Users.pm> and add this near the top:
+
+    use Perl6::Junction qw/any/;
+
+And then add the following method below the "C<DO NOT MODIFY ...>" 
+line:
+
+    =head 2 has_role
+    
+    Check if a user has the specified role
+    
+    =cut
+    
+    sub has_role {
+        my ($self, $role) = @_;
+    
+        # Does this user posses the required role?
+        return any(map { $_->role } $self->roles) eq $role;
+    }
+
+Now we need to add some enforcement inside our controller.  Open
+C<lib/MyApp/Controller/Books.pm> and update the C<delete> method to
+match the following code:
+
+    =head2 delete
+    
+    Delete a book
+    
+    =cut
+    
+    sub delete :Chained('object') :PathPart('delete') :Args(0) {
         my ($self, $c) = @_;
     
-        # Set the error message
-        $c->stash->{error_msg} = 'Unauthorized!';
+        # Check permissions
+        $c->detach('/error_noperms')
+            unless $c->stash->{object}->delete_allowed_by($c->user->get_object);
     
-        # Display the list
-        $c->forward('list');
+        # Use the book object saved by 'object' and delete it along
+        # with related 'book_authors' entries
+        $c->stash->{object}->delete;
+    
+        # Use 'flash' to save information across requests until it's read
+        $c->flash->{status_msg} = "Book deleted";
+    
+        # Redirect the user back to the list page
+        $c->response->redirect($c->uri_for($self->action_for('list')));
+    }    
+
+Here, we C<detach> to an error page if the user is lacking the 
+appropriate permissions.  For this to work, we need to make 
+arrangements for the '/error_noperms' action to work.  Open 
+C<lib/MyApp/Controller/Root.pm> and add this method:
+
+    =head2 error_noperms
+    
+    Permissions error screen
+    
+    =cut
+        
+    sub error_noperms :Chained('/') :PathPath('error_noperms') :Args(0) {
+        my ($self, $c) = @_;
+    
+        $c->stash->{template} = 'error_noperms.tt2';
     }
+
+And also add the template file by putting the following text into
+C<root/src/error_noperms.tt2>:
+
+    <span class="error">Permission Denied</span>
 
 Then run the Catalyst development server script:
 
     $ script/myapp_server.pl
 
-Log in as C<test02>.  Once at the book list, click the "Create" link
-to try the C<form_create> action.  You should receive a red
-"Unauthorized!"  error message at the top of the list.  (Note that in
-the example code the "Admin Create" link code in C<root/src/books/list.tt2>
-is inside an C<IF> statement that only displays the list to
-admin-level users.)  If you log in as C<test01> you should be able to
-view the C<form_create> form and add a new book.
+Log in as C<test01> and create several new books using the C<url_create>
+feature:
+
+    http://localhost:3000/books/url_create/Test/1/4
+
+Then, while still logged in as C<test01>, click the "Delete" link next 
+to one of these books.  The book should be removed and you should see 
+the usual green "Book deleted" message.  Next, click the "User Logout" 
+link and log back in as C<test02>.  Now try deleting one of the books. 
+You should be taken to the red "Permission Denied" message on our 
+error page.
 
 Use one of the 'Logout' links (or go to the
 L<http://localhost:3000/logout> URL directly) when you are done.
