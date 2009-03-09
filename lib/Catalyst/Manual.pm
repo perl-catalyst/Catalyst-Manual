@@ -67,6 +67,6 @@ L<Catalyst::Manual::Plugins|Catalyst::Manual::Plugins>
 
 =cut
 
-our $VERSION = '5.7017';
+our $VERSION = '5.7018';
 
 1;

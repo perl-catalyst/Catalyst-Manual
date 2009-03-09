@@ -1,6 +1,6 @@
 Revision history for Catalyst-Manual
 
-5.7XXX  XXXXXX
+5.7018  8 Mar 2009
         - Add a new section to BasicCRUD covering more advanced features of 
             DBIC ("EXPLORING THE POWER OF DBIC")
         - Convert from Ubuntu to Debian 5 live CD as the recommended way to do
@@ -8,14 +8,11 @@ Revision history for Catalyst-Manual
         - Removed Catalyst::Plugin::Authorization::ACL from Authorization.pod
             in favor of a "chained and model-based" approach
         - More conversion to Chained dispatch
-        - Lots of other small adjustments
-
-5.7018  2 Mar 2009
         - Suggestions and fixes with thanks to mintywalker@gmail.com
         - DBIC-related updates in MoreCatalystBasics
         - Fix misplaced "=over 4" in previous release
         - Reword warning about not using GET for delete based on input from kd
-        - A few minor updates and fixes
+        - Lots of other small adjustments
 
 5.7017  28 Feb 2009
         - Main change = adding Chained dispatch starting in BasicCRUD (Part 4)
