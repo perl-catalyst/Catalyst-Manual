@@ -66,12 +66,12 @@ focus on the Create and Delete aspects of CRUD.  More advanced
 capabilities, including full Update functionality, will be addressed in
 Part 9.
 
-Although this part of the tutorial will show you how to build CRUD 
-functionality yourself, another option is to use a "CRUD builder" type 
-of tool to automate the process.  You get less control, but it's quick 
-and easy.  For example, see 
+Although this part of the tutorial will show you how to build CRUD
+functionality yourself, another option is to use a "CRUD builder" type
+of tool to automate the process.  You get less control, but it's quick
+and easy.  For example, see
 L<CatalystX::ListFramework::Builder|CatalystX::ListFramework::Builder>,
-L<CatalystX::CRUD|CatalystX::CRUD>, and 
+L<CatalystX::CRUD|CatalystX::CRUD>, and
 L<CatalystX::CRUD::YUI|CatalystX::CRUD::YUI>.
 
 You can checkout the source code for this example from the catalyst
@@ -81,7 +81,7 @@ L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
 
 =head1 FORMLESS SUBMISSION
 
-Our initial attempt at object creation will utilize the "URL 
+Our initial attempt at object creation will utilize the "URL
 arguments" feature of Catalyst (we will employ the more common form-
 based submission in the sections that follow).
 
@@ -91,42 +91,42 @@ based submission in the sections that follow).
 Edit C<lib/MyApp/Controller/Books.pm> and enter the following method:
 
     =head2 url_create
-    
+
     Create a book with the supplied title, rating, and author
-    
+
     =cut
-    
+
     sub url_create : Local {
-        # In addition to self & context, get the title, rating, & 
-        # author_id args from the URL.  Note that Catalyst automatically 
-        # puts extra information after the "/<controller_name>/<action_name/" 
+        # In addition to self & context, get the title, rating, &
+        # author_id args from the URL.  Note that Catalyst automatically
+        # puts extra information after the "/<controller_name>/<action_name/"
         # into @_
         my ($self, $c, $title, $rating, $author_id) = @_;
-    
-        # Call create() on the book model object. Pass the table 
+
+        # Call create() on the book model object. Pass the table
         # columns/field values we want to set as hash values
         my $book = $c->model('DB::Books')->create({
                 title  => $title,
                 rating => $rating
             });
-        
-        # Add a record to the join table for this book, mapping to 
+
+        # Add a record to the join table for this book, mapping to
         # appropriate author
         $book->add_to_book_authors({author_id => $author_id});
         # Note: Above is a shortcut for this:
         # $book->create_related('book_authors', {author_id => $author_id});
-        
+
         # Assign the Book object to the stash for display in the view
         $c->stash->{book} = $book;
-    
+
         # This is a hack to disable XSUB processing in Data::Dumper
         # (it's used in the view).  This is a work-around for a bug in
         # the interaction of some versions or Perl, Data::Dumper & DBIC.
         # You won't need this if you aren't using Data::Dumper (or if
-        # you are running DBIC 0.06001 or greater), but adding it doesn't 
+        # you are running DBIC 0.06001 or greater), but adding it doesn't
         # hurt anything either.
         $Data::Dumper::Useperl = 1;
-    
+
         # Set the TT template to use
         $c->stash->{template} = 'books/create_done.tt2';
     }
@@ -148,43 +148,43 @@ Edit C<root/src/books/create_done.tt2> and then enter:
     [% # Not a good idea for production use, though. :-)  'Indent=1' is      -%]
     [% # optional, but prevents "massive indenting" of deeply nested objects -%]
     [% USE Dumper(Indent=1) -%]
-    
+
     [% # Set the page title.  META can 'go back' and set values in templates -%]
     [% # that have been processed 'before' this template (here it's for      -%]
     [% # root/lib/site/html and root/lib/site/header).  Note that META on    -%]
     [% # simple strings (e.g., no variable interpolation).                   -%]
     [% META title = 'Book Created' %]
-    
+
     [% # Output information about the record that was added.  First title.       -%]
     <p>Added book '[% book.title %]'
-    
+
     [% # Output the last name of the first author.  This is complicated by an    -%]
     [% # issue in TT 2.15 where blessed hash objects are not handled right.      -%]
     [% # First, fetch 'book.authors' from the DB once.                           -%]
     [% authors = book.authors %]
     [% # Now use IF statements to test if 'authors.first' is "working". If so,   -%]
     [% # we use it.  Otherwise we use a hack that seems to keep TT 2.15 happy.   -%]
-    by '[% authors.first.last_name IF authors.first; 
+    by '[% authors.first.last_name IF authors.first;
            authors.list.first.value.last_name IF ! authors.first %]'
-    
+
     [% # Output the rating for the book that was added -%]
     with a rating of [% book.rating %].</p>
-    
+
     [% # Provide a link back to the list page                                    -%]
     [% # 'uri_for()' builds a full URI; e.g., 'http://localhost:3000/books/list' -%]
     <p><a href="[% c.uri_for('/books/list') %]">Return to list</a></p>
-    
+
     [% # Try out the TT Dumper (for development only!) -%]
     <pre>
     Dump of the 'book' variable:
     [% Dumper.dump(book) %]
     </pre>
 
-The TT C<USE> directive allows access to a variety of plugin modules 
-(TT plugins, that is, not Catalyst plugins) to add extra functionality 
-to the base TT capabilities.  Here, the plugin allows 
-L<Data::Dumper|Data::Dumper> "pretty printing" of objects and 
-variables.  Other than that, the rest of the code should be familiar 
+The TT C<USE> directive allows access to a variety of plugin modules
+(TT plugins, that is, not Catalyst plugins) to add extra functionality
+to the base TT capabilities.  Here, the plugin allows
+L<Data::Dumper|Data::Dumper> "pretty printing" of objects and
+variables.  Other than that, the rest of the code should be familiar
 from the examples in Part 3.
 
 
@@ -209,44 +209,44 @@ Next, use your browser to enter the following URL:
 
     http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
 
-Your browser should display "Added book 'TCPIP_Illustrated_Vol-2' by 
-'Stevens' with a rating of 5." along with a dump of the new book model 
-object as it was returned by DBIC.  You should also see the following 
-DBIC debug messages displayed in the development server log messages 
+Your browser should display "Added book 'TCPIP_Illustrated_Vol-2' by
+'Stevens' with a rating of 5." along with a dump of the new book model
+object as it was returned by DBIC.  You should also see the following
+DBIC debug messages displayed in the development server log messages
 if you have DBIC_TRACE set:
 
     INSERT INTO books (rating, title) VALUES (?, ?): `5', `TCPIP_Illustrated_Vol-2'
     INSERT INTO book_authors (author_id, book_id) VALUES (?, ?): `4', `6'
-    SELECT author.id, author.first_name, author.last_name 
-        FROM book_authors me  JOIN authors author 
+    SELECT author.id, author.first_name, author.last_name
+        FROM book_authors me  JOIN authors author
         ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '6'
 
 The C<INSERT> statements are obviously adding the book and linking it to
 the existing record for Richard Stevens.  The C<SELECT> statement results
 from DBIC automatically fetching the book for the C<Dumper.dump(book)>.
 
-If you then click the "Return to list" link, you should find that 
-there are now six books shown (if necessary, Shift+Reload or 
+If you then click the "Return to list" link, you should find that
+there are now six books shown (if necessary, Shift+Reload or
 Ctrl+Reload your browser at the C</books/list> page).
 
 
 =head1 CONVERT TO A CHAINED ACTION
 
-Although the example above uses the same C<Local> action type for the 
-method that we saw in the previous part of the tutorial, there is an 
-alternate approach that allows us to be more specific while also 
-paving the way for more advanced capabilities.  Change the method 
-declaration for C<url_create> in C<lib/MyApp/Controller/Books.pm> you 
+Although the example above uses the same C<Local> action type for the
+method that we saw in the previous part of the tutorial, there is an
+alternate approach that allows us to be more specific while also
+paving the way for more advanced capabilities.  Change the method
+declaration for C<url_create> in C<lib/MyApp/Controller/Books.pm> you
 entered above to match the following:
 
     sub url_create :Chained('/') :PathPart('books/url_create') :Args(3) {
 
-This converts the method to take advantage of the Chained 
-action/dispatch type. Chaining let's you have a single URL 
-automatically dispatch to several controller methods, each of which 
-can have precise control over the number of arguments that it will 
+This converts the method to take advantage of the Chained
+action/dispatch type. Chaining let's you have a single URL
+automatically dispatch to several controller methods, each of which
+can have precise control over the number of arguments that it will
 receive.  A chain can essentially be thought of having three parts --
-a beginning, a middle and an end.  The bullets below summarize the key 
+a beginning, a middle and an end.  The bullets below summarize the key
 points behind each of these parts of a chain:
 
 
@@ -318,28 +318,28 @@ Specify the path to match with C<PathPart()>
 
 =back
 
-In our C<url_create> method above, we have combined all 3 parts into a 
-single method: C<:Chained('/')> to start the chain, 
-C<:PathPart('books/url_create')> to specify the base URL to match, 
-along with C<:Args(3)> to capture exactly 3 arguments and also end the 
+In our C<url_create> method above, we have combined all 3 parts into a
+single method: C<:Chained('/')> to start the chain,
+C<:PathPart('books/url_create')> to specify the base URL to match,
+along with C<:Args(3)> to capture exactly 3 arguments and also end the
 chain.
 
-As we will see shortly, a chain can consist of as many "links" as you 
-wish, with each part capturing some arguments and doing some work 
-along the way.  We will continue to use the Chained action type in this 
-part of the tutorial and explore slightly more advanced capabilities 
-with the base method and delete feature below.  But Chained dispatch 
-is capable of far more.  For additional information, see 
-L<Catalyst::Manual::Intro/Action types>, 
-L<Catalyst::DispatchType::Chained|Catalyst::DispatchType::Chained>, 
-and the 2006 advent calendar entry on the subject: 
+As we will see shortly, a chain can consist of as many "links" as you
+wish, with each part capturing some arguments and doing some work
+along the way.  We will continue to use the Chained action type in this
+part of the tutorial and explore slightly more advanced capabilities
+with the base method and delete feature below.  But Chained dispatch
+is capable of far more.  For additional information, see
+L<Catalyst::Manual::Intro/Action types>,
+L<Catalyst::DispatchType::Chained|Catalyst::DispatchType::Chained>,
+and the 2006 advent calendar entry on the subject:
 L<http://www.catalystframework.org/calendar/2006/10>.
 
 
 =head2 Try the Chained Action
 
-If you look back at the development server startup logs from your 
-initial version of the C<url_create> method (the one using the 
+If you look back at the development server startup logs from your
+initial version of the C<url_create> method (the one using the
 C<:Local> attribute), you will notice that it produced output similar
 to the following:
 
@@ -354,8 +354,8 @@ to the following:
     | /books/url_create                   | /books/url_create                    |
     '-------------------------------------+--------------------------------------'
 
-Now start the development server with our basic chained method in 
-place and the startup debug output should change to something along 
+Now start the development server with our basic chained method in
+place and the startup debug output should change to something along
 the lines of the following:
 
     [debug] Loaded Path actions:
@@ -367,7 +367,7 @@ the lines of the following:
     | /books                              | /books/index                         |
     | /books/list                         | /books/list                          |
     '-------------------------------------+--------------------------------------'
-    
+
     [debug] Loaded Chained actions:
     .-------------------------------------+--------------------------------------.
     | Path Spec                           | Private                              |
@@ -375,66 +375,66 @@ the lines of the following:
     | /books/url_create/*/*/*             | /books/url_create                    |
     '-------------------------------------+--------------------------------------'
 
-C<url_create> has disappeared form the "Loaded Path actions" section 
-but it now shows up under the newly created "Loaded Chained actions" 
+C<url_create> has disappeared form the "Loaded Path actions" section
+but it now shows up under the newly created "Loaded Chained actions"
 section.  And, the "/*/*/*" portion clearly shows our requirement for
 three arguments.
 
-As with our non-chained version of C<url_create>, use your browser to 
+As with our non-chained version of C<url_create>, use your browser to
 enter the following URL:
 
     http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
 
-You should see the same "Added book 'TCPIP_Illustrated_Vol-2' by 
-'Stevens' with a rating of 5." along with a dump of the new book model 
-object.  Click the "Return to list" link, you should find that there 
+You should see the same "Added book 'TCPIP_Illustrated_Vol-2' by
+'Stevens' with a rating of 5." along with a dump of the new book model
+object.  Click the "Return to list" link, you should find that there
 are now seven books shown (two copies of TCPIP_Illustrated_Vol-2).
 
 
 =head2 Refactor to Use a "Base" Method to Start the Chains
 
-Let's make a quick update to our initial Chained action to show a 
-little more of the power of chaining.  First, open 
+Let's make a quick update to our initial Chained action to show a
+little more of the power of chaining.  First, open
 C<lib/MyApp/Controller/Books.pm> in your editor and add the following
 method:
 
     =head2 base
-    
+
     Can place common logic to start chained dispatch here
-    
+
     =cut
-    
+
     sub base :Chained('/') :PathPart('books') :CaptureArgs(0) {
         my ($self, $c) = @_;
-        
+
         # Store the ResultSet in stash so it's available for other methods
         $c->stash->{resultset} = $c->model('DB::Books');
-    
+
         # Print a message to the debug log
         $c->log->debug('*** INSIDE BASE METHOD ***');
     }
 
-Here we print a log message and store the DBIC ResultSet in 
-C<$c-E<gt>stash-E<gt>{resultset}> so that it's automatically available 
-for other actions that chain off C<base>.  If your controller always 
-needs a book ID as it's first argument, you could have the base method 
-capture that argument (with C<:CaptureArgs(1)>) and use it to pull the 
-book object with C<-E<gt>find($id)> and leave it in the stash for 
-later parts of your chains to then act upon. Because we have several 
+Here we print a log message and store the DBIC ResultSet in
+C<$c-E<gt>stash-E<gt>{resultset}> so that it's automatically available
+for other actions that chain off C<base>.  If your controller always
+needs a book ID as it's first argument, you could have the base method
+capture that argument (with C<:CaptureArgs(1)>) and use it to pull the
+book object with C<-E<gt>find($id)> and leave it in the stash for
+later parts of your chains to then act upon. Because we have several
 actions that don't need to retrieve a book (such as the C<url_create>
 we are working with now), we will instead add that functionality
 to a common C<object> action shortly.
 
-As for C<url_create>, let's modify it to first dispatch to C<base>. 
-Open up C<lib/MyApp/Controller/Books.pm> and edit the declaration for 
+As for C<url_create>, let's modify it to first dispatch to C<base>.
+Open up C<lib/MyApp/Controller/Books.pm> and edit the declaration for
 C<url_create> to match the following:
 
     sub url_create :Chained('base') :PathPart('url_create') :Args(3) {
 
-Next, try out the refactored chain by restarting the development 
-server.  Notice that our "Loaded Chained actions" section has changed 
+Next, try out the refactored chain by restarting the development
+server.  Notice that our "Loaded Chained actions" section has changed
 slightly:
-    
+
     [debug] Loaded Chained actions:
     .-------------------------------------+--------------------------------------.
     | Path Spec                           | Private                              |
@@ -443,18 +443,18 @@ slightly:
     |                                     | => /books/url_create                 |
     '-------------------------------------+--------------------------------------'
 
-The "Path Spec" is the same, but now it maps to two Private actions as 
+The "Path Spec" is the same, but now it maps to two Private actions as
 we would expect.
 
 Once again, enter the following URL into your browser:
 
     http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
 
-The same "Added book 'TCPIP_Illustrated_Vol-2' by 'Stevens' with a 
-rating of 5" message and dump of the new book object should appear. 
-Also notice the extra debug message in the development server output 
-from the C<base> method.  Click the "Return to list" link, you should 
-find that there are now eight books shown. 
+The same "Added book 'TCPIP_Illustrated_Vol-2' by 'Stevens' with a
+rating of 5" message and dump of the new book object should appear.
+Also notice the extra debug message in the development server output
+from the C<base> method.  Click the "Return to list" link, you should
+find that there are now eight books shown.
 
 
 =head1 MANUALLY BUILDING A CREATE FORM
@@ -470,14 +470,14 @@ to enter data.  This section begins to address that concern.
 Edit C<lib/MyApp/Controller/Books.pm> and add the following method:
 
     =head2 form_create
-    
+
     Display form to collect information for book to create
-    
+
     =cut
-    
+
     sub form_create :Chained('base') :PathPart('form_create') :Args(0) {
         my ($self, $c) = @_;
-    
+
         # Set the TT template to use
         $c->stash->{template} = 'books/form_create.tt2';
     }
@@ -490,7 +490,7 @@ This action simply invokes a view containing a book creation form.
 Open C<root/src/books/form_create.tt2> in your editor and enter:
 
     [% META title = 'Manual Form Book Create' -%]
-    
+
     <form method="post" action="[% c.uri_for('form_create_do') %]">
     <table>
       <tr><td>Title:</td><td><input type="text" name="title"></td></tr>
@@ -510,19 +510,19 @@ Edit C<lib/MyApp/Controller/Books.pm> and add the following method to
 save the form information to the database:
 
     =head2 form_create_do
-    
+
     Take information from form and add to database
-    
+
     =cut
-    
+
     sub form_create_do :Chained('base') :PathPart('form_create_do') :Args(0) {
         my ($self, $c) = @_;
-    
+
         # Retrieve the values from the form
         my $title     = $c->request->params->{title}     || 'N/A';
         my $rating    = $c->request->params->{rating}    || 'N/A';
         my $author_id = $c->request->params->{author_id} || '1';
-    
+
         # Create the book
         my $book = $c->model('DB::Books')->create({
                 title   => $title,
@@ -530,14 +530,14 @@ save the form information to the database:
             });
         # Handle relationship with author
         $book->add_to_book_authors({author_id => $author_id});
-    
+
         # Store new model object in stash
         $c->stash->{book} = $book;
-    
+
         # Avoid Data::Dumper issue mentioned earlier
-        # You can probably omit this    
+        # You can probably omit this
         $Data::Dumper::Useperl = 1;
-    
+
         # Set the TT template to use
         $c->stash->{template} = 'books/create_done.tt2';
     }
@@ -550,7 +550,7 @@ it.  Then restart the server:
 
     $ script/myapp_server.pl
 
-Notice that the server startup log reflects the two new chained 
+Notice that the server startup log reflects the two new chained
 methods that we added:
 
     [debug] Loaded Chained actions:
@@ -593,10 +593,10 @@ and 2) the four lines for the Delete link near the bottom).
     [% # see this "chomping" in your browser because HTML ignores blank lines, but  -%]
     [% # it WILL eliminate a blank line if you view the HTML source.  It's purely   -%]
     [%- # optional, but both the beginning and the ending TT tags support chomping. -%]
-    
+
     [% # Provide a title to root/lib/site/header -%]
     [% META title = 'Book List' -%]
-    
+
     <table>
     <tr><th>Title</th><th>Rating</th><th>Author(s)</th><th>Links</th></tr>
     [% # Display each book in a table row %]
@@ -607,11 +607,11 @@ and 2) the four lines for the Delete link near the bottom).
         <td>
           [% # First initialize a TT variable to hold a list.  Then use a TT FOREACH -%]
           [% # loop in 'side effect notation' to load just the last names of the     -%]
-          [% # authors into the list.  Note that the 'push' TT vmethod does not      -%]
+          [% # authors into the list. Note that the 'push' TT vmethod doesn't return -%]
           [% # a value, so nothing will be printed here.  But, if you have something -%]
-          [% # in TT that does return a method and you don't want it printed, you    -%]
-          [% # can: 1) assign it to a bogus value, or 2) use the CALL keyword to     -%]
-          [% # call it and discard the return value.                                 -%]
+          [% # in TT that does return a value and you don't want it printed, you can -%]
+          [% # 1) assign it to a bogus value, or                                     -%]
+          [% # 2) use the CALL keyword to call it and discard the return value.      -%]
           [% tt_authors = [ ];
              tt_authors.push(author.last_name) FOREACH author = book.authors %]
           [% # Now use a TT 'virtual method' to display the author count in parens   -%]
@@ -627,20 +627,20 @@ and 2) the four lines for the Delete link near the bottom).
     [% END -%]
     </table>
 
-The additional code is obviously designed to add a new column to the 
-right side of the table with a C<Delete> "button" (for simplicity, 
+The additional code is obviously designed to add a new column to the
+right side of the table with a C<Delete> "button" (for simplicity,
 links will be used instead of full HTML buttons).
 
-Also notice that we are using a more advanced form of C<uri_for> than 
-we have seen before.  Here we use 
-C<$c-E<gt>controller-E<gt>action_for> to automatically generate a URI 
-appropriate for that action based on the method we want to link to 
-while inserting the C<book.id> value into the appropriate place.  Now, 
-if you ever change C<:PathPart('delete')> in your controller method to 
-C<:PathPart('kill')>, then your links will automatically update 
-without any changes to your .tt2 template file.  As long as the name 
-of your method does not changed ("delete" here), then your links will 
-still be correct.  There are a few shortcuts and options when using 
+Also notice that we are using a more advanced form of C<uri_for> than
+we have seen before.  Here we use
+C<$c-E<gt>controller-E<gt>action_for> to automatically generate a URI
+appropriate for that action based on the method we want to link to
+while inserting the C<book.id> value into the appropriate place.  Now,
+if you ever change C<:PathPart('delete')> in your controller method to
+C<:PathPart('kill')>, then your links will automatically update
+without any changes to your .tt2 template file.  As long as the name
+of your method does not change ("delete" here), then your links will
+still be correct.  There are a few shortcuts and options when using
 C<action_for()>:
 
 =over 4
@@ -658,42 +658,42 @@ C<$c-E<gt>controller('_controller_name_')-E<gt>action_for('_method_name_')>.
 
 =back
 
-B<Note:> In practice you should B<never> use a GET request to delete a 
-record -- always use POST for actions that will modify data.  We are 
+B<Note:> In practice you should B<never> use a GET request to delete a
+record -- always use POST for actions that will modify data.  We are
 doing it here for illustrative and simplicity purposes only.
 
 
 =head2 Add a Common Method to Retrieve a Book for the Chain
 
-As mentioned earlier, since we have a mixture of actions that operate 
-on a single book ID and others that do no, we should not have C<base> 
-capture the book ID, find the corresponding book in the database and 
-save it in the stash for later links in the chain.  However, just 
-because that logic does not belong in C<base> doesn't mean that we 
-can't create another location to centralize the book lookup code.  In 
-our case, we will create a method called C<object> that will store the 
-specific book in the stash.  Chains that always operate on a single 
-existing book can chain off this method, but methods such as 
-C<url_create> that don't operate on an existing book can chain 
+As mentioned earlier, since we have a mixture of actions that operate
+on a single book ID and others that do not, we should not have C<base>
+capture the book ID, find the corresponding book in the database and
+save it in the stash for later links in the chain.  However, just
+because that logic does not belong in C<base> doesn't mean that we
+can't create another location to centralize the book lookup code.  In
+our case, we will create a method called C<object> that will store the
+specific book in the stash.  Chains that always operate on a single
+existing book can chain off this method, but methods such as
+C<url_create> that don't operate on an existing book can chain
 directly off base.
 
 To add the C<object> method, edit C<lib/MyApp/Controller/Books.pm>
 and add the following code:
 
     =head2 object
-    
+
     Fetch the specified book object based on the book ID and store
     it in the stash
-    
+
     =cut
-    
+
     sub object :Chained('base') :PathPart('id') :CaptureArgs(1) {
         # $id = primary key of book to delete
         my ($self, $c, $id) = @_;
-        
+
         # Find the book object and store it in the stash
         $c->stash(object => $c->stash->{resultset}->find($id));
-        
+
         # Make sure the lookup was successful.  You would probably
         # want to do something like this in a real app:
         #   $c->detach('/error_404') if !$c->stash->{object};
@@ -701,7 +701,7 @@ and add the following code:
     }
 
 Now, any other method that chains off C<object> will automatically
-have the appropriate book waiting for it in 
+have the appropriate book waiting for it in
 C<$c-E<gt>stash-E<gt>{object}>.
 
 Also note that we are using different technique for setting
@@ -727,27 +727,27 @@ Open C<lib/MyApp/Controller/Books.pm> in your editor and add the
 following method:
 
     =head2 delete
-    
+
     Delete a book
-        
+
     =cut
-    
+
     sub delete :Chained('object') :PathPart('delete') :Args(0) {
         my ($self, $c) = @_;
-    
+
         # Use the book object saved by 'object' and delete it along
         # with related 'book_authors' entries
         $c->stash->{object}->delete;
-    
+
         # Set a status message to be displayed at the top of the view
         $c->stash->{status_msg} = "Book deleted.";
-    
+
         # Forward to the list action/method in this controller
         $c->forward('list');
     }
 
-This method first deletes the book object saved by the C<object> method. 
-However, it also removes the corresponding entry from the 
+This method first deletes the book object saved by the C<object> method.
+However, it also removes the corresponding entry from the
 C<book_authors> table with a cascading delete.
 
 Then, rather than forwarding to a "delete done" page as we did with the
@@ -787,8 +787,8 @@ of the startup debug output:
     '-------------------------------------+--------------------------------------'
 
 Then point your browser to L<http://localhost:3000/books/list> and click
-the "Delete" link next to the first "TCPIP_Illustrated_Vol-2".  A green 
-"Book deleted" status message should display at the top of the page, 
+the "Delete" link next to the first "TCPIP_Illustrated_Vol-2".  A green
+"Book deleted" status message should display at the top of the page,
 along with a list of the eight remaining books.  You will also see the
 cascading delete operation via the DBIC_TRACE output:
 
@@ -800,15 +800,15 @@ cascading delete operation via the DBIC_TRACE output:
 
 =head2 Fixing a Dangerous URL
 
-Note the URL in your browser once you have performed the deletion in the 
+Note the URL in your browser once you have performed the deletion in the
 prior step -- it is still referencing the delete action:
 
     http://localhost:3000/books/id/6/delete
 
-What if the user were to press reload with this URL still active?  In 
-this case the redundant delete is harmless (although it does generate 
-an exception screen, it doesn't perform any undesirable actions on the 
-application or database), but in other cases this could clearly be 
+What if the user were to press reload with this URL still active?  In
+this case the redundant delete is harmless (although it does generate
+an exception screen, it doesn't perform any undesirable actions on the
+application or database), but in other cases this could clearly be
 extremely dangerous.
 
 We can improve the logic by converting to a redirect.  Unlike
@@ -819,25 +819,25 @@ new request.  As a result, the URL in the browser is updated to match
 the destination of the redirection URL.
 
 To convert the forward used in the previous section to a redirect,
-open C<lib/MyApp/Controller/Books.pm> and edit the existing 
+open C<lib/MyApp/Controller/Books.pm> and edit the existing
 C<sub delete> method to match:
 
     =head2 delete
-    
+
     Delete a book
-    
+
     =cut
-    
+
     sub delete :Chained('object') :PathPart('delete') :Args(0) {
         my ($self, $c) = @_;
-    
+
         # Use the book object saved by 'object' and delete it along
         # with related 'book_authors' entries
         $c->stash->{object}->delete;
-    
+
         # Set a status message to be displayed at the top of the view
         $c->stash->{status_msg} = "Book deleted.";
-    
+
         # Redirect the user back to the list page.  Note the use
         # of $self->action_for as earlier in this section (BasicCRUD)
         $c->response->redirect($c->uri_for($self->action_for('list')));
@@ -846,48 +846,48 @@ C<sub delete> method to match:
 
 =head2 Try the Delete and Redirect Logic
 
-Restart the development server and point your browser to 
-L<http://localhost:3000/books/list> (don't just hit "Refresh" in your 
-browser since we left the URL in an invalid state in the previous 
-section!) and delete the first copy of the remaining two 
-"TCPIP_Illustrated_Vol-2" books.  The URL in your browser should return 
-to the L<http://localhost:3000/books/list> URL, so that is an 
-improvement, but notice that I<no green "Book deleted" status message is 
-displayed>.  Because the stash is reset on every request (and a redirect 
-involves a second request), the C<status_msg> is cleared before it can 
+Restart the development server and point your browser to
+L<http://localhost:3000/books/list> (don't just hit "Refresh" in your
+browser since we left the URL in an invalid state in the previous
+section!) and delete the first copy of the remaining two
+"TCPIP_Illustrated_Vol-2" books.  The URL in your browser should return
+to the L<http://localhost:3000/books/list> URL, so that is an
+improvement, but notice that I<no green "Book deleted" status message is
+displayed>.  Because the stash is reset on every request (and a redirect
+involves a second request), the C<status_msg> is cleared before it can
 be displayed.
 
 
 =head2 Using C<uri_for> to Pass Query Parameters
 
-There are several ways to pass information across a redirect. One 
-option is to use the C<flash> technique that we will see in Part 5 of 
-the tutorial; however, here we will pass the information via query 
-parameters on the redirect itself.  Open 
-C<lib/MyApp/Controller/Books.pm> and update the existing C<sub delete> 
+There are several ways to pass information across a redirect. One
+option is to use the C<flash> technique that we will see in Part 5 of
+the tutorial; however, here we will pass the information via query
+parameters on the redirect itself.  Open
+C<lib/MyApp/Controller/Books.pm> and update the existing C<sub delete>
 method to match the following:
 
-    =head2 delete 
-    
+    =head2 delete
+
     Delete a book
-        
+
     =cut
-    
+
     sub delete :Chained('object') :PathPart('delete') :Args(0) {
         my ($self, $c) = @_;
-    
+
         # Use the book object saved by 'object' and delete it along
         # with related 'book_authors' entries
         $c->stash->{object}->delete;
-    
+
         # Redirect the user back to the list page with status msg as an arg
-        $c->response->redirect($c->uri_for($self->action_for('list'), 
+        $c->response->redirect($c->uri_for($self->action_for('list'),
             {status_msg => "Book deleted."}));
     }
 
 This modification simply leverages the ability of C<uri_for> to include
-an arbitrary number of name/value pairs in a hash reference.  Next, we 
-need to update C<root/src/wrapper.tt2> to handle C<status_msg> as a 
+an arbitrary number of name/value pairs in a hash reference.  Next, we
+need to update C<root/src/wrapper.tt2> to handle C<status_msg> as a
 query parameter:
 
     ...
@@ -900,60 +900,60 @@ query parameter:
     </div><!-- end content -->
     ...
 
-Although the sample above only shows the C<content> div, leave the 
+Although the sample above only shows the C<content> div, leave the
 rest of the file intact -- the only change we made to the C<wrapper.tt2>
-was to add "C<|| c.request.params.status_msg>" to the 
+was to add "C<|| c.request.params.status_msg>" to the
 C<E<lt>span class="message"E<gt>> line.
 
 
 =head2 Try the Delete and Redirect With Query Param Logic
 
-Restart the development server and point your browser to 
-L<http://localhost:3000/books/list> (you should now be able to safely 
-hit "refresh" in your browser).  Then delete the remaining copy of 
-"TCPIP_Illustrated_Vol-2".  The green "Book deleted" status message 
+Restart the development server and point your browser to
+L<http://localhost:3000/books/list> (you should now be able to safely
+hit "refresh" in your browser).  Then delete the remaining copy of
+"TCPIP_Illustrated_Vol-2".  The green "Book deleted" status message
 should return.
 
-B<NOTE:> Another popular method for maintaining server-side 
-information across a redirect is to use the C<flash> technique we 
-discuss in the next part of the tutorial, 
-L<Authentication|Catalyst::Manual::Tutorial::Authentication>. While 
-C<flash> is a "slicker" mechanism in that it's all handled by the 
-server and doesn't "pollute" your URLs, B<it is important to note that 
-C<flash> can lead to situations where the wrong information shows up 
-in the wrong browser window if the user has multiple windows or 
-browser tabs open.>  For example, Window A causes something to be 
-placed in the stash, but before that window performs a redirect, 
-Window B makes a request to the server and gets the status information 
+B<NOTE:> Another popular method for maintaining server-side
+information across a redirect is to use the C<flash> technique we
+discuss in the next part of the tutorial,
+L<Authentication|Catalyst::Manual::Tutorial::Authentication>. While
+C<flash> is a "slicker" mechanism in that it's all handled by the
+server and doesn't "pollute" your URLs, B<it is important to note that
+C<flash> can lead to situations where the wrong information shows up
+in the wrong browser window if the user has multiple windows or
+browser tabs open.>  For example, Window A causes something to be
+placed in the stash, but before that window performs a redirect,
+Window B makes a request to the server and gets the status information
 that should really go to Window A.  For this reason, you may wish
 to use the "query param" technique shown here in your applications.
 
 
 =head1 EXPLORING THE POWER OF DBIC
 
-In this section we will explore some additional capabilities offered 
-by DBIx::Class.  Although these features have relatively little to do 
-with Catalyst per se, you will almost certainly want to take advantage 
+In this section we will explore some additional capabilities offered
+by DBIx::Class.  Although these features have relatively little to do
+with Catalyst per se, you will almost certainly want to take advantage
 of them in your applications.
 
 
 =head2 Convert to DBIC "load_namespaces"
 
-If you look back at 
-L<Catalyst::Manual::Tutorial::MoreCatalystBasics/Create Static DBIC 
-Schema Files> you will recall that we load our DBIC Result Classes 
-(Books.pm, Authors.pm and BookAuthors.pm) with  in 
-C<lib/MyApp/Schema.pm> with the C<load_classes> feature.  Although 
-this method is perfectly valid, the DBIC community has migrated to a 
-newer C<load_namespaces> technique because it more easily supports a 
-variety of advanced features.  Since we want to explore some of these 
-features below, let's first migrate our configuration over to use 
+If you look back at
+L<Catalyst::Manual::Tutorial::MoreCatalystBasics/Create Static DBIC
+Schema Files> you will recall that we load our DBIC Result Classes
+(Books.pm, Authors.pm and BookAuthors.pm) with  in
+C<lib/MyApp/Schema.pm> with the C<load_classes> feature.  Although
+this method is perfectly valid, the DBIC community has migrated to a
+newer C<load_namespaces> technique because it more easily supports a
+variety of advanced features.  Since we want to explore some of these
+features below, let's first migrate our configuration over to use
 C<load_namespaces>.
 
-If you are following along in Debian 5, you will need to upgrade your 
-version of 
-L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> to 0.23 
-or higher.  To do this, we can install directly from CPAN via the 
+If you are following along in Debian 5, you will need to upgrade your
+version of
+L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> to 0.23
+or higher.  To do this, we can install directly from CPAN via the
 following command:
 
     $ sudo cpan Catalyst::Model::DBIC::Schema
@@ -966,13 +966,13 @@ Then make sure you are running an appropriate version:
 
 Make sure you get version 0.23 or higher.
 
-B<Note:> Debian will automatically "do the right thing" and use the 
-module we installed from CPAN and ignore the older version we picked 
-up via the C<aptitude> command.  If you are using a different 
-environment, you will need to make sure you are using v0.23 or higher 
+B<Note:> Debian will automatically "do the right thing" and use the
+module we installed from CPAN and ignore the older version we picked
+up via the C<aptitude> command.  If you are using a different
+environment, you will need to make sure you are using v0.23 or higher
 with the command above.
 
-While we are at it, let's install a few other modules from CPAN for 
+While we are at it, let's install a few other modules from CPAN for
 some of the other work we will be doing below:
 
     $ cpan Time::Warp DBICx::TestDatabase \
@@ -996,52 +996,52 @@ the model and schema information:
     $ ls lib/MyApp/Schema/Result
     Authors.pm  BookAuthors.pm  Books.pm
 
-Notice that we now have a duplicate set of Result Class files.  With 
-the newer C<load_namespaces> feature, DBIC automatically looks for 
-your Result Class files in a subdirectory of the Schema directory 
-called C<Result> (the files in C<lib/MyApp/Schema> were already there 
-from Part 3 of the tutorial; the files in C<lib/MyApp/Schema/Result> 
-are new).  
+Notice that we now have a duplicate set of Result Class files.  With
+the newer C<load_namespaces> feature, DBIC automatically looks for
+your Result Class files in a subdirectory of the Schema directory
+called C<Result> (the files in C<lib/MyApp/Schema> were already there
+from Part 3 of the tutorial; the files in C<lib/MyApp/Schema/Result>
+are new).
 
-If you are using SQLite, you will need to manually re-enter the 
-relationship configuration as we did in Part 3 of the tutorial (if you 
+If you are using SQLite, you will need to manually re-enter the
+relationship configuration as we did in Part 3 of the tutorial (if you
 are using different database, the relationships might have been auto-
-generated by Schema::Loader).  One option is to use the following 
-command-line perl script to migrate the information across 
+generated by Schema::Loader).  One option is to use the following
+command-line perl script to migrate the information across
 automatically:
 
     $ cd lib/MyApp/Schema
-    $ perl -MIO::All -e 'for (@ARGV) { my $s < io($_); $s =~ s/.*\n\# You can replace.*?\n//s; 
-          $s =~ s/'MyApp::Schema::/'MyApp::Schema::Result::/g; my $d < io("Result/$_"); 
+    $ perl -MIO::All -e 'for (@ARGV) { my $s < io($_); $s =~ s/.*\n\# You can replace.*?\n//s;
+          $s =~ s/'MyApp::Schema::/'MyApp::Schema::Result::/g; my $d < io("Result/$_");
           $d =~ s/1;\n?//; "$d$s" > io("Result/$_"); }' *.pm
     $ cd ../../..
 
-If you prefer, you can do the migration by hand using "cut and paste" 
-from the files in C<lib/MyApp/Schema> (or from 
-L<Catalyst::Manual::Tutorial::MoreCatalystBasics/Updating the Generated DBIC Schema Files>) 
-to the corresponding files in C<lib/MyApp/Schema/Result>.  If you take 
-this approach, be sure to add C<::Result> to the end of 
-C<MyApp::Schema> in all three files (for example, in C<Books.pm>, the 
-"peer class" in the C<has_many> relationship needs to be changed from 
+If you prefer, you can do the migration by hand using "cut and paste"
+from the files in C<lib/MyApp/Schema> (or from
+L<Catalyst::Manual::Tutorial::MoreCatalystBasics/Updating the Generated DBIC Schema Files>)
+to the corresponding files in C<lib/MyApp/Schema/Result>.  If you take
+this approach, be sure to add C<::Result> to the end of
+C<MyApp::Schema> in all three files (for example, in C<Books.pm>, the
+"peer class" in the C<has_many> relationship needs to be changed from
 C<MyApp::Schema::BookAuthors> to C<MyApp::Schema::BookAuthors::Result>).
 
-Now we can remove the original set of Result Class files that we no 
+Now we can remove the original set of Result Class files that we no
 longer need:
 
     $ rm lib/MyApp/Schema/*.pm
     $ ls lib/MyApp/Schema
     Result
 
-Finally, test the application to be sure everything is still 
-working under our new configuration.  Use the 
-C<script/myapp_server.pl> command to start the development server and 
-point your browser to L<http://localhost:3000/books/list>.  Make sure 
+Finally, test the application to be sure everything is still
+working under our new configuration.  Use the
+C<script/myapp_server.pl> command to start the development server and
+point your browser to L<http://localhost:3000/books/list>.  Make sure
 you see the existing list of books.
 
 
 =head2 Add Datetime Columns to Our Existing Books Table
 
-Let's add two columns to our existing C<books> table to track when 
+Let's add two columns to our existing C<books> table to track when
 each book was added and when each book is updated:
 
     $ sqlite3 myapp.db
@@ -1079,15 +1079,15 @@ Notice that we modified our use of the helper slightly: we told
 it to include the L<DBIx::Class::Timestamp|DBIx::Class::Timestamp>
 in the C<load_components> line of the Result Classes.
 
-If you open C<lib/MyApp/Schema/Result/Books.pm> in your editor you 
-should see that the C<created> and C<updated> fields are now included 
-in the call to add_columns(), but our relationship information below 
-the "C<# DO NOT MODIFY...>" line was automatically preserved.  
+If you open C<lib/MyApp/Schema/Result/Books.pm> in your editor you
+should see that the C<created> and C<updated> fields are now included
+in the call to add_columns(), but our relationship information below
+the "C<# DO NOT MODIFY...>" line was automatically preserved.
 
-While we have this file open, let's update it with some additional 
-information to have DBIC automatically handle the updating of these 
-two fields for us.  Insert the following code at the bottom of the 
-file (it B<must> be B<below> the "C<# DO NOT MODIFY...>" line and 
+While we have this file open, let's update it with some additional
+information to have DBIC automatically handle the updating of these
+two fields for us.  Insert the following code at the bottom of the
+file (it B<must> be B<below> the "C<# DO NOT MODIFY...>" line and
 B<above> the C<1;> on the last line):
 
     #
@@ -1098,11 +1098,11 @@ B<above> the C<1;> on the last line):
         { data_type => 'datetime', set_on_create => 1 },
         "updated",
         { data_type => 'datetime', set_on_create => 1, set_on_update => 1 },
-    );      
+    );
 
-This will override the definition for these fields that Schema::Loader 
-placed at the top of the file.  The C<set_on_create> and 
-C<set_on_update> options will cause DBIC to automatically update the 
+This will override the definition for these fields that Schema::Loader
+placed at the top of the file.  The C<set_on_create> and
+C<set_on_update> options will cause DBIC to automatically update the
 timestamps in these columns whenever a row is created or modified.
 
 To test this out, restart the development server using the
@@ -1128,59 +1128,59 @@ time entered for it (see the last line in the listing below):
     9|TCP/IP Illustrated, Vol 3|5|2009-03-08 16:26:35|2009-03-08 16:26:35
     10|TCPIP_Illustrated_Vol-2|5|2009-03-08 16:29:08|2009-03-08 16:29:08
 
-Notice in the debug log that the SQL DBIC generated has changed to 
+Notice in the debug log that the SQL DBIC generated has changed to
 incorporate the datetime logic:
 
-    INSERT INTO books (created, rating, title, updated) VALUES (?, ?, ?, ?): 
+    INSERT INTO books (created, rating, title, updated) VALUES (?, ?, ?, ?):
     '2009-03-08 16:29:08', '5', 'TCPIP_Illustrated_Vol-2', '2009-03-08 16:29:08'
     INSERT INTO book_authors (author_id, book_id) VALUES (?, ?): '4', '10'
 
 
 =head2 Create a ResultSet Class
 
-An often overlooked but extremely powerful features of DBIC is that it 
-allows you to supply your own subclasses of C<DBIx::Class::ResultSet>. 
-It allows you to pull complex and unsightly "query code" out of your 
+An often overlooked but extremely powerful features of DBIC is that it
+allows you to supply your own subclasses of C<DBIx::Class::ResultSet>.
+It allows you to pull complex and unsightly "query code" out of your
 controllers and encapsulate it in a method of your ResultSet Class.
 These "canned queries" in your ResultSet Class can then be invoked
 via a single call, resulting in much cleaner and easier to read
 controller code.
 
-To illustrate the concept with a fairly simple example, let's create a 
+To illustrate the concept with a fairly simple example, let's create a
 method that returns books added in the last 10 minutes.  Start by
 making a directory where DBIC will look for our ResultSet Class:
 
     mkdir lib/MyApp/Schema/ResultSet
 
-Then open C<lib/MyApp/Schema/ResultSet/Books.pm> and enter the following: 
+Then open C<lib/MyApp/Schema/ResultSet/Books.pm> and enter the following:
 
     package MyApp::Schema::ResultSet::Books;
-    
+
     use strict;
     use warnings;
     use base 'DBIx::Class::ResultSet';
-    
+
     =head2 created_after
-    
+
     A predefined search for recently added books
-    
+
     =cut
-    
+
     sub created_after {
         my ($self, $datetime) = @_;
-        
+
         my $date_str = $self->_source_handle->schema->storage
                               ->datetime_parser->format_datetime($datetime);
-        
+
         return $self->search({
             created => { '>' => $date_str }
         });
     }
-    
+
     1;
 
-Then we need to tell the Result Class to to treat this as a ResultSet 
-Class.  Open C<lib/MyApp/Schema/Result/Books.pm> and add the following 
+Then we need to tell the Result Class to to treat this as a ResultSet
+Class.  Open C<lib/MyApp/Schema/Result/Books.pm> and add the following
 above the "C<1;>" at the bottom of the file:
 
     #
@@ -1191,29 +1191,29 @@ above the "C<1;>" at the bottom of the file:
 Then add the following method to the C<lib/MyApp/Controller/Books.pm>:
 
     =head2 list_recent
-    
+
     List recently created books
-    
+
     =cut
-    
+
     sub list_recent :Chained('base') :PathPart('list_recent') :Args(1) {
         my ($self, $c, $mins) = @_;
-    
+
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
         $c->stash->{books} = [$c->model('DB::Books')
                                 ->created_after(DateTime->now->subtract(minutes => $mins))];
-    
+
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
         $c->stash->{template} = 'books/list.tt2';
     }
 
-Now start the development server with C<DBIC_TRACE=1> and try 
-different values for the minutes argument (the final number value) for 
-the URL C<http://localhost:3000/books/list_recent/10>.  For example, 
+Now start the development server with C<DBIC_TRACE=1> and try
+different values for the minutes argument (the final number value) for
+the URL C<http://localhost:3000/books/list_recent/10>.  For example,
 this would list all books added in the last fifteen minutes:
 
     http://localhost:3000/books/list_recent/15
@@ -1224,28 +1224,28 @@ try a higher or lower value.
 
 =head2 Chaining ResultSets
 
-One of the most helpful and powerful features in DBIC is that it 
-allows you to "chain together" a series of queries (note that this has 
-nothing to do with the "Chained Dispatch" for Catalyst that we were 
-discussing above).  Because each ResultSet returns another ResultSet, 
-you can take an initial query and immediately feed that into a second 
-query (and so on for as many queries you need).  And, because this 
-technique carries over to the ResultSet Class feature we implemented 
-in the previous section for our "canned search", we can combine the 
-two capabilities.  For example, let's add an action to our C<Books> 
-controller that lists books that are both recent I<and> have "TCP" in 
-the title.  Open up C<lib/MyApp/Controller/Books.pm> and add the 
+One of the most helpful and powerful features in DBIC is that it
+allows you to "chain together" a series of queries (note that this has
+nothing to do with the "Chained Dispatch" for Catalyst that we were
+discussing above).  Because each ResultSet returns another ResultSet,
+you can take an initial query and immediately feed that into a second
+query (and so on for as many queries you need).  And, because this
+technique carries over to the ResultSet Class feature we implemented
+in the previous section for our "canned search", we can combine the
+two capabilities.  For example, let's add an action to our C<Books>
+controller that lists books that are both recent I<and> have "TCP" in
+the title.  Open up C<lib/MyApp/Controller/Books.pm> and add the
 following method:
 
     =head2 list_recent_tcp
-    
+
     List recently created books
-    
+
     =cut
-    
+
     sub list_recent_tcp :Chained('base') :PathPart('list_recent_tcp') :Args(1) {
         my ($self, $c, $mins) = @_;
-    
+
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
@@ -1254,7 +1254,7 @@ following method:
                                 ->created_after(DateTime->now->subtract(minutes => $mins))
                                 ->search({title => {'like', '%TCP%'}})
                              ];
-    
+
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
@@ -1269,54 +1269,54 @@ And enter the following URL into your browser:
 
     http://localhost:3000/books/list_recent_tcp/100
 
-And you should get a list of books added in the last 100 minutes that 
-contain the string "TCP" in the title.  However, if you look at all 
-books within the last 100 minutes, you should get a longer list 
-(again, you might have to adjust the number of minutes depending on 
+And you should get a list of books added in the last 100 minutes that
+contain the string "TCP" in the title.  However, if you look at all
+books within the last 100 minutes, you should get a longer list
+(again, you might have to adjust the number of minutes depending on
 how recently you added books to your database):
 
     http://localhost:3000/books/list_recent/100
 
-Take a look at the DBIC_TRACE output in the development server log for 
+Take a look at the DBIC_TRACE output in the development server log for
 the first URL and you should see something similar to the following:
 
-    SELECT me.id, me.title, me.rating, me.created, me.updated FROM books me 
+    SELECT me.id, me.title, me.rating, me.created, me.updated FROM books me
     WHERE ( ( ( title LIKE ? ) AND ( created > ? ) ) ): '%TCP%', '2009-03-08 14:52:54'
 
-However, let's not pollute our controller code with this raw "TCP" 
-query -- it would be cleaner to encapsulate that code in a method on 
-our ResultSet Class.  To do this, open 
+However, let's not pollute our controller code with this raw "TCP"
+query -- it would be cleaner to encapsulate that code in a method on
+our ResultSet Class.  To do this, open
 C<lib/MyApp/Schema/ResultSet/Books.pm> and add the following method:
 
     =head2 title_like
-    
+
     A predefined search for books with a 'LIKE' search in the string
-    
+
     =cut
-    
+
     sub title_like {
         my ($self, $title_str) = @_;
-      
+
         return $self->search({
             title => { 'like' => "%$title_str%" }
         });
     }
 
-We defined the search string as C<$title_str> to make the method more 
-flexible.  Now update the C<list_recent_tcp> method in 
-C<lib/MyApp/Controller/Books.pm> to match the following (we have 
-replaced the C<-E<gt>search> line with the C<-E<gt>title_like> line 
+We defined the search string as C<$title_str> to make the method more
+flexible.  Now update the C<list_recent_tcp> method in
+C<lib/MyApp/Controller/Books.pm> to match the following (we have
+replaced the C<-E<gt>search> line with the C<-E<gt>title_like> line
 shown here -- the rest of the method should be the same):
 
     =head2 list_recent_tcp
-    
+
     List recently created books
-    
+
     =cut
-    
+
     sub list_recent_tcp :Chained('base') :PathPart('list_recent_tcp') :Args(1) {
         my ($self, $c, $mins) = @_;
-    
+
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
@@ -1325,30 +1325,30 @@ shown here -- the rest of the method should be the same):
                                 ->created_after(DateTime->now->subtract(minutes => $mins))
                                 ->title_like('TCP')
                              ];
-    
+
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
         $c->stash->{template} = 'books/list.tt2';
     }
 
-Then restart the development server and try out the C<list_recent_tcp> 
-and C<list_recent> URL as we did above.  It should work just the same, 
-but our code is obviously cleaner and more modular, while also being 
+Then restart the development server and try out the C<list_recent_tcp>
+and C<list_recent> URL as we did above.  It should work just the same,
+but our code is obviously cleaner and more modular, while also being
 more flexible at the same time.
 
 
 =head2 Adding Methods to Result Classes
 
-In the previous two sections we saw a good example of how we could use 
-DBIC ResultSet Classes to clean up our code for an entire query (for 
-example, our "canned searches" that filtered the entire query).  We 
-can do a similar improvement when working with individual rows as 
-well.  Whereas the ResultSet construct is used in DBIC to correspond 
-to an entire query, the Result Class construct is used to represent a 
-row. Therefore, we can add row-specific "helper methods" to our Result 
-Classes stored in C<lib/MyApp/Schema/Result/>. For example, open 
-C<lib/MyApp/Schema/Result/Authors.pm> and add the following method 
+In the previous two sections we saw a good example of how we could use
+DBIC ResultSet Classes to clean up our code for an entire query (for
+example, our "canned searches" that filtered the entire query).  We
+can do a similar improvement when working with individual rows as
+well.  Whereas the ResultSet construct is used in DBIC to correspond
+to an entire query, the Result Class construct is used to represent a
+row. Therefore, we can add row-specific "helper methods" to our Result
+Classes stored in C<lib/MyApp/Schema/Result/>. For example, open
+C<lib/MyApp/Schema/Result/Authors.pm> and add the following method
 (as always, it must be above the closing "C<1;>"):
 
     #
@@ -1356,12 +1356,12 @@ C<lib/MyApp/Schema/Result/Authors.pm> and add the following method
     #
     sub full_name {
         my ($self) = @_;
-    
+
         return $self->first_name . ' ' . $self->last_name;
     }
 
-This will allow us to conveniently retrieve both the first and last 
-name for an author in one shot.  Now open C<root/src/books/list.tt2> 
+This will allow us to conveniently retrieve both the first and last
+name for an author in one shot.  Now open C<root/src/books/list.tt2>
 and change the definition of C<tt_authors> from this:
 
     ...
@@ -1376,7 +1376,7 @@ to:
          tt_authors.push(author.full_name) FOREACH author = book.authors %]
     ...
 
-(Only C<author.last_name> was changed to C<author.full_name> -- the 
+(Only C<author.last_name> was changed to C<author.full_name> -- the
 rest of the file should remain the same.)
 
 Now restart the development server and go to the standard book list
@@ -1384,12 +1384,12 @@ URL:
 
     http://localhost:3000/books/list
 
-The "Author(s)" column will now contain both the first and last name. 
-And, because the concatenation logic was encapsulated inside our 
-Result Class, it keeps the code inside our .tt template nice and clean 
-(remember, we want the templates to be as close to pure HTML markup as 
-possible). Obviously, this capability becomes even more useful as you 
-use to to remove even more complicated row-specific logic from your 
+The "Author(s)" column will now contain both the first and last name.
+And, because the concatenation logic was encapsulated inside our
+Result Class, it keeps the code inside our .tt template nice and clean
+(remember, we want the templates to be as close to pure HTML markup as
+possible). Obviously, this capability becomes even more useful as you
+use to to remove even more complicated row-specific logic from your
 templates!
 
 
