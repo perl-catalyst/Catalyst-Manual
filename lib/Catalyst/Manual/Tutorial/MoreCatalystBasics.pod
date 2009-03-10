@@ -1,11 +1,11 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::MoreCatalystBasics - Catalyst Tutorial - Part 3: More Catalyst Application Development Basics
+Catalyst::Manual::Tutorial::MoreCatalystBasics - Catalyst Tutorial - Chapter 3: More Catalyst Application Development Basics
 
 
 =head1 OVERVIEW
 
-This is B<Part 3 of 10> for the Catalyst tutorial.
+This is B<Chapter 3 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -56,13 +56,13 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =head1 DESCRIPTION
 
-This part of the tutorial builds on the work done in Part 2 to explore
-some features that are more typical of "real world" web applications.
-From this part of the tutorial onward, we will be building a simple
-book database application.  Although the application will be too
-limited to be of use to anyone, it should provide a basic environment
-where we can explore a variety of features used in virtually all web
-applications.
+This chapter of the tutorial builds on the work done in Chapter 2 to 
+explore some features that are more typical of "real world" web 
+applications. From this chapter of the tutorial onward, we will be 
+building a simple book database application.  Although the application 
+will be too limited to be of use to anyone, it should provide a basic 
+environment where we can explore a variety of features used in 
+virtually all web applications.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
@@ -74,7 +74,7 @@ L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
 The remainder of the tutorial will build an application called C<MyApp>.
 First use the Catalyst C<catalyst.pl> script to initialize the framework
 for the C<MyApp> application (make sure you aren't still inside the
-directory of the C<Hello> application from the previous part of the
+directory of the C<Hello> application from the previous chapter of the
 tutorial or in a directory that already has a "MyApp" subdirectory):
 
     $ catalyst.pl MyApp
@@ -86,7 +86,7 @@ tutorial or in a directory that already has a "MyApp" subdirectory):
     created "MyApp/script/myapp_create.pl"
     $ cd MyApp
 
-This creates a similar skeletal structure to what we saw in Part 2 of
+This creates a similar skeletal structure to what we saw in Chapter 2 of
 the tutorial, except with C<MyApp> and C<myapp> substituted for
 C<Hello> and C<hello>.
 
@@ -138,7 +138,7 @@ L<Config::General|Config::General> file (versus having the values
 hard-coded inside your Perl modules).  Config::General uses syntax
 very similar to Apache configuration files.  We will see how to use
 this feature of Catalyst during the authentication and authorization
-sections (Part 5 and Part 6).
+sections (Chapter 5 and Chapter 6).
 
 B<IMPORTANT NOTE:> If you are using a version of 
 L<Catalyst::Devel|Catalyst::Devel> prior to version 1.06, be aware 
@@ -247,7 +247,7 @@ actions:
     created "/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm"
     created "/home/me/MyApp/script/../t/controller_Books.t"
 
-Then edit C<lib/MyApp/Controller/Books.pm> (as discussed in Part 2 of
+Then edit C<lib/MyApp/Controller/Books.pm> (as discussed in Chapter 2 of
 the Tutorial, Catalyst has a separate directory under C<lib/MyApp> for
 each of the three parts of MVC: C<Model>, C<View>, and C<Controller>)
 and add the following method to the controller:
@@ -374,7 +374,7 @@ types not discussed here (C<Regex> and C<LocalRegex>).
 
 =head1 CATALYST VIEWS
 
-As mentioned in Part 2 of the tutorial, views are where you render 
+As mentioned in Chapter 2 of the tutorial, views are where you render 
 output, typically for display in the user's web browser (but also 
 possibly using other display output-generation systems).  The code in 
 C<lib/MyApp/View> selects the I<type> of view to use, with the actual 
@@ -407,7 +407,7 @@ L<Catalyst::Helper::View::TTSite|Catalyst::Helper::View::TTSite>
 Both helpers are similar. C<TT> creates the C<lib/MyApp/View/TT.pm>
 file and leaves the creation of any hierarchical template organization
 entirely up to you. (It also creates a C<t/view_TT.t> file for testing;
-test cases will be discussed in Part 8.) C<TTSite>, on the other hand, 
+test cases will be discussed in Chapter 8.) C<TTSite>, on the other hand, 
 creates a modular and hierarchical view layout with
 separate Template Toolkit (TT) files for common header and footer
 information, configuration values, a CSS stylesheet, and more.
@@ -970,7 +970,7 @@ B<Notes:>
 The Catalyst stash only lasts for a single HTTP request.  If
 you need to retain information across requests you can use
 L<Catalyst::Plugin::Session|Catalyst::Plugin::Session> (we will use
-Catalyst sessions in the Authentication part of the tutorial).
+Catalyst sessions in the Authentication chapter of the tutorial).
 
 =item *
 
@@ -1117,7 +1117,7 @@ Debian 5 uses the older DBIC C<load_classes> vs. the newer
 C<load_namspaces> technique.  For new applications, please try to use 
 C<load_namespaces> since it more easily supports a very useful DBIC
 technique called "ResultSet Classes."  We will migrate to 
-C<load_namespaces> in Part 4 (BasicCRUD) of this tutorial.
+C<load_namespaces> in Chapter 4 (BasicCRUD) of this tutorial.
 
 
 =head2 Updating the Generated DBIC Schema Files
@@ -1330,8 +1330,8 @@ and asked your browser to view the page source.
 
 =head1 OPTIONAL INFORMATION
 
-B<NOTE: The rest of this part of the tutorial is optional.  You can
-skip to Part 4, L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>,
+B<NOTE: The rest of this chapter of the tutorial is optional.  You can
+skip to Chapter 4, L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>,
 if you wish.>
 
 
@@ -1426,8 +1426,8 @@ as before.
 
 B<NOTE:> Please note that if you use the default template technique,
 you will B<not> be able to use either the C<$c-E<gt>forward> or
-the C<$c-E<gt>detach> mechanisms (these are discussed in Part 2 and
-Part 9 of the Tutorial).
+the C<$c-E<gt>detach> mechanisms (these are discussed in Chapter 2 and
+Chapter 9 of the Tutorial).
 
 
 =head2 Return To A Manually-Specified Template

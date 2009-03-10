@@ -1,11 +1,11 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::CatalystBasics - Catalyst Tutorial - Part 2: Catalyst Application Development Basics
+Catalyst::Manual::Tutorial::CatalystBasics - Catalyst Tutorial - Chapter 2: Catalyst Application Development Basics
 
 
 =head1 OVERVIEW
 
-This is B<Part 2 of 10> for the Catalyst tutorial.
+This is B<Chapter 2 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -56,8 +56,9 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =head1 DESCRIPTION
 
-In this part of the tutorial, we will create a very basic Catalyst web 
-application, demonstrating a number of powerful capabilities, such as:
+In this chapter of the tutorial, we will create a very basic Catalyst 
+web application, demonstrating a number of powerful capabilities, such 
+as:
 
 =over 4
 
@@ -121,9 +122,8 @@ Also note that as of Catalyst 5.7000, you will not have the helper
 scripts unless you install both L<Catalyst::Runtime|Catalyst::Runtime> 
 and L<Catalyst::Devel|Catalyst::Devel>.
 
-In this first part of the tutorial, use the Catalyst 
-C<catalyst.pl> script to initialize the framework for an 
-application called C<Hello>:
+In this first chapter of the tutorial, use the Catalyst C<catalyst.pl> 
+script to initialize the framework for an application called C<Hello>:
 
     $ catalyst.pl Hello
     created "Hello"
@@ -359,7 +359,7 @@ Template Toolkit is a very full featured template facility, with
 excellent documentation at L<http://template-toolkit.org/>, 
 but since this is not a TT tutorial, we'll stick to only basic TT 
 usage here (and explore some of the more common TT features in later 
-parts of the tutorial).
+chapters of the tutorial).
 
 Create a C<root/hello.tt> template file (put it in the C<root> under 
 the C<Hello> directory that is the base of your application). Here is 

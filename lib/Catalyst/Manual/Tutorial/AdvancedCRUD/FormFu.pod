@@ -1,13 +1,11 @@
 =head1 NAME
 
-
-
-Catalyst::Manual::Tutorial::AdvancedCRUD::FormFu - Catalyst Tutorial - Part 9: Advanced CRUD - FormFu
+Catalyst::Manual::Tutorial::AdvancedCRUD::FormFu - Catalyst Tutorial - Chapter 9: Advanced CRUD - FormFu
 
 
 =head1 OVERVIEW
 
-This is B<Part 9 of 10> for the Catalyst tutorial.
+This is B<Chapter 9 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -96,7 +94,7 @@ that aren't available as Debian packages:
 =head1 C<HTML::FormFu> FORM CREATION
 
 This section looks at how L<HTML::FormFu|HTML::FormFu> can be used to 
-add additional functionality to the manually created form from Part 4.
+add additional functionality to the manually created form from Chapter 4.
 
 
 =head2 Inherit From C<Catalyst::Controller::HTML::FormFu>

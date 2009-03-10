@@ -1,11 +1,11 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::Testing - Catalyst Tutorial - Part 8: Testing
+Catalyst::Manual::Tutorial::Testing - Catalyst Tutorial - Chapter 8: Testing
 
 
 =head1 OVERVIEW
 
-This is B<Part 8 of 10> for the Catalyst tutorial.
+This is B<Chapter 8 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -56,12 +56,12 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =head1 DESCRIPTION
 
-You may have noticed that the Catalyst Helper scripts automatically
-create basic C<.t> test scripts under the C<t> directory.  This part of
-the tutorial briefly looks at how these tests can be used to not only
-ensure that your application is working correctly at the present time,
-but also provide automated regression testing as you upgrade various
-pieces of your application over time.
+You may have noticed that the Catalyst Helper scripts automatically 
+create basic C<.t> test scripts under the C<t> directory.  This 
+chapter of the tutorial briefly looks at how these tests can be used 
+to not only ensure that your application is working correctly at the 
+present time, but also provide automated regression testing as you 
+upgrade various pieces of your application over time.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
@@ -289,10 +289,10 @@ or
 
     $ DBIC_TRACE=0 CATALYST_DEBUG=0 prove --lib lib -v t/live_app01.t
 
-Experiment with the C<DBIC_TRACE>, C<CATALYST_DEBUG>
-and C<-v> settings.  If you find that there are errors, use the
-techniques discussed in the "Catalyst Debugging" section (Part 7) to
-isolate and fix any problems.
+Experiment with the C<DBIC_TRACE>, C<CATALYST_DEBUG> and C<-v> 
+settings.  If you find that there are errors, use the techniques 
+discussed in the "Catalyst Debugging" section (Chapter 7) to isolate 
+and fix any problems.
 
 If you want to run the test case under the Perl interactive debugger,
 try a command such as:

@@ -1,11 +1,11 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::Authentication - Catalyst Tutorial - Part 5: Authentication
+Catalyst::Manual::Tutorial::Authentication - Catalyst Tutorial - Chapter 5: Authentication
 
 
 =head1 OVERVIEW
 
-This is B<Part 5 of 10> for the Catalyst tutorial.
+This is B<Chapter 5 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -58,9 +58,9 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 Now that we finally have a simple yet functional application, we can
 focus on providing authentication (with authorization coming next in
-Part 6).
+Chapter 6).
 
-This part of the tutorial is divided into two main sections: 1) basic,
+This chapter of the tutorial is divided into two main sections: 1) basic,
 cleartext authentication and 2) hash-based authentication.
 
 You can checkout the source code for this example from the catalyst
@@ -78,7 +78,7 @@ application.
 
 First, we add both user and role information to the database (we will
 add the role information here although it will not be used until the
-authorization section, Part 6).  Create a new SQL script file by opening
+authorization section, Chapter 6).  Create a new SQL script file by opening
 C<myapp02.sql> in your editor and insert:
 
     --
@@ -208,7 +208,7 @@ C<lib/MyApp/Schema/Result/UserRoles.pm>:
 
 The code for these three sets of updates is obviously very similar to
 the edits we made to the C<Books>, C<Authors>, and C<BookAuthors>
-classes created in Part 3.
+classes created in Chapter 3.
 
 Note that we do not need to make any change to the
 C<lib/MyApp/Schema.pm> schema file.  It simply tells DBIC to load all
@@ -302,7 +302,7 @@ information in C<myapp.conf> and automatically load this information
 into C<MyApp-E<gt>config> using the
 L<ConfigLoader|Catalyst::Plugin::ConfigLoader> plugin.
 
-As discussed in Part 3 of the tutorial, Catalyst has recently
+As discussed in Chapter 3 of the tutorial, Catalyst has recently
 switched from a default config file format of YAML to
 L<Config::General|Config::General> (an apache-like format).  In case
 you are using a version of Catalyst earlier than v5.7014, delete the
@@ -747,15 +747,15 @@ login as before.  When done, click the "logout" link on the login page
 
 =head1 USING THE SESSION FOR FLASH
 
-As discussed in the previous part of the tutorial, C<flash> allows you to
-set variables in a way that is very similar to C<stash>, but it will
-remain set across multiple requests.  Once the value is read, it
-is cleared (unless reset).  Although C<flash> has nothing to do with
-authentication, it does leverage the same session plugins.  Now that
-those plugins are enabled, let's go back and update the "delete
-and redirect with query parameters" code seen at the end of the
-L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD> part of the
-tutorial to take advantage of C<flash>.
+As discussed in the previous chapter of the tutorial, C<flash> allows 
+you to set variables in a way that is very similar to C<stash>, but it 
+will remain set across multiple requests.  Once the value is read, it 
+is cleared (unless reset).  Although C<flash> has nothing to do with 
+authentication, it does leverage the same session plugins.  Now that 
+those plugins are enabled, let's go back and update the "delete and 
+redirect with query parameters" code seen at the end of the L<Basic 
+CRUD|Catalyst::Manual::Tutorial::BasicCRUD> chapter of the tutorial to 
+take advantage of C<flash>.
 
 First, open C<lib/MyApp/Controller/Books.pm> and modify C<sub delete>
 to match the following (everything after the model search line of code

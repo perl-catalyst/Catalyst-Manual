@@ -1,5 +1,11 @@
 Revision history for Catalyst-Manual
 
+        - Change from the use of "part" to refer to each .pod file for the
+            tutorial in favor of the more intuitive word "chapter."  "Part" 
+            was just to ambiguous (e.g., does "prior part" refer to the prior 
+            .pod file or the prior section in the current .pod file).
+        - Fix typos
+
 5.7018  8 Mar 2009
         - Add a new section to BasicCRUD covering more advanced features of 
             DBIC ("EXPLORING THE POWER OF DBIC")

@@ -1,11 +1,11 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::BasicCRUD - Catalyst Tutorial - Part 4: Basic CRUD
+Catalyst::Manual::Tutorial::BasicCRUD - Catalyst Tutorial - Chapter 4: Basic CRUD
 
 
 =head1 OVERVIEW
 
-This is B<Part 4 of 10> for the Catalyst tutorial.
+This is B<Chapter 4 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -56,22 +56,22 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =head1 DESCRIPTION
 
-This part of the tutorial builds on the fairly primitive application
-created in Part 3 to add basic support for Create, Read, Update, and
-Delete (CRUD) of C<Book> objects.  Note that the 'list' function in Part
-2 already implements the Read portion of CRUD (although Read normally
-refers to reading a single object; you could implement full read
-functionality using the techniques introduced below).  This section will
-focus on the Create and Delete aspects of CRUD.  More advanced
-capabilities, including full Update functionality, will be addressed in
-Part 9.
+This chapter of the tutorial builds on the fairly primitive 
+application created in Chapter 3 to add basic support for Create, 
+Read, Update, and Delete (CRUD) of C<Book> objects.  Note that the 
+'list' function in Chapter 2 already implements the Read portion of 
+CRUD (although Read normally refers to reading a single object; you 
+could implement full read functionality using the techniques 
+introduced below).  This section will focus on the Create and Delete 
+aspects of CRUD.  More advanced capabilities, including full Update 
+functionality, will be addressed in Chapter 9.
 
-Although this part of the tutorial will show you how to build CRUD
-functionality yourself, another option is to use a "CRUD builder" type
-of tool to automate the process.  You get less control, but it's quick
-and easy.  For example, see
-L<CatalystX::ListFramework::Builder|CatalystX::ListFramework::Builder>,
-L<CatalystX::CRUD|CatalystX::CRUD>, and
+Although this chapter of the tutorial will show you how to build CRUD 
+functionality yourself, another option is to use a "CRUD builder" type 
+of tool to automate the process.  You get less control, but it's quick 
+and easy.  For example, see 
+L<CatalystX::ListFramework::Builder|CatalystX::ListFramework::Builder>, 
+L<CatalystX::CRUD|CatalystX::CRUD>, and 
 L<CatalystX::CRUD::YUI|CatalystX::CRUD::YUI>.
 
 You can checkout the source code for this example from the catalyst
@@ -185,7 +185,7 @@ The TT C<USE> directive allows access to a variety of plugin modules
 to the base TT capabilities.  Here, the plugin allows
 L<Data::Dumper|Data::Dumper> "pretty printing" of objects and
 variables.  Other than that, the rest of the code should be familiar
-from the examples in Part 3.
+from the examples in Chapter 3.
 
 
 =head2 Try the C<url_create> Feature
@@ -233,7 +233,7 @@ Ctrl+Reload your browser at the C</books/list> page).
 =head1 CONVERT TO A CHAINED ACTION
 
 Although the example above uses the same C<Local> action type for the
-method that we saw in the previous part of the tutorial, there is an
+method that we saw in the previous chapter of the tutorial, there is an
 alternate approach that allows us to be more specific while also
 paving the way for more advanced capabilities.  Change the method
 declaration for C<url_create> in C<lib/MyApp/Controller/Books.pm> you
@@ -327,7 +327,7 @@ chain.
 As we will see shortly, a chain can consist of as many "links" as you
 wish, with each part capturing some arguments and doing some work
 along the way.  We will continue to use the Chained action type in this
-part of the tutorial and explore slightly more advanced capabilities
+chapter of the tutorial and explore slightly more advanced capabilities
 with the base method and delete feature below.  But Chained dispatch
 is capable of far more.  For additional information, see
 L<Catalyst::Manual::Intro/Action types>,
@@ -573,7 +573,7 @@ C<create_done.tt2> template seen in earlier examples.  Finally, click
 
 B<Note:> Having the user enter the primary key ID for the author is
 obviously crude; we will address this concern with a drop-down list in
-Part 9.
+Chapter 9.
 
 
 =head1 A SIMPLE DELETE FEATURE
@@ -860,11 +860,11 @@ be displayed.
 
 =head2 Using C<uri_for> to Pass Query Parameters
 
-There are several ways to pass information across a redirect. One
-option is to use the C<flash> technique that we will see in Part 5 of
-the tutorial; however, here we will pass the information via query
-parameters on the redirect itself.  Open
-C<lib/MyApp/Controller/Books.pm> and update the existing C<sub delete>
+There are several ways to pass information across a redirect. One 
+option is to use the C<flash> technique that we will see in Chapter 5 
+of the tutorial; however, here we will pass the information via query 
+parameters on the redirect itself.  Open 
+C<lib/MyApp/Controller/Books.pm> and update the existing C<sub delete> 
 method to match the following:
 
     =head2 delete
@@ -916,7 +916,7 @@ should return.
 
 B<NOTE:> Another popular method for maintaining server-side
 information across a redirect is to use the C<flash> technique we
-discuss in the next part of the tutorial,
+discuss in the next chapter of the tutorial,
 L<Authentication|Catalyst::Manual::Tutorial::Authentication>. While
 C<flash> is a "slicker" mechanism in that it's all handled by the
 server and doesn't "pollute" your URLs, B<it is important to note that
@@ -1000,11 +1000,11 @@ Notice that we now have a duplicate set of Result Class files.  With
 the newer C<load_namespaces> feature, DBIC automatically looks for
 your Result Class files in a subdirectory of the Schema directory
 called C<Result> (the files in C<lib/MyApp/Schema> were already there
-from Part 3 of the tutorial; the files in C<lib/MyApp/Schema/Result>
+from Chapter 3 of the tutorial; the files in C<lib/MyApp/Schema/Result>
 are new).
 
 If you are using SQLite, you will need to manually re-enter the
-relationship configuration as we did in Part 3 of the tutorial (if you
+relationship configuration as we did in Chapter 3 of the tutorial (if you
 are using different database, the relationships might have been auto-
 generated by Schema::Loader).  One option is to use the following
 command-line perl script to migrate the information across

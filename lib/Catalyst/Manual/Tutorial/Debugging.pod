@@ -1,11 +1,11 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::Debugging - Catalyst Tutorial - Part 7: Debugging
+Catalyst::Manual::Tutorial::Debugging - Catalyst Tutorial - Chapter 7: Debugging
 
 
 =head1 OVERVIEW
 
-This is B<Part 7 of 10> for the Catalyst tutorial.
+This is B<Chapter 7 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -56,7 +56,7 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =head1 DESCRIPTION
 
-This part of the tutorial takes a brief look at the primary options
+This chapter of the tutorial takes a brief look at the primary options 
 available for troubleshooting Catalyst applications.
 
 Note that when it comes to debugging and troubleshooting, there are two

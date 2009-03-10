@@ -1,11 +1,11 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::Intro - Catalyst Tutorial - Part 1: Introduction
+Catalyst::Manual::Tutorial::Intro - Catalyst Tutorial - Chapter 1: Introduction
 
 
 =head1 OVERVIEW
 
-This is B<Part 1 of 10> for the Catalyst tutorial.
+This is B<Chapter 1 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -72,7 +72,7 @@ catalyst subversion repository by issuing the command:
 
     svn co http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/ CatalystTutorial
 
-This will download the most recent tarball for each part of the 
+This will download the most recent tarball for each chapter of the 
 tutorial into the CatalystTutorial directory on your machine. 
 
 B<These reference implementations are provided so that when you follow
@@ -590,23 +590,23 @@ same.
 
 =head1 WHERE TO GET WORKING CODE
 
-Each part of the tutorial has complete code available as a tarball in 
+Each chapter of the tutorial has complete code available as a tarball in 
 the main Catalyst Subversion repository (see the note at the beginning 
 of each part for the appropriate svn command to use).
 
-B<NOTE:> You can run the test cases for the final code through Part 8 
+B<NOTE:> You can run the test cases for the final code through Chapter 8 
 with the following commands:
 
     sudo cpan Catalyst::Model::DBIC::Schema Time::Warp DBICx::TestDatabase \
         DBIx::Class::DynamicDefault DBIx::Class::TimeStamp
-    wget http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Part8.tgz
-    tar zxvf MyApp_Part8.tgz
+    wget http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Chapter8.tgz
+    tar zxvf MyApp_Chapter8.tgz
     cd MyApp
     CATALYST_DEBUG=0 prove --lib lib  t
 
 If you wish to include the L<HTML::FormFu|HTML::FormFu> section in 
-your tests, substitute C<MyApp_Part9_FormFu.tgz> for 
-C<MyApp_Part8.tgz> in the URL above.  However, you will also need to 
+your tests, substitute C<MyApp_Chapter9_FormFu.tgz> for 
+C<MyApp_Chapter8.tgz> in the URL above.  However, you will also need to 
 run the following additional commands:
 
     sudo aptitude -y install libhtml-formfu-perl libmoose-perl \
@@ -625,7 +625,7 @@ pulling up C<http://localhost:3000> in your web browser (as mentioned
 earlier, change C<localhost> to a different IP address or DNS name if 
 you are running your web browser and your Catalyst development on 
 different boxes).  We will obviously see more about how to use the 
-application as we go through the remaining parts of the tutorial, but 
+application as we go through the remaining chapters of the tutorial, but 
 for now you can log in using the username "test01" and a password of 
 "mypass".
 

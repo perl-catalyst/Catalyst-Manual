@@ -1,11 +1,11 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::AdvancedCRUD - Catalyst Tutorial - Part 9: Advanced CRUD
+Catalyst::Manual::Tutorial::AdvancedCRUD - Catalyst Tutorial - Chapter 9: Advanced CRUD
 
 
 =head1 OVERVIEW
 
-This is B<Part 9 of 10> for the Catalyst tutorial.
+This is B<Chapter 9 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -56,8 +56,8 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =head1 DESCRIPTION
 
-This part of the tutorial explores more advanced functionality for
-Create, Read, Update, and Delete (CRUD) than we saw in Part 4.  In
+This chapter of the tutorial explores more advanced functionality for
+Create, Read, Update, and Delete (CRUD) than we saw in Chapter 4.  In
 particular, it looks at a number of techniques that can be useful for
 the Update portion of CRUD, such as automated form generation,
 validation of user-entered data, and automated transfer of data between

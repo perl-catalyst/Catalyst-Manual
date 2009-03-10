@@ -1,11 +1,11 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::Authorization - Catalyst Tutorial - Part 6: Authorization
+Catalyst::Manual::Tutorial::Authorization - Catalyst Tutorial - Chapter 6: Authorization
 
 
 =head1 OVERVIEW
 
-This is B<Part 6 of 10> for the Catalyst tutorial.
+This is B<Chapter 6 of 10> for the Catalyst tutorial.
 
 L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
@@ -56,8 +56,8 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 
 =head1 DESCRIPTION
 
-This part of the tutorial adds role-based authorization to the 
-existing authentication implemented in Part 5.  It provides simple 
+This chapter of the tutorial adds role-based authorization to the 
+existing authentication implemented in Chapter 5.  It provides simple 
 examples of how to use roles in both TT templates and controller 
 actions.  The first half looks at basic authorization concepts. The 
 second half looks at how moving your authorization code to your model 
@@ -248,7 +248,7 @@ way to demonstrate that TT templates will not be used if the response
 body has already been set.  In reality you would probably want to use a
 technique that maintains the visual continuity of your template layout
 (for example, using the "status" or "error" message feature added in
-Part 3 or C<detach> to an action that shows an "unauthorized" page).
+Chapter 3 or C<detach> to an action that shows an "unauthorized" page).
 
 B<TIP>: If you want to keep your existing C<url_create> method, you can
 create a new copy and comment out the original by making it look like a
