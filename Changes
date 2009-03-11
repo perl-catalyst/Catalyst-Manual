@@ -1,10 +1,15 @@
 Revision history for Catalyst-Manual
 
+5.7019  11 Mar 2009
         - Change from the use of "part" to refer to each .pod file for the
             tutorial in favor of the more intuitive word "chapter."  "Part" 
             was just to ambiguous (e.g., does "prior part" refer to the prior 
             .pod file or the prior section in the current .pod file).
-        - Fix typos
+        - Move use of "load_namespaces" for DBIC from BasicCRUD to 
+            MoreCatalystBasics
+        - Update the "Table of Contents" in Tutorial.pod to match the current
+            sections
+        - Fix a few typos
 
 5.7018  8 Mar 2009
         - Add a new section to BasicCRUD covering more advanced features of 

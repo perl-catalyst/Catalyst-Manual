@@ -153,15 +153,15 @@ CATALYST VIEWS
 
 =item *
 
-Create a Catalyst View Using TTSite
-
-=item *
-
-Globally Customize Every View
+Create a Catalyst View
 
 =item *
 
 Create a TT Template Page
+
+=item *
+
+Test Run The Application
 
 =back
 
@@ -183,7 +183,35 @@ Create a Dynamic DBIC Model
 
 =item *
 
-RUN THE APPLICATION
+ENABLE THE MODEL IN THE CONTROLLER
+
+=over 4
+
+=item *
+
+Test Run The Application
+
+=back
+
+=item *
+
+CREATE A WRAPPER FOR THE VIEW
+
+=over 4
+
+=item *
+
+Configure TT.pm For The Wrapper
+
+=item *
+
+Create the Wrapper Template File and Stylesheet
+
+=item *
+
+Test Run The Application
+
+=back
 
 =item *
 
@@ -199,11 +227,15 @@ Create Static DBIC Schema Files
 
 Updating the Generated DBIC Schema Files
 
+=item *
+
+Run The Application
+
 =back
 
 =item *
 
-RUN THE APPLICATION
+UPDATING THE VIEW
 
 =item *
 
@@ -211,7 +243,7 @@ RUNNING THE APPLICATION FROM THE COMMAND LINE
 
 =item *
 
-UPDATING THE VIEW
+OPTIONAL INFORMATION
 
 =over 4
 
@@ -261,6 +293,22 @@ Try the url_create Feature
 
 =item *
 
+CONVERT TO A CHAINED ACTION
+
+=over 4
+
+=item *
+
+Try the Chained Action
+
+=item *
+
+Refactor to Use a "Base" Method to Start the Chains
+
+=back
+
+=item *
+
 MANUALLY BUILDING A CREATE FORM
 
 =over 4
@@ -295,6 +343,10 @@ Include a Delete Link in the List
 
 =item *
 
+Add a Common Method to Retrieve a Book for the Chain
+
+=item *
+
 Add a Delete Action to the Controller
 
 =item *
@@ -316,6 +368,34 @@ Using uri_for to Pass Query Parameters
 =item *
 
 Try the Delete and Redirect With Query Param Logic
+
+=back
+
+=item *
+
+EXPLORING THE POWER OF DBIC
+
+=over 4
+
+=item *
+
+Add Datetime Columns to Our Existing Books Table
+
+=item *
+
+Update DBIC to Automatically Handle the Datetime Columns
+
+=item *
+
+Create a ResultSet Class
+
+=item *
+
+Chaining ResultSets
+
+=item *
+
+Adding Methods to Result Classes
 
 =back
 
@@ -457,23 +537,7 @@ Try Out Authentication And Authorization
 
 =item *
 
-ENABLE ACL-BASED AUTHORIZATION
-
-=over 4
-
-=item *
-
-Add the Catalyst::Plugin::Authorization::ACL Plugin
-
-=item *
-
-Add ACL Rules to the Application Class
-
-=item *
-
-Add a Method to Handle Access Violations
-
-=back
+ENABLE MODEL-BASED AUTHORIZATION
 
 =back
 
@@ -496,6 +560,10 @@ RUNNING CATALYST UNDER THE PERL DEBUGGER
 =item *
 
 DEBUGGING MODULES FROM CPAN
+
+=item *
+
+TT DEBUGGING
 
 =back
 

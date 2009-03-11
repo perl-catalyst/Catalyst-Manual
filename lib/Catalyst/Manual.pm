@@ -6,6 +6,8 @@ package Catalyst::Manual;
 use strict;
 use warnings;
 
+our $VERSION = '5.7019';
+
 =head1 NAME
 
 Catalyst::Manual - The Catalyst developer's manual
@@ -66,7 +68,5 @@ L<Catalyst::Manual::Plugins|Catalyst::Manual::Plugins>
 =back
 
 =cut
-
-our $VERSION = '5.7018';
 
 1;

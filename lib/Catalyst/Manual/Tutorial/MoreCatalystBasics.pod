@@ -655,7 +655,8 @@ Use the C<create=dynamic> model helper option to build a model that
 dynamically reads your database structure every time the application
 starts:
 
-    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=dynamic dbi:SQLite:myapp.db
+    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
+        create=dynamic dbi:SQLite:myapp.db
      exists "/home/me/MyApp/script/../lib/MyApp/Model"
      exists "/home/me/MyApp/script/../t"
      exists "/home/me/MyApp/script/../lib/MyApp"
@@ -1047,6 +1048,23 @@ template -- the wrapper will provide the overall feel of the page.
 
 =head1 A STATIC DATABASE MODEL WITH C<DBIx::Class>
 
+First, let's be sure we have a recent versino of the DBIC helper,
+L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema>, by
+running this command:
+
+    $ perl -MCatalyst::Model::DBIC::Schema -e \
+        'print "$Catalyst::Model::DBIC::Schema::VERSION\n"'
+    0.23
+
+If you don't have version 0.23 or higher, please run this command
+to install it directly from CPAN:
+
+    $ sudo cpan Catalyst::Model::DBIC::Schema
+
+And re-run the version print command to verify that you are now at 
+0.23 or higher.
+
+
 =head2 Create Static DBIC Schema Files
 
 Unlike the previous DBIC section where we had C<create=dynamic>
@@ -1064,7 +1082,8 @@ First, lets remove the schema file created earlier:
 
 Now regenerate the schema using the C<create=static> option:
 
-    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=static dbi:SQLite:myapp.db
+    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
+        create=static components=TimeStamp dbi:SQLite:myapp.db
      exists "/home/me/MyApp/script/../lib/MyApp/Model"
      exists "/home/me/MyApp/script/../t"
     Dumping manual schema for MyApp::Schema to directory /home/me/MyApp/script/../lib ...
@@ -1083,8 +1102,9 @@ L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> as its base
 class (L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> is 
 only being used by the helper to load the schema once and then create 
 the static files for us) and C<Schema.pm> only contains a call to the 
-C<load_classes> method.  You will also find that C<lib/MyApp> contains 
-a C<Schema> subdirectory, with files inside this directory named 
+C<load_namespaces> method.  You will also find that C<lib/MyApp> 
+contains a C<Schema> subdirectory, which then has a subdirectory 
+called "Result".  This "Result" subdirectory then has files named 
 according to each of the tables in our simple database (C<Authors.pm>, 
 C<BookAuthors.pm>, and C<Books.pm>).  These three files are called 
 "Result Classes" in DBIC nomenclature. Although the Result Class files 
@@ -1094,39 +1114,64 @@ especially in
 L<Catalyst::Manual::Tutorial::BasicCRUD/EXPLORING THE POWER OF DBIC>.
 
 The idea with the Result Source files created under 
-C<lib/MyApp/Schema> by the C<create=static> option is to only edit the 
-files below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> warning. 
-If you place all of your changes below that point in the file, you can 
-regenerate the automatically created information at the top of each 
-file should your database structure get updated.
+C<lib/MyApp/Schema/Result> by the C<create=static> option is to only 
+edit the files below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> 
+warning. If you place all of your changes below that point in the 
+file, you can regenerate the automatically created information at the 
+top of each file should your database structure get updated.
 
 Also note the "flow" of the model information across the various files 
 and directories.  Catalyst will initially load the model from 
 C<lib/MyApp/Model/DB.pm>.  This file contains a reference to 
 C<lib/MyApp/Schema.pm>, so that file is loaded next.  Finally, the 
-call to C<load_classes> in C<Schema.pm> will load each of the "result 
-class" files from the C<lib/MyApp/Schema> subdirectory.  The end 
-result is that Catalyst will dynamically create three table-specific 
-Catalyst models every time the application starts (you can see these 
-three model files listed in the debug output generated when you launch 
-the application).
+call to C<load_namespaces> in C<Schema.pm> will load each of the 
+"Result Class" files from the C<lib/MyApp/Schema/Result> subdirectory. 
+The final outcome is that Catalyst will dynamically create three 
+table-specific Catalyst models every time the application starts (you 
+can see these three model files listed in the debug output generated 
+when you launch the application).
 
-B<NOTE:> The version of 
-L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> in 
-Debian 5 uses the older DBIC C<load_classes> vs. the newer 
-C<load_namspaces> technique.  For new applications, please try to use 
-C<load_namespaces> since it more easily supports a very useful DBIC
-technique called "ResultSet Classes."  We will migrate to 
-C<load_namespaces> in Chapter 4 (BasicCRUD) of this tutorial.
+B<NOTE:> Older versions of 
+L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> use the 
+deprecated DBIC C<load_classes> technique instead of the newer 
+C<load_namspaces>.  For new applications, please try to use 
+C<load_namespaces> since it more easily supports a very useful DBIC 
+technique called "ResultSet Classes."  If you need to convert an 
+existing application from "load_classes" to "load_namespaces," you can 
+use this process to automate the migration (but first make sure you 
+have v0.23 C<Catalyst::Model::DBIC::Schema> as discussed above):
+
+    $ # First delete the existing schema file to disable "compatibility" mode
+    $ rm lib/MyApp/Schema.pm
+    $
+    $ # Then re-run the helper to build the files for "load_namespaces"
+    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
+        create=static components=TimeStamp dbi:SQLite:myapp.db
+    $
+    $ # Now convert the existing files over
+    $ cd lib/MyApp/Schema
+    $ perl -MIO::All -e 'for (@ARGV) { my $s < io($_); $s =~ s/.*\n\# You can replace.*?\n//s;
+          $s =~ s/'MyApp::Schema::/'MyApp::Schema::Result::/g; my $d < io("Result/$_");
+          $d =~ s/1;\n?//; "$d$s" > io("Result/$_"); }' *.pm
+    $ cd ../../..
+    $
+    $ # And finally delete the old files
+    $ rm lib/MyApp/Schema/*.pm
+
+The "C<perl -MIO::ALL ...>" script will copy all the customized 
+relationship (and other) information below "C<# DO NOT MODIFY>" line 
+from the old files in C<lib/MyApp/Schema> to the new files in 
+C<lib/MyApp/Schema/Result> (we will be starting to add some 
+"customized relationship information in the section below).
 
 
-=head2 Updating the Generated DBIC Schema Files
+=head2 Updating the Generated DBIC Result Class Files
 
 Let's manually add some relationship information to the auto-generated 
 Result Class files. (Note: if you are using a database other than 
 SQLite, such as PostgreSQL, then the relationship could have been 
 automatically placed in the Result Class files.  If so, you can skip 
-this step.)  First edit C<lib/MyApp/Schema/Books.pm> and add the 
+this step.)  First edit C<lib/MyApp/Schema/Result/Books.pm> and add the 
 following text below the C<# You can replace this text...> comment:
 
     #
@@ -1138,7 +1183,7 @@ following text below the C<# You can replace this text...> comment:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(book_authors => 'MyApp::Schema::BookAuthors', 'book_id');
+    __PACKAGE__->has_many(book_authors => 'MyApp::Schema::Result::BookAuthors', 'book_id');
     
     # many_to_many():
     #   args:
@@ -1178,7 +1223,7 @@ C<$book-E<gt>authors-E<gt>first-E<gt>last_name>.
 Note that you cannot define a C<many_to_many> relationship without 
 also having the C<has_many> relationship in place.
 
-Then edit C<lib/MyApp/Schema/Authors.pm> and add relationship
+Then edit C<lib/MyApp/Schema/Result/Authors.pm> and add relationship
 information as follows (again, be careful to put in above the C<1;> but
 below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
 
@@ -1191,7 +1236,7 @@ below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(book_author => 'MyApp::Schema::BookAuthors', 'author_id');
+    __PACKAGE__->has_many(book_author => 'MyApp::Schema::Result::BookAuthors', 'author_id');
     
     # many_to_many():
     #   args:
@@ -1202,7 +1247,7 @@ below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
     __PACKAGE__->many_to_many(books => 'book_author', 'book');
 
 Finally, do the same for the "join table,"
-C<lib/MyApp/Schema/BookAuthors.pm>:
+C<lib/MyApp/Schema/Result/BookAuthors.pm>:
 
     #
     # Set relationships:
@@ -1213,14 +1258,14 @@ C<lib/MyApp/Schema/BookAuthors.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(book => 'MyApp::Schema::Books', 'book_id');
+    __PACKAGE__->belongs_to(book => 'MyApp::Schema::Result::Books', 'book_id');
     
     # belongs_to():
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(author => 'MyApp::Schema::Authors', 'author_id');
+    __PACKAGE__->belongs_to(author => 'MyApp::Schema::Result::Authors', 'author_id');
 
 
 =head2 Run The Application
@@ -1233,7 +1278,7 @@ is an alternate way to specify the option just in case):
 
 Make sure that the application loads correctly and that you see the
 three dynamically created model class (one for each of the
-table-specific schema classes we created).
+Result Classes we created).
 
 Then hit the URL L<http://localhost:3000/books/list> with your browser 
 and be sure that the book list is displayed via the relationships 
