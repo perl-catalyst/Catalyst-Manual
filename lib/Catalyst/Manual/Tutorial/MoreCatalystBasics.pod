@@ -635,7 +635,7 @@ For using other databases, such as PostgreSQL or MySQL, see
 L<Appendix 2|Catalyst::Manual::Tutorial::Appendices>.
 
 
-=head1 DATABASE ACCESS WITH C<DBIx::Class>
+=head1 DATABASE ACCESS WITH DBIx::Class
 
 Catalyst can be used with virtually any form of persistent datastore 
 available via Perl.  For example, 
@@ -1046,7 +1046,7 @@ provide a template that fills in the C<content> section of our wrapper
 template -- the wrapper will provide the overall feel of the page.
 
 
-=head1 A STATIC DATABASE MODEL WITH C<DBIx::Class>
+=head1 A STATIC DATABASE MODEL WITH DBIx::Class
 
 First, let's be sure we have a recent versino of the DBIC helper,
 L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema>, by
@@ -1380,7 +1380,7 @@ skip to Chapter 4, L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>,
 if you wish.>
 
 
-=head2 Using C<RenderView> for the Default View
+=head2 Using 'RenderView' for the Default View
 
 Once your controller logic has processed the request from a user, it
 forwards processing to your view in order to generate the appropriate

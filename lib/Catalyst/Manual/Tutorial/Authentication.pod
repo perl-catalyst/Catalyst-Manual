@@ -689,8 +689,7 @@ B<Note:> We are using SHA-1 hashes here, but many other hashing
 algorithms are supported.  See C<Digest> for more information.
 
 
-=head2 Enable SHA-1 Hash Passwords in
-C<Catalyst::Plugin::Authentication::Store::DBIC>
+=head2 Enable SHA-1 Hash Passwords in Catalyst::Plugin::Authentication::Store::DBIC
 
 Edit C<myapp.conf> and update it to match (the C<password_type> and
 C<password_hash_type> are new, everything else is the same):

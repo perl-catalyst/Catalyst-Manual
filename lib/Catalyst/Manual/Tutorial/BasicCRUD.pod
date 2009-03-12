@@ -140,7 +140,7 @@ controller methods (at least the ones that directly handle user input),
 it then sets the template that should handle this request.
 
 
-=head2 Include a Template for the C<url_create> Action:
+=head2 Include a Template for the 'url_create' Action:
 
 Edit C<root/src/books/create_done.tt2> and then enter:
 
@@ -188,7 +188,7 @@ variables.  Other than that, the rest of the code should be familiar
 from the examples in Chapter 3.
 
 
-=head2 Try the C<url_create> Feature
+=head2 Try the 'url_create' Feature
 
 If the application is still running from before, use C<Ctrl-C> to kill
 it. Then restart the server:
@@ -391,7 +391,7 @@ object.  Click the "Return to list" link, you should find that there
 are now seven books shown (two copies of TCPIP_Illustrated_Vol-2).
 
 
-=head2 Refactor to Use a "Base" Method to Start the Chains
+=head2 Refactor to Use a 'base' Method to Start the Chains
 
 Let's make a quick update to our initial Chained action to show a
 little more of the power of chaining.  First, open
@@ -858,7 +858,7 @@ involves a second request), the C<status_msg> is cleared before it can
 be displayed.
 
 
-=head2 Using C<uri_for> to Pass Query Parameters
+=head2 Using 'uri_for' to Pass Query Parameters
 
 There are several ways to pass information across a redirect. One 
 option is to use the C<flash> technique that we will see in Chapter 5 

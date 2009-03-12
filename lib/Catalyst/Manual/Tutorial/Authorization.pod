@@ -180,7 +180,7 @@ This code displays a different combination of links depending on the
 roles assigned to the user.
 
 
-=head2 Limit C<Books::add> to C<admin> Users
+=head2 Limit Books::add to 'admin' Users
 
 C<IF> statements in TT templates simply control the output that is sent
 to the user's browser; it provides no real enforcement (if users know or
