@@ -452,7 +452,7 @@ bottom:
             :FormConfig('books/formfu_create.yml') {
         my ($self, $c) = @_;
     
-        # Get the specified book already saved by the 'base' method
+        # Get the specified book already saved by the 'object' method
         my $book = $c->stash->{object};
     
         # Make sure we were able to get a book
