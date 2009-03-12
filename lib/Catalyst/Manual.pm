@@ -6,7 +6,7 @@ package Catalyst::Manual;
 use strict;
 use warnings;
 
-our $VERSION = '5.7019';
+our $VERSION = '5.7020';
 
 =head1 NAME
 

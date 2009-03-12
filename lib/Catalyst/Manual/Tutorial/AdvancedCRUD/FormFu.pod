@@ -121,7 +121,7 @@ following method:
     
     =cut
     
-    sub formfu_create :Chained('base) :PathPart('formfu_create') :Args(0) :FormConfig {
+    sub formfu_create :Chained('base') :PathPart('formfu_create') :Args(0) :FormConfig {
         my ($self, $c) = @_;
     
         # Get the form that the :FormConfig attribute saved in the stash
@@ -450,10 +450,10 @@ bottom:
     
     sub formfu_edit :Chained('object') :PathPart('formfu_edit') :Args(0) 
             :FormConfig('books/formfu_create.yml') {
-        my ($self, $c, $id) = @_;
+        my ($self, $c) = @_;
     
-        # Get the specified book
-        my $book = $c->model('DB::Books')->find($id);
+        # Get the specified book already saved by the 'base' method
+        my $book = $c->stash->{object};
     
         # Make sure we were able to get a book
         unless ($book) {
@@ -481,7 +481,7 @@ bottom:
             my @author_objs = $c->model("DB::Authors")->all();
             # Create an array of arrayrefs where each arrayref is an author
             my @authors;
-            foreach (sort {$a->last_name cmp $b->last_name} @author_bjs) {
+            foreach (sort {$a->last_name cmp $b->last_name} @author_objs) {
                 push(@authors, [$_->id, $_->last_name]);
             }
             # Get the select added by the config file
@@ -504,7 +504,15 @@ the common code in separate methods).  The main differences are:
 
 =item *
 
-We accept C<$id> as an argument via the URL.
+We have to manually specify the name of the FormFu .yml file as an 
+argument to C<:FormConfig> because the name can no longer be 
+automatically deduced from the name of our action/method (by default,
+FormFu would look for a file named C<books/formfu_edit.yml>).
+
+=item *
+
+We load the book object from the stash (found using the $id passed to 
+the Chained object method)
 
 =item *
 
@@ -512,9 +520,9 @@ We use C<$id> to look up the existing book from the database.
 
 =item *
 
-We make sure the C<$id> and book lookup returned a valid book.  If not, 
-we set the error message and return to the book list.
-
+We make sure the book lookup returned a valid book.  If not, we set 
+the error message and return to the book list.
+ 
 =item *
 
 If the form has been submitted and passes validation, we skip creating a 

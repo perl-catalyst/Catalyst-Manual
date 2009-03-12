@@ -1,5 +1,8 @@
 Revision history for Catalyst-Manual
 
+5.7020  12 Mar 2009
+        - Fix errors in FormFu chapter.
+
 5.7019  11 Mar 2009
         - Change from the use of "part" to refer to each .pod file for the
             tutorial in favor of the more intuitive word "chapter."  "Part" 
