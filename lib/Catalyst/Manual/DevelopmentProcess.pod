@@ -9,9 +9,10 @@ be stability, performance, and a more paced addition of features, with a
 focus on extensibility. Extensive improvements to the documentation are
 also expected in the short term.
 
-The Catalyst Roadmap at L<http://dev.catalyst.perl.org/roadmap> will
-remain as is, and continues to reflect the specific priorities and
-schedule for future releases.
+The Catalyst Roadmap at
+L<http://dev.catalyst.perl.org/wiki/fromtrac/future/roadmap> will remain as is,
+and continues to reflect the specific priorities and schedule for future
+releases.
 
 =head1 Charter for the Catalyst Core Team
 
