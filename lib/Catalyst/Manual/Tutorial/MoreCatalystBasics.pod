@@ -68,6 +68,13 @@ You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
 L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
 
+Please take a look at 
+L<Catalyst::Manual::Tutorial::Intro/CATALYST INSTALLATION> before 
+doing the rest of this tutorial.  Although the tutorial should work 
+correctly under most any recent version of Perl running on any 
+operating system, the tutorial has been written using Debian 5 and 
+tested to be sure it runs correctly in this environment.  
+
 
 =head1 CREATE A NEW APPLICATION
 
