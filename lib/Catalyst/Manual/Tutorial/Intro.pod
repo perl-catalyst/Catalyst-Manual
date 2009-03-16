@@ -254,7 +254,7 @@ Catalyst::Plugin::Static::Simple -- v0.20
 B<NOTE:> You can check the versions you have installed with the
 following command:
 
-    perl -ME<lt>mod_nameE<gt> -e '"print $E<lt>mod_nameE<gt>::VERSION\n"'
+    perl -M<_mod_name_> -e '"print $<_mod_name_>::VERSION\n"'
 
 For example:
     perl -MCatalyst::Plugin::StackTrace -e 'print "$Catalyst::Plugin::StackTrace::VERSION\n"'
