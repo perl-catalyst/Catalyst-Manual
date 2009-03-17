@@ -61,7 +61,7 @@ application created in Chapter 3 to add basic support for Create,
 Read, Update, and Delete (CRUD) of C<Book> objects.  Note that the 
 'list' function in Chapter 2 already implements the Read portion of 
 CRUD (although Read normally refers to reading a single object; you 
-could implement full read functionality using the techniques 
+could implement full Read functionality using the techniques 
 introduced below).  This section will focus on the Create and Delete 
 aspects of CRUD.  More advanced capabilities, including full Update 
 functionality, will be addressed in Chapter 9.
@@ -74,8 +74,8 @@ L<CatalystX::ListFramework::Builder|CatalystX::ListFramework::Builder>,
 L<CatalystX::CRUD|CatalystX::CRUD>, and 
 L<CatalystX::CRUD::YUI|CatalystX::CRUD::YUI>.
 
-You can checkout the source code for this example from the catalyst
-subversion repository as per the instructions in
+You can check out the source code for this example from the Catalyst
+Subversion repository as per the instructions in
 L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
 
 
@@ -151,8 +151,9 @@ Edit C<root/src/books/create_done.tt2> and then enter:
 
     [% # Set the page title.  META can 'go back' and set values in templates -%]
     [% # that have been processed 'before' this template (here it's for      -%]
-    [% # root/lib/site/html and root/lib/site/header).  Note that META on    -%]
-    [% # simple strings (e.g., no variable interpolation).                   -%]
+    [% # root/lib/site/html and root/lib/site/header).  Note that META only  -%]
+    [% # works on simple/static strings (i.e. there is no variable           -%]
+    [% # interpolation).                                                     -%]
     [% META title = 'Book Created' %]
 
     [% # Output information about the record that was added.  First title.       -%]
@@ -242,11 +243,11 @@ entered above to match the following:
     sub url_create :Chained('/') :PathPart('books/url_create') :Args(3) {
 
 This converts the method to take advantage of the Chained
-action/dispatch type. Chaining let's you have a single URL
+action/dispatch type. Chaining lets you have a single URL
 automatically dispatch to several controller methods, each of which
 can have precise control over the number of arguments that it will
 receive.  A chain can essentially be thought of having three parts --
-a beginning, a middle and an end.  The bullets below summarize the key
+a beginning, a middle, and an end.  The bullets below summarize the key
 points behind each of these parts of a chain:
 
 
@@ -318,11 +319,10 @@ Specify the path to match with C<PathPart()>
 
 =back
 
-In our C<url_create> method above, we have combined all 3 parts into a
-single method: C<:Chained('/')> to start the chain,
-C<:PathPart('books/url_create')> to specify the base URL to match,
-along with C<:Args(3)> to capture exactly 3 arguments and also end the
-chain.
+In our C<url_create> method above, we have combined all three parts into
+a single method: C<:Chained('/')> to start the chain,
+C<:PathPart('books/url_create')> to specify the base URL to match, and
+C<:Args(3)> to capture exactly three arguments and to end the chain.
 
 As we will see shortly, a chain can consist of as many "links" as you
 wish, with each part capturing some arguments and doing some work
@@ -332,7 +332,7 @@ with the base method and delete feature below.  But Chained dispatch
 is capable of far more.  For additional information, see
 L<Catalyst::Manual::Intro/Action types>,
 L<Catalyst::DispatchType::Chained|Catalyst::DispatchType::Chained>,
-and the 2006 advent calendar entry on the subject:
+and the 2006 Advent calendar entry on the subject:
 L<http://www.catalystframework.org/calendar/2006/10>.
 
 
@@ -377,7 +377,7 @@ the lines of the following:
 
 C<url_create> has disappeared form the "Loaded Path actions" section
 but it now shows up under the newly created "Loaded Chained actions"
-section.  And, the "/*/*/*" portion clearly shows our requirement for
+section.  And the "/*/*/*" portion clearly shows our requirement for
 three arguments.
 
 As with our non-chained version of C<url_create>, use your browser to
@@ -387,8 +387,8 @@ enter the following URL:
 
 You should see the same "Added book 'TCPIP_Illustrated_Vol-2' by
 'Stevens' with a rating of 5." along with a dump of the new book model
-object.  Click the "Return to list" link, you should find that there
-are now seven books shown (two copies of TCPIP_Illustrated_Vol-2).
+object.  Click the "Return to list" link, and you should find that there
+are now seven books shown (two copies of I<TCPIP_Illustrated_Vol-2>).
 
 
 =head2 Refactor to Use a 'base' Method to Start the Chains
@@ -417,7 +417,7 @@ method:
 Here we print a log message and store the DBIC ResultSet in
 C<$c-E<gt>stash-E<gt>{resultset}> so that it's automatically available
 for other actions that chain off C<base>.  If your controller always
-needs a book ID as it's first argument, you could have the base method
+needs a book ID as its first argument, you could have the base method
 capture that argument (with C<:CaptureArgs(1)>) and use it to pull the
 book object with C<-E<gt>find($id)> and leave it in the stash for
 later parts of your chains to then act upon. Because we have several
@@ -451,10 +451,10 @@ Once again, enter the following URL into your browser:
     http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
 
 The same "Added book 'TCPIP_Illustrated_Vol-2' by 'Stevens' with a
-rating of 5" message and dump of the new book object should appear.
+rating of 5." message and a dump of the new book object should appear.
 Also notice the extra debug message in the development server output
-from the C<base> method.  Click the "Return to list" link, you should
-find that there are now eight books shown.
+from the C<base> method.  Click the "Return to list" link, and you
+should find that there are now eight books shown.
 
 
 =head1 MANUALLY BUILDING A CREATE FORM
@@ -482,7 +482,7 @@ Edit C<lib/MyApp/Controller/Books.pm> and add the following method:
         $c->stash->{template} = 'books/form_create.tt2';
     }
 
-This action simply invokes a view containing a book creation form.
+This action simply invokes a view containing a form to create a book.
 
 
 =head2 Add a Template for the Form
@@ -578,7 +578,7 @@ Chapter 9.
 
 =head1 A SIMPLE DELETE FEATURE
 
-Turning our attention to the delete portion of CRUD, this section
+Turning our attention to the Delete portion of CRUD, this section
 illustrates some basic techniques that can be used to remove information
 from the database.
 
@@ -587,7 +587,7 @@ from the database.
 
 Edit C<root/src/books/list.tt2> and update it to match the following (two
 sections have changed: 1) the additional '<th>Links</th>' table header,
-and 2) the four lines for the Delete link near the bottom).
+and 2) the four lines for the Delete link near the bottom):
 
     [% # This is a TT comment.  The '-' at the end "chomps" the newline.  You won't -%]
     [% # see this "chomping" in your browser because HTML ignores blank lines, but  -%]
@@ -628,8 +628,9 @@ and 2) the four lines for the Delete link near the bottom).
     </table>
 
 The additional code is obviously designed to add a new column to the
-right side of the table with a C<Delete> "button" (for simplicity,
-links will be used instead of full HTML buttons).
+right side of the table with a C<Delete> "button" (for simplicity, links
+will be used instead of full HTML buttons; in practice, anything that
+modifies data should be handled with a form sending a PUT request).
 
 Also notice that we are using a more advanced form of C<uri_for> than
 we have seen before.  Here we use
@@ -639,7 +640,7 @@ while inserting the C<book.id> value into the appropriate place.  Now,
 if you ever change C<:PathPart('delete')> in your controller method to
 C<:PathPart('kill')>, then your links will automatically update
 without any changes to your .tt2 template file.  As long as the name
-of your method does not change ("delete" here), then your links will
+of your method does not change (here, "delete"), then your links will
 still be correct.  There are a few shortcuts and options when using
 C<action_for()>:
 
@@ -704,9 +705,9 @@ Now, any other method that chains off C<object> will automatically
 have the appropriate book waiting for it in
 C<$c-E<gt>stash-E<gt>{object}>.
 
-Also note that we are using different technique for setting
-C<$c-E<gt>stash>.  The advantage of this style is that it let's you
-set multiple stash variables at a time.  For example:
+Also note that we are using a different technique for setting
+C<$c-E<gt>stash>.  The advantage of this style is that it lets you set
+multiple stash variables at a time.  For example:
 
     $c->stash(object => $c->stash->{resultset}->find($id),
               another_thing => 1);
@@ -717,7 +718,7 @@ or as a hashref:
               another_thing => 1});
 
 Either format works, but the C<$c-E<gt>stash(name =E<gt> value);>
-style is growing in popularity -- you may which to use it all
+style is growing in popularity -- you may wish to use it all
 the time (even when you are only setting a single value).
 
 
@@ -862,7 +863,7 @@ be displayed.
 
 There are several ways to pass information across a redirect. One 
 option is to use the C<flash> technique that we will see in Chapter 5 
-of the tutorial; however, here we will pass the information via query 
+of this tutorial; however, here we will pass the information via query 
 parameters on the redirect itself.  Open 
 C<lib/MyApp/Controller/Books.pm> and update the existing C<sub delete> 
 method to match the following:
@@ -922,7 +923,7 @@ C<flash> is a "slicker" mechanism in that it's all handled by the
 server and doesn't "pollute" your URLs, B<it is important to note that
 C<flash> can lead to situations where the wrong information shows up
 in the wrong browser window if the user has multiple windows or
-browser tabs open.>  For example, Window A causes something to be
+browser tabs open>.  For example, Window A causes something to be
 placed in the stash, but before that window performs a redirect,
 Window B makes a request to the server and gets the status information
 that should really go to Window A.  For this reason, you may wish
@@ -979,7 +980,7 @@ in the C<load_components> line of the Result Classes.
 
 If you open C<lib/MyApp/Schema/Result/Books.pm> in your editor you
 should see that the C<created> and C<updated> fields are now included
-in the call to add_columns(), but our relationship information below
+in the call to C<add_columns()>, but our relationship information below
 the "C<# DO NOT MODIFY...>" line was automatically preserved.
 
 While we have this file open, let's update it with some additional
@@ -1122,15 +1123,17 @@ try a higher or lower value.
 
 =head2 Chaining ResultSets
 
-One of the most helpful and powerful features in DBIC is that it
-allows you to "chain together" a series of queries (note that this has
-nothing to do with the "Chained Dispatch" for Catalyst that we were
-discussing above).  Because each ResultSet returns another ResultSet,
-you can take an initial query and immediately feed that into a second
-query (and so on for as many queries you need).  And, because this
-technique carries over to the ResultSet Class feature we implemented
-in the previous section for our "canned search", we can combine the
-two capabilities.  For example, let's add an action to our C<Books>
+One of the most helpful and powerful features in DBIC is that it allows
+you to "chain together" a series of queries (note that this has nothing
+to do with the "Chained Dispatch" for Catalyst that we were discussing
+above).  Because each ResultSet returns another ResultSet, you can take
+an initial query and immediately feed that into a second query (and so
+on for as many queries you need). Note that no matter how many
+ResultSets you chain together, the database itself will not be hit until
+you use a method that attempts to access the data. And, because this
+technique carries over to the ResultSet Class feature we implemented in
+the previous section for our "canned search", we can combine the two
+capabilities.  For example, let's add an action to our C<Books>
 controller that lists books that are both recent I<and> have "TCP" in
 the title.  Open up C<lib/MyApp/Controller/Books.pm> and add the
 following method:
