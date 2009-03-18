@@ -63,8 +63,8 @@ to not only ensure that your application is working correctly at the
 present time, but also provide automated regression testing as you 
 upgrade various pieces of your application over time.
 
-You can checkout the source code for this example from the catalyst
-subversion repository as per the instructions in
+You can check out the source code for this example from the Catalyst
+Subversion repository as per the instructions in
 L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
 
 
