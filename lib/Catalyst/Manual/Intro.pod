@@ -685,7 +685,7 @@ information.
     $c->res->status(404);
     $c->res->redirect('http://oook.de');
 
-=item * L<Catalyst::Config>
+=item * config
 
     $c->config
     $c->config->{root};
