@@ -46,15 +46,17 @@ forward to L</Namespaces>.
 
 =item Use the C<CatalystX::*> namespace if you can!
 
-If your extension isn't a Model, View, Controller, Plugin, or Engine,
-it's best to leave it out of the C<Catalyst::> namespace.  Use
-<CatalystX::> instead.
+If your extension isn't a Model, View, Controller, Plugin, Engine,
+or Log, it's best to leave it out of the C<Catalyst::> namespace.
+Use <CatalystX::> instead.
 
 =item Don't make it a plugin unless you have to!
 
 A plugin should be careful since it's overriding Catalyst internals.
 If your plugin doesn't really need to muck with the internals, make it a
 base Controller or Model.
+
+If you need to hook (but not alter) the internals, then make it a L<Moose::Role>
 
 =item There's a community. Use it!
 
@@ -106,11 +108,23 @@ convenient.
 If you want the thinnest interface possible, take a look at
 L<Catalyst::Model::Adaptor|Catalyst::Model::Adaptor>.
 
+=head2 Using Moose roles to apply method modifiers
+
+Rather than having a complex set of base classes which you have to mixin
+via multiple inheritence, if your functionality is well structured, then
+it's possible to use the composability of L<Moose> roles, and method modifiers
+to hook onto to provide functionality. 
+
+For a simple example of this, see L<CatalystX::REPL>.
+
+B<Note:> Currently, controllers with attributes will not function correctly
+in conjunction with Moose roles.
+
 =head2 Inheritance and overriding methods
 
 While Catalyst itself is still based on L<NEXT> (for multiple
 inheritance), extension developers are encouraged to use L<Class::C3>,
-via MRO::Compat, which is what Catalyst will be switching to in the 
+via L<MRO::Compat>, which is what Catalyst will be switching to in the 
 5.80 release.
 
 When overriding a method, keep in mind that some day additionally
@@ -308,7 +322,8 @@ the action will match and add new matching criteria.
 For example, the action class below will make the action only match on
 Mondays:
 
-  package Catalyst::Action::OnlyMondays; use strict;
+  package Catalyst::Action::OnlyMondays; 
+  use strict;
 
   use MRO::Compat;
   use base 'Catalyst::Action';
@@ -527,8 +542,12 @@ object via L<Catalyst::Component/"ACCEPT_CONTEXT($c, @args)">.
 
 When is a plugin suited to your task? Your code needs to be a
 plugin to act upon or alter specific parts of Catalyst's request
-lifecycle. If your functionality needs to wrap some C<prepare_*> or
+lifecycle. If your functionality needs to change some C<prepare_*> or
 C<finalize_*> stages, you won't get around a plugin.
+
+Note, if you just want to hook into such a stage, and run code before,
+or after it, then it is recommended that you use L<Moose>s method modifiers
+to do this.
 
 Another valid target for a plugin architecture are things that
 B<really> have to be globally available, like sessions or
@@ -545,27 +564,45 @@ application's inheritance list, above Catalyst itself. You can by this
 alter Catalyst's request lifecycle behaviour. Every method you
 declare, every import in your package will be available as method on
 the application and the context object. As an example, let's say you
-want Catalyst to warn you every time uri_for returned an undefined
-value, for example because you specified the wrong number of captures
-for the targeted action chain. You could do this with this simple
+want Catalyst to warn you every time uri_for was called without an action
+object as the first parameter, for example to test that all your chained
+uris are generated from actions (a recommended best practice).
+You could do this with this simple
 implementation (excuse the lame class name, it's just an example):
 
   package Catalyst::Plugin::UriforUndefWarning;
   use strict;
+  use Scalar::Util qw/blessed/;
   use MRO::Compat;
 
   sub uri_for {
       my $c = shift;
       my $uri = $c->next::method(@_);
-      $c->log->warn( 'uri_for returned undef for:', join(', ', @_), );
+      $c->log->warn( 'uri_for with non action: ', join(', ', @_), )
+        if (!blessed($_[0]) || !$_[0]->isa('Catalyst::Action'));
       return $uri;
   }
 
   1;
 
 This would override Catalyst's C<uri_for> method and emit a C<warn>
-log entry containing the arguments that led to the undefined return
-value.
+log entry containing the arguments to uri_for.
+
+Please note this is not a practical example, as string URLs are fine for
+static content etc.
+
+A simple example like this is actually better as a L<Moose> role, for example:
+
+  package CatalystX::UriforUndefWarning;
+  use Moose::Role;
+  use namespace::clean -except => 'meta';
+
+  after 'uri_for' => sub {
+    my ($c, $arg) = @_;
+    $c->log->warn( 'uri_for with non action: ', join(', ', @_), )
+      if (!blessed($_[0]) || !$_[0]->isa('Catalyst::Action'));
+    return $uri;
+  }; 
 
 =head2 Factory components with COMPONENT()
 
