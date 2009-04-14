@@ -1,4 +1,4 @@
-=head1 NAME
+head1 NAME
 
 Catalyst::Manual::Intro - Introduction to Catalyst
 
@@ -730,21 +730,83 @@ Catalyst-friendly session-handling tools.
 
 =head3 Actions
 
-A Catalyst controller is defined by its actions. An action is a
-subroutine with a special attribute. You've already seen some examples
-of actions in this document. The URL (for example
-http://localhost.3000/foo/bar) consists of two parts, the base
-(http://localhost:3000/ in this example) and the path (foo/bar).  Please
-note that the trailing slash after the hostname[:port] always belongs to
-base and not to the action.
+You've already seen some examples of actions in this document:
+subroutines with C<:Path> and C<:Local> attributes attached.
+Here, we explain what actions are and how these attributes affect
+what's happening.
+
+When Catalyst processes a webpage request, it looks for actions to
+take that will deal with the incoming request and produce a response
+such as a webpage.  You create these actions for your application by
+writing subroutines within your controller and marking them with
+special attributes.  The attributes, the namespace, and the function
+name determine when Catalyst will call the subroutine.
+
+These action subroutines call certain functions to say what response
+the webserver will give to the web request.  They can also tell
+Catalyst to run other actions on the request (one example of this is
+called forwarding the request; this is discussed later).
+
+Action subroutines must have a special attribute on to show that they
+are actions - as well as marking when to call them, this shows that
+they take a specific set of arguments and behave in a specific way.
+At startup, Catalyst looks for all the actions in controllers,
+registers them and creates L<Catalyst::Action> objects describing
+them.  When requests come in, Catalyst chooses which actions should be
+called to handle the request.
+
+(Occasionally, you might use the action objects directly, but in
+general, when we talk about actions, we're talking about the
+subroutines in your application that do things to process a request.)
+
+You can choose one of several attributes for action subroutines; these
+specify which requests are processed by that subroutine.  Catalyst
+will look at the URL it is processing, and the actions that it has
+found, and automatically call the actions it finds that match the
+circumstances of the request.
+
+The URL (for example http://localhost.3000/foo/bar) consists of two
+parts, the base, describing how to connect to the server
+(http://localhost:3000/ in this example) and the path, which the
+server uses to decide what to return (foo/bar).  Please note that the
+trailing slash after the hostname[:port] always belongs to base and
+not to the path.  Catalyst uses only the path part when trying to find
+actions to process.
+
+Depending on the type of action used, the URLs may match a combination
+of the controller namespace, the arguments passed to the action
+attribute, and the name of the subroutine.
 
 =over 4
 
+=item * B<Controller namespaces>
+
+The namespace is a modified form of the component's class (package)
+name. This modified class name excludes the parts that have a
+pre-defined meaning in Catalyst ("MyApp::Controller" in the above
+example), replaces "::" with "/", and converts the name to lower case.
+See L</Components> for a full explanation of the pre-defined meaning
+of Catalyst component class names.
+
+=item * B<Overriding the namespace>
+
+Note that __PACKAGE__->config->{namespace} can be used to override the
+current namespace when matching.  So:
+
+    package MyApp::Controller::Example;
+
+would normally use 'example' as its namespace for matching, but if
+this is specially overridden with
+
+    __PACKAGE__->config->{namespace}='thing';
+
+it matches using the namespace 'thing' instead.
+
 =item * B<Application Wide Actions>
 
-Actions which are called at the root level of the application
-(e.g. http://localhost:3000/ ) go in MyApp::Controller::Root, like
-this:
+MyApp::Controller::Root, as created by the catalyst.pl script, will
+typically contain actions which are called for the top level of the
+application (e.g. http://localhost:3000/ ):
 
     package MyApp::Controller::Root;
     use base 'Catalyst::Controller';
@@ -758,107 +820,149 @@ this:
     }
     1;
 
+
+The code
+
+    __PACKAGE__->config->{namespace} = '';
+
+makes the controller act as if its namespace is empty.  As you'll see
+below, an empty namespace makes many of the URL-matching attributes,
+such as :Path, :Local and :Global matches, match at the start of the
+URL path.
+
 =back
 
 =head4 Action types
 
-Catalyst supports several types of actions:
+Catalyst supports several types of actions.  These mainly correspond
+to ways of matching a URL to an action subroutine.  Internally, these
+matching types are implemented by L<Catalyst::DispatchType>-derived
+classes; the documentation there can be helpful in seeing how they
+work.
+
+They will all attempt to match the start of the path.  The remainder
+of the path is passed as arguments.
 
 =over 4
 
-=item * B<Literal> (B<Path> actions)
-
-    package MyApp::Controller::My::Controller;
-    sub bar : Path('foo/bar') { }
-
-Literal C<Path> actions will act relative to their current
-namespace. The above example matches only
-http://localhost:3000/my/controller/foo/bar. If you start your path with
-a forward slash, it will match from the root. Example:
-
-    package MyApp::Controller::My::Controller;
-    sub bar : Path('/foo/bar') { }
-
-Matches only http://localhost:3000/foo/bar.
-
-    package MyApp::Controller::My::Controller;
-    sub bar : Path { }
-
-By leaving the C<Path> definition empty, it will match on the namespace
-root. The above code matches http://localhost:3000/my/controller.
-
-=item * B<Regex>
-
-    sub bar : Regex('^item(\d+)/order(\d+)$') { }
-
-Matches any URL that matches the pattern in the action key, e.g.
-http://localhost:3000/item23/order42. The '' around the regexp is
-optional, but perltidy likes it. :)
-
-Regex matches act globally, i.e. without reference to the namespace from
-which it is called, so that a C<bar> method in the
-C<MyApp::Controller::Catalog::Order::Process> namespace won't match any
-form of C<bar>, C<Catalog>, C<Order>, or C<Process> unless you
-explicitly put this in the regex. To achieve the above, you should
-consider using a C<LocalRegex> action.
-
-=item * B<LocalRegex>
-
-    sub bar : LocalRegex('^widget(\d+)$') { }
-
-LocalRegex actions act locally. If you were to use C<bar> in
-C<MyApp::Controller::Catalog>, the above example would match urls like
-http://localhost:3000/catalog/widget23.
-
-If you omit the "C<^>" from your regex, then it will match any depth
-from the controller and not immediately off of the controller name. The
-following example differs from the above code in that it will match
-http://localhost:3000/catalog/foo/widget23 as well.
-
-    package MyApp::Controller::Catalog;
-    sub bar : LocalRegex('widget(\d+)$') { }
-
-For both LocalRegex and Regex actions, if you use capturing parentheses
-to extract values within the matching URL, those values are available in
-the C<$c-E<gt>req-E<gt>captures> array. In the above example, "widget23"
-would capture "23" in the above example, and
-C<$c-E<gt>req-E<gt>captures-E<gt>[0]> would be "23". If you want to pass
-arguments at the end of your URL, you must use regex action keys. See
-L</URL Path Handling> below.
-
-=item * B<Top-level> (B<Global>)
-
-    package MyApp::Controller::Foo;
-    sub foo : Global { }
-
-Matches http://localhost:3000/foo. The function name is mapped
-directly to the application base.  You can provide an equivalent
-function in this case  by doing the following:
-
-    package MyApp::Controller::Root
-    sub foo : Local { }
-
-=item * B<Namespace-Prefixed> (B<Local>)
+=item * Namespace-prefixed (C<:Local>)
 
     package MyApp::Controller::My::Controller; 
     sub foo : Local { }
 
-Matches http://localhost:3000/my/controller/foo. 
+Matches any URL beginning with> http://localhost:3000/my/controller/foo. The namespace and
+subroutine name together determine the path.
 
-This action type indicates that the matching URL must be prefixed with a
-modified form of the component's class (package) name. This modified
-class name excludes the parts that have a pre-defined meaning in
-Catalyst ("MyApp::Controller" in the above example), replaces "::" with
-"/", and converts the name to lower case.  See L</Components> for a full
-explanation of the pre-defined meaning of Catalyst component class
-names.
+=item * Namespace-level (C<:Global>)
 
-Note that actions with the C< :Local > attribute are equivalent to the
-<:Path('action_name') > so sub foo : Local { } is equivalent to -
+    package MyApp::Controller::Foo;
+    sub foo : Global { }
+
+Matches http://localhost:3000/foo - that is, the action is mapped
+directly to the controller namespace, ignoring the function name.  
+
+C<:Global> is equivalent C<:Local> one level higher in
+the namespace.  
+
+    package MyApp::Controller::Root;
+    __PACKAGE__->config->{namespace}='';
+    sub foo : Local { }
+
+Use whichever makes the most sense for your application.
+
+=item * Changing handler behaviour: adding arguments (C<:Args>)
+
+Args is not an action type per se, but an action modifier - it adds a
+match restriction to any action it's provided to, additionally
+requiring as many path parts as are specified for the action to be
+matched. For example, in MyApp::Controller::Foo,
+
+  sub bar :Local
+
+would match any URL starting /foo/bar. To restrict this you can do
+
+  sub bar :Local :Args(1)
+
+to only match URLs starting /foo/bar/* - with one additional path
+element required after 'bar'.
+
+=item * Literal match (C<:Path>)
+
+C<Path> actions match things starting with a precise specified path,
+and nothing else.
+
+C<Path> actions without a leading forward slash match a specified path
+relative to their current namespace. This example matches URLs
+starting http://localhost:3000/my/controller/foo/bar :
+
+    package MyApp::Controller::My::Controller;
+    sub bar : Path('foo/bar') { }
+
+C<Path> actions B<with> a leading slash ignore their namespace, and
+match from the start of the URL path. Example:
+
+    package MyApp::Controller::My::Controller;
+    sub bar : Path('/foo/bar') { }
+
+This matches URLs beginning http://localhost:3000/foo/bar.
+
+Empty C<Path> definitions match on the namespace only, exactly like
+C<:Global>.
+
+    package MyApp::Controller::My::Controller;
+    sub bar : Path { }
+
+The above code matches http://localhost:3000/my/controller.
+
+Actions with the C<:Local> attribute are similarly equivalent to
+C<:Path('action_name')>:
+
+    sub foo : Local { } 
+
+is equivalent to 
 
     sub foo : Path('foo') { }
 
-=item * B<Chained>
+=item * Pattern-match (C<:Regex> and C<:LocalRegex>)
+ 
+    package MyApp::Controller::My::Controller;
+    sub bar : Regex('^item(\d+)/order(\d+)$') { }
+
+This matches any URL that matches the pattern in the action key, e.g.
+http://localhost:3000/item23/order42. The '' around the regexp is
+optional, but perltidy likes it. :)
+
+C<:Regex> matches act globally, i.e. without reference to the namespace
+from which they are called.  So the above will B<not> match
+http://localhost:3000/my/controller/item23/order42 - use a
+C<:LocalRegex> action instead.
+
+    package MyApp::Controller::My::Controller;
+    sub bar : LocalRegex('^widget(\d+)$') { }
+
+C<:LocalRegex> actions act locally, i.e. the namespace is matched
+first. The above example would match urls like
+http://localhost:3000/my/controller/widget23.
+
+If you omit the "C<^>" from either sort of regex, then it will match any depth
+from the base path:
+
+    package MyApp::Controller::Catalog;
+    sub bar : LocalRegex('widget(\d+)$') { }
+
+This differs from the previous example in that it will match
+http://localhost:3000/my/controller/foo/widget23 - and a number of
+other paths.
+
+For both C<:LocalRegex> and C<:Regex> actions, if you use capturing
+parentheses to extract values within the matching URL, those values
+are available in the C<$c-E<gt>req-E<gt>captures> array. In the above
+example, "widget23" would capture "23" in the above example, and
+C<$c-E<gt>req-E<gt>captures-E<gt>[0]> would be "23". If you want to
+pass arguments at the end of your URL, you must use regex action
+keys. See L</URL Path Handling> below.
+
+=item * Chained handlers (C<:Chained>)
 
 Catalyst also provides a method to build and dispatch chains of actions,
 like
@@ -873,67 +977,66 @@ like
         ...
     }
 
-to handle a C</catalog/*/item/*> path. For further information about this
-dispatch type, please see L<Catalyst::DispatchType::Chained>.
+to handle a C</catalog/*/item/*> path.  Matching actions are called
+one after another - C<catalog()> gets called and handed one path
+element, then C<item()> gets called with another one.  For further
+information about this dispatch type, please see
+L<Catalyst::DispatchType::Chained>.
 
 =item * B<Private>
 
     sub foo : Private { }
 
-Matches no URL, and cannot be executed by requesting a URL that
-corresponds to the action key. Catalyst's :Private attribute is
-exclusive and doesn't work with other attributes (so will not work
-combined with Path or Chained attributes). With the exception of the
-C< index >, C< auto > and C< default > actions, Private actions can
-only be executed from inside a Catalyst application, by calling the
-C<forward> or C<detach> methods:
+This will never match a URL - it provides a private action which can
+be called programmatically from within Catalyst, but is never called
+automatically due to the URL being requested.
+
+Catalyst's C<:Private> attribute is exclusive and doesn't work with other
+attributes (so will not work combined with C<:Path> or C<:Chained>
+attributes, for instance).
+
+Private actions can only be executed explicitly from inside a Catalyst
+application.  You might do this in your controllers by calling
+catalyst methods such as C<forward> or C<detach> to fire them:
 
     $c->forward('foo');
     # or
     $c->detach('foo');
 
-See L</Flow Control> for a full explanation of C<forward>. Note that, as
-discussed there, when forwarding from another component, you must use
-the absolute path to the method, so that a private C<bar> method in your
-C<MyApp::Controller::Catalog::Order::Process> controller must, if called
-from elsewhere, be reached with
+See L</Flow Control> for a full explanation of how you can pass
+requests on to other actions. Note that, as discussed there, when
+forwarding from another component, you must use the absolute path to
+the method, so that a private C<bar> method in your
+C<MyApp::Controller::Catalog::Order::Process> controller must, if
+called from elsewhere, be reached with
 C<$c-E<gt>forward('/catalog/order/process/bar')>.
-
-=item * B<Args>
-
-Args is not an action type per se, but an action modifier - it adds a
-match restriction to any action it's provided to, requiring only as many
-path parts as are specified for the action to be valid - for example in
-MyApp::Controller::Foo,
-
-  sub bar :Local
-
-would match any URL starting /foo/bar/. To restrict this you can do
-
-  sub bar :Local :Args(1)
-
-to only match /foo/bar/*/
 
 =back
 
-B<Note:> After seeing these examples, you probably wonder what the point
-is of defining names for regex and path actions. Every public action is
-also a private one, so you have one unified way of addressing components
-in your C<forward>s.
+B<Note:> After seeing these examples, you probably wonder what the
+point is of defining subroutine names for regex and path
+actions. However, every public action is also a private one with a
+path corresponding to its namespace and subroutine name, so you have
+one unified way of addressing components in your C<forward>s.
 
-=head4 Built-in Private Actions
+=head4 Built-in special actions
+
+If present, the special actions C< index >, C< auto >, C<begin>,
+C<end> and C< default > are called at certain points in the request
+cycle.
 
 In response to specific application states, Catalyst will automatically
-call these built-in private actions in your application class:
+call these built-in actions in your application class:
 
 =over 4
 
 =item * B<default : Path>
 
-Called when no other action matches. Could be used, for example, for
-displaying a generic frontpage for the main app, or an error page for
-individual controllers. B<Note>: in older Catalyst applications you
-will see C<default : Private> which is roughly speaking equivalent.
+This is called when no other action matches. It could be used, for
+example, for displaying a generic frontpage for the main app, or an
+error page for individual controllers. B<Note>: in older Catalyst
+applications you will see C<default : Private> which is roughly
+speaking equivalent.
 
 
 =item * B<index : Path : Args (0) >
@@ -949,12 +1052,25 @@ roughly speaking equivalent.
 
 =item * B<begin : Private>
 
-Called at the beginning of a request, before any matching actions are
-called.
+Called at the beginning of a request, once the controller that will
+run has been identified, but before any URL-matching actions are
+called.  Catalyst will call the C<begin> function in the controller
+which contains the action matching the URL.
 
 =item * B<end : Private>
 
-Called at the end of a request, after all matching actions are called.
+Called at the end of a request, after all URL-matching actions are called.
+Catalyst will call the C<end> function in the controller
+which contains the action matching the URL.
+
+=item * B<auto : Private>
+
+In addition to the normal built-in actions, you have a special action
+for making chains, C<auto>. C<auto> actions will be run after any
+C<begin>, but before your URL-matching action is processed. Unlike the other
+built-ins, multiple C<auto> actions can be called; they will be
+called in turn, starting with the application class and going through
+to the most specific class.
 
 =back
 
@@ -963,30 +1079,21 @@ Called at the end of a request, after all matching actions are called.
     package MyApp::Controller::Foo;
     sub begin : Private { }
     sub default : Path  { }
-    sub auto : Private { }
+    sub end : Path  { }
 
-You can define built-in private actions within your controllers as
-well. The actions will override the ones in less-specific controllers,
-or your application class. In other words, for each of the three
-built-in private actions, only one will be run in any request
-cycle. Thus, if C<MyApp::Controller::Catalog::begin> exists, it will be
-run in place of C<MyApp::begin> if you're in the C<catalog> namespace,
-and C<MyApp::Controller::Catalog::Order::begin> would override this in
+You can define built-in actions within your controllers as well as on
+your application class. In other words, for each of the three built-in
+actions above, only one will be run in any request cycle. Thus, if
+C<MyApp::Controller::Catalog::begin> exists, it will be run in place
+of C<MyApp::begin> if you're in the C<catalog> namespace, and
+C<MyApp::Controller::Catalog::Order::begin> would override this in
 turn.
 
-=over 4
+    sub auto : Private { }
 
-=item * B<auto : Private>
-
-In addition to the normal built-in actions, you have a special action
-for making chains, C<auto>. Such C<auto> actions will be run after any
-C<begin>, but before your action is processed. Unlike the other
-built-ins, C<auto> actions I<do not> override each other; they will be
-called in turn, starting with the application class and going through to
-the I<most> specific class. I<This is the reverse of the order in which
-the normal built-ins override each other>.
-
-=back
+C<auto>, however, doesn't override like this: providing they exist,
+C<MyApp::auto>, C<MyApp::Controller::Catalog::auto> and
+C<MyApp::Catalog::Order::auto> would be called in turn.
 
 Here are some examples of the order in which the various built-ins
 would be called:
@@ -1021,27 +1128,33 @@ like this:
 false
 
   MyApp::Controller::Foo::Bar::begin
+  MyApp::Controller::Foo::auto # returns false, skips some calls:
+  # MyApp::Controller::Foo::Bar::auto - never called
+  # MyApp::Controller::Foo::Bar::foo - never called
   MyApp::Controller::Foo::Bar::end
+
+You can also C<die> in the auto action; in that case, the request will
+go straight to the finalize stage, without processing further
+actions. So in the above example, C<MyApp::Controller::Foo::Bar::end>
+is skipped as well.
 
 =back
 
-An example of why one might use this is an authentication action: you
-could set up a C<auto> action to handle authentication in your
+An example of why one might use C<auto> is an authentication action:
+you could set up a C<auto> action to handle authentication in your
 application class (which will always be called first), and if
-authentication fails, returning 0 would skip any remaining methods
-for that URL.
+authentication fails, returning 0 would skip any remaining methods for
+that URL.
 
 B<Note:> Looking at it another way, C<auto> actions have to return a
-true value to continue processing! You can also C<die> in the auto
-action; in that case, the request will go straight to the finalize
-stage, without processing further actions.
+true value to continue processing! 
 
 =head4 URL Path Handling
 
-You can pass variable arguments as part of the URL path, separated with 
-forward slashes (/). If the action is a Regex or LocalRegex, the '$' anchor 
-must be used. For example, suppose you want to handle C</foo/$bar/$baz>, 
-where C<$bar> and C<$baz> may vary:
+You can pass arguments as part of the URL path, separated with forward
+slashes (/). If the action is a Regex or LocalRegex, the '$' anchor
+must be used. For example, suppose you want to handle
+C</foo/$bar/$baz>, where C<$bar> and C<$baz> may vary:
 
     sub foo : Regex('^foo$') { my ($self, $context, $bar, $baz) = @_; }
 
@@ -1050,7 +1163,7 @@ But what if you also defined actions for C</foo/boo> and C</foo/boo/hoo>?
     sub boo : Path('foo/boo') { .. }
     sub hoo : Path('foo/boo/hoo') { .. }
 
-Catalyst matches actions in most specific to least specific order:
+Catalyst matches actions in most specific to least specific order - that is, whatever matches the most pieces of the path wins:
 
     /foo/boo/hoo
     /foo/boo
@@ -1060,10 +1173,27 @@ So Catalyst would never mistakenly dispatch the first two URLs to the
 '^foo$' action.
 
 If a Regex or LocalRegex action doesn't use the '$' anchor, the action will 
-still match a URL containing arguments, however the arguments won't be 
-available via C<@_>.
+still match a URL containing arguments; however the arguments won't be 
+available via C<@_>, because the Regex will 'eat' them.
 
-=head4 Parameter Processing
+Beware!  If you write two matchers, that match the same path, with the
+same specificity (that is, they match the same quantity of the path),
+there's no guarantee which will actually get called.  Non-regex
+matchers get tried first, followed by regex ones, but if you have, for
+instance:
+
+   package MyApp::Controller::Root;
+
+   sub match1 :Path('/a/b') { }
+
+   package MyApp::Controller::A;
+
+   sub b :Local { } # Matches /a/b
+
+then Catalyst will call the one it finds first.  In summary, Don't Do
+This.
+
+=head4 Query Parameter Processing
 
 Parameters passed in the URL query string are handled with methods in
 the L<Catalyst::Request> class. The C<param> method is functionally
