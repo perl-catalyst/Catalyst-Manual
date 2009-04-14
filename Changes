@@ -1,5 +1,6 @@
 Revision history for Catalyst-Manual
 
+        - Rewrite / clean up a big chunk of Catalyst::Manual::Intro (Ian Wells)
         - There is no Catalyst::Config, fix reference to it. (t0m)
 
 5.7020  12 Mar 2009
