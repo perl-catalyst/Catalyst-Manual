@@ -870,7 +870,7 @@ the namespace.
 
 Use whichever makes the most sense for your application.
 
-=item * Changing handler behaviour: adding arguments (C<:Args>)
+=item * Changing handler behaviour: eating arguments (C<:Args>)
 
 Args is not an action type per se, but an action modifier - it adds a
 match restriction to any action it's provided to, additionally
@@ -885,6 +885,16 @@ would match any URL starting /foo/bar. To restrict this you can do
 
 to only match URLs starting /foo/bar/* - with one additional path
 element required after 'bar'.
+
+NOTE that adding C<:Args(0)> and missing out :Args completely are B<not> 
+the same thing.
+
+C<:Args(0)> means that no arguments are taken.  Thus, the URL and path must 
+match precisely.
+
+No :Args at all means that B<any number> of arguments are taken.  Thus, any 
+URL that B<starts with> the controller's path will match.
+
 
 =item * Literal match (C<:Path>)
 
