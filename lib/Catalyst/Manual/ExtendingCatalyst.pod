@@ -56,7 +56,8 @@ A plugin should be careful since it's overriding Catalyst internals.
 If your plugin doesn't really need to muck with the internals, make it a
 base Controller or Model.
 
-If you need to hook (but not alter) the internals, then make it a L<Moose::Role>
+Also, if you think you really need a plugin, please instead consider
+using a L<Moose::Role>.
 
 =item There's a community. Use it!
 
@@ -76,6 +77,9 @@ L<Catalyst::Manual::Tutorial::Testing> for more information.
 While some core extensions (engines, plugins, etc.) have to be placed
 in the C<Catalyst::*> namespace, the Catalyst core would like to ask
 developers to use the C<CatalystX::*> namespace if possible.
+
+Please B<do not> invent components which are outside the well
+known C<Model>, C<View>, C<Controller> or C<Plugin> namespaces!
 
 When you try to put a base class for a C<Model>, C<View> or
 C<Controller> directly under your C<MyApp> directory as, for example,
@@ -113,19 +117,11 @@ L<Catalyst::Model::Adaptor|Catalyst::Model::Adaptor>.
 Rather than having a complex set of base classes which you have to mixin
 via multiple inheritence, if your functionality is well structured, then
 it's possible to use the composability of L<Moose> roles, and method modifiers
-to hook onto to provide functionality. 
+to hook onto to provide functionality.
 
 For a simple example of this, see L<CatalystX::REPL>.
 
-B<Note:> Currently, controllers with attributes will not function correctly
-in conjunction with Moose roles.
-
 =head2 Inheritance and overriding methods
-
-While Catalyst itself is still based on L<NEXT> (for multiple
-inheritance), extension developers are encouraged to use L<Class::C3>,
-via L<MRO::Compat>, which is what Catalyst will be switching to in the 
-5.80 release.
 
 When overriding a method, keep in mind that some day additionally
 arguments may be provided to the method, if the last parameter is not
@@ -135,9 +131,11 @@ you can pass your complete arguments to the original method via C<@_>:
 
   use MRO::Compat; ...
 
-  sub foo { my $self = shift;
-            my ($bar, $baz) = @_; # ...  return
-            $self->next::method(@_); }
+  sub foo {
+    my $self = shift;
+    my ($bar, $baz) = @_; # ...  return
+    $self->next::method(@_);
+  }
 
 If you would do the common
 
@@ -602,7 +600,7 @@ A simple example like this is actually better as a L<Moose> role, for example:
     $c->log->warn( 'uri_for with non action: ', join(', ', @_), )
       if (!blessed($_[0]) || !$_[0]->isa('Catalyst::Action'));
     return $uri;
-  }; 
+  };
 
 =head2 Factory components with COMPONENT()
 
@@ -614,8 +612,8 @@ C<config>uration with the application wide overrides and call the
 class' C<new> method to return the component object.
 
 You can override this method and do and return whatever you want.
-However, you should use L<Class::C3> (via L<MRO::Compat>) to forward 
-to the original C<COMPONENT> method to merge the configuration of 
+However, you should use L<Class::C3> (via L<MRO::Compat>) to forward
+to the original C<COMPONENT> method to merge the configuration of
 your component.
 
 Here is a stub C<COMPONENT> method:
@@ -644,7 +642,8 @@ You are free to re-bless the object, instantiate a whole other
 component or really do anything compatible with Catalyst's
 expectations on a component.
 
-For more information, please see L<Catalyst::Component/"COMPONENT($c,$arguments)">.
+For more information, please see
+L<Catalyst::Component/"COMPONENT($c,$arguments)">.
 
 =head1 SEE ALSO
 
