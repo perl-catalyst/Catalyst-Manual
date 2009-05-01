@@ -116,6 +116,29 @@ environment variable.  For example:
 
     $ CATALYST_DEBUG=0 prove --lib lib t
 
+B<Note:> Depending on the versions of various modules you have 
+installed, you might get some C<used only once> warnings -- you can 
+ignore these.  If you want to elliminate the warnings, you can 
+edit C<Template::Base> to disable and then re-enable warnings
+are the C</usr/lib/perl5/Template/Base.pm> line in C<sub new>.
+You can locate where C<Template::Base> is located with the 
+following command (it's probably in a place similar to
+C</usr/lib/perl5/Template/Base.pm>):
+
+    perldoc -l Template::Base
+
+Edit the file and modify C<sub new> to match:
+
+    ...
+    {   no strict qw( refs );
+        # Disable warnings
+        no warnings;
+        $argnames = \@{"$class\::BASEARGS"} || [ ];
+        # Turn warnings back on
+        use warnings;
+    }
+    ...
+
 During the C<t/02pod> and C<t/03podcoverage> tests, you might notice the
 C<all skipped: set TEST_POD to enable this test> warning message.  To
 execute the Pod-related tests, add C<TEST_POD=1> to the C<prove>
