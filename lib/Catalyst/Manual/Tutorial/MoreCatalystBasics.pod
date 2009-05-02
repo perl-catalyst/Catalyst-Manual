@@ -644,33 +644,160 @@ L<Appendix 2|Catalyst::Manual::Tutorial::Appendices>.
 
 =head1 DATABASE ACCESS WITH DBIx::Class
 
-Catalyst can be used with virtually any form of datastore available via
-Perl.  For example, L<Catalyst::Model::DBI|Catalyst::Model::DBI> can be
-used to access databases through the traditional Perl C<DBI>
-interface. However, most Catalyst applications use some form of
-object-relational mapping (ORM) technology to create objects associated
-with tables in a relational database.  Although L<Class::DBI|Class::DBI>
-has been a popular choice in the past, Matt Trout's
-L<DBIx::Class|DBIx::Class> (abbreviated as "DBIC") has rapidly emerged
-as the Perl-based ORM technology of choice. Most new Catalyst
+Catalyst can be used with virtually any form of datastore available 
+via Perl.  For example, L<Catalyst::Model::DBI|Catalyst::Model::DBI> 
+can be used to access databases through the traditional Perl C<DBI> 
+interface or you can use a model to access files of any type on the 
+filesystem.  However, most Catalyst applications use some form of 
+object-relational mapping (ORM) technology to create objects 
+associated with tables in a relational database.  Matt Trout's 
+L<DBIx::Class|DBIx::Class> (abbreviated as "DBIC") has rapidly emerged 
+as the Perl-based ORM technology of choice. Most new Catalyst 
 applications rely on DBIC, as will this tutorial.
 
+Although DBIC has included support for a C<create=dynamic> mode to 
+automatically read the database structure every time the application 
+starts, it's use is no longer recommended.  While it can make 
+for "flashy" demos, the use of the C<create=static> mode we use below 
+can be implemented just as quickly and provides many advantages (such 
+as the ability to add your own methods to the overall DBIC framework, 
+a technique that we see in Chapter 4).
 
-=head2 Create a Dynamic DBIC Model
 
-Use the C<create=dynamic> model helper option to build a model that
-dynamically reads your database structure every time the application
-starts:
+=head2 Make Sure You Have a Recent Version of the DBIC Model
+
+First, let's be sure we have a recent version of the DBIC helper,
+L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema>, by
+running this command:
+
+    $ perl -MCatalyst::Model::DBIC::Schema -e \
+        'print "$Catalyst::Model::DBIC::Schema::VERSION\n"'
+    0.23
+
+If you don't have version 0.23 or higher, please run this command
+to install it directly from CPAN:
+
+    $ sudo cpan Catalyst::Model::DBIC::Schema
+
+And re-run the version print command to verify that you are now at 
+0.23 or higher.
+
+
+=head2 Create Static DBIC Schema Files
+
+Use the model helper with the C<create=static> option to read the 
+database with 
+L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> and 
+automatically build the required files for us:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=dynamic dbi:SQLite:myapp.db
+        create=static components=TimeStamp dbi:SQLite:myapp.db
      exists "/home/me/MyApp/script/../lib/MyApp/Model"
      exists "/home/me/MyApp/script/../t"
-     exists "/home/me/MyApp/script/../lib/MyApp"
-    created "/home/me/MyApp/script/../lib/MyApp/Schema.pm"
+    Dumping manual schema for MyApp::Schema to directory /home/me/MyApp/script/../lib ...
+    Schema dump completed.
     created "/home/me/MyApp/script/../lib/MyApp/Model/DB.pm"
     created "/home/me/MyApp/script/../t/model_DB.t"
 
+The C<script/myapp_create.pl> command breaks down like this:
+
+=over 4
+
+=item *
+
+C<DB> is the name of the model class to be created by the helper in 
+C<lib/MyApp/Model>.
+
+=item *
+
+C<DBIC::Schema> is the type of the model to create.
+
+=item *
+
+C<MyApp::Schema> is the name of the DBIC schema file written to
+C<lib/MyApp/Schema.pm>.
+
+=item *
+
+C<create=static> causes 
+L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> to 
+load the schema as it runs and then write that information out
+into files.
+
+=item *
+
+C<components=TimeStamp> causes the help to include the 
+L<DBIx::Class::TimeStamp|DBIx::Class::TimeStamp> DBIC component.
+
+=item *
+
+And finally, C<dbi:SQLite:myapp.db> is the standard DBI connect string 
+for use with SQLite.
+
+=back
+
+If you look in the C<lib/MyApp/Schema.pm> file, you will find that it 
+only contains a call to the C<load_namespaces> method.  You will also 
+find that C<lib/MyApp> contains a C<Schema> subdirectory, which then 
+has a subdirectory called "Result".  This "Result" subdirectory then 
+has files named according to each of the tables in our simple database 
+(C<Authors.pm>, C<BookAuthors.pm>, and C<Books.pm>).  These three 
+files are called "Result Classes" in DBIC nomenclature. Although the 
+Result Class files are named after tables in our database, the classes 
+correspond to the I<row-level data> that is returned by DBIC (more on 
+this later, especially in 
+L<Catalyst::Manual::Tutorial::BasicCRUD/EXPLORING THE POWER OF DBIC>).
+
+The idea with the Result Source files created under 
+C<lib/MyApp/Schema/Result> by the C<create=static> option is to only 
+edit the files below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> 
+warning. If you place all of your changes below that point in the 
+file, you can regenerate the automatically created information at the 
+top of each file should your database structure get updated.
+
+Also note the "flow" of the model information across the various files 
+and directories.  Catalyst will initially load the model from 
+C<lib/MyApp/Model/DB.pm>.  This file contains a reference to 
+C<lib/MyApp/Schema.pm>, so that file is loaded next.  Finally, the 
+call to C<load_namespaces> in C<Schema.pm> will load each of the 
+"Result Class" files from the C<lib/MyApp/Schema/Result> subdirectory. 
+The final outcome is that Catalyst will dynamically create three 
+table-specific Catalyst models every time the application starts (you 
+can see these three model files listed in the debug output generated 
+when you launch the application).
+
+B<NOTE:> Older versions of 
+L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> use the 
+deprecated DBIC C<load_classes> technique instead of the newer 
+C<load_namspaces>.  For new applications, please try to use 
+C<load_namespaces> since it more easily supports a very useful DBIC 
+technique called "ResultSet Classes."  If you need to convert an 
+existing application from "load_classes" to "load_namespaces," you can 
+use this process to automate the migration (but first make sure you 
+have v0.23 C<Catalyst::Model::DBIC::Schema> as discussed above):
+
+    $ # First delete the existing schema file to disable "compatibility" mode
+    $ rm lib/MyApp/Schema.pm
+    $
+    $ # Then re-run the helper to build the files for "load_namespaces"
+    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
+        create=static components=TimeStamp dbi:SQLite:myapp.db
+    $
+    $ # Now convert the existing files over
+    $ cd lib/MyApp/Schema
+    $ perl -MIO::All -e 'for (@ARGV) { my $s < io($_); $s =~ s/.*\n\# You can replace.*?\n//s;
+          $s =~ s/'MyApp::Schema::/'MyApp::Schema::Result::/g; my $d < io("Result/$_");
+          $d =~ s/1;\n?//; "$d$s" > io("Result/$_"); }' *.pm
+    $ cd ../../..
+    $
+    $ # And finally delete the old files
+    $ rm lib/MyApp/Schema/*.pm
+
+The "C<perl -MIO::ALL ...>" script will copy all the customized 
+relationship (and other) information below "C<# DO NOT MODIFY>" line 
+from the old files in C<lib/MyApp/Schema> to the new files in 
+C<lib/MyApp/Schema/Result> (we will be starting to add some 
+"customized relationship information in the section below).
 
 The C<script/myapp_create.pl> command breaks down like this:
 
@@ -703,11 +830,6 @@ And finally, C<dbi:SQLite:myapp.db> is the standard DBI connect string
 for use with SQLite.
 
 =back
-
-B<NOTE:> Although the C<create=dynamic> option to the DBIC helper
-makes for a nifty demonstration, is only really suitable for very
-small applications. After this demonstration, you should almost always
-use the C<create=static> option that we will switch to below.
 
 
 =head1 ENABLE THE MODEL IN THE CONTROLLER
@@ -1051,125 +1173,6 @@ should see how it allows us to control the overall look of an entire
 website from two central files.  To add new pages to the site, just
 provide a template that fills in the C<content> section of our wrapper
 template -- the wrapper will provide the overall feel of the page.
-
-
-=head1 A STATIC DATABASE MODEL WITH DBIx::Class
-
-First, let's be sure we have a recent version of the DBIC helper,
-L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema>, by
-running this command:
-
-    $ perl -MCatalyst::Model::DBIC::Schema -e \
-        'print "$Catalyst::Model::DBIC::Schema::VERSION\n"'
-    0.23
-
-If you don't have version 0.23 or higher, please run this command
-to install it directly from CPAN:
-
-    $ sudo cpan Catalyst::Model::DBIC::Schema
-
-And re-run the version print command to verify that you are now at 
-0.23 or higher.
-
-
-=head2 Create Static DBIC Schema Files
-
-Unlike the previous DBIC section where we had C<create=dynamic>
-automatically discover the structure of the database every time the
-application started, here we will use static schema files for more
-control.  This is typical of most "real world" applications.
-
-One option would be to manually create a separate schema file for each 
-table in the database. However, let's use the same 
-L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> we used 
-earlier with C<create=dynamic> to build the static files for us. 
-First, let's remove the schema file created earlier:
-
-    $ rm lib/MyApp/Schema.pm
-
-Now regenerate the schema using the C<create=static> option:
-
-    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static components=TimeStamp dbi:SQLite:myapp.db
-     exists "/home/me/MyApp/script/../lib/MyApp/Model"
-     exists "/home/me/MyApp/script/../t"
-    Dumping manual schema for MyApp::Schema to directory /home/me/MyApp/script/../lib ...
-    Schema dump completed.
-     exists "/home/me/MyApp/script/../lib/MyApp/Model/DB.pm"
-
-We could have also deleted C<lib/MyApp/Model/DB.pm>, but it would
-have regenerated the same file (note the C<exists> in the output above).
-If you take a look at C<lib/MyApp/Model/DB.pm>, it simply contains
-a reference to the actual schema file in C<lib/MyApp/Schema.pm>
-along with the database connect string.
-
-If you look in the C<lib/MyApp/Schema.pm> file, you will find that it 
-is no longer using 
-L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> as its base 
-class (L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> is 
-only being used by the helper to load the schema once and then create 
-the static files for us) and C<Schema.pm> only contains a call to the 
-C<load_namespaces> method.  You will also find that C<lib/MyApp> 
-contains a C<Schema> subdirectory, which then has a subdirectory 
-called "Result".  This "Result" subdirectory then has files named 
-according to each of the tables in our simple database (C<Authors.pm>, 
-C<BookAuthors.pm>, and C<Books.pm>).  These three files are called 
-"Result Classes" in DBIC nomenclature. Although the Result Class files 
-are named after tables in our database, the classes correspond to the 
-I<row-level data> that is returned by DBIC (more on this later, 
-especially in 
-L<Catalyst::Manual::Tutorial::BasicCRUD/EXPLORING THE POWER OF DBIC>).
-
-The idea with the Result Source files created under 
-C<lib/MyApp/Schema/Result> by the C<create=static> option is to only 
-edit the files below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> 
-warning. If you place all of your changes below that point in the 
-file, you can regenerate the automatically created information at the 
-top of each file should your database structure get updated.
-
-Also note the "flow" of the model information across the various files 
-and directories.  Catalyst will initially load the model from 
-C<lib/MyApp/Model/DB.pm>.  This file contains a reference to 
-C<lib/MyApp/Schema.pm>, so that file is loaded next.  Finally, the 
-call to C<load_namespaces> in C<Schema.pm> will load each of the 
-"Result Class" files from the C<lib/MyApp/Schema/Result> subdirectory. 
-The final outcome is that Catalyst will dynamically create three 
-table-specific Catalyst models every time the application starts (you 
-can see these three model files listed in the debug output generated 
-when you launch the application).
-
-B<NOTE:> Older versions of 
-L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> use the 
-deprecated DBIC C<load_classes> technique instead of the newer 
-C<load_namspaces>.  For new applications, please try to use 
-C<load_namespaces> since it more easily supports a very useful DBIC 
-technique called "ResultSet Classes."  If you need to convert an 
-existing application from "load_classes" to "load_namespaces," you can 
-use this process to automate the migration (but first make sure you 
-have v0.23 C<Catalyst::Model::DBIC::Schema> as discussed above):
-
-    $ # First delete the existing schema file to disable "compatibility" mode
-    $ rm lib/MyApp/Schema.pm
-    $
-    $ # Then re-run the helper to build the files for "load_namespaces"
-    $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static components=TimeStamp dbi:SQLite:myapp.db
-    $
-    $ # Now convert the existing files over
-    $ cd lib/MyApp/Schema
-    $ perl -MIO::All -e 'for (@ARGV) { my $s < io($_); $s =~ s/.*\n\# You can replace.*?\n//s;
-          $s =~ s/'MyApp::Schema::/'MyApp::Schema::Result::/g; my $d < io("Result/$_");
-          $d =~ s/1;\n?//; "$d$s" > io("Result/$_"); }' *.pm
-    $ cd ../../..
-    $
-    $ # And finally delete the old files
-    $ rm lib/MyApp/Schema/*.pm
-
-The "C<perl -MIO::ALL ...>" script will copy all the customized 
-relationship (and other) information below "C<# DO NOT MODIFY>" line 
-from the old files in C<lib/MyApp/Schema> to the new files in 
-C<lib/MyApp/Schema/Result> (we will be starting to add some 
-"customized relationship information in the section below).
 
 
 =head2 Updating the Generated DBIC Result Class Files
