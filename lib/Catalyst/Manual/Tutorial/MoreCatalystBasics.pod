@@ -344,7 +344,7 @@ path.  For example, "C<:Path('list')>" in
 C<lib/MyApp/Controller/Books.pm> would match on the URL 
 C<http://localhost:3000/books/list> but "C<:Path('/list')>" would match 
 on C<http://localhost:3000/list>.  You can use C<:Args()> to specify 
-how many arguments an action should except.  See 
+how many arguments an action should accept.  See 
 L<Catalyst::Manual::Intro/Action_types> for more information and a few 
 examples.
 
