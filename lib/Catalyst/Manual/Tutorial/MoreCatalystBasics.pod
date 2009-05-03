@@ -499,6 +499,7 @@ Then create C<root/src/books/list.tt2> in your editor and enter:
       <tr>
         <td>[% book.title %]</td>
         <td>[% book.rating %]</td>
+        <td></td>
       </tr>
     [% END -%]
     </table>
@@ -653,18 +654,18 @@ object-relational mapping (ORM) technology to create objects
 associated with tables in a relational database.  Matt Trout's 
 L<DBIx::Class|DBIx::Class> (abbreviated as "DBIC") has rapidly emerged 
 as the Perl-based ORM technology of choice. Most new Catalyst 
-applications rely on DBIC, as will this tutorial.
+applications rely on DBIx::Class, as will this tutorial.
 
-Although DBIC has included support for a C<create=dynamic> mode to 
-automatically read the database structure every time the application 
-starts, it's use is no longer recommended.  While it can make 
-for "flashy" demos, the use of the C<create=static> mode we use below 
-can be implemented just as quickly and provides many advantages (such 
-as the ability to add your own methods to the overall DBIC framework, 
-a technique that we see in Chapter 4).
+Although DBIx::Class has included support for a C<create=dynamic> mode 
+to automatically read the database structure every time the 
+application starts, it's use is no longer recommended.  While it can 
+make for "flashy" demos, the use of the C<create=static> mode we use 
+below can be implemented just as quickly and provides many advantages 
+(such as the ability to add your own methods to the overall DBIC 
+framework, a technique that we see in Chapter 4).
 
 
-=head2 Make Sure You Have a Recent Version of the DBIC Model
+=head2 Make Sure You Have a Recent Version of the DBIx::Class Model
 
 First, let's be sure we have a recent version of the DBIC helper,
 L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema>, by
@@ -683,7 +684,7 @@ And re-run the version print command to verify that you are now at
 0.23 or higher.
 
 
-=head2 Create Static DBIC Schema Files
+=head2 Create Static DBIx::Class Schema Files
 
 Use the model helper with the C<create=static> option to read the 
 database with 
@@ -742,7 +743,7 @@ find that C<lib/MyApp> contains a C<Schema> subdirectory, which then
 has a subdirectory called "Result".  This "Result" subdirectory then 
 has files named according to each of the tables in our simple database 
 (C<Authors.pm>, C<BookAuthors.pm>, and C<Books.pm>).  These three 
-files are called "Result Classes" in DBIC nomenclature. Although the 
+files are called "Result Classes" in DBIx::Class nomenclature. Although the 
 Result Class files are named after tables in our database, the classes 
 correspond to the I<row-level data> that is returned by DBIC (more on 
 this later, especially in 
@@ -768,7 +769,7 @@ when you launch the application).
 
 B<NOTE:> Older versions of 
 L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> use the 
-deprecated DBIC C<load_classes> technique instead of the newer 
+deprecated DBIx::Class C<load_classes> technique instead of the newer 
 C<load_namspaces>.  For new applications, please try to use 
 C<load_namespaces> since it more easily supports a very useful DBIC 
 technique called "ResultSet Classes."  If you need to convert an 
@@ -990,8 +991,8 @@ books loaded by the C<myapp01.sql> script above without any formatting.
 The rating for each book should appear on each row, but the "Author(s)"
 column will still be blank (we will fill that in later).
 
-Also notice in the output of the C<script/myapp_server.pl> that DBIC
-used the following SQL to retrieve the data:
+Also notice in the output of the C<script/myapp_server.pl> that 
+DBIx::Class used the following SQL to retrieve the data:
 
     SELECT me.id, me.title, me.rating FROM books me
 
@@ -1175,7 +1176,7 @@ provide a template that fills in the C<content> section of our wrapper
 template -- the wrapper will provide the overall feel of the page.
 
 
-=head2 Updating the Generated DBIC Result Class Files
+=head2 Updating the Generated DBIx::Class Result Class Files
 
 Let's manually add some relationship information to the auto-generated 
 Result Class files. (Note: if you are using a database other than 
@@ -1212,26 +1213,26 @@ C<1;> on a line by itself.
 C<Important Note:> Although this tutorial uses plural names for both 
 the names of the SQL tables and therefore the Result Classes (after 
 all, C<Schema::Loader> automatically named the Result Classes from the 
-names of the SQL tables it found), DBIC users prefer singular names 
-for these items.  B<Please try to use singular table and DBIC 
+names of the SQL tables it found), DBIx::Class users prefer singular 
+names for these items.  B<Please try to use singular table and DBIC 
 model/Result Class names in your applications.>  This tutorial will 
 migrate to singular names as soon as possible (patches welcomed). 
 B<Note that while singular is preferred for the DBIC model, plural is 
 perfectly acceptable for the names of the controller classes.>  After 
 all, the C<Books.pm> controller operates on multiple books.
 
-This code defines both a C<has_many> and a C<many_to_many> relationship.
-The C<many_to_many> relationship is optional, but it makes it easier to
-map a book to its collection of authors.  Without it, we would have to
-"walk" though the C<book_authors> table as in 
-C<$book-E<gt>book_authors-E<gt>first-E<gt>author-E<gt>last_name> 
-(we will see examples on how to use DBIC objects in your code soon, 
+This code defines both a C<has_many> and a C<many_to_many> 
+relationship. The C<many_to_many> relationship is optional, but it 
+makes it easier to map a book to its collection of authors.  Without 
+it, we would have to "walk" though the C<book_authors> table as in 
+C<$book-E<gt>book_authors-E<gt>first-E<gt>author-E<gt>last_name> (we 
+will see examples on how to use DBIx::Class objects in your code soon, 
 but note that because C<$book-E<gt>book_authors> can return multiple 
 authors, we have to use C<first> to display a single author). 
-C<many_to_many> allows us to use the shorter 
-C<$book-E<gt>authors-E<gt>first-E<gt>last_name>. 
-Note that you cannot define a C<many_to_many> relationship without 
-also having the C<has_many> relationship in place.
+C<many_to_many> allows us to use the shorter C<$book-E<gt>authors-
+E<gt>first-E<gt>last_name>. Note that you cannot define a 
+C<many_to_many> relationship without also having the C<has_many> 
+relationship in place.
 
 Then edit C<lib/MyApp/Schema/Result/Authors.pm> and add relationship
 information as follows (again, be careful to put in above the C<1;> but
@@ -1304,11 +1305,8 @@ template to do that.
 
 Let's add a new column to our book list page that takes advantage of 
 the relationship information we manually added to our schema files in 
-the previous section.  Edit C<root/src/books/list.tt2> and add the 
-following code below the existing table cell that contains 
-C<book.rating> (IOW, add a new table cell below the existing two 
-C<E<lt>tdE<gt>> tags but above the closing C<E<lt>/trE<gt>> and 
-C<E<lt>/tableE<gt>> tags):
+the previous section.  Edit C<root/src/books/list.tt2> and replace
+the "empty" tabase cell with the following:
 
     ...
     <td>
@@ -1340,7 +1338,7 @@ browser window.)
 If you are still running the development server with C<DBIC_TRACE>
 enabled, you should also now see five more C<SELECT> statements in the
 debug output (one for each book as the authors are being retrieved by
-DBIC):
+DBIx::Class):
 
     SELECT me.id, me.title, me.rating FROM books me:
     SELECT author.id, author.first_name, author.last_name FROM book_authors me  

@@ -174,14 +174,6 @@ updating C<url_create> to match the following code:
             # Assign the Book object to the stash for display in the view
             $c->stash->{book} = $book;
     
-            # This is a hack to disable XSUB processing in Data::Dumper
-            # (it's used in the view).  This is a work-around for a bug in
-            # the interaction of some versions or Perl, Data::Dumper & DBIC.
-            # You won't need this if you aren't using Data::Dumper (or if
-            # you are running DBIC 0.06001 or greater), but adding it doesn't
-            # hurt anything either.
-            $Data::Dumper::Useperl = 1;
-    
             # Set the TT template to use
             $c->stash->{template} = 'books/create_done.tt2';
         } else {

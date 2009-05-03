@@ -953,7 +953,7 @@ This will modify the C<books> table to include the two new fields
 and populate those fields with the current time.
 
 
-=head2 Update DBIC to Automatically Handle the Datetime Columns
+=head2 Update DBIx::Class to Automatically Handle the Datetime Columns
 
 Next, we should re-run the DBIC helper to update the Result Classes
 with the new fields:
@@ -991,10 +991,11 @@ B<above> the C<1;> on the last line):
         { data_type => 'datetime', set_on_create => 1, set_on_update => 1 },
     );
 
-This will override the definition for these fields that Schema::Loader
-placed at the top of the file.  The C<set_on_create> and
-C<set_on_update> options will cause DBIC to automatically update the
-timestamps in these columns whenever a row is created or modified.
+This will override the definition for these fields that Schema::Loader 
+placed at the top of the file.  The C<set_on_create> and 
+C<set_on_update> options will cause DBIx::Class to automatically 
+update the timestamps in these columns whenever a row is created or 
+modified.
 
 To test this out, restart the development server using the
 C<DBIC_TRACE=1> option:
@@ -1039,7 +1040,7 @@ controller code.
 
 To illustrate the concept with a fairly simple example, let's create a
 method that returns books added in the last 10 minutes.  Start by
-making a directory where DBIC will look for our ResultSet Class:
+making a directory where DBIx::Class will look for our ResultSet Class:
 
     mkdir lib/MyApp/Schema/ResultSet
 
@@ -1115,20 +1116,20 @@ try a higher or lower value.
 
 =head2 Chaining ResultSets
 
-One of the most helpful and powerful features in DBIC is that it allows
-you to "chain together" a series of queries (note that this has nothing
-to do with the "Chained Dispatch" for Catalyst that we were discussing
-above).  Because each ResultSet returns another ResultSet, you can take
-an initial query and immediately feed that into a second query (and so
-on for as many queries you need). Note that no matter how many
-ResultSets you chain together, the database itself will not be hit until
-you use a method that attempts to access the data. And, because this
-technique carries over to the ResultSet Class feature we implemented in
-the previous section for our "canned search", we can combine the two
-capabilities.  For example, let's add an action to our C<Books>
-controller that lists books that are both recent I<and> have "TCP" in
-the title.  Open up C<lib/MyApp/Controller/Books.pm> and add the
-following method:
+One of the most helpful and powerful features in DBIx::Class is that 
+it allows you to "chain together" a series of queries (note that this 
+has nothing to do with the "Chained Dispatch" for Catalyst that we 
+were discussing above).  Because each ResultSet returns another 
+ResultSet, you can take an initial query and immediately feed that 
+into a second query (and so on for as many queries you need). Note 
+that no matter how many ResultSets you chain together, the database 
+itself will not be hit until you use a method that attempts to access 
+the data. And, because this technique carries over to the ResultSet 
+Class feature we implemented in the previous section for our "canned 
+search", we can combine the two capabilities.  For example, let's add 
+an action to our C<Books> controller that lists books that are both 
+recent I<and> have "TCP" in the title.  Open up 
+C<lib/MyApp/Controller/Books.pm> and add the following method:
 
     =head2 list_recent_tcp
 
@@ -1233,16 +1234,16 @@ more flexible at the same time.
 
 =head2 Adding Methods to Result Classes
 
-In the previous two sections we saw a good example of how we could use
-DBIC ResultSet Classes to clean up our code for an entire query (for
-example, our "canned searches" that filtered the entire query).  We
-can do a similar improvement when working with individual rows as
-well.  Whereas the ResultSet construct is used in DBIC to correspond
-to an entire query, the Result Class construct is used to represent a
-row. Therefore, we can add row-specific "helper methods" to our Result
-Classes stored in C<lib/MyApp/Schema/Result/>. For example, open
-C<lib/MyApp/Schema/Result/Authors.pm> and add the following method
-(as always, it must be above the closing "C<1;>"):
+In the previous two sections we saw a good example of how we could use 
+DBIx::Class ResultSet Classes to clean up our code for an entire query 
+(for example, our "canned searches" that filtered the entire query). 
+We can do a similar improvement when working with individual rows as 
+well.  Whereas the ResultSet construct is used in DBIC to correspond 
+to an entire query, the Result Class construct is used to represent a 
+row. Therefore, we can add row-specific "helper methods" to our Result 
+Classes stored in C<lib/MyApp/Schema/Result/>. For example, open 
+C<lib/MyApp/Schema/Result/Authors.pm> and add the following method (as 
+always, it must be above the closing "C<1;>"):
 
     #
     # Helper methods

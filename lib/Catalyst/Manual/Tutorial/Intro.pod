@@ -602,7 +602,7 @@ with the following commands:
     wget http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Chapter8.tgz
     tar zxvf MyApp_Chapter8.tgz
     cd MyApp
-    CATALYST_DEBUG=0 prove --lib lib  t
+    CATALYST_DEBUG=0 prove --lib lib t
 
 If you wish to include the L<HTML::FormFu|HTML::FormFu> section in 
 your tests, substitute C<MyApp_Chapter9_FormFu.tgz> for 
