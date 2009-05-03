@@ -316,7 +316,29 @@ C<__PACKAGE__-E<gt>setup();>:
 We could have placed this configuration in C<myapp.conf>, but placing 
 it in C<lib/MyApp.pm> is probably a better place since it's not likely 
 something that users of your application will want to change during 
-deployment.
+deployment (or you could use a mixture: leave C<class> and 
+C<user_model> defined in C<lib/MyApp.pm> as we show above, but place 
+C<password_type> in C<myapp.conf> to allow the type of password to be 
+easily modified during deployment).  We will stick with putting 
+all of the authentication-related configuration in C<lib/MyApp.pm> 
+for the tutorial, but if you wish to use C<myapp.conf>, just convert
+to the following code:
+
+    <Plugin::Authentication>
+        use_session 1
+        <default>
+            password_type self_check
+            user_model    DB::Users
+            class         SimpleDB
+        </default>
+    </Plugin::Authentication>
+
+B<TIP:> Here is a short script that will dump the contents of 
+C<MyApp->config> to L<Config::General|Config::General> format in
+C<myapp.conf>:
+
+    $ perl -Ilib -e 'use MyApp; use Config::General; 
+        Config::General->new->save_file("myapp.conf", MyApp->config);'
 
 
 =head2 Add Login and Logout Controllers
