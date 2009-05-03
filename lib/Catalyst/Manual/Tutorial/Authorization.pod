@@ -99,55 +99,6 @@ You can put the plugins in the C<use Catalyst> statement if you
 prefer.
 
 
-=head2 Add Config Information for Authorization
-
-Edit C<myapp.conf> and update it to match the following (the
-C<role_relation> and C<role_field> definitions are new):
-
-    # rename this file to MyApp.yml and put a : in front of "name" if
-    # you want to use yaml like in old versions of Catalyst
-    name MyApp
-    <authentication>
-        default_realm dbic
-        <realms>
-            <dbic>
-                <credential>
-                    # Note this first definition would be the same as setting
-                    # __PACKAGE__->config->{authentication}->{realms}->{dbic}
-                    #     ->{credential} = 'Password' in lib/MyApp.pm
-                    #
-                    # Specify that we are going to do password-based auth
-                    class Password
-                    # This is the name of the field in the users table with the
-                    # password stored in it
-                    password_field password
-                    # Switch to more secure hashed passwords
-                    password_type  hashed
-                    # Use the SHA-1 hashing algorithm
-                    password_hash_type SHA-1
-                </credential>
-                <store>
-                    # Use DBIC to retrieve username, password & role information
-                    class DBIx::Class
-                    # This is the model object created by Catalyst::Model::DBIC
-                    # from your schema (you created 'MyApp::Schema::Result::User'
-                    # but as the Catalyst startup debug messages show, it was 
-                    # loaded as 'MyApp::Model::DB::Users').
-                    # NOTE: Omit 'MyApp::Model' here just as you would when using
-                    # '$c->model("DB::Users)'
-                    user_class DB::Users
-                    # This is the name of a many_to_many relation in the users
-                    # object that points to the roles for that user
-                    role_relation  roles
-                    # This is the name of field in the roles table that contains
-                    # the role information
-                    role_field role
-                </store>
-            </dbic>
-        </realms>
-    </authentication>
-
-
 =head2 Add Role-Specific Logic to the "Book List" Template
 
 Open C<root/src/books/list.tt2> in your editor and add the following
@@ -311,12 +262,8 @@ C<lib/MyApp/Schema/Result/Books.pm> and add the following method
 
 Here we call a C<has_role> method on our user object, so we should add 
 this method to our Result Class.  Open 
-C<lib/MyApp/Schema/Result/Users.pm> and add this near the top:
-
-    use Perl6::Junction qw/any/;
-
-And then add the following method below the "C<DO NOT MODIFY ...>" 
-line:
+C<lib/MyApp/Schema/Result/Users.pm> and add the following method below 
+the "C<DO NOT MODIFY ...>" line:
 
     =head 2 has_role
     
@@ -324,6 +271,7 @@ line:
     
     =cut
     
+    use Perl6::Junction qw/any/;
     sub has_role {
         my ($self, $role) = @_;
     
