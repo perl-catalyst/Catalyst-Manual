@@ -1,5 +1,6 @@
 Revision history for Catalyst-Manual
 
+5.7021  8 May 2009
         - Switch to SimpleDB for auth
         - Switch to use of DBIx::Class::EncodedColumn for hashed & salted passwords
         - Re-write PostgreSQL section in appendix
