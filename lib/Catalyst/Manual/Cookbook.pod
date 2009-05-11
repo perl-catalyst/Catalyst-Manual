@@ -1777,6 +1777,9 @@ can be used without worrying about the thread safety of your application.
 
 =head3 Cons
 
+You may have to disable mod_deflate.  If you experience page hangs with
+mod_fastcgi then remove deflate.load and deflate.conf from mods-enabled/
+
 =head4 More complex environment
 
 With FastCGI, there are more things to monitor and more processes running
