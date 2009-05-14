@@ -686,8 +686,9 @@ And re-run the version print command to verify that you are now at
 
 =head2 Create Static DBIx::Class Schema Files
 
-Use the model helper with the C<create=static> option to read the 
-database with 
+Before you continue, make sure your C<myapp.db> database file is in 
+the application's topmost directory. Now use the model helper with 
+the C<create=static> option to read the database with 
 L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> and 
 automatically build the required files for us:
 
