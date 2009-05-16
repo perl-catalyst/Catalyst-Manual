@@ -340,6 +340,15 @@ C<myapp.conf>:
     $ perl -Ilib -e 'use MyApp; use Config::General; 
         Config::General->new->save_file("myapp.conf", MyApp->config);'
 
+B<NOTE:> Because we are using SimpleDB along with a database layout 
+that complies with its default assumptions, we don't need to specify
+the names of the columns where our username and password information
+is stored (hence, the "Simple" part of "SimpleDB").  That being said,
+SimpleDB let's you specify that type of information if you need to.
+Take a look at 
+C<Catalyst::Authentication::Realm::SimpleDB|Catalyst::Authentication::Realm::SimpleDB>
+for details.
+
 
 =head2 Add Login and Logout Controllers
 
