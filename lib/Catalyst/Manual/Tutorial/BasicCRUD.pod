@@ -586,7 +586,7 @@ and 2) the four lines for the Delete link near the bottom):
     [% # it WILL eliminate a blank line if you view the HTML source.  It's purely   -%]
     [%- # optional, but both the beginning and the ending TT tags support chomping. -%]
 
-    [% # Provide a title to root/lib/site/header -%]
+    [% # Provide a title -%]
     [% META title = 'Book List' -%]
 
     <table>
