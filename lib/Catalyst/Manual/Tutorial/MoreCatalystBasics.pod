@@ -801,38 +801,6 @@ from the old files in C<lib/MyApp/Schema> to the new files in
 C<lib/MyApp/Schema/Result> (we will be starting to add some 
 "customized relationship information in the section below).
 
-The C<script/myapp_create.pl> command breaks down like this:
-
-=over 4
-
-=item *
-
-C<DB> is the name of the model class to be created by the helper in 
-C<lib/MyApp/Model>.
-
-=item *
-
-C<DBIC::Schema> is the type of the model to create.
-
-=item *
-
-C<MyApp::Schema> is the name of the DBIC schema file written to
-C<lib/MyApp/Schema.pm>.
-
-=item *
-
-Because we specified C<create=dynamic> to the helper, it use 
-L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> to 
-dynamically load the schema information from the database every time 
-the application starts.
-
-=item *
-
-And finally, C<dbi:SQLite:myapp.db> is the standard DBI connect string 
-for use with SQLite.
-
-=back
-
 
 =head1 ENABLE THE MODEL IN THE CONTROLLER
 
