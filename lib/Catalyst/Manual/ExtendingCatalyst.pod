@@ -626,12 +626,15 @@ Here is a stub C<COMPONENT> method:
 
   sub COMPONENT {
       my $class = shift;
-      my ($app_class, $config) = @_;
+      # Note: $app is like $c, but since the application isn't fully
+      # initialized, we don't want to call it $c yet.  $config 
+      # is a hashref of config options possibly set on this component.
+      my ($app, $config) = @_;
 
-      # do things here before instantiation my
-      $obj = $self->next::method(@_);
-      # do things to object after instantiation
-      return $object;
+      # Do things here before instantiation
+      $new = $class->next::method(@_);
+      # Do things to object after instantiation
+      return $new;
   }
 
 The arguments are the class name of the component, the class name of
