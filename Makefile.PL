@@ -8,4 +8,6 @@ license 'perl';
 requires 'Test::More';
 
 auto_install;
+resources repository => 'http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Manual/5.70/trunk/';
+
 WriteAll;
