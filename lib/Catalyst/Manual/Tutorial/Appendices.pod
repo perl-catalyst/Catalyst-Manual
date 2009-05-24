@@ -107,7 +107,7 @@ Removes four leading space from the current line through line 44
 
 =head2 "Un-indenting" with Emacs
 
-Although there author has not used Emacs for many years (apologies to
+Although the author has not used Emacs for many years (apologies to
 the Emacs fans out there), here is a quick hint to get you started.  To
 replace the leading spaces of every line in a file, use:
 
@@ -125,6 +125,15 @@ on your version of Emacs, you can either use the mouse or experiment with
 commands such as C<C-SPC> to set the mark at the cursor location and
 C<C-E<lt>> and C<C-E<gt>> to set the mark at the beginning and end of the
 file respectively.
+
+Also, Stefan Kangas sent in the following tip about an alternate 
+approach using the command C<indent-region> to redo the indentation 
+for the currently selected region (adhering to indent rules in the 
+current major mode). You can run the command by typing M-x indent-
+region or pressing the default keybinding C-M-\ in cperl-mode. 
+Additional details can be found here:
+
+L<http://www.gnu.org/software/emacs/manual/html_node/emacs/Indentation-Comman>
 
 
 =head1 APPENDIX 2: USING POSTGRESQL AND MYSQL
