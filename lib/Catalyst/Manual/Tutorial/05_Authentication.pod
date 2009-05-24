@@ -1,6 +1,6 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::Authentication - Catalyst Tutorial - Chapter 5: Authentication
+Catalyst::Manual::Tutorial::05_Authentication - Catalyst Tutorial - Chapter 5: Authentication
 
 
 =head1 OVERVIEW
@@ -13,43 +13,43 @@ L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
 =item 1
 
-L<Introduction|Catalyst::Manual::Tutorial::Intro>
+L<Introduction|Catalyst::Manual::Tutorial::01_Intro>
 
 =item 2
 
-L<Catalyst Basics|Catalyst::Manual::Tutorial::CatalystBasics>
+L<Catalyst Basics|Catalyst::Manual::Tutorial::02_CatalystBasics>
 
 =item 3
 
-L<More Catalyst Basics|Catalyst::Manual::Tutorial::MoreCatalystBasics>
+L<More Catalyst Basics|Catalyst::Manual::Tutorial::03_MoreCatalystBasics>
 
 =item 4
 
-L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>
+L<Basic CRUD|Catalyst::Manual::Tutorial::04_BasicCRUD>
 
 =item 5
 
-B<Authentication>
+B<05_Authentication>
 
 =item 6
 
-L<Authorization|Catalyst::Manual::Tutorial::Authorization>
+L<Authorization|Catalyst::Manual::Tutorial::06_Authorization>
 
 =item 7
 
-L<Debugging|Catalyst::Manual::Tutorial::Debugging>
+L<Debugging|Catalyst::Manual::Tutorial::07_Debugging>
 
 =item 8
 
-L<Testing|Catalyst::Manual::Tutorial::Testing>
+L<Testing|Catalyst::Manual::Tutorial::08_Testing>
 
 =item 9
 
-L<Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+L<Advanced CRUD|Catalyst::Manual::Tutorial::09_AdvancedCRUD>
 
 =item 10
 
-L<Appendices|Catalyst::Manual::Tutorial::Appendices>
+L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 
 =back
 
@@ -65,7 +65,7 @@ cleartext authentication and 2) hash-based authentication.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
+L<Catalyst::Manual::Tutorial::01_Intro|Catalyst::Manual::Tutorial::01_Intro>.
 
 
 =head1 BASIC AUTHENTICATION
@@ -532,7 +532,7 @@ the following method:
     }
 
 As discussed in
-L<Catalyst::Manual::Tutorial::MoreCatalystBasics/CREATE A CATALYST CONTROLLER>,
+L<Catalyst::Manual::Tutorial::03_MoreCatalystBasics/CREATE A CATALYST CONTROLLER>,
 every C<auto> method from the application/root controller down to the
 most specific controller will be called.  By placing the
 authentication enforcement code inside the C<auto> method of
@@ -803,7 +803,7 @@ is cleared (unless reset).  Although C<flash> has nothing to do with
 authentication, it does leverage the same session plugins.  Now that 
 those plugins are enabled, let's go back and update the "delete and 
 redirect with query parameters" code seen at the end of the L<Basic 
-CRUD|Catalyst::Manual::Tutorial::BasicCRUD> chapter of the tutorial to 
+CRUD|Catalyst::Manual::Tutorial::04_BasicCRUD> chapter of the tutorial to 
 take advantage of C<flash>.
 
 First, open C<lib/MyApp/Controller/Books.pm> and modify C<sub delete>

@@ -1,6 +1,6 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::Debugging - Catalyst Tutorial - Chapter 7: Debugging
+Catalyst::Manual::Tutorial::07_Debugging - Catalyst Tutorial - Chapter 7: Debugging
 
 
 =head1 OVERVIEW
@@ -13,43 +13,43 @@ L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
 =item 1
 
-L<Introduction|Catalyst::Manual::Tutorial::Intro>
+L<Introduction|Catalyst::Manual::Tutorial::01_Intro>
 
 =item 2
 
-L<Catalyst Basics|Catalyst::Manual::Tutorial::CatalystBasics>
+L<Catalyst Basics|Catalyst::Manual::Tutorial::02_CatalystBasics>
 
 =item 3
 
-L<More Catalyst Basics|Catalyst::Manual::Tutorial::MoreCatalystBasics>
+L<More Catalyst Basics|Catalyst::Manual::Tutorial::03_MoreCatalystBasics>
 
 =item 4
 
-L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>
+L<Basic CRUD|Catalyst::Manual::Tutorial::04_BasicCRUD>
 
 =item 5
 
-L<Authentication|Catalyst::Manual::Tutorial::Authentication>
+L<Authentication|Catalyst::Manual::Tutorial::05_Authentication>
 
 =item 6
 
-L<Authorization|Catalyst::Manual::Tutorial::Authorization>
+L<Authorization|Catalyst::Manual::Tutorial::06_Authorization>
 
 =item 7
 
-B<Debugging>
+B<07_Debugging>
 
 =item 8
 
-L<Testing|Catalyst::Manual::Tutorial::Testing>
+L<Testing|Catalyst::Manual::Tutorial::08_Testing>
 
 =item 9
 
-L<Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+L<Advanced CRUD|Catalyst::Manual::Tutorial::09_AdvancedCRUD>
 
 =item 10
 
-L<Appendices|Catalyst::Manual::Tutorial::Appendices>
+L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 
 =back
 

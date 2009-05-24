@@ -1,6 +1,6 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::AdvancedCRUD::FormFu - Catalyst Tutorial - Chapter 9: Advanced CRUD - FormFu
+Catalyst::Manual::Tutorial::09_AdvancedCRUD::09_FormFu - Catalyst Tutorial - Chapter 9: Advanced CRUD - FormFu
 
 
 =head1 OVERVIEW
@@ -13,43 +13,43 @@ L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
 =item 1
 
-L<Introduction|Catalyst::Manual::Tutorial::Intro>
+L<Introduction|Catalyst::Manual::Tutorial::01_Intro>
 
 =item 2
 
-L<Catalyst Basics|Catalyst::Manual::Tutorial::CatalystBasics>
+L<Catalyst Basics|Catalyst::Manual::Tutorial::02_CatalystBasics>
 
 =item 3
 
-L<More Catalyst Basics|Catalyst::Manual::Tutorial::MoreCatalystBasics>
+L<More Catalyst Basics|Catalyst::Manual::Tutorial::03_MoreCatalystBasics>
 
 =item 4
 
-L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>
+L<Basic CRUD|Catalyst::Manual::Tutorial::04_BasicCRUD>
 
 =item 5
 
-L<Authentication|Catalyst::Manual::Tutorial::Authentication>
+L<Authentication|Catalyst::Manual::Tutorial::05_Authentication>
 
 =item 6
 
-L<Authorization|Catalyst::Manual::Tutorial::Authorization>
+L<Authorization|Catalyst::Manual::Tutorial::06_Authorization>
 
 =item 7
 
-L<Debugging|Catalyst::Manual::Tutorial::Debugging>
+L<Debugging|Catalyst::Manual::Tutorial::07_Debugging>
 
 =item 8
 
-L<Testing|Catalyst::Manual::Tutorial::Testing>
+L<Testing|Catalyst::Manual::Tutorial::08_Testing>
 
 =item 9
 
-B<Advanced CRUD::FormFu>
+B<09_Advanced CRUD::09_FormFu>
 
 =item 10
 
-L<Appendices|Catalyst::Manual::Tutorial::Appendices>
+L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 
 =back
 
@@ -62,7 +62,7 @@ as well as save and restore data to/from the database.  This was written
 using HTML::FormFu version 0.03007.
 
 See 
-L<Catalyst::Manual::Tutorial::AdvancedCRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+L<Catalyst::Manual::Tutorial::09_AdvancedCRUD|Catalyst::Manual::Tutorial::09_AdvancedCRUD>
 for additional form management options other than 
 L<HTML::FormFu|HTML::FormFu>.
 

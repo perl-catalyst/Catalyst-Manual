@@ -1,6 +1,6 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::BasicCRUD - Catalyst Tutorial - Chapter 4: Basic CRUD
+Catalyst::Manual::Tutorial::04_BasicCRUD - Catalyst Tutorial - Chapter 4: Basic CRUD
 
 
 =head1 OVERVIEW
@@ -13,43 +13,43 @@ L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
 =item 1
 
-L<Introduction|Catalyst::Manual::Tutorial::Intro>
+L<Introduction|Catalyst::Manual::Tutorial::01_Intro>
 
 =item 2
 
-L<Catalyst Basics|Catalyst::Manual::Tutorial::CatalystBasics>
+L<Catalyst Basics|Catalyst::Manual::Tutorial::02_CatalystBasics>
 
 =item 3
 
-L<More Catalyst Basics|Catalyst::Manual::Tutorial::MoreCatalystBasics>
+L<More Catalyst Basics|Catalyst::Manual::Tutorial::03_MoreCatalystBasics>
 
 =item 4
 
-B<Basic CRUD>
+B<04_Basic CRUD>
 
 =item 5
 
-L<Authentication|Catalyst::Manual::Tutorial::Authentication>
+L<Authentication|Catalyst::Manual::Tutorial::05_Authentication>
 
 =item 6
 
-L<Authorization|Catalyst::Manual::Tutorial::Authorization>
+L<Authorization|Catalyst::Manual::Tutorial::06_Authorization>
 
 =item 7
 
-L<Debugging|Catalyst::Manual::Tutorial::Debugging>
+L<Debugging|Catalyst::Manual::Tutorial::07_Debugging>
 
 =item 8
 
-L<Testing|Catalyst::Manual::Tutorial::Testing>
+L<Testing|Catalyst::Manual::Tutorial::08_Testing>
 
 =item 9
 
-L<Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+L<Advanced CRUD|Catalyst::Manual::Tutorial::09_AdvancedCRUD>
 
 =item 10
 
-L<Appendices|Catalyst::Manual::Tutorial::Appendices>
+L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 
 =back
 
@@ -76,7 +76,7 @@ L<CatalystX::CRUD::YUI|CatalystX::CRUD::YUI>.
 
 You can check out the source code for this example from the Catalyst
 Subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
+L<Catalyst::Manual::Tutorial::01_Intro|Catalyst::Manual::Tutorial::01_Intro>.
 
 
 =head1 FORMLESS SUBMISSION
@@ -913,7 +913,7 @@ should return.
 B<NOTE:> Another popular method for maintaining server-side
 information across a redirect is to use the C<flash> technique we
 discuss in the next chapter of the tutorial,
-L<Authentication|Catalyst::Manual::Tutorial::Authentication>. While
+L<Authentication|Catalyst::Manual::Tutorial::05_Authentication>. While
 C<flash> is a "slicker" mechanism in that it's all handled by the
 server and doesn't "pollute" your URLs, B<it is important to note that
 C<flash> can lead to situations where the wrong information shows up

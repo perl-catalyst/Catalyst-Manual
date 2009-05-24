@@ -1,6 +1,6 @@
 =head1 NAME
 
-Catalyst::Manual::Tutorial::MoreCatalystBasics - Catalyst Tutorial - Chapter 3: More Catalyst Application Development Basics
+Catalyst::Manual::Tutorial::03_MoreCatalystBasics - Catalyst Tutorial - Chapter 3: More Catalyst Application Development Basics
 
 
 =head1 OVERVIEW
@@ -13,43 +13,43 @@ L<Tutorial Overview|Catalyst::Manual::Tutorial>
 
 =item 1
 
-L<Introduction|Catalyst::Manual::Tutorial::Intro>
+L<Introduction|Catalyst::Manual::Tutorial::01_Intro>
 
 =item 2
 
-L<Catalyst Basics|Catalyst::Manual::Tutorial::CatalystBasics>
+L<Catalyst Basics|Catalyst::Manual::Tutorial::02_CatalystBasics>
 
 =item 3
 
-B<More Catalyst Basics>
+B<03_More Catalyst Basics>
 
 =item 4
 
-L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>
+L<Basic CRUD|Catalyst::Manual::Tutorial::04_BasicCRUD>
 
 =item 5
 
-L<Authentication|Catalyst::Manual::Tutorial::Authentication>
+L<Authentication|Catalyst::Manual::Tutorial::05_Authentication>
 
 =item 6
 
-L<Authorization|Catalyst::Manual::Tutorial::Authorization>
+L<Authorization|Catalyst::Manual::Tutorial::06_Authorization>
 
 =item 7
 
-L<Debugging|Catalyst::Manual::Tutorial::Debugging>
+L<Debugging|Catalyst::Manual::Tutorial::07_Debugging>
 
 =item 8
 
-L<Testing|Catalyst::Manual::Tutorial::Testing>
+L<Testing|Catalyst::Manual::Tutorial::08_Testing>
 
 =item 9
 
-L<Advanced CRUD|Catalyst::Manual::Tutorial::AdvancedCRUD>
+L<Advanced CRUD|Catalyst::Manual::Tutorial::09_AdvancedCRUD>
 
 =item 10
 
-L<Appendices|Catalyst::Manual::Tutorial::Appendices>
+L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 
 =back
 
@@ -66,10 +66,10 @@ virtually all web applications.
 
 You can check out the source code for this example from the Catalyst
 Subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
+L<Catalyst::Manual::Tutorial::01_Intro|Catalyst::Manual::Tutorial::01_Intro>.
 
 Please take a look at 
-L<Catalyst::Manual::Tutorial::Intro/CATALYST INSTALLATION> before 
+L<Catalyst::Manual::Tutorial::01_Intro/CATALYST INSTALLATION> before 
 doing the rest of this tutorial.  Although the tutorial should work 
 correctly under most any recent version of Perl running on any 
 operating system, the tutorial has been written using Debian 5 and 
@@ -376,7 +376,7 @@ B<:Chained> -- Newer Catalyst applications tend to use the Chained
 dispatch form of action types because of its power and flexibility.  
 It allows a series of controller methods to be automatically dispatched
 to service a single user request.  See 
-L<Catalyst::Manual::Tutorial::BasicCRUD|Catalyst::Manual::Tutorial::BasicCRUD> 
+L<Catalyst::Manual::Tutorial::04_BasicCRUD|Catalyst::Manual::Tutorial::04_BasicCRUD> 
 and L<Catalyst::DispatchType::Chained|Catalyst::DispatchType::Chained> 
 for more information on chained actions.
 
@@ -553,7 +553,7 @@ model working below.
 
 If you run into problems getting your application to run correctly, it
 might be helpful to refer to some of the debugging techniques covered in
-the L<Debugging|Catalyst::Manual::Tutorial::Debugging> part of the
+the L<Debugging|Catalyst::Manual::Tutorial::07_Debugging> part of the
 tutorial.
 
 
@@ -657,7 +657,7 @@ more natural to read) then you will need to pass it an inflect_map
 option. See L<DBIx::Class:Schema::Loader> for more information.
 
 For using other databases, such as PostgreSQL or MySQL, see 
-L<Appendix 2|Catalyst::Manual::Tutorial::Appendices>.
+L<Appendix 2|Catalyst::Manual::Tutorial::10_Appendices>.
 
 
 =head1 DATABASE ACCESS WITH DBIx::Class
@@ -771,7 +771,7 @@ files are called "Result Classes" in DBIx::Class nomenclature. Although the
 Result Class files are named after tables in our database, the classes 
 correspond to the I<row-level data> that is returned by DBIC (more on 
 this later, especially in 
-L<Catalyst::Manual::Tutorial::BasicCRUD/EXPLORING THE POWER OF DBIC>).
+L<Catalyst::Manual::Tutorial::04_BasicCRUD/EXPLORING THE POWER OF DBIC>).
 
 The idea with the Result Source files created under 
 C<lib/MyApp/Schema/Result> by the C<create=static> option is to only 
@@ -1369,7 +1369,7 @@ and asked your browser to view the page source.
 =head1 OPTIONAL INFORMATION
 
 B<NOTE: The rest of this chapter of the tutorial is optional.  You can
-skip to Chapter 4, L<Basic CRUD|Catalyst::Manual::Tutorial::BasicCRUD>,
+skip to Chapter 4, L<Basic CRUD|Catalyst::Manual::Tutorial::04_BasicCRUD>,
 if you wish.>
 
 
