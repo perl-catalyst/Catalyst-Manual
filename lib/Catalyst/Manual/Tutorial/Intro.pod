@@ -134,7 +134,7 @@ Role-based authorization ("authz").
 
 =item * 
 
-Attempts to provide an example showing current (5.7XXX) Catalyst
+Attempts to provide an example showing current (5.8XXX) Catalyst
 practices. For example, the use of 
 L<Catalyst::Action::RenderView|Catalyst::Action::RenderView>,
 DBIC, L<Catalyst::Plugin::ConfigLoader|Catalyst::Plugin::ConfigLoader> 
@@ -194,15 +194,15 @@ Debian 5 (Lenny)
 
 =item * 
 
-Catalyst v5.71000
+Catalyst v5.80004
 
 =item *
 
-Catalyst::Devel v1.08
+Catalyst::Devel v1.10
 
 =item * 
 
-DBIx::Class v0.08012
+DBIx::Class v0.08102
 
 =item * 
 
@@ -217,35 +217,35 @@ use. This tutorial has been tested against the following set of plugins:
 
 =item * 
 
-Catalyst::Plugin::Authentication -- v0.10006
+Catalyst::Plugin::Authentication -- v0.10011
 
 =item *
 
-Catalyst::Plugin::Authorization::Roles -- v0.05
+Catalyst::Plugin::Authorization::Roles -- v0.07
 
 =item *
 
-Catalyst::Plugin::ConfigLoader -- v0.20
+Catalyst::Plugin::ConfigLoader -- v0.22
 
 =item *
 
-Catalyst::Plugin::Session -- v0.19
+Catalyst::Plugin::Session -- v0.20
 
 =item *
 
-Catalyst::Plugin::Session::State::Cookie -- v0.09
+Catalyst::Plugin::Session::State::Cookie -- v0.10
 
 =item *
 
-Catalyst::Plugin::Session::Store::FastMmap -- v0.05
+Catalyst::Plugin::Session::Store::FastMmap -- v0.07
 
 =item *
 
-Catalyst::Plugin::StackTrace -- v0.08
+Catalyst::Plugin::StackTrace -- v0.09
 
 =item *
 
-Catalyst::Plugin::Static::Simple -- v0.20
+Catalyst::Plugin::Static::Simple -- v0.21
 
 =back
 
@@ -387,7 +387,7 @@ Install Catalyst:
     sudo aptitude -y install sqlite3 libdbd-sqlite3-perl libcatalyst-perl \
         libcatalyst-modules-perl libconfig-general-perl libsql-translator-perl \
         libdatetime-perl libdatetime-format-mysql-perl libio-all-perl \
-        libperl6-junction-perl
+        libperl6-junction-perl libmoosex-emulate-class-accessor-fast-perl
 
 Let it install (normally about a 30-second operaton) and you are 
 done.  
