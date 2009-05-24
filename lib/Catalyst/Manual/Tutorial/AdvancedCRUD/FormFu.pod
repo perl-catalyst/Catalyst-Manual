@@ -132,7 +132,7 @@ following method:
         # is shorthand for "$form->submitted && !$form->has_errors"
         if ($form->submitted_and_valid) {
             # Create a new book
-            my $book = $c->model('DB::Books')->new_result({});
+            my $book = $c->model('DB::Book')->new_result({});
             # Save the form data for the book
             $form->model->update($book);
             # Set a status message for the user
@@ -142,7 +142,7 @@ following method:
             $c->detach;
         } else {
             # Get the authors from the DB
-            my @author_objs = $c->model("DB::Authors")->all();
+            my @author_objs = $c->model("DB::Author")->all();
             # Create an array of arrayrefs where each arrayref is an author
             my @authors;
             foreach (sort {$a->last_name cmp $b->last_name} @author_objs) {
@@ -270,17 +270,21 @@ running) and restart it:
 
 Login as C<test01> (password: mypass).  Once at the Book List page,
 click the new HTML::FormFu "Create" link at the bottom to display the
-form.  Fill in the following values: Title = "Internetworking with
-TCP/IP Vol. II", Rating = "4", and Author = "Comer".  Click Submit,
-and you will be returned to the Book List page with a "Book created"
-status message displayed.
+form.  Fill in the following values:
 
-Also note that this implementation allows you to can create books with 
+    Title  = "Internetworking with TCP/IP Vol. II"
+    Rating = "4"
+    Author = "Comer"
+    
+Click the Submit button, and you will be returned to the Book List page
+with a "Book created" status message displayed.
+
+Also note that this implementation allows you to create books with any
 bogus information.  Although we have constrained the authors with the 
 drop-down list (note that this isn't bulletproof because we still have 
 not prevented a user from "hacking" the form to specify other values), 
 there are no restrictions on items such as the length of the title (for 
-example, you can create a one-letter title) and value for the rating 
+example, you can create a one-letter title) and the value of the rating 
 (you can use any number you want, and even non-numeric values with 
 SQLite).  The next section will address this concern.
 
@@ -478,7 +482,7 @@ bottom:
             $c->detach;
         } else {
             # Get the authors from the DB
-            my @author_objs = $c->model("DB::Authors")->all();
+            my @author_objs = $c->model("DB::Author")->all();
             # Create an array of arrayrefs where each arrayref is an author
             my @authors;
             foreach (sort {$a->last_name cmp $b->last_name} @author_objs) {

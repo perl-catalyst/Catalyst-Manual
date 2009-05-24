@@ -190,11 +190,11 @@ Then replace it with:
 
     # Load plugins
     use Catalyst qw/-Debug
-                ConfigLoader
-                Static::Simple
+                    ConfigLoader
+                    Static::Simple
                 
-                StackTrace
-                /;
+                    StackTrace
+                    /;
 
 B<Note:> Recent versions of C<Catalyst::Devel> have used a variety of 
 techniques to load these plugins/flags.  For example, you might see
@@ -212,6 +212,14 @@ Catalyst sends to your browser when an error occurs). Be aware that
 L<StackTrace|Catalyst::Plugin::StackTrace> output appears in your 
 browser, not in the console window from which you're running your 
 application, which is where logging output usually goes.
+
+Make sure that when adding new plugins that you include them as a new
+dependancies within the Makefile.PL file. For example, after adding
+the StackTrace plugin the Makefile.PL should include the following
+line:
+
+    requires 'Catalyst::Plugin::StackTrace';
+
 
 B<Notes:> 
 
@@ -273,7 +281,7 @@ and add the following method to the controller:
     
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
-        # $c->stash->{books} = [$c->model('DB::Books')->all];
+        # $c->stash->{books} = [$c->model('DB::Book')->all];
         # But, for now, use this code until we create the model later
         $c->stash->{books} = '';
     
@@ -559,18 +567,18 @@ C<myapp01.sql> in your editor and enter:
     --
     -- Create a very simple database to hold book and author information
     --
-    CREATE TABLE books (
+    CREATE TABLE book (
             id          INTEGER PRIMARY KEY,
             title       TEXT ,
             rating      INTEGER
     );
-    -- 'book_authors' is a many-to-many join table between books & authors
-    CREATE TABLE book_authors (
+    -- 'book_author' is a many-to-many join table between books & authors
+    CREATE TABLE book_author (
             book_id     INTEGER,
             author_id   INTEGER,
             PRIMARY KEY (book_id, author_id)
     );
-    CREATE TABLE authors (
+    CREATE TABLE author (
             id          INTEGER PRIMARY KEY,
             first_name  TEXT,
             last_name   TEXT
@@ -578,27 +586,27 @@ C<myapp01.sql> in your editor and enter:
     ---
     --- Load some sample data
     ---
-    INSERT INTO books VALUES (1, 'CCSP SNRS Exam Certification Guide', 5);
-    INSERT INTO books VALUES (2, 'TCP/IP Illustrated, Volume 1', 5);
-    INSERT INTO books VALUES (3, 'Internetworking with TCP/IP Vol.1', 4);
-    INSERT INTO books VALUES (4, 'Perl Cookbook', 5);
-    INSERT INTO books VALUES (5, 'Designing with Web Standards', 5);
-    INSERT INTO authors VALUES (1, 'Greg', 'Bastien');
-    INSERT INTO authors VALUES (2, 'Sara', 'Nasseh');
-    INSERT INTO authors VALUES (3, 'Christian', 'Degu');
-    INSERT INTO authors VALUES (4, 'Richard', 'Stevens');
-    INSERT INTO authors VALUES (5, 'Douglas', 'Comer');
-    INSERT INTO authors VALUES (6, 'Tom', 'Christiansen');
-    INSERT INTO authors VALUES (7, 'Nathan', 'Torkington');
-    INSERT INTO authors VALUES (8, 'Jeffrey', 'Zeldman');
-    INSERT INTO book_authors VALUES (1, 1);
-    INSERT INTO book_authors VALUES (1, 2);
-    INSERT INTO book_authors VALUES (1, 3);
-    INSERT INTO book_authors VALUES (2, 4);
-    INSERT INTO book_authors VALUES (3, 5);
-    INSERT INTO book_authors VALUES (4, 6);
-    INSERT INTO book_authors VALUES (4, 7);
-    INSERT INTO book_authors VALUES (5, 8);
+    INSERT INTO book VALUES (1, 'CCSP SNRS Exam Certification Guide', 5);
+    INSERT INTO book VALUES (2, 'TCP/IP Illustrated, Volume 1', 5);
+    INSERT INTO book VALUES (3, 'Internetworking with TCP/IP Vol.1', 4);
+    INSERT INTO book VALUES (4, 'Perl Cookbook', 5);
+    INSERT INTO book VALUES (5, 'Designing with Web Standards', 5);
+    INSERT INTO author VALUES (1, 'Greg', 'Bastien');
+    INSERT INTO author VALUES (2, 'Sara', 'Nasseh');
+    INSERT INTO author VALUES (3, 'Christian', 'Degu');
+    INSERT INTO author VALUES (4, 'Richard', 'Stevens');
+    INSERT INTO author VALUES (5, 'Douglas', 'Comer');
+    INSERT INTO author VALUES (6, 'Tom', 'Christiansen');
+    INSERT INTO author VALUES (7, 'Nathan', 'Torkington');
+    INSERT INTO author VALUES (8, 'Jeffrey', 'Zeldman');
+    INSERT INTO book_author VALUES (1, 1);
+    INSERT INTO book_author VALUES (1, 2);
+    INSERT INTO book_author VALUES (1, 3);
+    INSERT INTO book_author VALUES (2, 4);
+    INSERT INTO book_author VALUES (3, 5);
+    INSERT INTO book_author VALUES (4, 6);
+    INSERT INTO book_author VALUES (4, 7);
+    INSERT INTO book_author VALUES (5, 8);
 
 Then use the following command to build a C<myapp.db> SQLite database:
 
@@ -615,7 +623,7 @@ database contents:
     $ sqlite3 myapp.db
     SQLite version 3.5.9
     Enter ".help" for instructions
-    sqlite> select * from books;
+    sqlite> select * from book;
     1|CCSP SNRS Exam Certification Guide|5
     2|TCP/IP Illustrated, Volume 1|5
     3|Internetworking with TCP/IP Vol.1|4
@@ -626,7 +634,7 @@ database contents:
 
 Or:
 
-    $ sqlite3 myapp.db "select * from books"
+    $ sqlite3 myapp.db "select * from book"
     1|CCSP SNRS Exam Certification Guide|5
     2|TCP/IP Illustrated, Volume 1|5
     3|Internetworking with TCP/IP Vol.1|4
@@ -638,6 +646,15 @@ environment you need to terminate your SQL commands with a ";" (it's not
 required if you do a single SQL statement on the command line).  Use
 ".q" to exit from SQLite from the SQLite interactive mode and return to
 your OS command prompt.
+
+Please note that here we have chosen to use 'singular' table names. This
+is because the default inflection code for L<DBIx::Class:Schema::Loader>
+does NOT handle plurals. There has been much philosophical discussion
+on whether table names should be plural or singular. There is no one
+correct answer, as long as one makes a choice and remains consistent
+with it. If you prefer plural table names (e.g. they are easier and
+more natural to read) then you will need to pass it an inflect_map 
+option. See L<DBIx::Class:Schema::Loader> for more information.
 
 For using other databases, such as PostgreSQL or MySQL, see 
 L<Appendix 2|Catalyst::Manual::Tutorial::Appendices>.
@@ -675,6 +692,9 @@ running this command:
         'print "$Catalyst::Model::DBIC::Schema::VERSION\n"'
     0.23
 
+(please note that the '\' above is a line continuation marker and
+should NOT be included as part of the command)
+
 If you don't have version 0.23 or higher, please run this command
 to install it directly from CPAN:
 
@@ -700,6 +720,9 @@ automatically build the required files for us:
     Schema dump completed.
     created "/home/me/MyApp/script/../lib/MyApp/Model/DB.pm"
     created "/home/me/MyApp/script/../t/model_DB.t"
+
+(please note that the '\' above is a line continuation marker and
+should NOT be included as part of the command)
 
 The C<script/myapp_create.pl> command breaks down like this:
 
@@ -743,7 +766,7 @@ only contains a call to the C<load_namespaces> method.  You will also
 find that C<lib/MyApp> contains a C<Schema> subdirectory, which then 
 has a subdirectory called "Result".  This "Result" subdirectory then 
 has files named according to each of the tables in our simple database 
-(C<Authors.pm>, C<BookAuthors.pm>, and C<Books.pm>).  These three 
+(C<Author.pm>, C<BookAuthor.pm>, and C<Book.pm>).  These three 
 files are called "Result Classes" in DBIx::Class nomenclature. Although the 
 Result Class files are named after tables in our database, the classes 
 correspond to the I<row-level data> that is returned by DBIC (more on 
@@ -785,6 +808,10 @@ have v0.23 C<Catalyst::Model::DBIC::Schema> as discussed above):
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
         create=static components=TimeStamp dbi:SQLite:myapp.db
     $
+    $ # Note that the '\' above is a line continuation marker and
+    $ # should NOT be included as part of the command
+
+    $
     $ # Now convert the existing files over
     $ cd lib/MyApp/Schema
     $ perl -MIO::All -e 'for (@ARGV) { my $s < io($_); $s =~ s/.*\n\# You can replace.*?\n//s;
@@ -806,7 +833,7 @@ C<lib/MyApp/Schema/Result> (we will be starting to add some
 
 Open C<lib/MyApp/Controller/Books.pm> and un-comment the model code we 
 left disabled earlier so that your version matches the following (un-
-comment the line containing C<[$c-E<gt>model('DB::Books')-E<gt>all]> 
+comment the line containing C<[$c-E<gt>model('DB::Book')-E<gt>all]> 
 and delete the next 2 lines):
 
     =head2 list
@@ -823,7 +850,7 @@ and delete the next 2 lines):
     
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
-        $c->stash->{books} = [$c->model('DB::Books')->all];
+        $c->stash->{books} = [$c->model('DB::Book')->all];
     
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
@@ -831,8 +858,8 @@ and delete the next 2 lines):
         $c->stash->{template} = 'books/list.tt2';
     }
 
-B<TIP>: You may see the C<$c-E<gt>model('DB::Books')> un-commented 
-above written as C<$c-E<gt>model('DB')-E<gt>resultset('Books')>.  The 
+B<TIP>: You may see the C<$c-E<gt>model('DB::Book')> un-commented 
+above written as C<$c-E<gt>model('DB')-E<gt>resultset('Book')>.  The 
 two are equivalent.  Either way, C<$c-E<gt>model> returns a 
 L<DBIx::Class::ResultSet|DBIx::Class::ResultSet> which handles queries 
 against the database and iterating over the set of results that is 
@@ -843,7 +870,7 @@ supports a wide variety of more advanced operations to easily do
 things like filtering and sorting the results.  For example, the 
 following could be used to sort the results by descending title:
 
-    $c->model('DB::Books')->search({}, {order_by => 'title DESC'});
+    $c->model('DB::Book')->search({}, {order_by => 'title DESC'});
 
 Some other examples are provided in 
 L<DBIx::Class::Manual::Cookbook/Complex WHERE clauses>, with 
@@ -880,9 +907,9 @@ display something like:
     [debug] Statistics enabled
     [debug] Loaded plugins:
     .----------------------------------------------------------------------------.
-    | Catalyst::Plugin::ConfigLoader  0.20                                       |
-    | Catalyst::Plugin::StackTrace  0.08                                         |
-    | Catalyst::Plugin::Static::Simple  0.20                                     |
+    | Catalyst::Plugin::ConfigLoader  0.23                                       |
+    | Catalyst::Plugin::StackTrace  0.10                                         |
+    | Catalyst::Plugin::Static::Simple  0.21                                     |
     '----------------------------------------------------------------------------'
     
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
@@ -896,9 +923,9 @@ display something like:
     | MyApp::Controller::Books                                        | instance |
     | MyApp::Controller::Root                                         | instance |
     | MyApp::Model::DB                                                | instance |
-    | MyApp::Model::DB::Authors                                       | class    |
-    | MyApp::Model::DB::BookAuthors                                   | class    |
-    | MyApp::Model::DB::Books                                         | class    |
+    | MyApp::Model::DB::Author                                        | class    |
+    | MyApp::Model::DB::Book                                          | class    |
+    | MyApp::Model::DB::BookAuthor                                    | class    |
     | MyApp::View::TT                                                 | instance |
     '-----------------------------------------------------------------+----------'
     
@@ -923,7 +950,7 @@ display something like:
     | /books/list                         | /books/list                          |
     '-------------------------------------+--------------------------------------'
     
-    [info] MyApp powered by Catalyst 5.71000
+    [info] MyApp powered by Catalyst 5.80003
     You can connect to your server at http://debian:3000
 
 B<NOTE:> Be sure you run the C<script/myapp_server.pl> command from
@@ -941,8 +968,8 @@ Some things you should note in the output above:
 
 Catalyst::Model::DBIC::Schema dynamically created three model classes,
 one to represent each of the three tables in our database
-(C<MyApp::Model::DB::Authors>, C<MyApp::Model::DB::BookAuthors>,
-and C<MyApp::Model::DB::Books>).
+(C<MyApp::Model::DB::Author>, C<MyApp::Model::DB::BookAuthor>,
+and C<MyApp::Model::DB::Book>).
 
 =item *
 
@@ -1151,7 +1178,7 @@ Let's manually add some relationship information to the auto-generated
 Result Class files. (Note: if you are using a database other than 
 SQLite, such as PostgreSQL, then the relationship could have been 
 automatically placed in the Result Class files.  If so, you can skip 
-this step.)  First edit C<lib/MyApp/Schema/Result/Books.pm> and add the 
+this step.)  First edit C<lib/MyApp/Schema/Result/Book.pm> and add the 
 following text below the C<# You can replace this text...> comment:
 
     #
@@ -1163,7 +1190,7 @@ following text below the C<# You can replace this text...> comment:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(book_authors => 'MyApp::Schema::Result::BookAuthors', 'book_id');
+    __PACKAGE__->has_many(book_author => 'MyApp::Schema::Result::BookAuthor', 'book_id');
     
     # many_to_many():
     #   args:
@@ -1171,7 +1198,7 @@ following text below the C<# You can replace this text...> comment:
     #     2) Name of has_many() relationship this many_to_many() is shortcut for
     #     3) Name of belongs_to() relationship in model class of has_many() above
     #   You must already have the has_many() defined to use a many_to_many().
-    __PACKAGE__->many_to_many(authors => 'book_authors', 'author');
+    __PACKAGE__->many_to_many(author => 'book_author', 'author');
 
 
 B<Note:> Be careful to put this code I<above> the C<1;> at the end of the
@@ -1179,31 +1206,20 @@ file.  As with any Perl package, we need to end the last line with
 a statement that evaluates to C<true>.  This is customarily done with
 C<1;> on a line by itself.
 
-C<Important Note:> Although this tutorial uses plural names for both 
-the names of the SQL tables and therefore the Result Classes (after 
-all, C<Schema::Loader> automatically named the Result Classes from the 
-names of the SQL tables it found), DBIx::Class users prefer singular 
-names for these items.  B<Please try to use singular table and DBIC 
-model/Result Class names in your applications.>  This tutorial will 
-migrate to singular names as soon as possible (patches welcomed). 
-B<Note that while singular is preferred for the DBIC model, plural is 
-perfectly acceptable for the names of the controller classes.>  After 
-all, the C<Books.pm> controller operates on multiple books.
-
 This code defines both a C<has_many> and a C<many_to_many> 
 relationship. The C<many_to_many> relationship is optional, but it 
 makes it easier to map a book to its collection of authors.  Without 
-it, we would have to "walk" though the C<book_authors> table as in 
-C<$book-E<gt>book_authors-E<gt>first-E<gt>author-E<gt>last_name> (we 
+it, we would have to "walk" though the C<book_author> table as in 
+C<$book-E<gt>book_author-E<gt>first-E<gt>author-E<gt>last_name> (we 
 will see examples on how to use DBIx::Class objects in your code soon, 
-but note that because C<$book-E<gt>book_authors> can return multiple 
+but note that because C<$book-E<gt>book_author> can return multiple 
 authors, we have to use C<first> to display a single author). 
-C<many_to_many> allows us to use the shorter C<$book-E<gt>authors-
+C<many_to_many> allows us to use the shorter C<$book-E<gt>author-
 E<gt>first-E<gt>last_name>. Note that you cannot define a 
 C<many_to_many> relationship without also having the C<has_many> 
 relationship in place.
 
-Then edit C<lib/MyApp/Schema/Result/Authors.pm> and add relationship
+Then edit C<lib/MyApp/Schema/Result/Author.pm> and add relationship
 information as follows (again, be careful to put in above the C<1;> but
 below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
 
@@ -1216,7 +1232,7 @@ below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
     #     1) Name of relationship, DBIC will create an accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(book_author => 'MyApp::Schema::Result::BookAuthors', 'author_id');
+    __PACKAGE__->has_many(book_author => 'MyApp::Schema::Result::BookAuthor', 'author_id');
     
     # many_to_many():
     #   args:
@@ -1224,10 +1240,10 @@ below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
     #     2) Name of has_many() relationship this many_to_many() is shortcut for
     #     3) Name of belongs_to() relationship in model class of has_many() above
     #   You must already have the has_many() defined to use a many_to_many().
-    __PACKAGE__->many_to_many(books => 'book_author', 'book');
+    __PACKAGE__->many_to_many(book => 'book_author', 'book');
 
 Finally, do the same for the "join table,"
-C<lib/MyApp/Schema/Result/BookAuthors.pm>:
+C<lib/MyApp/Schema/Result/BookAuthor.pm>:
 
     #
     # Set relationships:
@@ -1238,14 +1254,14 @@ C<lib/MyApp/Schema/Result/BookAuthors.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(book => 'MyApp::Schema::Result::Books', 'book_id');
+    __PACKAGE__->belongs_to(book => 'MyApp::Schema::Result::Book', 'book_id');
     
     # belongs_to():
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(author => 'MyApp::Schema::Result::Authors', 'author_id');
+    __PACKAGE__->belongs_to(author => 'MyApp::Schema::Result::Author', 'author_id');
 
 
 =head2 Run The Application
@@ -1275,7 +1291,7 @@ template to do that.
 Let's add a new column to our book list page that takes advantage of 
 the relationship information we manually added to our schema files in 
 the previous section.  Edit C<root/src/books/list.tt2> and replace
-the "empty" tabase cell with the following:
+the "empty" table cell "<td></td>" with the following:
 
     ...
     <td>
@@ -1310,16 +1326,16 @@ debug output (one for each book as the authors are being retrieved by
 DBIx::Class):
 
     SELECT me.id, me.title, me.rating FROM books me:
-    SELECT author.id, author.first_name, author.last_name FROM book_authors me  
-    JOIN authors author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '1'
-    SELECT author.id, author.first_name, author.last_name FROM book_authors me  
-    JOIN authors author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '2'
-    SELECT author.id, author.first_name, author.last_name FROM book_authors me  
-    JOIN authors author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '3'
-    SELECT author.id, author.first_name, author.last_name FROM book_authors me  
-    JOIN authors author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '4'
-    SELECT author.id, author.first_name, author.last_name FROM book_authors me  
-    JOIN authors author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '5'
+    SELECT author.id, author.first_name, author.last_name FROM book_author me  
+    JOIN author author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '1'
+    SELECT author.id, author.first_name, author.last_name FROM book_author me  
+    JOIN author author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '2'
+    SELECT author.id, author.first_name, author.last_name FROM book_author me  
+    JOIN author author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '3'
+    SELECT author.id, author.first_name, author.last_name FROM book_author me  
+    JOIN author author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '4'
+    SELECT author.id, author.first_name, author.last_name FROM book_author me  
+    JOIN author author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '5'
 
 Also note in C<root/src/books/list.tt2> that we are using "| html", a 
 type of TT filter, to escape characters such as E<lt> and E<gt> to &lt; 
@@ -1433,7 +1449,7 @@ has changed):
     
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
-        $c->stash->{books} = [$c->model('DB::Books')->all];
+        $c->stash->{books} = [$c->model('DB::Book')->all];
     
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (actions methods respond to user input in
@@ -1451,6 +1467,8 @@ you will B<not> be able to use either the C<$c-E<gt>forward> or
 the C<$c-E<gt>detach> mechanisms (these are discussed in Chapter 2 and
 Chapter 9 of the Tutorial).
 
+B<IMPORTANT:> Make sure that you do NOT skip the following section
+before continuing to the next chapter 4 Basic CRUD.
 
 =head2 Return To A Manually Specified Template
 

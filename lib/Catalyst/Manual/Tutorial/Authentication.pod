@@ -82,9 +82,9 @@ authorization section, Chapter 6).  Create a new SQL script file by opening
 C<myapp02.sql> in your editor and insert:
 
     --
-    -- Add users and roles tables, along with a many-to-many join table
+    -- Add user and role tables, along with a many-to-many join table
     --
-    CREATE TABLE users (
+    CREATE TABLE user (
             id            INTEGER PRIMARY KEY,
             username      TEXT,
             password      TEXT,
@@ -93,11 +93,11 @@ C<myapp02.sql> in your editor and insert:
             last_name     TEXT,
             active        INTEGER
     );
-    CREATE TABLE roles (
+    CREATE TABLE role (
             id   INTEGER PRIMARY KEY,
             role TEXT
     );
-    CREATE TABLE user_roles (
+    CREATE TABLE user_role (
             user_id INTEGER,
             role_id INTEGER,
             PRIMARY KEY (user_id, role_id)
@@ -105,20 +105,19 @@ C<myapp02.sql> in your editor and insert:
     --
     -- Load up some initial test data
     --
-    INSERT INTO users VALUES (1, 'test01', 'mypass', 't01@na.com', 'Joe',  'Blow', 1);
-    INSERT INTO users VALUES (2, 'test02', 'mypass', 't02@na.com', 'Jane', 'Doe',  1);
-    INSERT INTO users VALUES (3, 'test03', 'mypass', 't03@na.com', 'No',   'Go',   0);
-    INSERT INTO roles VALUES (1, 'user');
-    INSERT INTO roles VALUES (2, 'admin');
-    INSERT INTO user_roles VALUES (1, 1);
-    INSERT INTO user_roles VALUES (1, 2);
-    INSERT INTO user_roles VALUES (2, 1);
-    INSERT INTO user_roles VALUES (3, 1);
+    INSERT INTO user VALUES (1, 'test01', 'mypass', 't01@na.com', 'Joe',  'Blow', 1);
+    INSERT INTO user VALUES (2, 'test02', 'mypass', 't02@na.com', 'Jane', 'Doe',  1);
+    INSERT INTO user VALUES (3, 'test03', 'mypass', 't03@na.com', 'No',   'Go',   0);
+    INSERT INTO role VALUES (1, 'user');
+    INSERT INTO role VALUES (2, 'admin');
+    INSERT INTO user_role VALUES (1, 1);
+    INSERT INTO user_role VALUES (1, 2);
+    INSERT INTO user_role VALUES (2, 1);
+    INSERT INTO user_role VALUES (3, 1);
 
 Then load this into the C<myapp.db> database with the following command:
 
     $ sqlite3 myapp.db < myapp02.sql
-
 
 =head2 Add User and Role Information to DBIC Schema
 
@@ -135,7 +134,7 @@ option on the DBIC model helper to do most of the work for us:
      exists "/root/dev/MyApp/script/../lib/MyApp/Model/DB.pm"
     $
     $ ls lib/MyApp/Schema/Result
-    Authors.pm  BookAuthors.pm  Books.pm  Roles.pm  UserRoles.pm  Users.pm
+    Author.pm  BookAuthor.pm  Book.pm  Role.pm  User.pm  UserRole.pm
 
 Notice how the helper has added three new table-specific result source
 files to the C<lib/MyApp/Schema/Result> directory.  And, more
@@ -144,12 +143,12 @@ files, those changes would have only been written above the C<# DO NOT
 MODIFY THIS OR ANYTHING ABOVE!> comment and your hand-edited
 enhancements would have been preserved.
 
-Speaking of "hand-edit ted enhancements," we should now add
+Speaking of "hand-editted enhancements," we should now add
 relationship information to the three new result source files.  Edit
 each of these files and add the following information between the C<#
 DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment and the closing C<1;>:
 
-C<lib/MyApp/Schema/Result/Users.pm>:
+C<lib/MyApp/Schema/Result/User.pm>:
 
     #
     # Set relationships:
@@ -160,7 +159,7 @@ C<lib/MyApp/Schema/Result/Users.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::Result::UserRoles', 'user_id');
+    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::Result::UserRole', 'user_id');
     
     # many_to_many():
     #   args:
@@ -171,7 +170,7 @@ C<lib/MyApp/Schema/Result/Users.pm>:
     __PACKAGE__->many_to_many(roles => 'map_user_role', 'role');
 
 
-C<lib/MyApp/Schema/Result/Roles.pm>:
+C<lib/MyApp/Schema/Result/Role.pm>:
 
     #
     # Set relationships:
@@ -182,10 +181,10 @@ C<lib/MyApp/Schema/Result/Roles.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::Result::UserRoles', 'role_id');
+    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::Result::UserRole', 'role_id');
 
 
-C<lib/MyApp/Schema/Result/UserRoles.pm>:
+C<lib/MyApp/Schema/Result/UserRole.pm>:
 
     #
     # Set relationships:
@@ -196,18 +195,17 @@ C<lib/MyApp/Schema/Result/UserRoles.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(user => 'MyApp::Schema::Result::Users', 'user_id');
+    __PACKAGE__->belongs_to(user => 'MyApp::Schema::Result::User', 'user_id');
     
     # belongs_to():
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(role => 'MyApp::Schema::Result::Roles', 'role_id');
-
+    __PACKAGE__->belongs_to(role => 'MyApp::Schema::Result::Role', 'role_id');
 
 The code for these three sets of updates is obviously very similar to
-the edits we made to the C<Books>, C<Authors>, and C<BookAuthors>
+the edits we made to the C<Book>, C<Author>, and C<BookAuthor>
 classes created in Chapter 3.
 
 Note that we do not need to make any change to the
@@ -236,11 +234,11 @@ Look for the three new model objects in the startup debug output:
     | MyApp::Controller::Root                                           | instance |
     | MyApp::Model::DB                                                  | instance |
     | MyApp::Model::DB::Author                                          | class    |
-    | MyApp::Model::DB::Books                                           | class    |
-    | MyApp::Model::DB::BookAuthors                                     | class    |
-    | MyApp::Model::DB::Roles                                           | class    |
-    | MyApp::Model::DB::Users                                           | class    |
-    | MyApp::Model::DB::UserRoles                                       | class    |
+    | MyApp::Model::DB::Book                                            | class    |
+    | MyApp::Model::DB::BookAuthor                                      | class    |
+    | MyApp::Model::DB::Role                                            | class    |
+    | MyApp::Model::DB::User                                            | class    |
+    | MyApp::Model::DB::UserRole                                        | class    |
     | MyApp::View::TT                                                   | instance |
     '-------------------------------------------------------------------+----------'
     ...
@@ -256,17 +254,17 @@ C<StackTrace> is new):
 
     # Load plugins
     use Catalyst qw/-Debug
-                ConfigLoader
-                Static::Simple
+                    ConfigLoader
+                    Static::Simple
     
-                StackTrace
+                    StackTrace
     
-                Authentication
+                    Authentication
     
-                Session
-                Session::Store::FastMmap
-                Session::State::Cookie
-                /;
+                    Session
+                    Session::Store::FastMmap
+                    Session::State::Cookie
+                    /;
 
 B<Note:> As discussed in MoreCatalystBasics, different versions of
 C<Catalyst::Devel> have used a variety of methods to load the plugins.
@@ -283,6 +281,16 @@ Authentication::Store or Authentication::Credential plugin. Instead,
 indicate the Store and Credential you want to use in your application
 configuration (see below).
 
+Make sure you include the additional plugins as new dependencies in
+the Makefile.PL file something like this:
+
+    requires (
+        'Catalyst::Plugin::Authentication' => '0',
+        'Catalyst::Plugin::Session' => '0',
+        'Catalyst::Plugin::Session::Store::FastMmap' => '0',
+        'Catalyst::Plugin::Session::State::Cookie' => '0',
+    );
+
 Note that there are several options for
 L<Session::Store|Catalyst::Plugin::Session::Store>
 (L<Session::Store::FastMmap|Catalyst::Plugin::Session::Store::FastMmap>
@@ -296,7 +304,7 @@ backed session store).
 
 =head2 Configure Authentication
 
-There are a variety of way to provide configuration information to
+There are a variety of ways to provide configuration information to
 L<Catalyst::Plugin::Authentication|Catalyst::Plugin::Authentication>.
 Here we will use 
 L<Catalyst::Authentication::Realm::SimpleDB|Catalyst::Authentication::Realm::SimpleDB>
@@ -308,7 +316,7 @@ C<__PACKAGE__-E<gt>setup();>:
     __PACKAGE__->config->{'Plugin::Authentication'} = {
             default => {
                 class           => 'SimpleDB',
-                user_model      => 'DB::Users',
+                user_model      => 'DB::User',
                 password_type   => 'clear',
             },
         };
@@ -328,7 +336,7 @@ to the following code:
         use_session 1
         <default>
             password_type self_check
-            user_model    DB::Users
+            user_model    DB::User
             class         SimpleDB
         </default>
     </Plugin::Authentication>
@@ -399,6 +407,9 @@ and update the definition of C<sub index> to match:
         # If either of above don't work out, send to the login page
         $c->stash->{template} = 'login.tt2';
     }
+
+Be sure to remove the C<$c-E<gt>response-E<gt>body('Matched MyApp::Controller::Login in Login.');>
+line of the C<sub index>.
 
 This controller fetches the C<username> and C<password> values from the
 login form and attempts to authenticate the user.  If successful, it
@@ -661,7 +672,7 @@ argument:
 
 If you then open one of the Result Classes, you will see that it 
 includes EncodedColumn in the C<load_components> line.  Take a look at 
-C<lib/MyApp/Schema/Result/Users.pm> since that's the main class where we
+C<lib/MyApp/Schema/Result/User.pm> since that's the main class where we
 want to use hashed and salted passwords:
 
     __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn", "Core");
@@ -669,7 +680,7 @@ want to use hashed and salted passwords:
 
 =head2 Modify the "password" Column to Use EncodedColumn
 
-Open the file C<lib/MyApp/Schema/Result/Users.pm> and enter the following
+Open the file C<lib/MyApp/Schema/Result/User.pm> and enter the following
 text below the "# DO NOT MODIFY THIS OR ANYTHING ABOVE!" line but above
 the closing "1;":
 
@@ -720,7 +731,7 @@ C<set_hashed_passwords.pl> in your editor and enter the following text:
     
     my $schema = MyApp::Schema->connect('dbi:SQLite:myapp.db');
     
-    my @users = $schema->resultset('Users')->all;
+    my @users = $schema->resultset('User')->all;
     
     foreach my $user (@users) {
         $user->password('mypass');
@@ -741,7 +752,7 @@ C<lib> directory for our C<MyApp::Schema> model.
 
 Then dump the users table to verify that it worked:
 
-    $ sqlite3 myapp.db "select * from users"
+    $ sqlite3 myapp.db "select * from user"
     1|test01|38d3974fa9e9263099f7bc2574284b2f55473a9bM=fwpX2NR8|t01@na.com|Joe|Blow|1
     2|test02|6ed8586587e53e0d7509b1cfed5df08feadc68cbMJlnPyPt0I|t02@na.com|Jane|Doe|1
     3|test03|af929a151340c6aed4d54d7e2651795d1ad2e2f7UW8dHoGv9z|t03@na.com|No|Go|0
@@ -761,7 +772,7 @@ is to the C<password_type> field):
     __PACKAGE__->config->{'Plugin::Authentication'} = {
             default => {
                 class           => 'SimpleDB',
-                user_model      => 'DB::Users',
+                user_model      => 'DB::User',
                 password_type   => 'self_check',
             },
         };

@@ -128,7 +128,7 @@ you can obviously indent them if you prefer):
             
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
-        $c->stash->{books} = [$c->model('DB::Books')->all];
+        $c->stash->{books} = [$c->model('DB::Book')->all];
             
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods.
@@ -139,6 +139,10 @@ This causes the Perl Debugger to enter "single step mode" when this command is
 encountered (it has no effect when Perl is run without the C<-d> flag).
 
 B<NOTE:> The C<DB> here is the Perl Debugger, not the DB model.
+
+If you haven't done it already, enable SQL logging as before:
+
+    $ export DBIC_TRACE=1
 
 To now run the Catalyst development server under the Perl debugger, simply 
 prepend C<perl -d> to the front of C<script/myapp_server.pl>:
@@ -169,7 +173,7 @@ C<MyApp::Controller::list> method, the console session running the
 development server will drop to the Perl debugger prompt:
 
     MyApp::Controller::Books::list(/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm:48):
-    48:         $c->stash->{books} = [$c->model('DB::Books')->all];
+    48:         $c->stash->{books} = [$c->model('DB::Book')->all];
     
       DB<1>
 
@@ -179,7 +183,7 @@ model (C<n> jumps over method/subroutine calls; you can also use C<s> to
 C<single-step> into methods/subroutines):
 
       DB<1> n
-    SELECT me.id, me.authors, me.title, me.rating FROM books me:
+    SELECT me.id, me.title, me.rating, me.created, me.updated FROM book me:
     MyApp::Controller::Books::list(/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm:53):
     53:         $c->stash->{template} = 'books/list.tt2';
     
@@ -191,12 +195,14 @@ output also shows up in the development server debug information.
 
 Next, list the methods available on our C<Book> model:
 
-      DB<1> m $c->model('DB::Books')
+      DB<1> m $c->model('DB::Book')
     ()
     (0+
     (bool
+    __result_class_accessor
     __source_handle_accessor
     _add_alias
+    __bool
     _build_unique_query
     _calculate_score
     _collapse_cond
@@ -206,8 +212,8 @@ Next, list the methods available on our C<Book> model:
 
 We can also play with the model directly:
 
-      DB<2> x ($c->model('DB::Books')->all)[1]->title
-    SELECT me.id, me.title, me.rating FROM books me:
+      DB<2> x ($c->model('DB::Book')->all)[1]->title
+    SELECT me.id, me.title, me.rating, me.created, me.updated FROM book me:
     0  'TCP/IP Illustrated, Volume 1'
 
 This uses the Perl debugger C<x> command to display the title of a book.
@@ -219,9 +225,11 @@ argument to the C<x> command limits the depth of the dump to 4 levels):
     0  ARRAY(0xa8f3b7c)
        0  MyApp::Model::DB::Book=HASH(0xb8e702c)
           '_column_data' => HASH(0xb8e5e2c)
+             'created' => '2009-05-08 10:19:46'
              'id' => 1
              'rating' => 5
              'title' => 'CCSP SNRS Exam Certification Guide'
+             'updated' => '2009-05-08 10:19:46'
           '_in_storage' => 1
     <lines removed for brevity>
 
@@ -233,16 +241,32 @@ breakpoint is hit (or the application exits):
 
 Finally, press C<Ctrl+C> to break out of the development server.
 Because we are running inside the Perl debugger, you will drop to the
-debugger prompt.  Press C<q> to exit the debugger and return to your OS
+debugger prompt.  
+
+    ^CCatalyst::Engine::HTTP::run(/usr/local/share/perl/5.10.0/Catalyst/Engine/HTTP.pm:260):
+    260:            while ( accept( Remote, $daemon ) ) {
+
+    DB<4>
+
+Finally, press C<q> to exit the debugger and return to your OS
 shell prompt:
 
       DB<4> q
     $
 
 For more information on using the Perl debugger, please see C<perldebug>
-and C<perldebtut>.  You can also type C<h> or C<h h> at the debugger
-prompt to view the built-in help screens.
+and C<perldebtut>.  For those daring souls out there, you can dive down
+even deeper into the magical depths of this fine debugger by checking
+out C<perldebguts>.
 
+You can also type C<h> or C<h h> at the debugger prompt to view the
+built-in help screens.
+
+For an excellent book covering all aspects of the Perl debugger, we highly
+recommend reading 'Pro Perl Debugging' by Richard Foley.
+
+Oh yeah, before you forget, be sure to remove the C<DB::single=1> line you
+added above in C<lib/MyApp/Controller/Books.pm>.
 
 =head1 DEBUGGING MODULES FROM CPAN
 
@@ -264,9 +288,9 @@ copy of an installed module:
 
     mkdir -p lib/Module; cp `perldoc -l Module::Name` lib/Module/
 
-Note: If you are following along in Debian 5, you will need to install
-the C<perl-doc> package to use the C<perldoc> command.  Use 
-C<sudo aptitude install perl-doc> to do that.
+Note: If you are following along in Debian 5 or Ubuntu, you will
+need to install the C<perl-doc> package to use the C<perldoc> command.  
+Use C<sudo aptitude install perl-doc> to do that.
 
 For example, you could make a copy of 
 L<Catalyst::Plugin::Authentication|Catalyst::Plugin::Authentication>
@@ -294,6 +318,12 @@ For example:
     $ perl -MCatalyst::Plugin::Authentication -e \
         'print $Catalyst::Plugin::Authentication::VERSION;'
     0.07
+
+and if you are using bash aliases:
+
+    alias pmver="perl -le '\$m = shift; eval qq(require \$m) \
+        or die qq(module \"\$m\" is not installed\\n); \
+        print \$m->VERSION'"
 
 =item * 
 
@@ -336,6 +366,7 @@ with the tutorial> (especially the 'undef' option -- leaving this
 enabled will conflict with several of the conventions used by this 
 tutorial to leave some variables undefined on purpose).
 
+Happy debugging.
 
 =head1 AUTHOR
 

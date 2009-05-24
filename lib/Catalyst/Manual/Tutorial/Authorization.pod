@@ -80,24 +80,32 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 
     # Load plugins
     use Catalyst qw/-Debug
-                ConfigLoader
-                Static::Simple
+                    ConfigLoader
+                    Static::Simple
                 
-                StackTrace
+                    StackTrace
                 
-                Authentication
-                Authorization::Roles
+                    Authentication
+                    Authorization::Roles
         
-                Session
-                Session::Store::FastMmap
-                Session::State::Cookie
-                /;
+                    Session
+                    Session::Store::FastMmap
+                    Session::State::Cookie
+                    /;
 
 B<Note:> As discussed in MoreCatalystBasics, different versions of 
 C<Catalyst::Devel> have used a variety of methods to load the plugins. 
 You can put the plugins in the C<use Catalyst> statement if you 
 prefer.
 
+Once again (remain sharp, by now you should be getting the hang of things)
+include this additional plugin as a new dependency in the Makefile.PL file
+like this:
+
+    requires (
+        ...
+        'Catalyst::Plugin::Authorization::Roles' => '0',
+    );
 
 =head2 Add Role-Specific Logic to the "Book List" Template
 
@@ -109,7 +117,7 @@ lines to the bottom of the file:
     
     <ul>
       [% # Dump list of roles -%]
-      [% FOR role = c.user.roles %]<li>[% role %]</li>[% END %]
+      [% FOR role = c.user.role %]<li>[% role %]</li>[% END %]
     </ul>
     
     <p>
@@ -160,16 +168,16 @@ updating C<url_create> to match the following code:
         if ($c->check_user_roles('admin')) {
             # Call create() on the book model object. Pass the table
             # columns/field values we want to set as hash values
-            my $book = $c->model('DB::Books')->create({
+            my $book = $c->model('DB::Book')->create({
                     title   => $title,
                     rating  => $rating
                 });
     
             # Add a record to the join table for this book, mapping to
             # appropriate author
-            $book->add_to_book_authors({author_id => $author_id});
+            $book->add_to_book_author({author_id => $author_id});
             # Note: Above is a shortcut for this:
-            # $book->create_related('book_authors', {author_id => $author_id});
+            # $book->create_related('book_author', {author_id => $author_id});
     
             # Assign the Book object to the stash for display in the view
             $c->stash->{book} = $book;
@@ -236,7 +244,7 @@ your controllers and views be an "thin" as possible, with all of the
 
 For example, let's add a method to our C<Books.pm> Result Class to 
 check if a user is allowed to delete a book.  Open 
-C<lib/MyApp/Schema/Result/Books.pm> and add the following method 
+C<lib/MyApp/Schema/Result/Book.pm> and add the following method 
 (be sure to add it below the "C<DO NOT MODIFY ...>" line):
 
     =head2 delete_allowed_by
@@ -254,7 +262,7 @@ C<lib/MyApp/Schema/Result/Books.pm> and add the following method
 
 Here we call a C<has_role> method on our user object, so we should add 
 this method to our Result Class.  Open 
-C<lib/MyApp/Schema/Result/Users.pm> and add the following method below 
+C<lib/MyApp/Schema/Result/User.pm> and add the following method below 
 the "C<DO NOT MODIFY ...>" line:
 
     =head 2 has_role

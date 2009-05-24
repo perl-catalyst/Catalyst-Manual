@@ -59,13 +59,17 @@ L<Appendices|Catalyst::Manual::Tutorial::Appendices>
 You may have noticed that the Catalyst Helper scripts automatically 
 create basic C<.t> test scripts under the C<t> directory.  This 
 chapter of the tutorial briefly looks at how these tests can be used 
-to not only ensure that your application is working correctly at the 
+not only to ensure that your application is working correctly at the 
 present time, but also provide automated regression testing as you 
 upgrade various pieces of your application over time.
 
 You can check out the source code for this example from the Catalyst
 Subversion repository as per the instructions in
 L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>.
+
+For an excellent introduction to learning the many benefits of testing
+your Perl applications and modules, you might want to read 'Perl Testing: 
+A Developer's Notebook' by Ian Langworth and chromatic.
 
 
 =head1 RUNNING THE "CANNED" CATALYST TESTS
@@ -83,7 +87,7 @@ a quick and easy way to reduce the clutter).  Look for lines like this
 for errors:
 
     #   Failed test 'Request should succeed'
-    #   in t/controller_Books.t at line 8.
+    #   at t/controller_Books.t line 8.
     # Looks like you failed 1 test of 3.
 
 The redirection used by the Authentication plugins will cause several 
@@ -98,13 +102,25 @@ to:
 
     ok( request('/login')->is_success, 'Request should succeed' );
 
-2) Change the "C<request('/logout')-E<gt>is_success>" to 
-"C<request('/logout')-E<gt>is_redirect>" in C<t/controller_Logout.t>.
+2) Change the line in C<t/controller_Logout.t> that reads:
 
-3) Change the "C<request('/books')-E<gt>is_success>" to 
-"C<request('/books')-E<gt>is_redirect>" in C<t/controller_Books.t>.
+    ok( request('/logout')->is_success, 'Request should succeed' );
 
-4) Add "C<use MyApp;>" to the top of C<t/view_TT.t>.
+to:
+
+    ok( request('/logout')->is_redirect, 'Request should succeed' );
+
+3) Change the line in C<t/controller_Books.t> that reads:
+
+    ok( request('/books')->is_success, 'Request should succeed' );
+
+to:
+
+    ok( request('/books')->is_redirect, 'Request should succeed' );
+
+4) Add the following statement to the top of C<t/view_TT.t>:
+
+    use MyApp;
 
 As you can see in the C<prove> command line above, the C<--lib> option
 is used to set the location of the Catalyst C<lib> directory.  With this
@@ -118,7 +134,7 @@ environment variable.  For example:
 
 B<Note:> Depending on the versions of various modules you have 
 installed, you might get some C<used only once> warnings -- you can 
-ignore these.  If you want to elliminate the warnings, you can 
+ignore these.  If you want to eliminate the warnings, you can 
 edit C<Template::Base> to disable and then re-enable warnings
 are the C</usr/lib/perl5/Template/Base.pm> line in C<sub new>.
 You can locate where C<Template::Base> is located with the 
@@ -221,12 +237,7 @@ editor and enter the following:
     # Log in as each user
     # Specify username and password on the URL
     $ua1->get_ok("http://localhost/login?username=test01&password=mypass", "Login 'test01'");
-    # Use the form for user 'test02'; note there is no description here
-    $ua2->submit_form(
-        fields => {
-            username => 'test02',
-            password => 'mypass',
-        });
+    $ua1->get_ok("http://localhost/login?username=test02&password=mypass", "Login 'test02'");
     
     # Go back to the login page and it should show that we are already logged in
     $_->get_ok("http://localhost/login", "Return to '/login'") for $ua1, $ua2;

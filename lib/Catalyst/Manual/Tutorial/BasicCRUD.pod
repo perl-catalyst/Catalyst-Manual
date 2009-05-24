@@ -105,16 +105,16 @@ Edit C<lib/MyApp/Controller/Books.pm> and enter the following method:
 
         # Call create() on the book model object. Pass the table
         # columns/field values we want to set as hash values
-        my $book = $c->model('DB::Books')->create({
+        my $book = $c->model('DB::Book')->create({
                 title  => $title,
                 rating => $rating
             });
 
         # Add a record to the join table for this book, mapping to
         # appropriate author
-        $book->add_to_book_authors({author_id => $author_id});
+        $book->add_to_book_author({author_id => $author_id});
         # Note: Above is a shortcut for this:
-        # $book->create_related('book_authors', {author_id => $author_id});
+        # $book->create_related('book_author', {author_id => $author_id});
 
         # Assign the Book object to the stash for display in the view
         $c->stash->{book} = $book;
@@ -127,7 +127,7 @@ Notice that Catalyst takes "extra slash-separated information" from the
 URL and passes it as arguments in C<@_>.  The C<url_create> action then
 uses a simple call to the DBIC C<create> method to add the requested
 information to the database (with a separate call to
-C<add_to_book_authors> to update the join table).  As do virtually all
+C<add_to_book_author> to update the join table).  As do virtually all
 controller methods (at least the ones that directly handle user input),
 it then sets the template that should handle this request.
 
@@ -153,8 +153,8 @@ Edit C<root/src/books/create_done.tt2> and then enter:
 
     [% # Output the last name of the first author.  This is complicated by an    -%]
     [% # issue in TT 2.15 where blessed hash objects are not handled right.      -%]
-    [% # First, fetch 'book.authors' from the DB once.                           -%]
-    [% authors = book.authors %]
+    [% # First, fetch 'book.author' from the DB once.                           -%]
+    [% authors = book.author %]
     [% # Now use IF statements to test if 'authors.first' is "working". If so,   -%]
     [% # we use it.  Otherwise we use a hack that seems to keep TT 2.15 happy.   -%]
     by '[% authors.first.last_name IF authors.first;
@@ -208,11 +208,8 @@ object as it was returned by DBIC.  You should also see the following
 DBIC debug messages displayed in the development server log messages
 if you have DBIC_TRACE set:
 
-    INSERT INTO books (rating, title) VALUES (?, ?): `5', `TCPIP_Illustrated_Vol-2'
-    INSERT INTO book_authors (author_id, book_id) VALUES (?, ?): `4', `6'
-    SELECT author.id, author.first_name, author.last_name
-        FROM book_authors me  JOIN authors author
-        ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '6'
+    INSERT INTO book (rating, title) VALUES (?, ?): `5', `TCPIP_Illustrated_Vol-2'
+    INSERT INTO book_author (author_id, book_id) VALUES (?, ?): `4', `6'
 
 The C<INSERT> statements are obviously adding the book and linking it to
 the existing record for Richard Stevens.  The C<SELECT> statement results
@@ -220,7 +217,12 @@ from DBIC automatically fetching the book for the C<Dumper.dump(book)>.
 
 If you then click the "Return to list" link, you should find that
 there are now six books shown (if necessary, Shift+Reload or
-Ctrl+Reload your browser at the C</books/list> page).
+Ctrl+Reload your browser at the C</books/list> page).  You should now see
+the following six DBIC debug messages displayed for N=1-6:
+
+    SELECT author.id, author.first_name, author.last_name \
+        FROM book_author me  JOIN author author \
+        ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): 'N'
 
 
 =head1 CONVERT TO A CHAINED ACTION
@@ -400,7 +402,7 @@ method:
         my ($self, $c) = @_;
 
         # Store the ResultSet in stash so it's available for other methods
-        $c->stash->{resultset} = $c->model('DB::Books');
+        $c->stash->{resultset} = $c->model('DB::Book');
 
         # Print a message to the debug log
         $c->log->debug('*** INSIDE BASE METHOD ***');
@@ -516,12 +518,12 @@ save the form information to the database:
         my $author_id = $c->request->params->{author_id} || '1';
 
         # Create the book
-        my $book = $c->model('DB::Books')->create({
+        my $book = $c->model('DB::Book')->create({
                 title   => $title,
                 rating  => $rating,
             });
         # Handle relationship with author
-        $book->add_to_book_authors({author_id => $author_id});
+        $book->add_to_book_author({author_id => $author_id});
 
         # Store new model object in stash
         $c->stash->{book} = $book;
@@ -602,14 +604,15 @@ and 2) the four lines for the Delete link near the bottom):
           [% # authors into the list. Note that the 'push' TT vmethod doesn't return -%]
           [% # a value, so nothing will be printed here.  But, if you have something -%]
           [% # in TT that does return a value and you don't want it printed, you can -%]
-          [% # 1) assign it to a bogus value, or                                     -%]
-          [% # 2) use the CALL keyword to call it and discard the return value.      -%]
+          [% # 1) assign it to a bogus value, or # 2) use the CALL keyword to        -%]
+          [% # call it and discard the return value.                                 -%]
           [% tt_authors = [ ];
-             tt_authors.push(author.last_name) FOREACH author = book.authors %]
+             tt_authors.push(author.last_name) FOREACH author = book.author %]
           [% # Now use a TT 'virtual method' to display the author count in parens   -%]
-          ([% tt_authors.size %])
+          [% # Note the use of the TT filter "| html" to escape dangerous characters -%]
+          ([% tt_authors.size | html %])
           [% # Use another TT vmethod to join & print the names & comma separators   -%]
-          [% tt_authors.join(', ') %]
+          [% tt_authors.join(', ') | html %]
         </td>
         <td>
           [% # Add a link to delete a book %]
@@ -729,7 +732,7 @@ following method:
         my ($self, $c) = @_;
 
         # Use the book object saved by 'object' and delete it along
-        # with related 'book_authors' entries
+        # with related 'book_author' entries
         $c->stash->{object}->delete;
 
         # Set a status message to be displayed at the top of the view
@@ -741,7 +744,7 @@ following method:
 
 This method first deletes the book object saved by the C<object> method.
 However, it also removes the corresponding entry from the
-C<book_authors> table with a cascading delete.
+C<book_author> table with a cascading delete.
 
 Then, rather than forwarding to a "delete done" page as we did with the
 earlier create example, it simply sets the C<status_msg> to display a
@@ -785,10 +788,10 @@ the "Delete" link next to the first "TCPIP_Illustrated_Vol-2".  A green
 along with a list of the eight remaining books.  You will also see the
 cascading delete operation via the DBIC_TRACE output:
 
-    SELECT me.id, me.title, me.rating FROM books me WHERE ( ( me.id = ? ) ): '6'
-    DELETE FROM books WHERE ( id = ? ): '6'
-    SELECT me.book_id, me.author_id FROM book_authors me WHERE ( me.book_id = ? ): '6'
-    DELETE FROM book_authors WHERE ( author_id = ? AND book_id = ? ): '4', '6'
+    SELECT me.id, me.title, me.rating FROM book me WHERE ( ( me.id = ? ) ): '6'
+    DELETE FROM book WHERE ( id = ? ): '6'
+    SELECT me.book_id, me.author_id FROM book_author me WHERE ( me.book_id = ? ): '6'
+    DELETE FROM book_author WHERE ( author_id = ? AND book_id = ? ): '4', '6'
 
 
 =head2 Fixing a Dangerous URL
@@ -825,7 +828,7 @@ C<sub delete> method to match:
         my ($self, $c) = @_;
 
         # Use the book object saved by 'object' and delete it along
-        # with related 'book_authors' entries
+        # with related 'book_author' entries
         $c->stash->{object}->delete;
 
         # Set a status message to be displayed at the top of the view
@@ -870,7 +873,7 @@ method to match the following:
         my ($self, $c) = @_;
 
         # Use the book object saved by 'object' and delete it along
-        # with related 'book_authors' entries
+        # with related 'book_author' entries
         $c->stash->{object}->delete;
 
         # Redirect the user back to the list page with status msg as an arg
@@ -936,10 +939,10 @@ Let's add two columns to our existing C<books> table to track when
 each book was added and when each book is updated:
 
     $ sqlite3 myapp.db
-    sqlite> ALTER TABLE books ADD created INTEGER;
-    sqlite> ALTER TABLE books ADD updated INTEGER;
-    sqlite> UPDATE books SET created = DATETIME('NOW'), updated = DATETIME('NOW');
-    sqlite> SELECT * FROM books;
+    sqlite> ALTER TABLE book ADD created INTEGER;
+    sqlite> ALTER TABLE book ADD updated INTEGER;
+    sqlite> UPDATE book SET created = DATETIME('NOW'), updated = DATETIME('NOW');
+    sqlite> SELECT * FROM book;
     1|CCSP SNRS Exam Certification Guide|5|2009-03-08 16:26:35|2009-03-08 16:26:35
     2|TCP/IP Illustrated, Volume 1|5|2009-03-08 16:26:35|2009-03-08 16:26:35
     3|Internetworking with TCP/IP Vol.1|4|2009-03-08 16:26:35|2009-03-08 16:26:35
@@ -970,7 +973,7 @@ Notice that we modified our use of the helper slightly: we told
 it to include the L<DBIx::Class::TimeStamp|DBIx::Class::TimeStamp>
 in the C<load_components> line of the Result Classes.
 
-If you open C<lib/MyApp/Schema/Result/Books.pm> in your editor you
+If you open C<lib/MyApp/Schema/Result/Book.pm> in your editor you
 should see that the C<created> and C<updated> fields are now included
 in the call to C<add_columns()>, but our relationship information below
 the "C<# DO NOT MODIFY...>" line was automatically preserved.
@@ -1011,7 +1014,7 @@ if you now use the sqlite3 command-line tool to dump the C<books> table,
 you will see that the new book we added has an appropriate date and
 time entered for it (see the last line in the listing below):
 
-    sqlite3 myapp.db "select * from books"
+    sqlite3 myapp.db "select * from book"
     1|CCSP SNRS Exam Certification Guide|5|2009-03-08 16:26:35|2009-03-08 16:26:35
     2|TCP/IP Illustrated, Volume 1|5|2009-03-08 16:26:35|2009-03-08 16:26:35
     3|Internetworking with TCP/IP Vol.1|4|2009-03-08 16:26:35|2009-03-08 16:26:35
@@ -1023,9 +1026,9 @@ time entered for it (see the last line in the listing below):
 Notice in the debug log that the SQL DBIC generated has changed to
 incorporate the datetime logic:
 
-    INSERT INTO books (created, rating, title, updated) VALUES (?, ?, ?, ?):
+    INSERT INTO book (created, rating, title, updated) VALUES (?, ?, ?, ?):
     '2009-03-08 16:29:08', '5', 'TCPIP_Illustrated_Vol-2', '2009-03-08 16:29:08'
-    INSERT INTO book_authors (author_id, book_id) VALUES (?, ?): '4', '10'
+    INSERT INTO book_author (author_id, book_id) VALUES (?, ?): '4', '10'
 
 
 =head2 Create a ResultSet Class
@@ -1044,9 +1047,9 @@ making a directory where DBIx::Class will look for our ResultSet Class:
 
     mkdir lib/MyApp/Schema/ResultSet
 
-Then open C<lib/MyApp/Schema/ResultSet/Books.pm> and enter the following:
+Then open C<lib/MyApp/Schema/ResultSet/Book.pm> and enter the following:
 
-    package MyApp::Schema::ResultSet::Books;
+    package MyApp::Schema::ResultSet::Book;
 
     use strict;
     use warnings;
@@ -1072,13 +1075,13 @@ Then open C<lib/MyApp/Schema/ResultSet/Books.pm> and enter the following:
     1;
 
 Then we need to tell the Result Class to to treat this as a ResultSet
-Class.  Open C<lib/MyApp/Schema/Result/Books.pm> and add the following
+Class.  Open C<lib/MyApp/Schema/Result/Book.pm> and add the following
 above the "C<1;>" at the bottom of the file:
 
     #
     # Set ResultSet Class
     #
-    __PACKAGE__->resultset_class('MyApp::Schema::ResultSet::Books');
+    __PACKAGE__->resultset_class('MyApp::Schema::ResultSet::Book');
 
 Then add the following method to the C<lib/MyApp/Controller/Books.pm>:
 
@@ -1094,7 +1097,7 @@ Then add the following method to the C<lib/MyApp/Controller/Books.pm>:
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
-        $c->stash->{books} = [$c->model('DB::Books')
+        $c->stash->{books} = [$c->model('DB::Book')
                                 ->created_after(DateTime->now->subtract(minutes => $mins))];
 
         # Set the TT template to use.  You will almost always want to do this
@@ -1144,7 +1147,7 @@ C<lib/MyApp/Controller/Books.pm> and add the following method:
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
         # AND that have 'TCP' in the title
-        $c->stash->{books} = [$c->model('DB::Books')
+        $c->stash->{books} = [$c->model('DB::Book')
                                 ->created_after(DateTime->now->subtract(minutes => $mins))
                                 ->search({title => {'like', '%TCP%'}})
                              ];
@@ -1174,13 +1177,13 @@ how recently you added books to your database):
 Take a look at the DBIC_TRACE output in the development server log for
 the first URL and you should see something similar to the following:
 
-    SELECT me.id, me.title, me.rating, me.created, me.updated FROM books me
+    SELECT me.id, me.title, me.rating, me.created, me.updated FROM book me
     WHERE ( ( ( title LIKE ? ) AND ( created > ? ) ) ): '%TCP%', '2009-03-08 14:52:54'
 
 However, let's not pollute our controller code with this raw "TCP"
 query -- it would be cleaner to encapsulate that code in a method on
 our ResultSet Class.  To do this, open
-C<lib/MyApp/Schema/ResultSet/Books.pm> and add the following method:
+C<lib/MyApp/Schema/ResultSet/Book.pm> and add the following method:
 
     =head2 title_like
 
@@ -1215,7 +1218,7 @@ shown here -- the rest of the method should be the same):
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
         # AND that have 'TCP' in the title
-        $c->stash->{books} = [$c->model('DB::Books')
+        $c->stash->{books} = [$c->model('DB::Book')
                                 ->created_after(DateTime->now->subtract(minutes => $mins))
                                 ->title_like('TCP')
                              ];
@@ -1242,7 +1245,7 @@ well.  Whereas the ResultSet construct is used in DBIC to correspond
 to an entire query, the Result Class construct is used to represent a 
 row. Therefore, we can add row-specific "helper methods" to our Result 
 Classes stored in C<lib/MyApp/Schema/Result/>. For example, open 
-C<lib/MyApp/Schema/Result/Authors.pm> and add the following method (as 
+C<lib/MyApp/Schema/Result/Author.pm> and add the following method (as 
 always, it must be above the closing "C<1;>"):
 
     #
@@ -1260,14 +1263,14 @@ and change the definition of C<tt_authors> from this:
 
     ...
       [% tt_authors = [ ];
-         tt_authors.push(author.last_name) FOREACH author = book.authors %]
+         tt_authors.push(author.last_name) FOREACH author = book.author %]
     ...
 
 to:
 
     ...
       [% tt_authors = [ ];
-         tt_authors.push(author.full_name) FOREACH author = book.authors %]
+         tt_authors.push(author.full_name) FOREACH author = book.author %]
     ...
 
 (Only C<author.last_name> was changed to C<author.full_name> -- the
