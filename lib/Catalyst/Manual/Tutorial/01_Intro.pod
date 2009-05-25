@@ -204,6 +204,10 @@ Catalyst::Devel v1.10
 
 DBIx::Class v0.08102
 
+=item *
+
+Template Toolkit v2.20
+
 =item * 
 
 Catalyst Plugins
@@ -387,10 +391,13 @@ Install Catalyst:
     sudo aptitude -y install sqlite3 libdbd-sqlite3-perl libcatalyst-perl \
         libcatalyst-modules-perl libconfig-general-perl libsql-translator-perl \
         libdatetime-perl libdatetime-format-mysql-perl libio-all-perl \
-        libperl6-junction-perl libmoosex-emulate-class-accessor-fast-perl
+        libperl6-junction-perl libmoosex-emulate-class-accessor-fast-perl \
+        libdbix-class-timestamp-perl
 
-Let it install (normally about a 30-second operaton) and you are 
-done.  
+Let it install (normally about a 30-second operaton) and you are done. 
+(Note the '\' above.  Depending on your environment, you might be able 
+to cut and paste the text as shown or need to remove the '\' 
+characters to that the command is all on a single line.)
 
 If you are using an image other than the "rescue" ISO, you will also need
 to run the following command to install additional packages:
@@ -598,7 +605,7 @@ B<NOTE:> You can run the test cases for the final code through Chapter 8
 with the following commands:
 
     sudo cpan Catalyst::Model::DBIC::Schema Time::Warp DBICx::TestDatabase \
-        DBIx::Class::DynamicDefault DBIx::Class::TimeStamp DBIx::Class::EncodedColumn
+        DBIx::Class::DynamicDefault DBIx::Class::EncodedColumn
     wget http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Chapter8.tgz
     tar zxvf MyApp_Chapter8.tgz
     cd MyApp

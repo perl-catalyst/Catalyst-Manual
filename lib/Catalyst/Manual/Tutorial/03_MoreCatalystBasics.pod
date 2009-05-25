@@ -189,7 +189,8 @@ your I<application class>) and delete the lines with:
 Then replace it with:
 
     # Load plugins
-    use Catalyst qw/-Debug
+    use Catalyst qw/
+                    -Debug
                     ConfigLoader
                     Static::Simple
                 
@@ -553,7 +554,7 @@ model working below.
 
 If you run into problems getting your application to run correctly, it
 might be helpful to refer to some of the debugging techniques covered in
-the L<Debugging|Catalyst::Manual::Tutorial::07_Debugging> part of the
+the L<Debugging|Catalyst::Manual::Tutorial::07_Debugging> chapter of the
 tutorial.
 
 
@@ -692,8 +693,9 @@ running this command:
         'print "$Catalyst::Model::DBIC::Schema::VERSION\n"'
     0.23
 
-(please note that the '\' above is a line continuation marker and
-should NOT be included as part of the command)
+Please note the '\' above.  Depending on your environment, you might 
+be able to cut and paste the text as shown or need to remove the '\' 
+character to that the command is all on a single line.
 
 If you don't have version 0.23 or higher, please run this command
 to install it directly from CPAN:
@@ -713,7 +715,7 @@ L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> and
 automatically build the required files for us:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static components=TimeStamp dbi:SQLite:myapp.db
+        create=static dbi:SQLite:myapp.db
      exists "/home/me/MyApp/script/../lib/MyApp/Model"
      exists "/home/me/MyApp/script/../t"
     Dumping manual schema for MyApp::Schema to directory /home/me/MyApp/script/../lib ...
@@ -721,8 +723,9 @@ automatically build the required files for us:
     created "/home/me/MyApp/script/../lib/MyApp/Model/DB.pm"
     created "/home/me/MyApp/script/../t/model_DB.t"
 
-(please note that the '\' above is a line continuation marker and
-should NOT be included as part of the command)
+Please note the '\' above.  Depending on your environment, you might 
+be able to cut and paste the text as shown or need to remove the '\' 
+character to that the command is all on a single line.
 
 The C<script/myapp_create.pl> command breaks down like this:
 
@@ -806,11 +809,7 @@ have v0.23 C<Catalyst::Model::DBIC::Schema> as discussed above):
     $
     $ # Then re-run the helper to build the files for "load_namespaces"
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static components=TimeStamp dbi:SQLite:myapp.db
-    $
-    $ # Note that the '\' above is a line continuation marker and
-    $ # should NOT be included as part of the command
-
+        create=static dbi:SQLite:myapp.db
     $
     $ # Now convert the existing files over
     $ cd lib/MyApp/Schema
@@ -907,8 +906,8 @@ display something like:
     [debug] Statistics enabled
     [debug] Loaded plugins:
     .----------------------------------------------------------------------------.
-    | Catalyst::Plugin::ConfigLoader  0.23                                       |
-    | Catalyst::Plugin::StackTrace  0.10                                         |
+    | Catalyst::Plugin::ConfigLoader  0.22                                       |
+    | Catalyst::Plugin::StackTrace  0.09                                         |
     | Catalyst::Plugin::Static::Simple  0.21                                     |
     '----------------------------------------------------------------------------'
     
@@ -990,7 +989,7 @@ column will still be blank (we will fill that in later).
 Also notice in the output of the C<script/myapp_server.pl> that 
 DBIx::Class used the following SQL to retrieve the data:
 
-    SELECT me.id, me.title, me.rating FROM books me
+    SELECT me.id, me.title, me.rating FROM book me
 
 because we enabled DBIC_TRACE.
 
@@ -1190,7 +1189,7 @@ following text below the C<# You can replace this text...> comment:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(book_author => 'MyApp::Schema::Result::BookAuthor', 'book_id');
+    __PACKAGE__->has_many(book_authors => 'MyApp::Schema::Result::BookAuthor', 'book_id');
     
     # many_to_many():
     #   args:
@@ -1198,7 +1197,7 @@ following text below the C<# You can replace this text...> comment:
     #     2) Name of has_many() relationship this many_to_many() is shortcut for
     #     3) Name of belongs_to() relationship in model class of has_many() above
     #   You must already have the has_many() defined to use a many_to_many().
-    __PACKAGE__->many_to_many(author => 'book_author', 'author');
+    __PACKAGE__->many_to_many(authors => 'book_authors', 'author');
 
 
 B<Note:> Be careful to put this code I<above> the C<1;> at the end of the
@@ -1232,7 +1231,7 @@ below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
     #     1) Name of relationship, DBIC will create an accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(book_author => 'MyApp::Schema::Result::BookAuthor', 'author_id');
+    __PACKAGE__->has_many(book_authors => 'MyApp::Schema::Result::BookAuthor', 'author_id');
     
     # many_to_many():
     #   args:
@@ -1240,7 +1239,7 @@ below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
     #     2) Name of has_many() relationship this many_to_many() is shortcut for
     #     3) Name of belongs_to() relationship in model class of has_many() above
     #   You must already have the has_many() defined to use a many_to_many().
-    __PACKAGE__->many_to_many(book => 'book_author', 'book');
+    __PACKAGE__->many_to_many(books => 'book_authors', 'book');
 
 Finally, do the same for the "join table,"
 C<lib/MyApp/Schema/Result/BookAuthor.pm>:
@@ -1295,6 +1294,7 @@ the "empty" table cell "<td></td>" with the following:
 
     ...
     <td>
+      [% # NOTE: See Chapter 4 for a better way to do this!                      -%]
       [% # First initialize a TT variable to hold a list.  Then use a TT FOREACH -%]
       [% # loop in 'side effect notation' to load just the last names of the     -%]
       [% # authors into the list. Note that the 'push' TT vmethod does not print -%]
@@ -1312,6 +1312,15 @@ the "empty" table cell "<td></td>" with the following:
     </td>
     ...
 
+B<IMPORTANT NOTE:> You should keep as much "logic code" as possible 
+out of your views.  Instead, this kind of logic belongs in your model 
+(the same goes for controllers -- keep them as "thin" as possible and 
+push all of the "complicated code" out to your model objects).  Avoid 
+code like you see in the previous example -- we are only using it here 
+to show some extra features in TT until we get to the more advanced 
+model features we will see in Chapter 4 (see
+L<Catalyst::Manual::Tutorial::04_BasicCRUD/EXPLORING THE POWER OF DBIC>).
+
 Then hit "Reload" in your browser (note that you don't need to reload 
 the development server or use the C<-r> option when updating TT 
 templates) and you should now see the number of authors each book has 
@@ -1325,17 +1334,17 @@ enabled, you should also now see five more C<SELECT> statements in the
 debug output (one for each book as the authors are being retrieved by
 DBIx::Class):
 
-    SELECT me.id, me.title, me.rating FROM books me:
+    SELECT me.id, me.title, me.rating FROM book me:
     SELECT author.id, author.first_name, author.last_name FROM book_author me  
-    JOIN author author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '1'
+    JOIN author author ON author.id = me.author_id WHERE ( me.book_id = ? ): '1'
     SELECT author.id, author.first_name, author.last_name FROM book_author me  
-    JOIN author author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '2'
+    JOIN author author ON author.id = me.author_id WHERE ( me.book_id = ? ): '2'
     SELECT author.id, author.first_name, author.last_name FROM book_author me  
-    JOIN author author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '3'
+    JOIN author author ON author.id = me.author_id WHERE ( me.book_id = ? ): '3'
     SELECT author.id, author.first_name, author.last_name FROM book_author me  
-    JOIN author author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '4'
+    JOIN author author ON author.id = me.author_id WHERE ( me.book_id = ? ): '4'
     SELECT author.id, author.first_name, author.last_name FROM book_author me  
-    JOIN author author ON ( author.id = me.author_id ) WHERE ( me.book_id = ? ): '5'
+    JOIN author author ON author.id = me.author_id WHERE ( me.book_id = ? ): '5'
 
 Also note in C<root/src/books/list.tt2> that we are using "| html", a 
 type of TT filter, to escape characters such as E<lt> and E<gt> to &lt; 
@@ -1423,6 +1432,35 @@ detailed information on how to extend C<RenderView> in C<sub end>.
 =back
 
 
+=head2 RenderView's "dump_info" Feature
+
+One of the nice features of C<RenderView> is that it automatically 
+allows you to add C<dump_info=1> to the end of any URL for your 
+application and it will force the display of the "exception dump" 
+screen to the client browser.  You can try this out by starting the 
+development server as before and then point your browser to this URL: 
+
+    http://localhost:3000/books/list?dump_info=1
+
+You should get a page with the following message at the top:
+
+    Caught exception in MyApp::Controller::Root->end "Forced debug - 
+    Scrubbed output at /usr/share/perl5/Catalyst/Action/RenderView.pm line 46."
+
+Along with a summary of your application's state at the end of the 
+processing for that request.  The "Stash" section should show a 
+summarized version of the DBIC book model objects.  If desired, you 
+can adjust the summarization logic (called "scrubbing" logic) -- see 
+L<Catalyst::Action::RenderView|Catalyst::Action::RenderView> for 
+details.
+
+Note that you shouldn't need to worry about "normal clients" using 
+this technique to "reverse engineer" your application -- C<RenderView> 
+only supports the C<dump_info=1> feature when your application is 
+running in C<-Debug> mode (something you won't do once you have your 
+application deployed in production).
+
+
 =head2 Using The Default Template Name
 
 By default, C<Catalyst::View::TT> will look for a template that uses the
@@ -1469,6 +1507,7 @@ Chapter 9 of the Tutorial).
 
 B<IMPORTANT:> Make sure that you do NOT skip the following section
 before continuing to the next chapter 4 Basic CRUD.
+
 
 =head2 Return To A Manually Specified Template
 

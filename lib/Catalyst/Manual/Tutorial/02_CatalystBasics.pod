@@ -219,7 +219,7 @@ previous step):
     | /                                   | /index                               |
     '-------------------------------------+--------------------------------------'
     
-    [info] Hello powered by Catalyst 5.80003
+    [info] Hello powered by Catalyst 5.80004
     You can connect to your server at http://debian:3000
 
 Point your web browser to L<http://localhost:3000> (substituting a 
