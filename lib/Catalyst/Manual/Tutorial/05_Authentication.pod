@@ -159,7 +159,7 @@ C<lib/MyApp/Schema/Result/User.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::Result::UserRole', 'user_id');
+    __PACKAGE__->has_many(map_user_roles => 'MyApp::Schema::Result::UserRole', 'user_id');
     
     # many_to_many():
     #   args:
@@ -167,7 +167,7 @@ C<lib/MyApp/Schema/Result/User.pm>:
     #     2) Name of has_many() relationship this many_to_many() is shortcut for
     #     3) Name of belongs_to() relationship in model class of has_many() above
     #   You must already have the has_many() defined to use a many_to_many().
-    __PACKAGE__->many_to_many(roles => 'map_user_role', 'role');
+    __PACKAGE__->many_to_many(roles => 'map_user_roles', 'role');
 
 
 C<lib/MyApp/Schema/Result/Role.pm>:
@@ -181,7 +181,7 @@ C<lib/MyApp/Schema/Result/Role.pm>:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of the model class referenced by this relationship
     #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(map_user_role => 'MyApp::Schema::Result::UserRole', 'role_id');
+    __PACKAGE__->has_many(map_user_roles => 'MyApp::Schema::Result::UserRole', 'role_id');
 
 
 C<lib/MyApp/Schema/Result/UserRole.pm>:
@@ -253,7 +253,8 @@ Edit C<lib/MyApp.pm> and update it as follows (everything below
 C<StackTrace> is new):
 
     # Load plugins
-    use Catalyst qw/-Debug
+    use Catalyst qw/
+                    -Debug
                     ConfigLoader
                     Static::Simple
     
@@ -745,12 +746,20 @@ password stored for this user.
 
 Then run the following command:
 
-    $ perl -Ilib set_hashed_passwords.pl
+    $ DBIC_TRACE=1 perl -Ilib set_hashed_passwords.pl
 
 We had to use the C<-Ilib> arguement to tell perl to look under the 
 C<lib> directory for our C<MyApp::Schema> model.
 
-Then dump the users table to verify that it worked:
+The DBIC_TRACE output should show that the update worked:
+
+    $ DBIC_TRACE=1 perl -Ilib set_hashed_passwords.pl
+    SELECT me.id, me.username, me.password, me.email_address, me.first_name, me.last_name, me.active FROM user me: 
+    UPDATE user SET password = ? WHERE ( id = ? ): 'oXiyAcGOjowz7ISUhpIm1IrS8AxSZ9r4jNjpX9VnVeQmN6GRtRKTz', '1'
+    UPDATE user SET password = ? WHERE ( id = ? ): 'PmyEPrkB8EGwvaF/DvJm7LIfxoZARjv8ygFIR7pc1gEA1OfwHGNzs', '2'
+    UPDATE user SET password = ? WHERE ( id = ? ): 'h7CS1Fm9UCs4hjcbu2im0HumaHCJUq4Uriac+SQgdUMUfFSoOrz3c', '3'
+
+But we can further confirm our actions by dumping the users table:
 
     $ sqlite3 myapp.db "select * from user"
     1|test01|38d3974fa9e9263099f7bc2574284b2f55473a9bM=fwpX2NR8|t01@na.com|Joe|Blow|1

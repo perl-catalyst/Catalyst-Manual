@@ -237,7 +237,12 @@ editor and enter the following:
     # Log in as each user
     # Specify username and password on the URL
     $ua1->get_ok("http://localhost/login?username=test01&password=mypass", "Login 'test01'");
-    $ua1->get_ok("http://localhost/login?username=test02&password=mypass", "Login 'test02'");
+    # Could make user2 like user1 above, but use the form to show another way
+    $ua2->submit_form(
+        fields => {
+            username => 'test02',
+            password => 'mypass',
+        });
     
     # Go back to the login page and it should show that we are already logged in
     $_->get_ok("http://localhost/login", "Return to '/login'") for $ua1, $ua2;

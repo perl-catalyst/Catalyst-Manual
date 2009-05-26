@@ -1066,9 +1066,9 @@ time entered for it (see the last line in the listing below):
 Notice in the debug log that the SQL DBIC generated has changed to
 incorporate the datetime logic:
 
-    INSERT INTO book ( created, rating, title, updated) VALUES ( ?, ?, ?, ? ): 
+    INSERT INTO book ( created, rating, title, updated ) VALUES ( ?, ?, ?, ? ): 
     '2009-05-25 20:39:41', '5', 'TCPIP_Illustrated_Vol-2', '2009-05-25 20:39:41'
-    INSERT INTO book_author ( author_id, book_id) VALUES ( ?, ? ): '4', '10'
+    INSERT INTO book_author ( author_id, book_id ) VALUES ( ?, ? ): '4', '10'
 
 
 =head2 Create a ResultSet Class

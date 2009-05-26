@@ -79,7 +79,8 @@ Catalyst.
 Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 
     # Load plugins
-    use Catalyst qw/-Debug
+    use Catalyst qw/
+                    -Debug
                     ConfigLoader
                     Static::Simple
                 
@@ -107,6 +108,7 @@ like this:
         'Catalyst::Plugin::Authorization::Roles' => '0',
     );
 
+
 =head2 Add Role-Specific Logic to the "Book List" Template
 
 Open C<root/src/books/list.tt2> in your editor and add the following
@@ -117,7 +119,7 @@ lines to the bottom of the file:
     
     <ul>
       [% # Dump list of roles -%]
-      [% FOR role = c.user.role %]<li>[% role %]</li>[% END %]
+      [% FOR role = c.user.roles %]<li>[% role %]</li>[% END %]
     </ul>
     
     <p>
@@ -175,9 +177,9 @@ updating C<url_create> to match the following code:
     
             # Add a record to the join table for this book, mapping to
             # appropriate author
-            $book->add_to_book_author({author_id => $author_id});
+            $book->add_to_book_authors({author_id => $author_id});
             # Note: Above is a shortcut for this:
-            # $book->create_related('book_author', {author_id => $author_id});
+            # $book->create_related('book_authors', {author_id => $author_id});
     
             # Assign the Book object to the stash for display in the view
             $c->stash->{book} = $book;
@@ -305,7 +307,7 @@ match the following code:
     
         # Redirect the user back to the list page
         $c->response->redirect($c->uri_for($self->action_for('list')));
-    }    
+    }
 
 Here, we C<detach> to an error page if the user is lacking the 
 appropriate permissions.  For this to work, we need to make 
