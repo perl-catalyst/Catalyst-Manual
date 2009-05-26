@@ -641,8 +641,8 @@ and 2) the four lines for the Delete link near the bottom):
           [% # authors into the list. Note that the 'push' TT vmethod doesn't return -%]
           [% # a value, so nothing will be printed here.  But, if you have something -%]
           [% # in TT that does return a value and you don't want it printed, you can -%]
-          [% # 1) assign it to a bogus value, or # 2) use the CALL keyword to        -%]
-          [% # call it and discard the return value.                                 -%]
+          [% # 1) assign it to a bogus value, or                                     -%]
+          [% # 2) use the CALL keyword to call it and discard the return value.      -%]
           [% tt_authors = [ ];
              tt_authors.push(author.last_name) FOREACH author = book.authors %]
           [% # Now use a TT 'virtual method' to display the author count in parens   -%]
