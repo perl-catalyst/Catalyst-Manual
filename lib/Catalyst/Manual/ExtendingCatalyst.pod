@@ -119,11 +119,41 @@ via multiple inheritence, if your functionality is well structured, then
 it's possible to use the composability of L<Moose> roles, and method modifiers
 to hook onto to provide functionality.
 
-For a simple example of this, see L<CatalystX::REPL>.
+These can be applied to your models/views/controllers, and your application
+class. Please see the sections below for special notes and caveats, and
+the L<Moose::Manual::Roles> for more information about roles in general.
+
+=head3 In your application class
+
+It should be noted that when applying roles to your application class, that
+you should B<not> wrap methods provided by L<Catalyst> until B<after> you have
+run C<< __PACKAGE__->setup >>, as your class does not inherit from any of your
+plugins until the setup method is run.
+
+With Catalyst 5.80004, it is possible to include Roles in the plugin list, and
+these roles will be applied to your application class immediately after
+'traditional' plugins have been composed into your application class'
+inheritance hierarchy.
+
+=head3 In controllers
+
+Method modifiers on controller actions will work as expected (either in your
+controllers, or when composed from roles) in Catalyst 5.80003 and above.
+
+It is possible to have action methods with attributes inside Moose roles, using
+the trait introduced in L<MooseX::MethodAttributes> version 0.12, example:
+
+    package MyApp::ControllerRole;
+    use Moose::Role -traits => 'MethodAttributes';
+
+    sub foo : Local {
+        my ($self, $c) = @_;
+        ...
+    }
 
 =head2 Inheritance and overriding methods
 
-When overriding a method, keep in mind that some day additionally
+When overriding a method, keep in mind that some day additionall
 arguments may be provided to the method, if the last parameter is not
 a flat list. It is thus better to override a method by shifting the
 invocant off of C<@_> and assign the rest of the used arguments, so
