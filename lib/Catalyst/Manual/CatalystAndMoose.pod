@@ -21,12 +21,13 @@ A Moose-ified version of the context class should look like this:
     package MyApp;
     
     use Moose;
-    use Catalyst;
-    
-    $app->config( name => 'MyApp' );
-    $app->setup(
+    use namespace::autoclean;
+    use Catalyst (
         # your roles and plugins
     );
+    
+    $app->config( name => 'MyApp' );
+    $app->setup;
     
     # method modifiers must be created after setup because otherwise they will
     # conflict with plugin overrides
@@ -38,11 +39,11 @@ A Moose-ified version of the context class should look like this:
 
 You should also be aware, that roles in C<< $c->setup >> are applied 
 after the last plugin with all the benefits of using a single C<< 
-with() >> statement in an ordinary L<Moose> class and that your class 
-is automatically made immutable for you after the call to setup 
-(method modifiers in your class will work, though).
+with() >> statement in an ordinary L<Moose> class.
 
-CAVEAT: using roles in C<< $c->setup >> was implemented in Catalyst 
+Your class is automatically made immutable at the end of the current file. 
+
+CAVEAT: Using roles in C<< $c->setup >> was implemented in Catalyst 
 version 5.80004. In prior versions you might get away with
 
     after 'setup_plugins' => sub{ with(
@@ -56,8 +57,9 @@ version 5.80004. In prior versions you might get away with
 but this is discouraged and you should upgrade to 5.80004 anyway, 
 because it fixes a few important regression against 5.71
 
-[Q: COULD THIS BE USED TO RESOLVE CONFLICTS IN ROLES?].
-
+CAVEAT: Using roles in C<< $c->setup >> will not currently allow
+you to pass parameters to roles, or perform conflict resolution.
+Conflict detection still works as expected.
 
 =head2 ACCESSORS
 
@@ -79,10 +81,7 @@ L<MooseX::ClassAttribute>.
 
 Since the release of Catalyst version 5.8 the only reason for creating 
 a Catalyst extension as a plugin is to provide backward compatibility 
-to applications still using version 5.7 but even then you should 
-consider building your plugin using L<Moose> and take advantage of 
-L<Moose::Manual::MethodModifiers|method modifiers> instead of 
-overriding methods to alter Catalyst's request lifecycle behavior.
+to applications still using version 5.7.
 
 If backward compatibility is of no concern to you, you could as easily 
 rewrite your plugins as roles and enjoy all the benefits of automatic 
@@ -103,7 +102,6 @@ C<< setup_engine()>>, C<< setup_stats() >>, C<< setup_components() >>
 and C<< setup_actions() >>, but this should be done with due 
 consideration and as late as possible.
 
-
 =head1 CONTROLLERS
 
 To activate Catalyst's action attributes, Moose-ified controller 
@@ -111,13 +109,29 @@ classes need to extend L<Catalyst::Controller> at compile time before
 the actions themselves are declared:
 
       package Catalyst::Controller::Root;
-    
       use Moose;
-      BEGIN{
-            extends 'Catalyst::Controller';
-            with(
+      use namespace::autoclean;
+
+      BEGIN { extends 'Catalyst::Controller'; }
+     with qw(
                 # your controller roles
             );
-      }
 
-[MORE TO BE DONE!]
+=head2 Controller Roles
+
+It is possible to use roles to apply method modifiers on controller actions
+from 5.80003 onwards, or use modifiers in actions in your controller classes
+themselves.
+
+It is possible to have action methods with attributes inside Moose roles, using
+the trait introduced in L<MooseX::MethodAttributes> version 0.12, example:
+
+    package MyApp::ControllerRole;
+    use Moose::Role -traits => 'MethodAttributes';
+    use namespace::autoclean;
+
+    sub foo : Local {
+        my ($self, $c) = @_;
+        ...
+    }
+
