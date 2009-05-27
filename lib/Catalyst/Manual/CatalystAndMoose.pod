@@ -61,7 +61,7 @@ because it fixes a few important regression against 5.71
 
 =head2 ACCESSORS
 
-Most of the request specific attributes like C<$c-&gt;stash>, 
+Most of the request-specific attributes like C<$c-&gt;stash>, 
 C<$c-&gt;request> and C<$c-&gt;response> have been converted to 
 L<Moose> attributes but without type constraints, attribute helpers or 
 builder methods. This ensures that Catalyst 5.8 is fully backwards 
