@@ -1,12 +1,16 @@
 Revision history for Catalyst-Manual
 
+5.8000 27 May 2009
         - Tutorial:
             - Update for Catalyst 5.80
             - Update to "depluralize" the database names (big thanks to Kiffin Gish!)
             - Switch back to including numbers in chapter names (for proper sorting)
             - Add section to Ch 4: "Moving Complicated View Code to the Model"
             - Add section to Ch 3: "RenderView's 'dump_info' Feature"
+            - Misc fixes and updates (thanks to Anne Wainwright)
         - Other:
+            - Add some 5.8 and Moose-specific material to the new CatalystAndMoose.pod
+                (thanks to t0m and Sebastian Willert)
 
 5.7021  8 May 2009
         - Tutorial:
