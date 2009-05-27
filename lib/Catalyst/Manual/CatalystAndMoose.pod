@@ -37,13 +37,13 @@ A Moose-ified version of the context class should look like this:
         $c->log->info( 'done!' );
     }
 
-You should also be aware, that roles in C<< $c->setup >> are applied 
-after the last plugin with all the benefits of using a single C<< 
-with() >> statement in an ordinary L<Moose> class.
+You should also be aware, that roles in C<< $c-E<gt>setup >> are applied 
+after the last plugin with all the benefits of using a single 
+C<< with() >> statement in an ordinary L<Moose> class.
 
 Your class is automatically made immutable at the end of the current file. 
 
-CAVEAT: Using roles in C<< $c->setup >> was implemented in Catalyst 
+CAVEAT: Using roles in C<< $c-E<gt>setup >> was implemented in Catalyst 
 version 5.80004. In prior versions you might get away with
 
     after 'setup_plugins' => sub{ with(
@@ -57,14 +57,15 @@ version 5.80004. In prior versions you might get away with
 but this is discouraged and you should upgrade to 5.80004 anyway, 
 because it fixes a few important regression against 5.71
 
-CAVEAT: Using roles in C<< $c->setup >> will not currently allow
+CAVEAT: Using roles in C<< $c-E<gt>setup >> will not currently allow
 you to pass parameters to roles, or perform conflict resolution.
 Conflict detection still works as expected.
 
+
 =head2 ACCESSORS
 
-Most of the request-specific attributes like C<$c-&gt;stash>, 
-C<$c-&gt;request> and C<$c-&gt;response> have been converted to 
+Most of the request-specific attributes like C<$c-E<gt>stash>, 
+C<$c-E<gt>request> and C<$c-E<gt>response> have been converted to 
 L<Moose> attributes but without type constraints, attribute helpers or 
 builder methods. This ensures that Catalyst 5.8 is fully backwards 
 compatible to applications using the published API of Catalyst 5.7 but 
@@ -98,9 +99,10 @@ but rely on
 
 to run their own setup code if needed. If they need to influence the 
 setup process itself, they can modify C<< setup_dispatcher() >>, 
-C<< setup_engine()>>, C<< setup_stats() >>, C<< setup_components() >> 
+C<< setup_engine() >>, C<< setup_stats() >>, C<< setup_components() >> 
 and C<< setup_actions() >>, but this should be done with due 
 consideration and as late as possible.
+
 
 =head1 CONTROLLERS
 
@@ -116,6 +118,7 @@ the actions themselves are declared:
      with qw(
                 # your controller roles
             );
+
 
 =head2 Controller Roles
 
