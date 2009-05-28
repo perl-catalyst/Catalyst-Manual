@@ -18,8 +18,8 @@ Revision history for Catalyst-Manual
             - Switch to use of DBIx::Class::EncodedColumn for hashed & salted passwords
             - Re-write PostgreSQL section in appendix
             - Remove "create=dynamic" and only cover "create=static" for DBIC helper
-            - Rewrite / clean up a big chunk of Catalyst::Manual::Intro (Ian Wells)
         - Other:
+            - Rewrite / clean up a big chunk of Catalyst::Manual::Intro (Ian Wells)
             - There is no Catalyst::Config, fix reference to it. (t0m)
             - Misc minor adjustments
 
