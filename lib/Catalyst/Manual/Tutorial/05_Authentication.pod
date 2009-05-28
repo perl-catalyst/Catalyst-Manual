@@ -754,10 +754,14 @@ C<lib> directory for our C<MyApp::Schema> model.
 The DBIC_TRACE output should show that the update worked:
 
     $ DBIC_TRACE=1 perl -Ilib set_hashed_passwords.pl
-    SELECT me.id, me.username, me.password, me.email_address, me.first_name, me.last_name, me.active FROM user me: 
-    UPDATE user SET password = ? WHERE ( id = ? ): 'oXiyAcGOjowz7ISUhpIm1IrS8AxSZ9r4jNjpX9VnVeQmN6GRtRKTz', '1'
-    UPDATE user SET password = ? WHERE ( id = ? ): 'PmyEPrkB8EGwvaF/DvJm7LIfxoZARjv8ygFIR7pc1gEA1OfwHGNzs', '2'
-    UPDATE user SET password = ? WHERE ( id = ? ): 'h7CS1Fm9UCs4hjcbu2im0HumaHCJUq4Uriac+SQgdUMUfFSoOrz3c', '3'
+    SELECT me.id, me.username, me.password, me.email_address, 
+    me.first_name, me.last_name, me.active FROM user me: 
+    UPDATE user SET password = ? WHERE ( id = ? ): 
+    'oXiyAcGOjowz7ISUhpIm1IrS8AxSZ9r4jNjpX9VnVeQmN6GRtRKTz', '1'
+    UPDATE user SET password = ? WHERE ( id = ? ): 
+    'PmyEPrkB8EGwvaF/DvJm7LIfxoZARjv8ygFIR7pc1gEA1OfwHGNzs', '2'
+    UPDATE user SET password = ? WHERE ( id = ? ): 
+    'h7CS1Fm9UCs4hjcbu2im0HumaHCJUq4Uriac+SQgdUMUfFSoOrz3c', '3'
 
 But we can further confirm our actions by dumping the users table:
 
@@ -774,8 +778,8 @@ situations.
 
 =head2 Enable Hashed and Salted Passwords
 
-Edit C<lib/MyApp.pm> and update it to match the following text (the only change
-is to the C<password_type> field):
+Edit C<lib/MyApp.pm> and update it to match the following text (the 
+only change is to the C<password_type> field):
 
     # Configure SimpleDB Authentication
     __PACKAGE__->config->{'Plugin::Authentication'} = {
@@ -853,9 +857,9 @@ flash vs. the C<status_msg> query parameter:
     ...
 
 Although the sample above only shows the C<content> div, leave the
-rest of the file intact -- the only change we made to the C<wrapper.tt2>
-was to add "C<|| c.request.params.status_msg>" to the
-C<E<lt>span class="message"E<gt>> line.
+rest of the file intact -- the only change we made to replace 
+"|| c.request.params.status_msg" with "c.flash.status_msg" in the 
+C<< <span class="message"> >> line.
 
 
 =head2 Try Out Flash
