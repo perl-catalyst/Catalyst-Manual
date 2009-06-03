@@ -47,7 +47,7 @@ recommended way to do any form of Authentication.
 =head2 L<Catalyst::Plugin::Authentication::Credential::Atom>
 
 L<Catalyst::Plugin::Authentication::Credential::Atom> is a plugin which
-implements WSSE and Basic authentication for Catalyst applications using 
+implements WSSE and Basic authentication for Catalyst applications using
 L<Catalyst::Plugin::AtomServer>
 
 =head2 L<Catalyst::Plugin::Authentication::Credential::CHAP>
@@ -68,7 +68,7 @@ Implements HTTP Basic authentication for Catalyst.
 
 =head2 L<Catalyst::Plugin::Authentication::Credential::Password>
 
-Takes a username (or userid) and a password, and tries various methods of 
+Takes a username (or userid) and a password, and tries various methods of
 comparing a password based on what the chosen store's user objects support.
 Part of the Authentication Framework L<Catalyst::Plugin::Authentication>.
 
@@ -78,8 +78,8 @@ Integrates L<Authen::TypeKey> with L<Catalyst::Plugin::Authentication>.
 
 =head2 L<Catalyst::Plugin::Authentication::OpenID>
 
-L<Catalyst::Plugin::Authentication::OpenID> is a plugin that implements 
-support for OpenID authentication. For more information on OpenID, take 
+L<Catalyst::Plugin::Authentication::OpenID> is a plugin that implements
+support for OpenID authentication. For more information on OpenID, take
 a look at L<http://www.openid.net/>.
 
 =head2 L<Catalyst::Plugin::Authentication::Store>
@@ -88,12 +88,12 @@ The core authentication store documentation.
 
 =head2 L<Catalyst::Plugin::Authentication::Store::DBIC>
 
-Does authentication and authorization against a L<DBIx::Class> or 
+Does authentication and authorization against a L<DBIx::Class> or
 L<Class::DBI> model.
 
 =head2 L<Catalyst::Plugin::Authentication::Store::Htpasswd>
 
-Uses L<Authen::Htpasswd> to let your application use C<.htpasswd> files for its 
+Uses L<Authen::Htpasswd> to let your application use C<.htpasswd> files for its
 authentication storage.
 
 =head2 L<Catalyst::Plugin::Authentication::Store::HTTP>
@@ -104,24 +104,24 @@ Authenticates users using an LDAP server.
 
 =head2 L<Catalyst::Plugin::Authentication::Store::Minimal>
 
-Lets you create a very quick and dirty user database in your application's 
+Lets you create a very quick and dirty user database in your application's
 config hash. Great for getting up and running quickly.
 
 =head2 L<Catalyst::Plugin::Authentication::User::Hash>
 
-An easy authentication user object based on hashes. 
+An easy authentication user object based on hashes.
 See L<Catalyst::Plugin::Authentication::Store::Minimal> for more info.
 
 =head2 L<Catalyst::Plugin::Authorization::ACL>
 
-This module provides Access Control List style path protection, with arbitrary 
-rules for L<Catalyst> applications. It operates only on the Catalyst private 
+This module provides Access Control List style path protection, with arbitrary
+rules for L<Catalyst> applications. It operates only on the Catalyst private
 namespace, at least at the moment.
 
 =head2 L<Catalyst::Plugin::Authorization::Roles>
 
-L<Catalyst::Plugin::Authorization::Roles> provides role based authorization 
-for Catalyst based on L<Catalyst::Plugin::Authentication>. 
+L<Catalyst::Plugin::Authorization::Roles> provides role based authorization
+for Catalyst based on L<Catalyst::Plugin::Authentication>.
 
 =head2 L<Catalyst::Plugin::AutoSession>
 
@@ -373,10 +373,9 @@ Allows your Controller class to dispatch XMLRPC methods from its own class.
 
 =head1 CONTROLLERS
 
-=head2 L<Catalyst::Controller::BindLex>
+=head2 L<Catalyst::Controller::HTML::FormFu>
 
-Lets you mark lexical variables with a C<Stashed> attribute, automatically
-passing them to the stash.
+Catalyst integration for <HTML::FormFu>.
 
 =head1 MODELS
 
@@ -474,6 +473,11 @@ L<Template::Manual>.
 
 =head1 OBSOLETE MODULES
 
+=head2 L<Catalyst::Controller::BindLex>
+
+Lets you mark lexical variables with a C<Stashed> attribute, automatically
+passing them to the stash. Discouraged by the author.
+
 =head2 L<Catalyst::Model::DBIC>
 
 Replaced by L<Catalyst::Model::DBIC::Schema>.
@@ -518,7 +522,7 @@ Replaced by L<Catalyst::Action::RenderView>
 
 =head2 Catalyst::Plugin::Session::*
 
-The L<Catalyst::Plugin::Session::CGISession>, 
+The L<Catalyst::Plugin::Session::CGISession>,
 L<Catalyst::Plugin::Session::FastMmap>,
 L<Catalyst::Plugin::Session::Flex>, and
 L<Catalyst::Plugin::Session::Manager>
@@ -540,4 +544,3 @@ David Kamholz E<lt>dkamholz@cpan.orgE<gt>
 
 This program is free software, you can redistribute it and/or modify it under
 the same terms as Perl itself.
-
