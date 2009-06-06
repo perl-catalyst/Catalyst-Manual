@@ -129,11 +129,11 @@ file respectively.
 Also, Stefan Kangas sent in the following tip about an alternate 
 approach using the command C<indent-region> to redo the indentation 
 for the currently selected region (adhering to indent rules in the 
-current major mode). You can run the command by typing M-x indent-
-region or pressing the default keybinding C-M-\ in cperl-mode. 
+current major mode). You can run the command by typing M-x 
+indent-region or pressing the default keybinding C-M-\ in cperl-mode. 
 Additional details can be found here:
 
-L<http://www.gnu.org/software/emacs/manual/html_node/emacs/Indentation-Comman>
+L<http://www.gnu.org/software/emacs/manual/html_node/emacs/Indentation-Commands.html>
 
 
 =head1 APPENDIX 2: USING POSTGRESQL AND MYSQL

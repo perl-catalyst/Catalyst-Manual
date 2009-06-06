@@ -311,7 +311,7 @@ debugging:
 
 Check the version of an installed module:
 
-    perl -ME<lt>mod_nameE<gt> -e '"print $E<lt>mod_nameE<gt>::VERSION\n"'
+    perl -M<mod_name> -e 'print "$<mod_name>::VERSION\n"'
 
 For example:
 
