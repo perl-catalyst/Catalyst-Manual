@@ -336,7 +336,7 @@ to the following code:
     <Plugin::Authentication>
         use_session 1
         <default>
-            password_type self_check
+            password_type clear
             user_model    DB::User
             class         SimpleDB
         </default>

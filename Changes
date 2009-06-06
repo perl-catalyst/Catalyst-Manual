@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+        - Tutorial
+            - Fix RT #46618
+            - Fix typos
+
 5.8000 27 May 2009
         - Tutorial:
             - Update for Catalyst 5.80
