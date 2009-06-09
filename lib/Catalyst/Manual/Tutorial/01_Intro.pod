@@ -523,7 +523,7 @@ of the options to install Ubuntu on your drive.
 
 Matt Trout's C<cat-install>
 
-Available at L<http://www.shadowcatsystems.co.uk/static/cat-install>, 
+Available at L<http://www.shadowcat.co.uk/static/cat-install>, 
 C<cat-install> can be a fairly painless way to get Catalyst up and 
 running.  Just download the script from the link above and type C<perl 
 cat-install>.  Depending on the speed of your Internet connection and 
