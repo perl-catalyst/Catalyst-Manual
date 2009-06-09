@@ -1940,6 +1940,33 @@ L<Module::Install::Catalyst>, which simplifies the process greatly.  From the sh
     % perl Makefile.PL
     % make catalyst_par
 
+You can customise the PAR creation process by special "catalyst_par_*" commands 
+available from L<Module::Install::Catalyst>. You can add these commands in your 
+Makefile.PL just before the line containing "catalyst;"
+
+    #Makefile.PL example with extra PAR options 
+    use inc::Module::Install;
+
+    name 'MyApp';
+    all_from 'lib\MyApp.pm';
+
+    requires 'Catalyst::Runtime' => '5.80005';
+    <snip>
+    ...
+    <snip>
+
+    catalyst_par_core(1);      # bundle perl core modules in the resulting PAR
+    catalyst_par_multiarch(1); # build a multi-architecture PAR file
+    catalyst_par_classes(qw/
+      Some::Additional::Module
+      Some::Other::Module
+    /);          # specify additional modules you want to be included into PAR
+    catalyst;
+
+    install_script glob('script/*.pl');
+    auto_install;
+    WriteAll;
+
 Congratulations! Your package "myapp.par" is ready, the following
 steps are just optional.
 
