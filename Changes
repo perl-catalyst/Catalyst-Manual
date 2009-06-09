@@ -1,6 +1,7 @@
 Revision history for Catalyst-Manual
 
         - Tutorial
+            - Fix RT #46760
             - Fix RT #46618
             - Fix typos
 
