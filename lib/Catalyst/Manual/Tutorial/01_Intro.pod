@@ -84,7 +84,7 @@ part of the tutorial.>
 B<NOTE: You can use any Perl-supported OS and environment to run 
 Catalyst.> It should make little or no difference to Catalyst's 
 operation, B<but this tutorial has been written using the Debian 5 
-live CD> because that represents a quick and easy for most people to 
+live CD> because that represents a quick and easy way for most people to 
 try out Catalyst with virtually zero setup time and hassles.  Also, 
 the tutorial has been tested to work correctly with the versions of 
 Catalyst and all the supporting modules in Debian 5 (see "VERSIONS 
