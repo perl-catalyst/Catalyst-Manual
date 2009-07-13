@@ -4,7 +4,7 @@ Revision history for Catalyst-Manual
             - Fix RT #46760
             - Fix RT #46618
             - Fix typos
-			- Replace reference to deprecated CatalystX::ListFramework::Builder with Catalyst::Plugin::AutoCRUD
+            - Replace reference to deprecated CatalystX::ListFramework::Builder with Catalyst::Plugin::AutoCRUD
 
 5.8000 27 May 2009
         - Tutorial:
