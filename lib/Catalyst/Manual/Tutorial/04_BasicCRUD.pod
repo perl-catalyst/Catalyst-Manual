@@ -70,7 +70,7 @@ Although this chapter of the tutorial will show you how to build CRUD
 functionality yourself, another option is to use a "CRUD builder" type 
 of tool to automate the process.  You get less control, but it's quick 
 and easy.  For example, see 
-L<CatalystX::ListFramework::Builder|CatalystX::ListFramework::Builder>, 
+L<Catalyst::Plugin::AutoCRUD|Catalyst::Plugin::AutoCRUD>, 
 L<CatalystX::CRUD|CatalystX::CRUD>, and 
 L<CatalystX::CRUD::YUI|CatalystX::CRUD::YUI>.
 
