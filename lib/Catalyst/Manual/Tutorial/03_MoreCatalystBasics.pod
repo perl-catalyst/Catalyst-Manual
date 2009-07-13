@@ -1213,10 +1213,10 @@ C<$book-E<gt>book_author-E<gt>first-E<gt>author-E<gt>last_name> (we
 will see examples on how to use DBIx::Class objects in your code soon, 
 but note that because C<$book-E<gt>book_author> can return multiple 
 authors, we have to use C<first> to display a single author). 
-C<many_to_many> allows us to use the shorter C<$book-E<gt>author-
-E<gt>first-E<gt>last_name>. Note that you cannot define a 
-C<many_to_many> relationship without also having the C<has_many> 
-relationship in place.
+C<many_to_many> allows us to use the shorter 
+C<$book-E<gt>author-E<gt>first-E<gt>last_name>. Note that you cannot 
+define a C<many_to_many> relationship without also having the 
+C<has_many> relationship in place.
 
 Then edit C<lib/MyApp/Schema/Result/Author.pm> and add relationship
 information as follows (again, be careful to put in above the C<1;> but
