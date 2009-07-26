@@ -4,7 +4,13 @@ Revision history for Catalyst-Manual
             - Fix RT #46760
             - Fix RT #46618
             - Fix typos
-            - Replace reference to deprecated CatalystX::ListFramework::Builder with Catalyst::Plugin::AutoCRUD
+            - Replace reference to deprecated CatalystX::ListFramework::Builder
+              with Catalyst::Plugin::AutoCRUD
+            - Update development process / core team docs
+            - Cookbook fixes WRT authorization
+            - Better description of application setup process
+            - Fix some links
+            - Normalise spacing
 
 5.8000 27 May 2009
         - Tutorial:

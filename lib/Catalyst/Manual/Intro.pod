@@ -171,16 +171,9 @@ running, using the helper scripts described above.
 
 =head3 Install
 
-Installation of Catalyst can be a time-consuming effort, due to its
-large number of dependencies. Although most of the frustrations
-associated with this are now ironed out and a simple C<cpan
-Catalyst::Devel> or C<cpan Catalyst::Runtime> are now usually
-straightforward, if you still have problems, you can use use Matt
-Trout's C<cat-install> script, from
-L<http://www.shadowcatsystems.co.uk/static/cat-install>, and then
-install L<Catalyst::Devel>.
+Installation of Catalyst should be straightforward:
 
-    # perl cat-install
+    # perl -MCPAN -e 'install Catalyst::Runtime'
     # perl -MCPAN -e 'install Catalyst::Devel'
 
 =head3 Setup
@@ -230,7 +223,7 @@ Catalyst has an uncommonly flexible component system. You can define as
 many L</Models>, L</Views>, and L</Controllers> as you like. As discussed
 previously, the general idea is that the View is responsible for the
 output of data to the user (typically via a web browser, but a View can
-also generate PDFs or e-mails, for example); the Model is responsible 
+also generate PDFs or e-mails, for example); the Model is responsible
 for providing data (typically from a relational database); and the
 Controller is responsible for interacting with the user and deciding
 how user input determines what actions the application takes.
@@ -238,7 +231,7 @@ how user input determines what actions the application takes.
 In the world of MVC, there are frequent discussions and disagreements
 about the nature of each element - whether certain types of logic
 belong in the Model or the Controller, etc. Catalyst's flexibility
-means that this decision is entirely up to you, the programmer; 
+means that this decision is entirely up to you, the programmer;
 Catalyst doesn't enforce anything. See L<Catalyst::Manual::About> for
 a general discussion of these issues.
 
@@ -248,9 +241,10 @@ from L<Catalyst::Component> which provides a simple class structure and some
 common class methods like C<config> and C<new> (constructor).
 
     package MyApp::Controller::Catalog;
+    use Moose;
+    use namespace::autoclean;
 
-    use strict;
-    use base 'Catalyst::Controller';
+    BEGIN { extends 'Catalyst::Controller' }
 
     __PACKAGE__->config( foo => 'bar' );
 
@@ -264,7 +258,7 @@ short alias for each one.
 
 =over 4
 
-=item * B<MyApp/Model/> 
+=item * B<MyApp/Model/>
 
 =item * B<MyApp/M/>
 
@@ -280,8 +274,8 @@ short alias for each one.
 
 In older versions of Catalyst, the recommended practice (and the one
 automatically created by helper scripts) was to name the directories
-C<M/>, C<V/>, and C<C/>. Though these still work, we now recommend
-the use of the full names.
+C<M/>, C<V/>, and C<C/>. Though these still work, they are deprecated
+and we now recommend the use of the full names.
 
 =head4 Views
 
@@ -373,15 +367,15 @@ We add the following to MyApp/Controller/Root.pm
 
     sub view : Global {
         my ( $self, $c, $id ) = @_;
-        
+
         $c->stash->{item} = $c->model('MyModel::Foo')->find($id);
     }
 
     1;
-    
+
     sub end : Private {
         my ( $self, $c ) = @_;
-        
+
         $c->stash->{template} ||= 'index.tt';
         $c->forward( $c->view('TT') );
     }
@@ -396,14 +390,14 @@ can always call an outside module that serves as your Model:
     # in a Controller
     sub list : Local {
       my ( $self, $c ) = @_;
-      
+
       $c->stash->{template} = 'list.tt';
-      
+
       use Some::Outside::Database::Module;
       my @records = Some::Outside::Database::Module->search({
         artist => 'Led Zeppelin',
         });
-      
+
       $c->stash->{records} = \@records;
     }
 
@@ -847,7 +841,7 @@ of the path is passed as arguments.
 
 =item * Namespace-prefixed (C<:Local>)
 
-    package MyApp::Controller::My::Controller; 
+    package MyApp::Controller::My::Controller;
     sub foo : Local { }
 
 Matches any URL beginning with> http://localhost:3000/my/controller/foo. The namespace and
@@ -859,10 +853,10 @@ subroutine name together determine the path.
     sub foo : Global { }
 
 Matches http://localhost:3000/foo - that is, the action is mapped
-directly to the controller namespace, ignoring the function name.  
+directly to the controller namespace, ignoring the function name.
 
 C<:Global> is equivalent C<:Local> one level higher in
-the namespace.  
+the namespace.
 
     package MyApp::Controller::Root;
     __PACKAGE__->config->{namespace}='';
@@ -886,13 +880,13 @@ would match any URL starting /foo/bar. To restrict this you can do
 to only match URLs starting /foo/bar/* - with one additional path
 element required after 'bar'.
 
-NOTE that adding C<:Args(0)> and missing out :Args completely are B<not> 
+NOTE that adding C<:Args(0)> and missing out :Args completely are B<not>
 the same thing.
 
-C<:Args(0)> means that no arguments are taken.  Thus, the URL and path must 
+C<:Args(0)> means that no arguments are taken.  Thus, the URL and path must
 match precisely.
 
-No :Args at all means that B<any number> of arguments are taken.  Thus, any 
+No :Args at all means that B<any number> of arguments are taken.  Thus, any
 URL that B<starts with> the controller's path will match.
 
 
@@ -927,14 +921,14 @@ The above code matches http://localhost:3000/my/controller.
 Actions with the C<:Local> attribute are similarly equivalent to
 C<:Path('action_name')>:
 
-    sub foo : Local { } 
+    sub foo : Local { }
 
-is equivalent to 
+is equivalent to
 
     sub foo : Path('foo') { }
 
 =item * Pattern-match (C<:Regex> and C<:LocalRegex>)
- 
+
     package MyApp::Controller::My::Controller;
     sub bar : Regex('^item(\d+)/order(\d+)$') { }
 
@@ -1157,7 +1151,7 @@ authentication fails, returning 0 would skip any remaining methods for
 that URL.
 
 B<Note:> Looking at it another way, C<auto> actions have to return a
-true value to continue processing! 
+true value to continue processing!
 
 =head4 URL Path Handling
 
@@ -1182,8 +1176,8 @@ Catalyst matches actions in most specific to least specific order - that is, wha
 So Catalyst would never mistakenly dispatch the first two URLs to the
 '^foo$' action.
 
-If a Regex or LocalRegex action doesn't use the '$' anchor, the action will 
-still match a URL containing arguments; however the arguments won't be 
+If a Regex or LocalRegex action doesn't use the '$' anchor, the action will
+still match a URL containing arguments; however the arguments won't be
 available via C<@_>, because the Regex will 'eat' them.
 
 Beware!  If you write two matchers, that match the same path, with the
@@ -1215,7 +1209,7 @@ modules that require this.
     my $current_page = $c->req->param('page') || 1;
 
     # multiple values for single parameter name
-    my @values = $c->req->param('scrolling_list');	    
+    my @values = $c->req->param('scrolling_list');
 
     # DFV requires a CGI.pm-like input hash
     my $results = Data::FormValidator->check($c->req->params, \%dfv_profile);
@@ -1374,7 +1368,7 @@ FAQ:
 
 =head1 AUTHOR
 
-Sebastian Riedel, C<sri@oook.de> 
+Sebastian Riedel, C<sri@oook.de>
 David Naughton, C<naughton@umn.edu>
 Marcus Ramberg, C<mramberg@cpan.org>
 Jesse Sheidlower, C<jester@panix.com>
@@ -1386,3 +1380,6 @@ Yuval Kogman, C<nothingmuch@woobling.org>
 
 This program is free software. You can redistribute it and/or modify it
 under the same terms as Perl itself.
+
+=cut
+

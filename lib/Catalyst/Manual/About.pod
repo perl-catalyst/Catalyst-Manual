@@ -90,18 +90,18 @@ changes don't break the existing code.
 
 Catalyst makes it easy to do all of these tasks, and many more. It is
 extremely flexible in terms of what it allows you to do, and very fast.
-It has a very large number of "plugins" that interact with existing Perl
+It has a large number of "components" and "plugins" that interact with existing Perl
 modules so that you can easily use them from within your
-application. 
+application.
 
 =over 4
 
-=item * Interact with a web server? 
+=item * Interact with a web server?
 
 Catalyst lets you use a number of different ones, and even comes with a
 built-in server for testing or local deployment.
 
-=item * Do something based on a URI? 
+=item * Do something based on a URI?
 
 Catalyst has extremely flexible systems for figuring out what to do
 based on a URI.
@@ -111,7 +111,7 @@ based on a URI.
 Catalyst has many plugins for different databases and database
 frameworks, and for other non-database storage systems.
 
-=item * Handle forms? 
+=item * Handle forms?
 
 Catalyst has plugins available for several form creation and validation
 systems that make it easy for the programmer to manage.
@@ -121,12 +121,12 @@ systems that make it easy for the programmer to manage.
 Catalyst has plugins available for a number of template modules and
 other output packages.
 
-=item * Manage users? 
+=item * Manage users?
 
 Catalyst has plugins that handle sessions, authentication, and
 authorization, in any way you need.
 
-=item * Developing the application? 
+=item * Developing the application?
 
 Catalyst has detailed logging built-in, which you can configure as
 necessary, and supports the easy creation of new tests--some of which

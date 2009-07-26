@@ -6,11 +6,11 @@ Catalyst::Manual::DevelopmentProcess - Administrative structure of the Catalyst 
 
 The main current goals of the Catalyst core development team continue to
 be stability, performance, and a more paced addition of features, with a
-focus on extensibility. Extensive improvements to the documentation are
-also expected in the short term.
+focus on extensibility.
 
 The Catalyst Roadmap at
-L<http://dev.catalyst.perl.org/wiki/fromtrac/future/roadmap> will remain as is,
+L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Runtime/5.80/trunk/lib/Roadmap.pod>
+will remain as is,
 and continues to reflect the specific priorities and schedule for future
 releases.
 
@@ -31,7 +31,7 @@ improving documentation and ease of deployment.
 =head2 Membership
 
 The Catalyst Core Team consists of the developers that have full commit
-privileges to the entire Catalyst source tree. 
+privileges to the entire Catalyst source tree.
 
 In addition, the core team may accept members that have non-technical
 roles such as marketing, legal, or economic responsibilities.
@@ -55,6 +55,10 @@ Currently, the Core Team consists of the following people:
 =item Jesse Sheidlower
 
 =item Matt S. Trout
+
+=item Florian Ragwitz
+
+=item Tomas Doran
 
 =back
 
@@ -83,7 +87,7 @@ majority.
 
 Planned releases to CPAN should be performed by the release manager, at
 the time of writing Marcus Ramberg, or the deputy release manager, at
-the time of writing Andy Grundman. In the case of critical error
+the time of writing Florian Ragwitz. In the case of critical error
 correction, any member of the Core Team can perform a rescue release.
 
 =head2 Public statements from the Core Team
