@@ -42,7 +42,7 @@ A Moose-ified version of the context class should look like this:
 
 You should also be aware, that roles in C<< $c-E<gt>setup >> are applied
 after the last plugin with all the benefits of using a single
-C<< with() >> statement in an ordinary L<Moose> class.
+L<with()|Moose/"with (@roles)"> statement in an ordinary L<Moose> class.
 
 Your class is automatically made immutable at the end of the current file.
 
