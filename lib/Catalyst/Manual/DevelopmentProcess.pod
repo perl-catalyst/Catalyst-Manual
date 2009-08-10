@@ -7,10 +7,10 @@ Catalyst::Manual::DevelopmentProcess - Administrative structure of the Catalyst 
 =head2 Schedule
 
 There is no dated release cycle for Catalyst. New releases will be made
-when sufficient small fixes have accumalated, or an important bugfix, or
-significant feature addition is completed.
+when sufficient small fixes have accumulated; or an important bugfix, or
+significant feature addition, is completed.
 
-=head2 Roadmanp for features
+=head2 Roadmap for features
 
 The Catalyst Roadmap is kept at
 L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Runtime/5.80/trunk/lib/Roadmap.pod>
@@ -28,24 +28,24 @@ for developing web-based MVC applications. This includes both technical
 decisions about the Catalyst core distribution, and public relations
 relating to the Catalyst framework as a whole.
 
-The current goals of the Catalyst core development team are
-be stability, performance, and a paced addition of features, with a
-focus on extensibility.
+The current goals of the Catalyst core development team are stability,
+performance, and a properly paced addition of features, with a focus on
+extensibility.
 
-The core team are concerned with the 'core' Catalyst distributions
+The core team is concerned with the 'core' Catalyst distributions
 (i.e. L<Catalyst::Runtime>, L<Catalyst::Devel> and L<Catalyst::Manual>),
-and also tries to encourage best practices for extension authors and
+and also tries to encourage best practices for extension authors, and
 cooperation and shared vision within the Catalyst community.
 
 =head2 Membership
 
-The Catalyst Core Team consists of the developers that have full commit
-privileges to the entire Catalyst source tree, who have made a significant
+The Catalyst Core Team consists of the developers who have full commit
+privileges to the entire Catalyst source tree, and who have made a significant
 contribution to the core Catalyst distributions, and various extensions and
-pugins.
+plugins.
 
 In addition, the core team includes members that have non-technical
-roles such as marketing, legal, or economic responsibilities.
+roles, such as marketing, legal, or economic responsibilities.
 
 Currently, the Core Team consists of the following people:
 
@@ -87,12 +87,12 @@ concept for a feature to be committed to trunk.
 
 =head2 Organizational and Philosophical Decisions.
 
-Any such decision should be decided by majority vote. Thus it should be
-a goal of the organization that its membership number should at any time
-be an odd number, to render it effective with regards to decision
-making. The exceptions to this rule are changes to this charter and
-additions to the membership of the Core Team, which require a 2/3
-majority.
+Any organizational or philosophical decision should be decided by
+majority vote. Thus it should be a goal of the organization that its
+membership number should at any time be an odd number, to render it
+effective with regards to decision making. The exceptions to this rule
+are changes to this charter and additions to the membership of the Core
+Team, which require a 2/3 majority.
 
 =head2 CPAN Releases
 
@@ -105,18 +105,18 @@ correction, any member of the Core Team can perform a rescue release.
 
 The Core Team should strive to appear publicly as a group when answering
 questions or other correspondence. In cases where this is not possible,
-the same order as for CPAN Releases applies.
+the same order as for CPAN releases applies.
 
 =head1 Contributing to Catalyst
 
-The main philosophy behind Catalyst development can be surimsed as:
+The main philosophy behind Catalyst development can be summarized as:
 
     Patches welcome!
 
 Everyone is welcome (and will be encouraged) to contribute to Catalyst
 in whatever capacity they're able to. People in #catalyst-dev will be
 more than happy to talk newcomers through contributing their first patch,
-or how best to go about their first CPAN extension module..
+or how best to go about their first CPAN extension module....
 
 =head2 Repositories
 
