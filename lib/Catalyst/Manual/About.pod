@@ -258,7 +258,7 @@ the record and ask the View to display it. In either case, the View will
 then generate an HTML page, which Catalyst will send to the user's
 browser, using whatever web server you've configured.
 
-How does this help you?
+=head3 How does this help you?
 
 In many ways. Suppose you have a small catalog now, and you're using a
 lightweight database such as SQLite, or maybe just a text file. But

@@ -12,13 +12,11 @@ to exploit the power of L<Moose> in your Catalyst application.
 This document provides you with a short overview of common caveats and
 best practices to use L<Moose>-based classes within Catalyst.
 
-
 =head1 THE CONTEXT CLASS
 
 A Moose-ified version of the context class should look like this:
 
     package MyApp;
-
     use Moose;
     use namespace::autoclean;
     use Catalyst (
@@ -35,12 +33,12 @@ A Moose-ified version of the context class should look like this:
     # method modifiers generally must be created after setup because otherwise they will
     # conflict with plugin overrides
 
-    after 'finalize' => sub{
+    after 'finalize' => sub {
         my $c = shift;
         $c->log->info( 'done!' );
     }
 
-You should also be aware, that roles in C<< $c-E<gt>setup >> are applied
+You should also be aware that roles in C<< $c-E<gt>setup >> are applied
 after the last plugin with all the benefits of using a single
 L<with()|Moose/"with (@roles)"> statement in an ordinary L<Moose> class.
 
@@ -64,7 +62,6 @@ CAVEAT: Using roles in C<< $c-E<gt>setup >> will not currently allow
 you to pass parameters to roles, or perform conflict resolution.
 Conflict detection still works as expected.
 
-
 =head2 ACCESSORS
 
 Most of the request-specific attributes like C<$c-E<gt>stash>,
@@ -75,10 +72,10 @@ compatible to applications using the published API of Catalyst 5.7 but
 slightly limits the gains that could be had by wielding the full power
 of L<Moose> attributes.
 
-Most of the accessors to information gathered during compile time is
-managed by C<Catalyst::ClassData>, which is a L<Moose>-aware version
-of L<Class::Data::Inheritable> but not compatible with
-L<MooseX::ClassAttribute>.
+Most of the accessors to information gathered during compile time (such
+as configuration) are managed by C<Catalyst::ClassData>, which is a 
+L<Moose>-aware version of L<Class::Data::Inheritable> but not compatible
+with L<MooseX::ClassAttribute>.
 
 =head2 ROLES AND METHOD MODIFIERS
 
@@ -89,13 +86,15 @@ to applications still using version 5.7.
 If backward compatibility is of no concern to you, you could as easily
 rewrite your plugins as roles and enjoy all the benefits of automatic
 method re-dispatching of C<< before >> and C<< after >> method
-modifiers, naming conflict detecting and generally cleaner code.
+modifiers, naming conflict detection and generally cleaner code.
+
+=head3 NOTE
 
 Plugins and roles should never use
 
     after 'setup' => sub { ... } # wrong
 
-but rely on
+(or any other method of hooking the setup method) but rely on
 
     after 'setup_finalize' => sub { ... } # this will work
 
@@ -108,7 +107,7 @@ consideration and as late as possible.
 =head1 CONTROLLERS
 
 To activate Catalyst's action attributes, Moose-ified controller
-classes need to extend L<Catalyst::Controller> at compile time before
+classes need to extend L<Catalyst::Controller> at compile time, before
 the actions themselves are declared:
 
       package Catalyst::Controller::Root;
@@ -116,16 +115,27 @@ the actions themselves are declared:
       use namespace::autoclean;
 
       BEGIN { extends 'Catalyst::Controller'; }
-      with qw(
-                # your controller roles
-            );
-
+      
 =head2 Controller Roles
 
 It is possible to use roles to apply method modifiers on controller actions
-from 5.80003 onwards, or use modifiers in actions in your controller classes
-themselves.
+from 5.80003 onwards, or use modifiers in your controller classes
+themselves. For example
 
+	package MyApp::Controller::Foo;
+	use Moose;
+	use namespace::autoclean;
+	BEGIN { extends 'Catalyst::Controller' };
+	
+    sub foo : Local { 
+	    my ($self, $c) = @_;
+	    $c->res->body('Hello ');
+	}
+	after foo => sub {
+		my ($self, $c) = @_;
+		$c->res->body($c->res->body . 'World');
+	};
+	
 It is possible to have action methods with attributes inside Moose roles, using
 the trait introduced in L<MooseX::MethodAttributes> version 0.12, example:
 
@@ -138,3 +148,18 @@ the trait introduced in L<MooseX::MethodAttributes> version 0.12, example:
         ...
     }
 
+	package MyApp::Controller::Foo;
+   	use Moose;
+   	use namespace::autoclean;
+   	BEGIN { extends 'Catalyst::Controller' };
+
+	with 'MyApp::ControllerRole';
+	
+=head1 AUTHOR
+
+The Catalyst Core Team - see http://catalyst.perl.org/
+
+=head1 COPYRIGHT
+
+This program is free software. You can redistribute it and/or modify it
+under the same terms as Perl itself.

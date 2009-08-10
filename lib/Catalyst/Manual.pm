@@ -37,31 +37,31 @@ L<Catalyst::Manual::About|Catalyst::Manual::About>
 
 =item *
 
-L<Catalyst::Manual::Intro|Catalyst::Manual::Intro>
+L<Catalyst::Manual::Intro>
 
 =item *
 
-L<Catalyst::Manual::Tutorial|Catalyst::Manual::Tutorial>
+L<Catalyst::Manual::Tutorial>
 
 =item *
 
-L<Catalyst::Manual::Actions|Catalyst::Manual::Actions>
+L<Catalyst::Manual::Actions>
 
 =item *
 
-L<Catalyst::Manual::Cookbook|Catalyst::Manual::Cookbook>
+L<Catalyst::Manual::Cookbook>
 
 =item *
 
-L<Catalyst::Manual::DevelopmentProcess|Catalyst::Manual::DevelopmentProcess>
+L<Catalyst::Manual::DevelopmentProcess>
 
 =item *
 
-L<Catalyst::Manual::ExtendingCatalyst|Catalyst::Manual::ExtendingCatalyst>
+L<Catalyst::Manual::ExtendingCatalyst>
 
 =item *
 
-L<Catalyst::Manual::Internals|Catalyst::Manual::Internals>
+L<Catalyst::Manual::Internals>
 
 =item *
 
@@ -69,11 +69,9 @@ L<Catalyst::Manual::Plugins|Catalyst::Manual::Plugins>
 
 =back
 
-
 =head2 Books
 
 For additional information on Catalyst, there are currently two books available:
-
 
 =over 4
 
