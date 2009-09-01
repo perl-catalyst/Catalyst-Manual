@@ -262,27 +262,6 @@ like so:
       }
     }
 
-=head2 FIXME
-
-To restrict access to any action, you can use the C<check_user_roles> method:
-
-  sub restricted : Local {
-     my ( $self, $c ) = @_;
-
-     $c->detach("unauthorized")
-       unless $c->check_user_roles( "admin" );
-
-     # do something restricted here
-  }
-
-You can also use the C<assert_user_roles> method. This just gives an
-error if the current user does not have one of the required roles:
-
-  sub also_restricted : Global {
-    my ( $self, $c ) = @_;
-    $c->assert_user_roles( qw/ user admin / );
-  }
-
 =head2 Authentication/Authorization
 
 This is done in several steps:
@@ -369,28 +348,43 @@ the user is a member.
 
 =head3 EXAMPLE
 
- package MyApp;
- use Moose;
- use namespace::autoclean;
- extends qw/Catalyst/;
- use Catalyst qw/Authentication
-                 Authorization::Roles/;
+  package MyApp;
+  use Moose;
+  use namespace::autoclean;
+  extends qw/Catalyst/;
+  use Catalyst qw/
+    Authentication
+    Authorization::Roles
+  /;
 
- __PACKAGE__->config(
-    'Plugin::Authentication' => {
-        default => {
-            credential => {
-                class => 'Htpasswd',
-                # FIXME
-            },
-            store => {
-                class => 'Null',
-            },
-        },
-    },
- );
+  __PACKAGE__->config(
+     authentication => {
+         default_realm => 'test',
+         realms => {
+             test => {
+                 credential => {
+                     class          => 'Password',
+                     password_field => 'password',
+                     password_type  => 'self_check',
+                 },
+                 store => {
+                     class => 'Htpasswd',
+                     file => 'htpasswd',
+                 },
+             },
+         },
+     },   
+  );
 
- sub login : Local {
+  package MyApp::Controller::Root;
+  use Moose;
+  use namespace::autoclean;
+  
+  BEGIN { extends 'Catalyst::Controller' }
+  
+  __PACKAGE__->config(namespace => '');
+  
+  sub login : Local {
      my ($self, $c) = @_;
 
      if (    my $user = $c->req->param("user")
@@ -430,24 +424,13 @@ testing environment. Additionally, this has the advantage of not
 modifying one's database, which can be problematic if one forgets to
 use the testing instead of production database.
 
-e.g.,
-
-  # FIXME - Out of date
-  use Catalyst::Plugin::Authentication::Store::Minimal::Backend;
-
-  # Sets up the user `test_user' with password `test_pass'
-  MyApp->default_auth_store(
-    Catalyst::Plugin::Authentication::Store::Minimal::Backend->new({
-      test_user => { password => 'test_pass' },
-    })
-  );
-
-Now, your test code can call C<$c->login('test_user', 'test_pass')> and
-successfully login, without messing with the database at all.
+Alternatively, if you want to authenticate real users, but not have to worry about
+their passwords, you can use L<Catalyst::Authentication::Credential::Testing>
+to force all users to authenticate with a global password.
 
 =head3 More information
 
-L<http://search.cpan.org/perldoc?Catalyst::Plugin::Authentication> has a longer explanation.
+L<Catalyst::Plugin::Authentication> has a longer explanation.
 
 =head2 Authorization
 
@@ -2504,28 +2487,11 @@ L<http://search.cpan.org/perldoc?Catalyst::Plugin::Authorization::ACL>
 
 =head1 AUTHORS
 
-Sebastian Riedel C<sri@oook.de>
-
-Danijel Milicevic C<me@danijel.de>
-
-Viljo Marrandi C<vilts@yahoo.com>
-
-Marcus Ramberg C<mramberg@cpan.org>
-
-Jesse Sheidlower C<jester@panix.com>
-
-Andy Grundman C<andy@hybridized.org>
-
-Chisel Wright C<pause@herlpacker.co.uk>
-
-Will Hawes C<info@whawes.co.uk>
-
-Gavin Henry C<ghenry@perl.me.uk>
-
-Kieren Diment C<kd@totaldatasolution.com>
+Catalyst Contributors, see Catalyst.pm
 
 =head1 COPYRIGHT
 
-This document is free, you can redistribute it and/or modify it
-under the same terms as Perl itself.
+This library is free software. You can redistribute it and/or modify it under
+the same terms as Perl itself.
 
+=cut

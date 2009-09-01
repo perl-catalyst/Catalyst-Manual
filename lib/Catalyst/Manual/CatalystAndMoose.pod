@@ -155,11 +155,14 @@ the trait introduced in L<MooseX::MethodAttributes> version 0.12, example:
 
 	with 'MyApp::ControllerRole';
 	
-=head1 AUTHOR
+=head1 AUTHORS
 
-The Catalyst Core Team - see http://catalyst.perl.org/
+Catalyst Contributors, see Catalyst.pm
 
 =head1 COPYRIGHT
 
-This program is free software. You can redistribute it and/or modify it
-under the same terms as Perl itself.
+This library is free software. You can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
+

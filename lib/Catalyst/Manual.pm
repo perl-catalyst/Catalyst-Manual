@@ -98,6 +98,17 @@ http://www.packtpub.com/catalyst-perl-web-application/book
 
 =back
 
+=head1 AUTHORS
+
+Catalyst Contributors, see Catalyst.pm
+
+=head1 COPYRIGHT
+
+This library is free software. You can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
+
 =cut
 
 1;

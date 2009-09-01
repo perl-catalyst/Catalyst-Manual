@@ -95,12 +95,13 @@ information from the underlying layer (C<Apache::Request> or C<CGI::Simple>)
 during the prepare phase, then push the generated response information down to
 the underlying layer during the finalize phase.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
-Sebastian Riedel, C<sri@oook.de>
+Catalyst Contributors, see Catalyst.pm
 
 =head1 COPYRIGHT
 
-This program is free software, you can redistribute it and/or modify it under
+This library is free software. You can redistribute it and/or modify it under
 the same terms as Perl itself.
 
+=cut

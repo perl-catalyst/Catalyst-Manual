@@ -1,17 +1,17 @@
 =head1 NAME
 
-Catalyst::Manual::Plugins - Catalyst Plugins (and Components)
+Catalyst::Manual::Component - Reuseable components for Catalyst applications.
 
 =head1 DESCRIPTION
 
-This section lists the some of the plugins and components that are
-available to extend the runtime functionality of Catalyst. Most plugins
+This section lists the some of the components (and plugins) that are
+available to extend the runtime functionality of Catalyst. Most components
 are not distributed with Catalyst but should be available from CPAN.
 They typically require additional modules from CPAN.
 
 This list may well be outdated by the time you read this and some
 plugins may be deprecated or now part of core L<Catalyst>. Be sure to
-check the Catalyst::Plugin namespace for additional plugins and consult
+check the Catalyst:: and CatalystX:: namespaces for additional components and consult
 the mailing list ( L<http://dev.catalyst.perl.org/wiki/Support> ) for
 advice on the current status or preferred use of your chosen
 plugin/framework.
@@ -44,73 +44,146 @@ Atom API server for any Catalyst-based application.
 An infrastructure plugin for the Catalyst authentication framework. Now the
 recommended way to do any form of Authentication.
 
-=head2 L<Catalyst::Plugin::Authentication::Credential::Atom>
+Note that newer versions of the authentication plugin allow multiple
+C<realms>, so that you can authenticate users in different ways in different
+parts of your application.
 
-L<Catalyst::Plugin::Authentication::Credential::Atom> is a plugin which
-implements WSSE and Basic authentication for Catalyst applications using
-L<Catalyst::Plugin::AtomServer>
+This, however, has involved deprecated all classes in the
+C<Catalyst::Plugin::Authentication::Credential::XXX> and
+C<Catalyst::Plugin::Authentication::Store::XXX> namespaces.
 
-=head2 L<Catalyst::Plugin::Authentication::Credential::CHAP>
+These plugins are still useable, however they have mostly been
+replaced with new modules in the new namespace which will work together.
 
-=head2 L<Catalyst::Plugin::Authentication::Credential::Flickr>
+=head3 Available Credential modules:
+
+=head4 L<Catalyst::Authentication::Credential::AuthTkt>
+
+Allows you to use the L<Apache::AuthTkt> module with Catalyst.
+
+=head4 L<Catalyst::Authentication::Credential::FBConnect>
+
+Allows you to authenticate facebook users using the FBConnect API.
+
+=head4 L<Catalyst::Authentication::Credential::Flickr>
 
 Provides authentication via Flickr, using its API.
 
-=head2 L<Catalyst::Plugin::Authentication::Credential::Hatena>
+=head4 L<Catalyst::Authentication::Credential::HTTP>
 
-=head2 L<Catalyst::Plugin::Authentication::Credential::HTTP>
+Allows you to authenticate users using HTTP Basic or Digest authentication.
 
-Implements HTTP Basic authentication for Catalyst.
+=head4 L<Catalyst::Authentication::Credential::HTTP::Proxy>
 
-=head2 L<Catalyst::Plugin::Authentication::Credential::JugemKey>
+Allows you to authenticate users against a remote web server
+offering HTTP authentication.
 
-=head2 L<Catalyst::Plugin::Authentication::Credential::PAM>
+=head4 L<Catalyst::Authentication::Credential::Kerberos>
 
-=head2 L<Catalyst::Plugin::Authentication::Credential::Password>
+Allows you to authenticate your users against a Kerberos server.
+
+=head4 L<Catalyst::Authentication::Credential::OAuth>
+
+Allows you to authenticate users using their login on other websites supporting
+the OAuth protocol.
+
+=head4 L<Catalyst::Authentication::Credential::OpenID>
+
+Allows you to authenticate users using their login on other websites supporting
+the OpenID protocol.
+
+=head4 L<Catalyst::Authentication::Credential::Password>
 
 Takes a username (or userid) and a password, and tries various methods of
 comparing a password based on what the chosen store's user objects support.
 Part of the Authentication Framework L<Catalyst::Plugin::Authentication>.
 
-=head2 L<Catalyst::Plugin::Authentication::Credential::TypeKey>
+=head4 L<Catalyst::Authentication::Credential::RPX>
 
-Integrates L<Authen::TypeKey> with L<Catalyst::Plugin::Authentication>.
+Allows you to autheticate users using the RPX protocol.
 
-=head2 L<Catalyst::Plugin::Authentication::OpenID>
+=head4 L<Catalyst::Authentication::Credential::Remote>
 
-L<Catalyst::Plugin::Authentication::OpenID> is a plugin that implements
-support for OpenID authentication. For more information on OpenID, take
-a look at L<http://www.openid.net/>.
+Allows you to authenticate users in Catalyst which have already been
+authenticated by your web server - this is useful for authenticating
+users with SSL Client certificates, and using NTLM or any other
+authentication protocol natively supported by your web server.
 
-=head2 L<Catalyst::Plugin::Authentication::Store>
+=head4 L<Catalyst::Authentication::Credential::Testing>
 
-The core authentication store documentation.
+Allows you to set the same password for all users, which is useful
+when you want to test logging in as multiple users / types of user,
+without having to mock things, or set all users passwords in your
+test suite.
 
-=head2 L<Catalyst::Plugin::Authentication::Store::DBIC>
+=head4 L<Catalyst::Authentication::Credential::Authen::Simple>
 
-Does authentication and authorization against a L<DBIx::Class> or
-L<Class::DBI> model.
+Allows any of the L<Authen::Simple> family of modules to be used
+to authenticate users in Catalyst.
 
-=head2 L<Catalyst::Plugin::Authentication::Store::Htpasswd>
+=head3 LAvailable Store modules:
+
+=head4 L<Catalyst::Authentication::Store::DBIx::Class>
+
+Does authentication and authorization against a L<DBIx::Class> model.
+
+=head4 L<Catalyst::Authentication::Store::Htpasswd>
 
 Uses L<Authen::Htpasswd> to let your application use C<.htpasswd> files for its
 authentication storage.
 
-=head2 L<Catalyst::Plugin::Authentication::Store::HTTP>
+=head4 L<Catalyst::Authentication::Store::AuthTkt>
 
-=head2 L<Catalyst::Plugin::Authentication::Store::LDAP>
+This module implements the Catalyst::Authentication API for L<Apache::AuthTkt>.
+
+=head4 L<Catalyst::Authentication::Store::DBI>
+
+Allows you to use a plain L<DBI> database connection to identify users. 
+
+=head4 L<Catalyst::Authentication::Store::Htpasswd>
+
+Allows you to use an apache htpassed type file to authenticate users from.
+
+=head4 L<Catalyst::Authentication::Store::KiokuDB>
+
+Authenticate users stored as objects in the L<KiokuDB> object graph storage
+engine system.
+
+=head4 L<Catalyst::Authentication::Store::LDAP>
 
 Authenticates users using an LDAP server.
 
-=head2 L<Catalyst::Plugin::Authentication::Store::Minimal>
+=head4 L<Catalyst::Authentication::Store::Minimal>
 
 Lets you create a very quick and dirty user database in your application's
 config hash. Great for getting up and running quickly.
 
-=head2 L<Catalyst::Plugin::Authentication::User::Hash>
+=head4 L<Catalyst::Authentication::Store::Null>
+
+The Null store is a transparent store where any supplied user data is accepted.
+This is mainly useful for remotely authenticating credentials (e.g. OpenID) which
+may not be tied to any local storage.
+
+=head4 L<Catalyst::Authentication::Store::RDBO>
+
+Allows access to authentication information stored in a database via a L<Rose::DB::Object> class.
+
+=head4 L<Catalyst::Authentication::Store::Tangram>
+
+Allows access to authentication information stored in a database via a L<Tangram> class.
+
+=head4 L<Catalyst::Authentication::Store::DBIx::Class>
+
+Allows access to authentication information stored in a database via a L<DBIx::Class> class.
+
+=head4 L<Catalyst::Authentication::Store::Jifty::DBI>
+
+Allows access to authentication information stored in a database via a L<Jifty::DBI> class.
+
+=head4 L<Catalyst::Authentication::User::Hash>
 
 An easy authentication user object based on hashes.
-See L<Catalyst::Plugin::Authentication::Store::Minimal> for more info.
+See L<Catalyst::Authentication::Store::Minimal> for more info.
 
 =head2 L<Catalyst::Plugin::Authorization::ACL>
 
@@ -131,15 +204,24 @@ Extends L<Catalyst::Request> by adding the capability of browser
 detection.  It returns an instance of L<HTTP::BrowserDetect>, which lets
 you get information from the client's user agent.
 
-=head2 Catalyst::Plugin::Cache::FastMmap, FileCache, BerkeleyDB, and Memcached
+=head2 L<Catalyst::Plugin::Cache>
 
-L<Catalyst::Plugin::Cache::FastMmap>,
-L<Catalyst::Plugin::Cache::FileCache>,
-L<Catalyst::Plugin::Cache::BerkeleyDB>, and
-L<Catalyst::Plugin::Cache::Memcached> all provide a cache method
-enabling easy access to a shared cache.
+Provides a cache method enabling easy access to a shared cache implementing
+the C<< Cache:: >> APO, such as:
 
-=head2 L<Catalyst::Plugin::Captcha>
+=over
+
+=item FastMmap
+
+=item FileCache
+
+=item BerkeleyDB
+
+=item Memcached
+
+=item CHI
+
+=back
 
 =head2 L<Catalyst::Plugin::CGI::Untaint>
 
@@ -165,14 +247,6 @@ L<Catalyst::Plugin::ConfigLoader::XML>, and
 L<Catalyst::Plugin::ConfigLoader::YAML>
 
 =head2 L<Catalyst::Plugin::ConfigurablePathTo>
-
-=head2 L<Catalyst::Plugin::Continuation>
-
-=head2 L<Catalyst::Plugin::DateTime>
-
-=head2 L<Catalyst::Action::RenderView>
-
-Creates a sane, standard end method for your application.
 
 =head2 L<Catalyst::Plugin::Devel::InPageLogs>
 
@@ -202,14 +276,6 @@ the values into the form tags.
 
 =head2 L<Catalyst::Plugin::Flavour>
 
-=head2 L<Catalyst::Plugin::FormValidator>
-
-A form validator plugin that uses L<Data::FormValidator> to validate and
-set up form data from your request parameters. It's a quite thin wrapper
-around that module, so most of the relevant information can be found there.
-
-=head2 L<Catalyst::Plugin::FormValidator::Simple>
-
 =head2 L<Catalyst::Plugin::Geography>
 
 Allows you to retrieve various kinds of geographical information. You can
@@ -222,16 +288,12 @@ address, or from a given hostname.
 
 =head2 L<Catalyst::Plugin::HTML::Scrubber>
 
-=head2 L<Catalyst::Plugin::HTML::Widget>
-
 =head2 L<Catalyst::Plugin::I18N>
 
 An internationalization plugin for Catalyst. Supports C<mo>/C<po> files
 and Maketext classes under your application's I18N namespace.
 
 =head2 L<Catalyst::Plugin::JSONRPC>
-
-=head2 L<Catalyst::Plugin::Markdown>
 
 =head2 L<Catalyst::Plugin::Message>
 
@@ -327,13 +389,13 @@ and C<searchRetrieve>) from its own class.
 =head2 L<Catalyst::Plugin::Static>
 
 L<Catalyst::Plugin::Static> is a plugin to serve static files from
-C<< $c->config->{root} >>. Intended chiefly for development
+C<< $c->config(root => 'foo') >>. Intended chiefly for development
 purposes.
 
 =head2 L<Catalyst::Plugin::Static::Simple>
 
 Serves static files in your application without requiring a single line of
-code. This plugin is now included in the core Catalyst distribution.
+code.
 
 =head2 L<Catalyst::Plugin::SubRequest>
 
@@ -344,12 +406,6 @@ for portal software and such.
 
 An interface to the L<HTML::SuperForm> module, enabling easy HTML form
 creation.
-
-=head2 L<Catalyst::Plugin::Textile>
-
-A persistent Textile processor for Catalyst that uses C<Text::Textile>, a
-Perl-based implementation of Dean Allen's Textile syntax. Textile is
-shorthand for doing common formatting tasks (see L<http://textism.com>).
 
 =head2 L<Catalyst::Plugin::Unicode>
 
@@ -471,6 +527,12 @@ L<Template::Manual>.
 
 =head2 L<Catalyst::View::vCard>
 
+=head1 Actions
+
+=head2 L<Catalyst::Action::RenderView>
+
+Creates a sane, standard end method for your application.
+
 =head1 OBSOLETE MODULES
 
 =head2 L<Catalyst::Controller::BindLex>
@@ -530,17 +592,12 @@ modules have been replaced by the <Catalyst::Plugin::Session> framework.
 
 =head1 AUTHORS
 
-Andrew Ford E<lt>A.Ford@ford-mason.co.ukE<gt>
-
-Gavin Henry E<lt>ghenry@suretecsystems.comE<gt>
-
-Jesse Sheidlower E<lt>jester@panix.comE<gt>
-
-Marcus Ramberg E<lt>mramberg@cpan.orgE<gt>
-
-David Kamholz E<lt>dkamholz@cpan.orgE<gt>
+Catalyst Contributors, see Catalyst.pm
 
 =head1 COPYRIGHT
 
-This program is free software, you can redistribute it and/or modify it under
+This library is free software. You can redistribute it and/or modify it under
 the same terms as Perl itself.
+
+=cut
+

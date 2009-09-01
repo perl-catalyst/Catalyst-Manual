@@ -1,0 +1,23 @@
+::Internals
+  - Needs work
+
+::ExtendingCatalyst
+  - Should fix / merge action docs
+
+::Plugins
+  - Needs all those plugins evaluating and stuff replacing
+  - Update obsolete list
+
+::DevelopmentProcess
+  - Needs more repos stuff adding
+
+::Intro
+  - Has way too much stuff in
+
+::Cookbook
+  - Re-add section on checking roles
+
+EVERYTHING
+  - Paul Makepeace - stuff he threatened to document from mailing list
+  - Kill all use base
+  - Kill all use parent

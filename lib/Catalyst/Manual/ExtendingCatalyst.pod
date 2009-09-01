@@ -229,8 +229,7 @@ action:
 
   sub foo : Local Bar('Baz') {
       my ($self, $c) = @_;
-      my $attributes =
-      $self->action_for('foo')->attributes;
+      my $attributes = $self->action_for('foo')->attributes;
       $c->res->body($attributes->{Bar}[0] );
   }
 
@@ -263,12 +262,17 @@ component configuration.
 
 You are advised to create accessors on your component class for your
 configuration values. This is good practice and makes it easier to
-capture configuration key typos. You can do this with the
-C<mk_ro_accessors> method provided to L<Catalyst::Component> via
-L<Class::Accessor::Fast>:
+capture configuration key typos, or missing keys.
 
-  use base 'Catalyst::Controller';
-  __PACKAGE__->mk_ro_accessors('model_name');
+You can do this with L<Moose>:
+
+  package MyApp::Controller::Foo;
+  use Moose;
+  use namespace::autoclean;
+  BEGIN { extends 'Catalyst::Controller' };
+
+  has model_name ( is => 'ro', required => 1 );
+
   ...
   my $model_name = $controller->model_name;
 
@@ -294,10 +298,10 @@ methods code. You can surround this by overriding the method in a
 subclass:
 
   package Catalyst::Action::MyFoo; 
-  use strict;
-
+  use Moose;
+  use namespace::autoclean;
   use MRO::Compat; 
-  use base 'Catalyst::Action';
+  extends 'Catalyst::Action';
 
   sub execute {
       my $self = shift;
@@ -325,10 +329,10 @@ For example, the action class below will make the action only match on
 Mondays:
 
   package Catalyst::Action::OnlyMondays; 
-  use strict;
-
+  use Moose;
+  use namespace::autoclean;
   use MRO::Compat;
-  use base 'Catalyst::Action';
+  extends 'Catalyst::Action';
 
   sub match {
       my $self = shift;
@@ -348,7 +352,11 @@ If you are using action classes often or have some specific base
 classes that you want to specify more conveniently, you can implement
 a component base class providing an attribute handler.
 
-For further information on action classes, please refer to
+It is not possible to use multiple action classes at once, however
+L<Catalyst::Controller::ActionRole> allows you to apply L<Moose Roles|Moose::Role>
+to actions.
+
+For further information on action classes and roles, please refer to
 L<Catalyst::Action> and L<Catalyst::Manual::Actions>.
 
 =head2 Component base classes
@@ -372,8 +380,10 @@ already provided via the C<+> prefix for action classes. A simple
 
 will use C<MyApp::Action::Bar> as action class.
 
-  package MyApp::Base::Controller::FullClass; use strict; use base
-  'Catalyst::Controller';
+  package MyApp::Base::Controller::FullClass;
+  use Moose;
+  use namespace::autoclean;
+  BEGIN { extends 'Catalyst::Controller'; }
 
   sub _parse_FullClass_attr {
       my ($self, $app_class, $action_name, $value, $attrs) = @_;
@@ -386,8 +396,9 @@ sake. We could use this attribute in a subclass like any other
 Catalyst attribute:
 
   package MyApp::Controller::Foo;
-  use strict;
-  use base 'MyApp::Base::Controller::FullClass';
+  use Moose;
+  use namespace::autoclean;
+  BEGIN { extends 'MyApp::Base::Controller::FullClass'; }
 
   sub foo : Local FullClass('MyApp::Action::Bar') { ... }
 
@@ -404,8 +415,10 @@ controller object, or you can even define Catalyst actions which will
 be inherited by the subclasses. Consider this controller base class:
 
   package MyApp::Base::Controller::ModelBase;
-  use strict;
-  use base 'Catalyst::Controller';
+  use Moose;
+  use namespace::autoclean;
+
+  BEGIN { extends 'Catalyst::Controller'; }
 
   sub list : Chained('base') PathPart('') Args(0) {
       my ($self, $c) = @_;
@@ -413,13 +426,13 @@ be inherited by the subclasses. Consider this controller base class:
       my $condition = $self->{model_search_condition} || {};
       my $attrs = $self->{model_search_attrs} || {};
       $c->stash(rs => $model->search($condition, $attrs);
-      }
+  }
 
   sub load : Chained('base') PathPart('') CaptureArgs(1) {
       my ($self, $c, $id) = @_;
       my $model = $c->model( $self->{model_name} );
       $c->stash(row => $model->find($id));
-      }
+  }
   1;
 
 This example implements two simple actions. The C<list> action chains
@@ -436,8 +449,10 @@ The class above is not very useful on its own, but we can combine it
 with some custom actions by sub-classing it:
 
   package MyApp::Controller::Foo;
-  use strict;
-  use base 'MyApp::Base::Controller::ModelBase';
+  use Moose;
+  use namespace::autoclean;
+  
+  BEGIN { extends 'MyApp::Base::Controller::ModelBase'; }
 
   __PACKAGE__->config( model_name => 'DB::Foo',
                        model_search_condition=> { is_active => 1 },
@@ -504,9 +519,11 @@ generation.
 
 Here is some example code for a fictional view:
 
-  package CatalystX::View::MyView;
-  use strict;
-  use base 'Catalyst::View';
+  package Catalyst::View::MyView;
+  use Moose;
+  use namespace::autoclean;
+  
+  extends 'Catalyst::View';
 
   sub process {
       my ($self, $c) = @_;
@@ -557,7 +574,7 @@ authentication.
 
 B<Please do not> release Catalyst extensions as plugins only to
 provide some functionality application wide. Design it as a controller
-base class or another suiting technique with a smaller scope, so that
+base class or another better suited technique with a smaller scope, so that
 your code only influences those parts of the application where it is
 needed, and namespace clashes and conflicts are ruled out.
 
@@ -605,6 +622,9 @@ A simple example like this is actually better as a L<Moose> role, for example:
       if (!blessed($_[0]) || !$_[0]->isa('Catalyst::Action'));
     return $uri;
   };
+  
+Note that Catalyst will load any Moose Roles in the plugin list,
+and apply them to your application class.
 
 =head2 Factory components with COMPONENT()
 
@@ -623,10 +643,10 @@ your component.
 Here is a stub C<COMPONENT> method:
 
   package CatalystX::Component::Foo;
-  use strict;
-  use base 'Catalyst::Component';
-
-  use MRO::Compat;
+  use Moose;
+  use namespace::autoclean;
+  
+  extends 'Catalyst::Component';
 
   sub COMPONENT {
       my $class = shift;
@@ -652,20 +672,45 @@ expectations on a component.
 For more information, please see
 L<Catalyst::Component/"COMPONENT($c,$arguments)">.
 
+=head2 Applying roles to parts of the framework
+
+L<CatalystX::RoleApplicator> will allow you to apply Roles to
+the following classes:
+
+=over
+
+=item Request
+
+=item Response
+
+=item Engine
+
+=item Dispatcher
+
+=item Stats
+
+=back
+
+These roles can add new methods to these classes, or wrap preexisting methods.
+
+The namespace for roles like this is C<Catalyst::TraitFor::XXX::YYYY>.
+
+For an example of a CPAN component implemented in this manor, see
+L<Catalyst::TraitFor::Request::BrowserDetect>.
+
 =head1 SEE ALSO
 
 L<Catalyst>, L<Catalyst::Manual::Actions>, L<Catalyst::Component>
 
-=head1 AUTHOR
+=head1 AUTHORS
 
-Robert Sedlacek C<< <rs@474.at> >>
+Catalyst Contributors, see Catalyst.pm
 
-Jonathan Rockway C<< <jrockway@cpan.org> >>
+=head1 COPYRIGHT
 
-=head1 LICENSE AND COPYRIGHT
-
-This document is free, you can redistribute it and/or modify it under
+This library is free software. You can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
+
 

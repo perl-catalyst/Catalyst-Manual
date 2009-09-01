@@ -303,15 +303,17 @@ others it's just a matter of personal preference (perhaps your template,
 rather than your Controller, is the better place to decide what to
 display if you get an empty result). Catalyst just gives you the tools.
 
-=head1 AUTHOR
-
-Jesse Sheidlower, C<jester@panix.com>
-
 =head1 SEE ALSO
 
 L<Catalyst>, L<Catalyst::Manual::Intro>
 
+=head1 AUTHORS
+
+Catalyst Contributors, see Catalyst.pm
+
 =head1 COPYRIGHT
 
-This program is free software, you can redistribute it and/or modify it
-under the same terms as Perl itself.
+This library is free software. You can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
