@@ -122,16 +122,14 @@ or how best to go about their first CPAN extension module....
 
 The Catalyst subversion repository can be found at:
 
-    http://dev.catalyst.perl.org/repos/Catalyst
+    svn: http://dev.catalyst.perl.org/repos/Catalyst
+    browser: ttp://dev.catalyst.perl.org/svnweb/Catalyst
 
 and the git repository can be found at:
 
-    http://git.shadowcat.co.uk/cgi-bin/gitweb.cgi
-    
-FIXME
-
-The Catalyst project is happy to provide subversion/git hosting or mailing lists
-etc for your component project on request.
+    read: git://git.shadowcat.co.uk/catagits/PROJECTNAME
+    write: catagits@git.shadowcat.co.uk:PROJECTNAME
+    browser: https://git.shadowcat.co.uk/gitweb/gitweb.cgi
 
 =head2 New Catalyst extensions
 
