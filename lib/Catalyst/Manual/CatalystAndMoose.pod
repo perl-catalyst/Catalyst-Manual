@@ -4,13 +4,13 @@ Catalyst::Manual::CatalystAndMoose - How Catalyst 5.8+ and Moose relate
 
 =head1 DESCRIPTION
 
-Since version 5.8 the core of Catalyst is based on L<Moose>. Although
+Since version 5.8, the core of Catalyst is based on L<Moose>. Although
 the developers went through great lengths to allow for a seamless
 transition, there are still a few things to keep in mind when trying
 to exploit the power of L<Moose> in your Catalyst application.
 
 This document provides you with a short overview of common caveats and
-best practices to use L<Moose>-based classes within Catalyst.
+best practices for using L<Moose>-based classes within Catalyst.
 
 =head1 THE CONTEXT CLASS
 

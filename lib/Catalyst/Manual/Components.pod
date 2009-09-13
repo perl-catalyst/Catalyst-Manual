@@ -1,6 +1,6 @@
 =head1 NAME
 
-Catalyst::Manual::Component - Reuseable components for Catalyst applications.
+Catalyst::Manual::Component - Reuseable components for Catalyst applications
 
 =head1 DESCRIPTION
 
@@ -9,12 +9,12 @@ available to extend the runtime functionality of Catalyst. Most components
 are not distributed with Catalyst but should be available from CPAN.
 They typically require additional modules from CPAN.
 
-This list may well be outdated by the time you read this and some
-plugins may be deprecated or now part of core L<Catalyst>. Be sure to
-check the Catalyst:: and CatalystX:: namespaces for additional components and consult
-the mailing list ( L<http://dev.catalyst.perl.org/wiki/Support> ) for
-advice on the current status or preferred use of your chosen
-plugin/framework.
+This list may well be outdated by the time you read this, and some
+plugins may be deprecated, or, conversely, may now part of core
+L<Catalyst>. Be sure to check the Catalyst:: and CatalystX:: namespaces
+for additional components, and consult the mailing list (
+L<http://dev.catalyst.perl.org/wiki/Support> ) for advice on the current
+status or preferred use of your chosen plugin/framework.
 
 =head1 PLUGINS
 
@@ -52,8 +52,8 @@ This, however, has involved deprecated all classes in the
 C<Catalyst::Plugin::Authentication::Credential::XXX> and
 C<Catalyst::Plugin::Authentication::Store::XXX> namespaces.
 
-These plugins are still useable, however they have mostly been
-replaced with new modules in the new namespace which will work together.
+These plugins are still usable, but they have mostly been replaced with
+new modules in the new namespace which will work together.
 
 =head3 Available Credential modules:
 
@@ -63,7 +63,7 @@ Allows you to use the L<Apache::AuthTkt> module with Catalyst.
 
 =head4 L<Catalyst::Authentication::Credential::FBConnect>
 
-Allows you to authenticate facebook users using the FBConnect API.
+Allows you to authenticate Facebook users using the FBConnect API.
 
 =head4 L<Catalyst::Authentication::Credential::Flickr>
 
@@ -84,13 +84,13 @@ Allows you to authenticate your users against a Kerberos server.
 
 =head4 L<Catalyst::Authentication::Credential::OAuth>
 
-Allows you to authenticate users using their login on other websites supporting
-the OAuth protocol.
+Allows you to authenticate users using their login on other websites
+supporting the OAuth protocol.
 
 =head4 L<Catalyst::Authentication::Credential::OpenID>
 
-Allows you to authenticate users using their login on other websites supporting
-the OpenID protocol.
+Allows you to authenticate users using their login on other websites
+supporting the OpenID protocol.
 
 =head4 L<Catalyst::Authentication::Credential::Password>
 
@@ -100,28 +100,28 @@ Part of the Authentication Framework L<Catalyst::Plugin::Authentication>.
 
 =head4 L<Catalyst::Authentication::Credential::RPX>
 
-Allows you to autheticate users using the RPX protocol.
+Allows you to authenticate users using the RPX protocol.
 
 =head4 L<Catalyst::Authentication::Credential::Remote>
 
-Allows you to authenticate users in Catalyst which have already been
-authenticated by your web server - this is useful for authenticating
+Allows you to authenticate users in Catalyst that have already been
+authenticated by your web server. This is useful for authenticating
 users with SSL Client certificates, and using NTLM or any other
 authentication protocol natively supported by your web server.
 
 =head4 L<Catalyst::Authentication::Credential::Testing>
 
-Allows you to set the same password for all users, which is useful
-when you want to test logging in as multiple users / types of user,
-without having to mock things, or set all users passwords in your
-test suite.
+Allows you to set the same password for all users, which is useful when
+you want to test logging in as multiple users or multiple types of user,
+without having to mock things, or set all users' passwords in your test
+suite.
 
 =head4 L<Catalyst::Authentication::Credential::Authen::Simple>
 
 Allows any of the L<Authen::Simple> family of modules to be used
 to authenticate users in Catalyst.
 
-=head3 LAvailable Store modules:
+=head3 Available Store modules:
 
 =head4 L<Catalyst::Authentication::Store::DBIx::Class>
 
@@ -129,8 +129,8 @@ Does authentication and authorization against a L<DBIx::Class> model.
 
 =head4 L<Catalyst::Authentication::Store::Htpasswd>
 
-Uses L<Authen::Htpasswd> to let your application use C<.htpasswd> files for its
-authentication storage.
+Uses L<Authen::Htpasswd> to let your application use C<.htpasswd> files
+for its authentication storage.
 
 =head4 L<Catalyst::Authentication::Store::AuthTkt>
 
@@ -142,12 +142,12 @@ Allows you to use a plain L<DBI> database connection to identify users.
 
 =head4 L<Catalyst::Authentication::Store::Htpasswd>
 
-Allows you to use an apache htpassed type file to authenticate users from.
+Allows you to use an Apache htpasswd type file to authenticate users.
 
 =head4 L<Catalyst::Authentication::Store::KiokuDB>
 
-Authenticate users stored as objects in the L<KiokuDB> object graph storage
-engine system.
+Authenticate users stored as objects in the L<KiokuDB> object graph
+storage engine system.
 
 =head4 L<Catalyst::Authentication::Store::LDAP>
 
@@ -160,9 +160,9 @@ config hash. Great for getting up and running quickly.
 
 =head4 L<Catalyst::Authentication::Store::Null>
 
-The Null store is a transparent store where any supplied user data is accepted.
-This is mainly useful for remotely authenticating credentials (e.g. OpenID) which
-may not be tied to any local storage.
+The Null store is a transparent store where any supplied user data is
+accepted.  This is mainly useful for remotely authenticating credentials
+(e.g. OpenID) which may not be tied to any local storage.
 
 =head4 L<Catalyst::Authentication::Store::RDBO>
 
@@ -170,11 +170,13 @@ Allows access to authentication information stored in a database via a L<Rose::D
 
 =head4 L<Catalyst::Authentication::Store::Tangram>
 
-Allows access to authentication information stored in a database via a L<Tangram> class.
+Allows access to authentication information stored in a database via a
+L<Tangram> class.
 
 =head4 L<Catalyst::Authentication::Store::DBIx::Class>
 
-Allows access to authentication information stored in a database via a L<DBIx::Class> class.
+Allows access to authentication information stored in a database via a
+L<DBIx::Class> class.
 
 =head4 L<Catalyst::Authentication::Store::Jifty::DBI>
 
@@ -193,8 +195,8 @@ namespace, at least at the moment.
 
 =head2 L<Catalyst::Plugin::Authorization::Roles>
 
-L<Catalyst::Plugin::Authorization::Roles> provides role based authorization
-for Catalyst based on L<Catalyst::Plugin::Authentication>.
+L<Catalyst::Plugin::Authorization::Roles> provides role-based
+authorization for Catalyst based on L<Catalyst::Plugin::Authentication>.
 
 =head2 L<Catalyst::Plugin::AutoSession>
 
@@ -326,7 +328,7 @@ A plugin for pluggable Catalyst applications.
 
 =head2 L<Catalyst::Plugin::Prototype>
 
-A plugin for the Prototype JavaScript library. This Plugin allows you to
+A plugin for the Prototype JavaScript library. This plugin allows you to
 easily implement AJAX functionality without actually knowing Javascript.
 
 =head2 L<Catalyst::Plugin::Redirect>

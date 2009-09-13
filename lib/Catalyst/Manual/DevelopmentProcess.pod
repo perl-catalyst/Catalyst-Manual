@@ -123,7 +123,7 @@ or how best to go about their first CPAN extension module....
 The Catalyst subversion repository can be found at:
 
     svn: http://dev.catalyst.perl.org/repos/Catalyst
-    browser: ttp://dev.catalyst.perl.org/svnweb/Catalyst
+    browser: http://dev.catalyst.perl.org/svnweb/Catalyst
 
 and the git repository can be found at:
 
@@ -131,23 +131,24 @@ and the git repository can be found at:
     write: catagits@git.shadowcat.co.uk:PROJECTNAME
     browser: https://git.shadowcat.co.uk/gitweb/gitweb.cgi
 
-=head2 New Catalyst extensions
+=head2 New Catalyst Extensions
 
 As Catalyst is deliberately designed for extension, there is an ecosystem of
-several hundred Catalyst extensions which can be found on CPAN.
+several hundred Catalyst extensions that can be found on CPAN.
 
-See L<Catalyst::Manual::ExtendingCatalyst> for more information on how to extend
-Catalyst in various ways and how to write CPANable components for Catalyst which
-can be reused in many applications.
+See L<Catalyst::Manual::ExtendingCatalyst> for more information on how
+to extend Catalyst in various ways and how to write CPANable components
+for Catalyst which can be reused in many applications.
 
-It is recommended to post a request for comments to the Catalyst mailing list,
-or ask around in the #catalyst irc channel before starting to implement something,
-as another member of the community is likely to have example or prototype code that
-you can reuse, and members of the community and core team are happy to advise on
-the best way to implement a generic solution to a particular problem.
+It is recommended to post a request for comments to the Catalyst mailing
+list, or ask around in the #catalyst IRC channel before starting to
+implement something, as another member of the community is likely to
+have example or prototype code that you can reuse, and members of the
+community and core team are happy to advise on the best way to implement
+a generic solution to a particular problem.
 
-This could save you duplicate work, and will help you produce a betetr thought out
-and designed extension.
+This could save you duplicate work, and will help you produce a better
+thought out and designed extension.
 
 =head1 AUTHORS
 
