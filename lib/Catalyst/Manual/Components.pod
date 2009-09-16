@@ -409,13 +409,17 @@ for portal software and such.
 An interface to the L<HTML::SuperForm> module, enabling easy HTML form
 creation.
 
-=head2 L<Catalyst::Plugin::Unicode>
+=head2 L<Catalyst::Plugin::Unicode::Encoding>
 
 Provides a Unicode-aware Catalyst. On request, it decodes all params from
 UTF-8 octets into a sequence of logical characters. On response, it encodes
 the body into UTF-8 octets.
 
-=head2 L<Catalyst::Plugin::Unicode::Encoding>
+=head2 L<Catalyst::Plugin::Unicode>
+
+Disrecommended plugin which tries to autodetect the uft8ness of the output
+and do the correct thing. This may work in some cases, but if it helps,
+you've already painted yourself into a corner - try to avoid!
 
 =head2 L<Catalyst::Plugin::Upload::Basename>
 
