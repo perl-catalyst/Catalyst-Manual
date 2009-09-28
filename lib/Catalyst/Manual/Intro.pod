@@ -1278,6 +1278,9 @@ you will have to refer to the method by absolute path.
 
 Here are some examples of how to forward to classes and methods.
 
+    # FIXME - Forwarding to a model is unusual, a better example would show
+    #         forwarding to render in TT which is useful for drawing sub-parts of pages..
+
     sub hello : Global {
         my ( $self, $c ) = @_;
         $c->forward(qw/MyApp::Model::Hello say_hello/);
