@@ -140,6 +140,7 @@ It is possible to have action methods with attributes inside Moose roles, using
 the trait introduced in L<MooseX::MethodAttributes> version 0.12, example:
 
     package MyApp::ControllerRole;
+    use MooseX::MethodAttributes ();
     use Moose::Role -traits => 'MethodAttributes';
     use namespace::autoclean;
 
