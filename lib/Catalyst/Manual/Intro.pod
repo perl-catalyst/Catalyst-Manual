@@ -1262,9 +1262,9 @@ be reset.
         # now $c->req->args is back to what it was before
     }
 
-    sub check_message : Private {
-        my ( $self, $c ) = @_;
-        my $first_argument = $c->req->args->[0]; # now = 'test1'
+    sub check_message : Action {
+        my ( $self, $c, $first_argument ) = @_;
+        my $also_first_argument = $c->req->args->[0]; # now = 'test1'
         # do something...
     }
 
@@ -1276,14 +1276,11 @@ you will have to refer to the method by absolute path.
   $c->forward('/my/controller/action');
   $c->forward('/default'); # calls default in main application
 
-Here are some examples of how to forward to classes and methods.
-
-    # FIXME - Forwarding to a model is unusual, a better example would show
-    #         forwarding to render in TT which is useful for drawing sub-parts of pages..
+You can also forward to classes and methods.
 
     sub hello : Global {
         my ( $self, $c ) = @_;
-        $c->forward(qw/MyApp::Model::Hello say_hello/);
+        $c->forward(qw/MyApp::View:Hello say_hello/);
     }
 
     sub bye : Global {
@@ -1291,7 +1288,7 @@ Here are some examples of how to forward to classes and methods.
         $c->forward('MyApp::Model::Hello'); # no method: will try 'process'
     }
 
-    package MyApp::Model::Hello;
+    package MyApp::View::Hello;
 
     sub say_hello {
         my ( $self, $c ) = @_;
@@ -1303,13 +1300,34 @@ Here are some examples of how to forward to classes and methods.
         $c->res->body('Goodbye World!');
     }
 
+This mechanism is used by L<Catalyst::Action::RenderView> to forward
+to the C<process> method in a view class.
+
+It should be noted that whilst forward is useful, it is not the only way
+of calling other code in Catalyst. Forward just gives you stats in the debug
+screen, wraps the code you're calling in an exception handler and localises
+C<< $c->request->args >>.
+
+If you don't want or need these features then it's perfectly acceptable
+(and faster) to do something like this:
+
+sub hello : Global {
+    my ( $self, $c ) = @_;
+    $c->stash->{message} = 'Hello World!';
+    $self->check_message( $c, 'test1' );
+}
+
+sub check_message {
+    my ( $self, $c, $first_argument ) = @_;
+    # do something...
+}
+
 Note that C<forward> returns to the calling action and continues
 processing after the action finishes. If you want all further processing
 in the calling action to stop, use C<detach> instead, which will execute
 the C<detach>ed action and not return to the calling sub. In both cases,
 Catalyst will automatically try to call process() if you omit the
 method.
-
 
 =head3 Testing
 
