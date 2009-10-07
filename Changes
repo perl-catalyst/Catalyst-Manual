@@ -1,11 +1,15 @@
 Revision history for Catalyst-Manual
 
+5.8001 06 Oct 2009
         - Tutorial
             - Fix RT #46760
             - Fix RT #46618
+            - Fix cat-install script URL
             - Fix typos
             - Replace reference to deprecated CatalystX::ListFramework::Builder
               with Catalyst::Plugin::AutoCRUD
+        - Other
+            - Lots of updates thanks to t0m
             - Update development process / core team docs
             - Cookbook fixes WRT authorization
             - Better description of application setup process
