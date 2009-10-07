@@ -2,8 +2,8 @@ use strict;
 use warnings;
 use inc::Module::Install 0.87;
 
-BEGIN {
-    require 'Module::Install::AuthorRequires';
+if ($Module::Install::AUTHOR) {
+    require Module::Install::AuthorRequires;
 }
 
 name 'Catalyst-Manual';
