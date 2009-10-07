@@ -1,6 +1,6 @@
 =head1 NAME
 
-Catalyst::Manual::Component - Reuseable components for Catalyst applications
+Catalyst::Manual::Components - Reuseable components for Catalyst applications
 
 =head1 DESCRIPTION
 
