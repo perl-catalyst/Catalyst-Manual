@@ -1129,7 +1129,7 @@ decides which URLs they map to.
 =head3 Type attributes
 
 Each action is a normal method in your controller, except that it has an
-L<attribute|http://search.cpan.org/~nwclark/perl-5.8.7/lib/attributes.pm>
+L<attribute|attributes>
 attached. These can be one of several types.
 
 Assume our Controller module starts with the following package declaration:
