@@ -1073,7 +1073,7 @@ incorporate the datetime logic:
 
 =head2 Create a ResultSet Class
 
-An often overlooked but extremely powerful features of DBIC is that it
+An often overlooked but extremely powerful feature of DBIC is that it
 allows you to supply your own subclasses of C<DBIx::Class::ResultSet>.
 It allows you to pull complex and unsightly "query code" out of your
 controllers and encapsulate it in a method of your ResultSet Class.
@@ -1114,7 +1114,7 @@ Then open C<lib/MyApp/Schema/ResultSet/Book.pm> and enter the following:
     
     1;
 
-Then we need to tell the Result Class to to treat this as a ResultSet
+Then we need to tell the Result Class to treat this as a ResultSet
 Class.  Open C<lib/MyApp/Schema/Result/Book.pm> and add the following
 above the "C<1;>" at the bottom of the file:
 
@@ -1326,7 +1326,7 @@ And, because the concatenation logic was encapsulated inside our
 Result Class, it keeps the code inside our .tt template nice and clean
 (remember, we want the templates to be as close to pure HTML markup as
 possible). Obviously, this capability becomes even more useful as you
-use to to remove even more complicated row-specific logic from your
+use to remove even more complicated row-specific logic from your
 templates!
 
 
@@ -1415,7 +1415,7 @@ match the following:
 
 Although most of the code we removed comprised comments, the overall 
 effect is dramatic... because our view code is so simple, we don't 
-huge comments to clue people in to the gist of our code.  The view 
+need huge comments to clue people in to the gist of our code.  The view 
 code is now self-documenting and readable enough that you could 
 probably get by with no comments at all.  All of the "complex" work is 
 being done in our Result Class methods (and, because we have broken 
