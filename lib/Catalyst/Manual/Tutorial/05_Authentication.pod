@@ -119,6 +119,7 @@ Then load this into the C<myapp.db> database with the following command:
 
     $ sqlite3 myapp.db < myapp02.sql
 
+
 =head2 Add User and Role Information to DBIC Schema
 
 Although we could manually edit the DBIC schema information to include
@@ -268,8 +269,9 @@ C<StackTrace> is new):
                     /;
 
 B<Note:> As discussed in MoreCatalystBasics, different versions of
-C<Catalyst::Devel> have used a variety of methods to load the plugins.
-You can put the plugins in the C<use Catalyst> statement if you prefer.
+C<Catalyst::Devel> have used a variety of methods to load the plugins,
+but we are going to use the current Catalyst 5.8X practice of putting
+them on the C<use Catalyst> line.
 
 The C<Authentication> plugin supports Authentication while the
 C<Session> plugins are required to maintain state across multiple HTTP
@@ -391,7 +393,7 @@ and update the definition of C<sub index> to match:
         my $password = $c->request->params->{password} || "";
     
         # If the username and password values were found in form
-        if ($username && $password) {
+        if (defined($username) && defined($password)) {
             # Attempt to log the user in
             if ($c->authenticate({ username => $username,
                                    password => $password  } )) {
@@ -489,9 +491,8 @@ Create a login form by opening C<root/src/login.tt2> and inserting:
 We need something that provides enforcement for the authentication
 mechanism -- a I<global> mechanism that prevents users who have not
 passed authentication from reaching any pages except the login page.
-This is generally done via an C<auto> action/method (prior to Catalyst
-v5.66, this sort of thing would go in C<MyApp.pm>, but starting in
-v5.66, the preferred location is C<lib/MyApp/Controller/Root.pm>).
+This is generally done via an C<auto> action/method in 
+C<lib/MyApp/Controller/Root.pm>.
 
 Edit the existing C<lib/MyApp/Controller/Root.pm> class file and insert
 the following method:
@@ -650,16 +651,6 @@ between the browser and your application, consider using SSL/TLS, made
 easy with the Catalyst plugin Catalyst::Plugin:RequireSSL.
 
 
-=head2 Install DBIx::Class::EncodedColumn
-
-L<DBIx::Class::EncodedColumn|DBIx::Class::EncodedColumn> provides features
-that can greatly simplify the maintenance of passwords.  It's currently 
-not available as a .deb package in the normal Debian repositories, so let's
-install it directly from CPAN:
-
-    $ sudo cpan DBIx::Class::EncodedColumn
-
-
 =head2 Re-Run the DBIC::Schema Model Helper to Include DBIx::Class::EncodedColumn
 
 Next, we can re-run the model helper to have it include 
@@ -771,7 +762,9 @@ But we can further confirm our actions by dumping the users table:
     3|test03|af929a151340c6aed4d54d7e2651795d1ad2e2f7UW8dHoGv9z|t03@na.com|No|Go|0
 
 As you can see, the passwords are much harder to steal from the 
-database.  Also note that this demonstrates how to use a DBIx::Class 
+database (not only are the hashes stored, but every hash is different 
+even though the passwords are the same because of the added "salt" 
+value).  Also note that this demonstrates how to use a DBIx::Class 
 model outside of your web application -- a very useful feature in many 
 situations.
 
@@ -892,7 +885,7 @@ C<__PACKAGE__-E<gt>config> setting to something like:
 
     __PACKAGE__->config(
             name    => 'MyApp',
-            session => {flash_to_stash => 1}
+            session => {flash_to_stash => 1},
         );
 
 B<or> add the following to C<myapp.conf>:

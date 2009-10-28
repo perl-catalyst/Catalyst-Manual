@@ -91,11 +91,13 @@ tutorial or in a directory that already has a "MyApp" subdirectory):
     created "MyApp/root"
     ...
     created "MyApp/script/myapp_create.pl"
+    Change to application directory and Run "perl Makefile.PL" to make sure your install is complete
     $ cd MyApp
 
 This creates a similar skeletal structure to what we saw in Chapter 2 of
 the tutorial, except with C<MyApp> and C<myapp> substituted for
-C<Hello> and C<hello>.
+C<Hello> and C<hello>.  (As noted in Chapter 2, omit the ".pl" from 
+the command if you are using Strawberry Perl.)
 
 
 =head1 EDIT THE LIST OF CATALYST PLUGINS
@@ -119,15 +121,31 @@ Enables the Catalyst debug output you saw when we started the
 C<script/myapp_server.pl> development server earlier.  You can remove
 this item when you place your application into production.
 
-As you may have noticed, C<-Debug> is not a plugin, but a I<flag>. 
+To be technically correct, it turns out that C<-Debug> is not a plugin, but a I<flag>. 
 Although most of the items specified on the C<__PACKAGE__-E<gt>setup> 
 line of your application class will be plugins, Catalyst supports a 
 limited number of flag options (of these, C<-Debug> is the most 
 common).  See the documentation for C<Catalyst.pm> to get details on 
 other flags (currently C<-Engine>, C<-Home>, and C<-Log>).
 
-If you prefer, you can use the C<$c-E<gt>debug> method to enable debug
-messages.
+If you prefer, there are several other ways to enable debug output:
+
+=over 4
+
+=item *
+
+Use the C<$c-E<gt>debug> method
+
+=item *
+
+The C<-d> option to C<script/myapp_server.pl>
+
+=item *
+
+The C<CATALYST_DEBUG=1> environment variable (or set it to
+zero to templorarily disable debug output).
+
+=back
 
 B<TIP>: Depending on your needs, it can be helpful to permanently
 remove C<-Debug> from C<lib/MyApp.pm> and then use the C<-d> option
@@ -214,8 +232,8 @@ L<StackTrace|Catalyst::Plugin::StackTrace> output appears in your
 browser, not in the console window from which you're running your 
 application, which is where logging output usually goes.
 
-Make sure that when adding new plugins that you include them as a new
-dependancies within the Makefile.PL file. For example, after adding
+Make sure when adding new plugins you also include them as a new
+dependancy within the Makefile.PL file. For example, after adding
 the StackTrace plugin the Makefile.PL should include the following
 line:
 
@@ -240,10 +258,9 @@ during development.
 
 =item *
 
-When specifying plugins on the C<__PACKAGE__-E<gt>setup> line, you can 
-omit C<Catalyst::Plugin::> from the name.  Additionally, you can 
-spread the plugin names across multiple lines as shown here, or place 
-them all on one (or more) lines as with the default configuration.
+When specifying plugins, you can omit C<Catalyst::Plugin::> from the 
+name.  Additionally, you can spread the plugin names across multiple 
+lines as shown here or place them all on one line.
 
 =back
 
@@ -315,7 +332,7 @@ Controllers use one of five action types:
 =item *
 
 B<:Private> -- Use C<:Private> for methods that you want to make into 
-an action, but you do not want Catalyst to directly expose  
+an action, but you do not want Catalyst to directly expose  the method 
 to your users.  Catalyst will not map C<:Private> methods to a URI. 
 Use them for various sorts of "special" methods (the C<begin>, 
 C<auto>, etc. discussed below) or for methods you want to be able to 
@@ -351,11 +368,11 @@ controller down through the most specific class>.
 B<:Path> -- C<:Path> actions let you map a method to an explicit URI 
 path.  For example, "C<:Path('list')>" in 
 C<lib/MyApp/Controller/Books.pm> would match on the URL 
-C<http://localhost:3000/books/list> but "C<:Path('/list')>" would match 
-on C<http://localhost:3000/list>.  You can use C<:Args()> to specify 
-how many arguments an action should accept.  See 
-L<Catalyst::Manual::Intro/Action_types> for more information and a few 
-examples.
+C<http://localhost:3000/books/list>, but "C<:Path('/list')>" would 
+match on C<http://localhost:3000/list> (because of the leading slash). 
+You can use C<:Args()> to specify how many arguments an action should 
+accept.  See L<Catalyst::Manual::Intro/Action_types> for more 
+information and examples.
 
 =item *
 
@@ -406,34 +423,11 @@ L<HTML::Template> (L<http://html-template.sourceforge.net>).
 
 =head2 Create a Catalyst View
 
-When using TT for the Catalyst view, there are two main helper scripts:
-
-=over 4
-
-=item *
-
-L<Catalyst::Helper::View::TT|Catalyst::Helper::View::TT>
-
-=item *
-
-L<Catalyst::Helper::View::TTSite|Catalyst::Helper::View::TTSite>
-
-=back
-
-Both helpers are similar. C<TT> creates the C<lib/MyApp/View/TT.pm>
-file and leaves the creation of any hierarchical template organization
-entirely up to you. (It also creates a C<t/view_TT.t> file for testing;
-test cases will be discussed in Chapter 8.) C<TTSite>, on the other hand, 
-creates a modular and hierarchical view layout with
-separate Template Toolkit (TT) files for common header and footer
-information, configuration values, a CSS stylesheet, and more.
-
-While C<TTSite> was useful to bootstrap a project, its use is now
-deprecated and it should be considered historical.  For most Catalyst
-applications it adds redundant functionality and structure; many in the
-Catalyst community recommend that it's easier to learn both Catalyst and
-Template Toolkit if you use the more basic C<TT> approach.
-Consequently, this tutorial will use "plain old TT."
+When using TT for the Catalyst view, the main helper script
+is L<Catalyst::Helper::View::TT|Catalyst::Helper::View::TT>.
+You may also come across references to 
+L<Catalyst::Helper::View::TTSite|Catalyst::Helper::View::TTSite>,
+but its use is now deprecated.
 
 Enter the following command to enable the C<TT> style of view
 rendering for this tutorial:
@@ -472,14 +466,15 @@ And update it to match:
 B<NOTE:> Make sure to add a comma after '.tt2' outside the single
 quote.
 
-This changes the default extension for Template Toolkit from '.tt' to
-'.tt2' and changes the base directory for your template files from
-C<root> to C<root/src>.  These changes from the default are done mostly
-to facilitate the application we're developing in this tutorial; as with
-most things Perl, there's more than one way to do it...
+This changes the default extension for Template Toolkit from '.tt' to 
+'.tt2' and changes the base directory for your template files from 
+C<root> to C<root/src>.  Stick with these conventions for the 
+tutorial, but feel free to use whatever options you desire in your 
+applications (as with most things Perl, there's more than one way to 
+do it...).
 
 B<Note:> We will use C<root/src> as the base directory for our 
-template files, which a full naming convention of 
+template files, with a full naming convention of 
 C<root/src/_controller_name_/_action_name_.tt2>.  Another popular option is to
 use C<root/> as the base (with a full filename pattern of 
 C<root/_controller_name_/_action_name_.tt2>).
@@ -521,21 +516,25 @@ C<book> model object and prints the C<title> and C<rating> fields.
 The C<[%> and C<%]> tags are used to delimit Template Toolkit code.  TT
 supports a wide variety of directives for "calling" other files,
 looping, conditional logic, etc.  In general, TT simplifies the usual
-range of Perl operators down to the single dot (C<.>) operator.  This
+range of Perl operators down to the single dot (".") operator.  This
 applies to operations as diverse as method calls, hash lookups, and list
 index values (see
 L<http://search.cpan.org/perldoc?Template::Manual::Variables> for
-details and examples).  In addition to the usual C<Template> module Pod
+details and examples).  In addition to the usual L<Template> module Pod
 documentation, you can access the TT manual at
 L<http://search.cpan.org/perldoc?Template::Manual>.
 
-B<TIP:> While you can build all sorts of complex logic into your TT
-templates, you should in general keep the "code" part of your templates
-as simple as possible.  If you need more complex logic, create helper
-methods in your model that abstract out a set of code into a single call
-from your TT template.  (Note that the same is true of your controller
-logic as well -- complex sections of code in your controllers should
-often be pulled out and placed into your model objects.)
+B<TIP:> While you can build all sorts of complex logic into your TT 
+templates, you should in general keep the "code" part of your 
+templates as simple as possible.  If you need more complex logic, 
+create helper methods in your model that abstract out a set of code 
+into a single call from your TT template.  (Note that the same is true 
+of your controller logic as well -- complex sections of code in your 
+controllers should often be pulled out and placed into your model 
+objects.)  In Chapter 4 of the tutorial we will explore some extremely 
+helpful and powerful features of L<DBIx::Class> that allow you to pull 
+code out of your views and controllers and place it where it 
+rightfully belongs in a model class.
 
 
 =head2 Test Run The Application
@@ -665,7 +664,7 @@ L<Appendix 2|Catalyst::Manual::Tutorial::10_Appendices>.
 
 Catalyst can be used with virtually any form of datastore available 
 via Perl.  For example, L<Catalyst::Model::DBI|Catalyst::Model::DBI> 
-can be used to access databases through the traditional Perl C<DBI> 
+can be used to access databases through the traditional Perl L<DBI> 
 interface or you can use a model to access files of any type on the 
 filesystem.  However, most Catalyst applications use some form of 
 object-relational mapping (ORM) technology to create objects 
@@ -697,8 +696,9 @@ Please note the '\' above.  Depending on your environment, you might
 be able to cut and paste the text as shown or need to remove the '\' 
 character to that the command is all on a single line.
 
-If you don't have version 0.23 or higher, please run this command
-to install it directly from CPAN:
+You should have version 0.23 or greater if you are following along 
+with Debian 5.  In other environments, you may need to run this 
+command to install it directly from CPAN:
 
     $ sudo cpan Catalyst::Model::DBIC::Schema
 
@@ -1010,10 +1010,10 @@ edit many individual files.
 =head2 Configure TT.pm For The Wrapper
 
 In order to create a wrapper, you must first edit your TT view and
-tell it where to find your wrapper file. Your TT view is located in
-C<lib/MyApp/View/TT.pm>.
+tell it where to find your wrapper file. 
 
-Edit C<lib/MyApp/View/TT.pm> and change it to match the following:
+Edit you TT view in C<lib/MyApp/View/TT.pm> and change it to match the 
+following:
 
     __PACKAGE__->config(
         # Change default TT extension
@@ -1276,9 +1276,8 @@ three dynamically created model class (one for each of the
 Result Classes we created).
 
 Then hit the URL L<http://localhost:3000/books/list> with your browser 
-and be sure that the book list is displayed via the relationships 
-established above. You can leave the development server running for 
-the next step if you wish.
+and be sure that the book list still displays correctly. You can leave 
+the development server running for the next step if you wish.
 
 B<Note:> You will not see the authors yet because the view does not yet 
 use the new relations. Read on to the next section where we update the 
@@ -1312,13 +1311,13 @@ the "empty" table cell "<td></td>" with the following:
     </td>
     ...
 
-B<IMPORTANT NOTE:> You should keep as much "logic code" as possible 
-out of your views.  Instead, this kind of logic belongs in your model 
+B<IMPORTANT NOTE:> Again, you should keep as much "logic code" as 
+possible out of your views.  This kind of logic belongs in your model 
 (the same goes for controllers -- keep them as "thin" as possible and 
 push all of the "complicated code" out to your model objects).  Avoid 
 code like you see in the previous example -- we are only using it here 
 to show some extra features in TT until we get to the more advanced 
-model features we will see in Chapter 4 (see
+model features we will see in Chapter 4 (see 
 L<Catalyst::Manual::Tutorial::04_BasicCRUD/EXPLORING THE POWER OF DBIC>).
 
 Then hit "Reload" in your browser (note that you don't need to reload 

@@ -183,10 +183,9 @@ outputs the "last name for the first author" above to match this:
 
 to get around an issue in TT v2.15 where blessed hash objects were not 
 handled correctly.  But, if you are still using v2.15, it's probably 
-time to upgrade  (v2.15 is exactly 3 years old on the day I'm typing 
-this).  If you are following along in Debian, then you should be on at 
-least v2.20.  You can test your version of Template Toolkit with the 
-following:
+time to upgrade  (v2.15 is 3.5+ years old).  If you are following 
+along in Debian, then you should be on at least v2.20.  You can test 
+your version of Template Toolkit with the following:
 
     perl -MTemplate -e 'print "$Template::VERSION\n"'
 
@@ -465,8 +464,7 @@ C</books> part of the URL.  However, the processing then continues to
 the C<url_create> method because this method "chained" off C<base> and 
 specified C<:PathPart('url_create')> (note that we could have omitted 
 the "PathPart" here because it matches the name of the method, but we 
-will include it to make the logic behind the tutorial as explicit as 
-possible).
+will include it to make the logic as explicit as possible).
 
 Once again, enter the following URL into your browser:
 
@@ -518,7 +516,7 @@ This action simply invokes a view containing a form to create a book.
 Open C<root/src/books/form_create.tt2> in your editor and enter:
 
     [% META title = 'Manual Form Book Create' -%]
-
+    
     <form method="post" action="[% c.uri_for('form_create_do') %]">
     <table>
       <tr><td>Title:</td><td><input type="text" name="title"></td></tr>
@@ -1054,7 +1052,7 @@ if you now use the sqlite3 command-line tool to dump the C<books> table,
 you will see that the new book we added has an appropriate date and
 time entered for it (see the last line in the listing below):
 
-    sqlite3 myapp.db "select * from book"
+    $ sqlite3 myapp.db "select * from book"
     1|CCSP SNRS Exam Certification Guide|5|2009-03-08 16:26:35|2009-03-08 16:26:35
     2|TCP/IP Illustrated, Volume 1|5|2009-03-08 16:26:35|2009-03-08 16:26:35
     3|Internetworking with TCP/IP Vol.1|4|2009-03-08 16:26:35|2009-03-08 16:26:35
@@ -1073,7 +1071,7 @@ incorporate the datetime logic:
 
 =head2 Create a ResultSet Class
 
-An often overlooked but extremely powerful feature of DBIC is that it
+An often overlooked but extremely powerful features of DBIC is that it
 allows you to supply your own subclasses of C<DBIx::Class::ResultSet>.
 It allows you to pull complex and unsightly "query code" out of your
 controllers and encapsulate it in a method of your ResultSet Class.
@@ -1085,7 +1083,7 @@ To illustrate the concept with a fairly simple example, let's create a
 method that returns books added in the last 10 minutes.  Start by
 making a directory where DBIx::Class will look for our ResultSet Class:
 
-    mkdir lib/MyApp/Schema/ResultSet
+    $ mkdir lib/MyApp/Schema/ResultSet
 
 Then open C<lib/MyApp/Schema/ResultSet/Book.pm> and enter the following:
 
@@ -1114,7 +1112,7 @@ Then open C<lib/MyApp/Schema/ResultSet/Book.pm> and enter the following:
     
     1;
 
-Then we need to tell the Result Class to treat this as a ResultSet
+Then we need to tell the Result Class to to treat this as a ResultSet
 Class.  Open C<lib/MyApp/Schema/Result/Book.pm> and add the following
 above the "C<1;>" at the bottom of the file:
 
@@ -1323,10 +1321,10 @@ URL:
 
 The "Author(s)" column will now contain both the first and last name.
 And, because the concatenation logic was encapsulated inside our
-Result Class, it keeps the code inside our .tt template nice and clean
+Result Class, it keeps the code inside our TT template nice and clean
 (remember, we want the templates to be as close to pure HTML markup as
 possible). Obviously, this capability becomes even more useful as you
-use to remove even more complicated row-specific logic from your
+use to to remove even more complicated row-specific logic from your
 templates!
 
 
@@ -1362,10 +1360,10 @@ clean this up.  First, let's add a method to our Book Result Class to
 return the number of authors for a book.  Open 
 C<lib/MyApp/Schema/Result/Book.pm> and add the following method:
 
-=head2 author_count
-
-Return the number of authors for the current book
-
+    =head2 author_count
+    
+    Return the number of authors for the current book
+    
     =cut
     
     sub author_count {
@@ -1415,7 +1413,7 @@ match the following:
 
 Although most of the code we removed comprised comments, the overall 
 effect is dramatic... because our view code is so simple, we don't 
-need huge comments to clue people in to the gist of our code.  The view 
+huge comments to clue people in to the gist of our code.  The view 
 code is now self-documenting and readable enough that you could 
 probably get by with no comments at all.  All of the "complex" work is 
 being done in our Result Class methods (and, because we have broken 
@@ -1428,6 +1426,10 @@ model objects.  Because DBIx::Class can be easily extended in so many
 ways, it's an excellent to way accomplish this objective.  It will 
 make your code cleaner, easier to write, less error-prone, and easier 
 to debug and maintain.
+
+Before you conclude this section, fire up the development server and
+hit Refresh in your browser... the output should be the same even
+though the backend code has been trimmed down.
 
 
 =head1 AUTHOR

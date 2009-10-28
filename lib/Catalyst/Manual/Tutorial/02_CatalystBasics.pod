@@ -103,7 +103,8 @@ them to the necessary model and view.
 
 The use of Object-Relational Mapping (ORM) technology for database
 access. Specifically, ORM provides an automated and standardized means
-to persist and restore objects to/from a relational database.
+to persist and restore objects to/from a relational database and will
+automatically create our Catalyst model for use with a database.
 
 =back
 
@@ -132,7 +133,12 @@ script to initialize the framework for an application called C<Hello>:
     created "Hello/root"
     ...
     created "Hello/script/hello_create.pl"
+    Change to application directory and Run "perl Makefile.PL" to make sure your install is complete
     $ cd Hello
+
+Note: If you are using Strawberry Perl on Win32, drop the ".pl"
+from the end of the "catalyst.pl" command and simply use
+"catalyst Hello".
 
 The C<catalyst.pl> helper script will display the names of the
 directories and files it creates:
@@ -187,8 +193,8 @@ previous step):
     [debug] Statistics enabled
     [debug] Loaded plugins:
     .----------------------------------------------------------------------------.
-    | Catalyst::Plugin::ConfigLoader  0.20                                       |
-    | Catalyst::Plugin::Static::Simple  0.20                                     |
+    | Catalyst::Plugin::ConfigLoader  0.23                                       |
+    | Catalyst::Plugin::Static::Simple  0.21                                     |
     '----------------------------------------------------------------------------'
     
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
@@ -219,7 +225,7 @@ previous step):
     | /                                   | /index                               |
     '-------------------------------------+--------------------------------------'
     
-    [info] Hello powered by Catalyst 5.80004
+    [info] Hello powered by Catalyst 5.80013
     You can connect to your server at http://debian:3000
 
 Point your web browser to L<http://localhost:3000> (substituting a 
@@ -229,8 +235,8 @@ screen or an "Index" screen, you probably forgot to specify port 3000
 in your URL).  Information similar to the following should be appended 
 to the logging output of the development server:
 
-    [info] *** Request 1 (0.005/s) [20712] [Sun Mar  8 15:49:09 2009] ***
-    [debug] "GET" request for "/" from "1.1.1.98"
+    [info] *** Request 1 (0.005/s) [20712] [Sun Oct 11 11:58:51 2009] ***
+    [debug] "GET" request for "/" from "172.0.0.1"
     [info] Request took 0.007342s (136.203/s)
     .----------------------------------------------------------------+-----------.
     | Action                                                         | Time      |
@@ -273,27 +279,26 @@ L<Catalyst::Response|Catalyst::Response>), while C<$c-E<gt>welcome_message>
 is a special method that returns the welcome message that you saw in 
 your browser.
 
-The ":Path :Args(0)" after the method name are attributes which determine 
-which URLs will be dispatched to this method. (Depending on your version of 
-Catalyst, it used to say "Private" but using that with 'default' or 'index' 
-is currently deprecated.)
+The ":Path :Args(0)" after the method name are attributes which 
+determine which URLs will be dispatched to this method. (You might see 
+":Private" if you are using an older version of Catalyst, but using 
+that with 'default' or 'index' is currently deprecated.  If so, you 
+should also probably upgrade before continuing the tutorial.)
 
 Some MVC frameworks handle dispatching in a central place. Catalyst, 
 by policy, prefers to handle URL dispatching with attributes on 
 controller methods. There is a lot of flexibility in specifying which 
 URLs to match.  This particular method will match all URLs, because it 
 doesn't specify the path (nothing comes after "Path"), but will only 
-accept a single args because of the ":Args(0)". 
+accept a URL without any args because of the ":Args(0)". 
 
-The default is to map URLs to controller names, and because of 
-the way that Perl handles namespaces through package names, 
-it is simple to create hierarchical structures in 
-Catalyst. This means that you can create controllers with deeply 
-nested actions in a clean and logical way. 
-
-For example, the URL C<http://hello.com/admin/articles/create> maps 
-to the package C<Hello::Controller::Admin::Articles>, and the C<create>
-method. 
+The default is to map URLs to controller names, and because of the way 
+that Perl handles namespaces through package names, it is simple to 
+create hierarchical structures in Catalyst. This means that you can 
+create controllers with deeply nested actions in a clean and logical 
+way. For example, the URL C<http://hello.com/admin/articles/create> 
+maps to the package C<Hello::Controller::Admin::Articles>, and the 
+C<create> method. 
 
 Add the following subroutine to your C<lib/Hello/Controller/Root.pm> 
 file:
@@ -310,17 +315,18 @@ cutting and pasting example code from POD-based documents.
 Here you're sending your own string to the webpage.
 
 Save the file, start the server (stop and restart it if it's still 
-up), and go to L<http://localhost:3000/hello> to 
-see "Hello, World!"
+running), and go to L<http://localhost:3000/hello> to 
+see "Hello, World!"  Also notice that a new action is listed under
+"Loaded Private actions" in the development server debug output.
 
 
 =head2 Hello, World! Using a View and a Template
 
-In the Catalyst world  a "View" is not a page of XHTML or a template 
-designed to present a page to a browser. It is the module that 
-determines the I<type> of view -- HTML, pdf, XML, etc. For the 
-thing that generates the I<content> of that view, (such as the 
-default Toolkit Template) the actual templates go under the 
+In the Catalyst world a "View" itself is not a page of XHTML or a 
+template designed to present a page to a browser. Rather, it is the 
+module that determines the I<type> of view -- HTML, pdf, XML, etc. For 
+the thing that generates the I<content> of that view (such as the a 
+Toolkit Template template file), the actual templates go under the 
 "root" directory.
 
 To create a TT view, run:
@@ -344,15 +350,16 @@ commonly used name for TT views.  (You can name it anything you want, such as
 
 =item *
 
-The final "TT" tells it that you are creating a Template Toolkit view.
+The final "TT" tells Catalyst the I<type> of the view, with "TT" 
+indicating that you want to a Template Toolkit view.
 
 =back
 
-If you look at C<lib/Hello/View/TT.pm> you will find that it only contains a
-config statement to set the TT extension to ".tt".
+If you look at C<lib/Hello/View/TT.pm> you will find that it only 
+contains a config statement to set the TT extension to ".tt".
 
 Now that the TT.pm "View" exists, Catalyst will autodiscover it and be 
-able to use it to display the view templates, using the "process" 
+able to use it to display the view templates using the "process" 
 method that it inherits from the C<Catalyst::View::TT class>.
 
 Template Toolkit is a very full featured template facility, with 
@@ -383,14 +390,15 @@ following:
         $c->stash->{template} = 'hello.tt';
     }
 
-This time, instead of doing C<$c-E<gt>response-E<gt>body()>, you are setting 
-the value of the "template" hash key in the Catalyst "stash", an area 
-for putting information to share with other parts of your application. 
-The "template" key determines which template will be displayed at the 
-end of the method. Catalyst controllers have a default "end" action 
-for all methods which causes the first (or default) view to be 
-rendered (unless there's a C<$c-E<gt>response-E<gt>body()> statement). So your 
-template will be magically displayed at the end of your method.
+This time, instead of doing C<$c-E<gt>response-E<gt>body()>, you are 
+setting the value of the "template" hash key in the Catalyst "stash", 
+an area for putting information to share with other parts of your 
+application. The "template" key determines which template will be 
+displayed at the end of the request cycle. Catalyst controllers have a 
+default "end" action for all methods which causes the first (or 
+default) view to be rendered (unless there's a C<$c-E<gt>response-
+E<gt>body()> statement). So your template will be magically displayed 
+at the end of your method.
 
 After saving the file, restart the development server, and look at 
 L<http://localhost:3000/hello> again. You should 
@@ -405,8 +413,7 @@ Create a controller named "Site" by executing the create script:
 
 This will create a C<lib/Hello/Controller/Site.pm> file (and a test 
 file). Bring Site.pm up in your editor, and you can see that there's 
-not much there. Most people probably don't bother to use the create 
-script to make controllers after they're used to using Catalyst.
+not much there. 
 
 In C<lib/Hello/Controller/Site.pm>, add the following method:
 
@@ -418,8 +425,8 @@ In C<lib/Hello/Controller/Site.pm>, add the following method:
     }
 
 Notice the "Local" attribute on the C<test> method. This will cause 
-the C<test> action (now that we have assigned an action type to the 
-method it appears as a controller "action" to Catalyst) to be executed 
+the C<test> action (now that we have assigned an "action type" to the 
+method it appears as a "controller action" to Catalyst) to be executed 
 on the "controller/method" URL, or, in this case, "site/test".  We 
 will see additional information on controller actions throughout the 
 rest of the tutorial, but if you are curious take a look at 

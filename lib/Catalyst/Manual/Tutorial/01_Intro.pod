@@ -92,12 +92,14 @@ AND CONVENTIONS USED IN THIS TUTORIAL" below for the specific versions
 for some of the key modules), so B<if you think you might be running 
 into an issue related to versions> (for example, a module changed its 
 behavior in a newer version or a bug was introduced), B<it might be 
-worth giving Debian 5 a try>.  See the "CATALYST INSTALLATION" 
-section below for more information.
+worth giving Debian 5 a try>.
 
-If you're reading this manual online, you can download the example 
+If you plan to follow along with Debian 5, you can jump down to the 
+"Debian" section under L</"CATALYST INSTALLATION"> below and it will walk you 
+though the setup of a fully functional Catalyst environment. If you 
+would prefer to install directly from CPAN, you can download the example 
 program and all the necessary dependencies to your local machine by 
-installing the C<Task::Catalyst::Tutorial> distribution from CPAN:
+installing the C<Task::Catalyst::Tutorial> distribution: 
 
      cpan Task::Catalyst::Tutorial
 
@@ -153,7 +155,10 @@ applications.
 =item * 
 
 The use of SQLite as a database (with code also provided for MySQL and
-PostgreSQL).
+PostgreSQL).  (Note: Because we make use of the DBIx::Class Object 
+Relational Mapping [ORM] layer, out our application will be database
+agnostic and can easily be used by any of the databases supported
+by DBIx::Class.)
 
 =item * 
 
@@ -194,15 +199,15 @@ Debian 5 (Lenny)
 
 =item * 
 
-Catalyst v5.80004
+Catalyst v5.80013
 
 =item *
 
-Catalyst::Devel v1.10
+Catalyst::Devel v1.15
 
 =item * 
 
-DBIx::Class v0.08102
+DBIx::Class v0.08108
 
 =item *
 
@@ -229,23 +234,23 @@ Catalyst::Plugin::Authorization::Roles -- v0.07
 
 =item *
 
-Catalyst::Plugin::ConfigLoader -- v0.22
+Catalyst::Plugin::ConfigLoader -- v0.23
 
 =item *
 
-Catalyst::Plugin::Session -- v0.20
+Catalyst::Plugin::Session -- v0.22
 
 =item *
 
-Catalyst::Plugin::Session::State::Cookie -- v0.10
+Catalyst::Plugin::Session::State::Cookie -- v0.11
 
 =item *
 
-Catalyst::Plugin::Session::Store::FastMmap -- v0.07
+Catalyst::Plugin::Session::Store::FastMmap -- v0.10
 
 =item *
 
-Catalyst::Plugin::StackTrace -- v0.09
+Catalyst::Plugin::StackTrace -- v0.10
 
 =item *
 
@@ -261,22 +266,28 @@ following command:
     perl -M<_mod_name_> -e '"print $<_mod_name_>::VERSION\n"'
 
 For example:
-    perl -MCatalyst::Plugin::StackTrace -e 'print "$Catalyst::Plugin::StackTrace::VERSION\n"'
 
-Since the web browser is being used on the same box where Perl and the
-Catalyst development server is running, the URL of
-C<http://localhost:3000> will be used (the Catalyst development server
-defaults to port 3000).  If you are running Perl on a different box than
-where your web browser is located (or using a different port number via
-the C<-p> I<port_number> option to the development server), then you
-will need to update the URL you use accordingly.
+    perl -MCatalyst -e 'print "$Catalyst::VERSION\n";'
+
+or:
+
+    perl -MCatalyst::Devel -e 'print "$Catalyst::Devel::VERSION\n";'
 
 =item * 
 
-Depending on the web browser you are using, you might need to hit 
-C<Shift+Reload> or C<Ctrl+Reload> to pull a fresh page when testing 
-your application at various points (see 
-L<http://en.wikipedia.org/wiki/Bypass_your_cache> for a comprehensive
+This tutorial will assume that the web browser is located on the same 
+system where the Catalyst development server is running, and 
+therefore use a URL of C<http://localhost:3000> (the Catalyst 
+development server defaults to port 3000).  If you are running Perl on 
+a different box than where your web browser is located (or using a 
+different port number via the C<-p> I<port_number> option to the 
+development server), then you will need to update the URL you use 
+accordingly.
+
+Please Note: Depending on the web browser you are using, you might 
+need to hit C<Shift+Reload> or C<Ctrl+Reload> to pull a fresh page 
+when testing your application at various points (see 
+L<http://en.wikipedia.org/wiki/Bypass_your_cache> for a comprehensive 
 list of options for each browser).  Also, the C<-k> keepalive option 
 to the development server can be necessary with some browsers 
 (especially Internet Explorer).
@@ -389,14 +400,13 @@ Install Catalyst:
 
     sudo aptitude update
     sudo aptitude -y install sqlite3 libdbd-sqlite3-perl libcatalyst-perl \
-        libcatalyst-modules-perl libconfig-general-perl libsql-translator-perl \
-        libdatetime-perl libdatetime-format-mysql-perl libio-all-perl \
-        libperl6-junction-perl libmoosex-emulate-class-accessor-fast-perl \
-        libdbix-class-timestamp-perl
+        libcatalyst-modules-perl libdbix-class-timestamp-perl \
+        libdbix-class-encodedcolumn-perl libperl6-junction-perl \
+        libdatetime-format-sqlite-perl
 
-Let it install (normally about a 30-second operaton) and you are done. 
-(Note the '\' above.  Depending on your environment, you might be able 
-to cut and paste the text as shown or need to remove the '\' 
+Let it install (normally about a 30 to 90-second operaton) and you are 
+done. (Note the '\' above.  Depending on your environment, you might 
+be able to cut and paste the text as shown or need to remove the '\' 
 characters to that the command is all on a single line.)
 
 If you are using an image other than the "rescue" ISO, you will also need
@@ -432,7 +442,9 @@ deleted).
 =item *
 
 If you are installing modules from CPAN, you can free up some space 
-with "C<rm -rf /root/.cpan/*>".
+with "C<rm -rf /root/.cpan/*>" (change "/root/" in the previous 
+command to match your home directory or the location where CPAN
+has been configured to perform build operations).
 
 =item *
 
@@ -604,8 +616,6 @@ of each part for the appropriate svn command to use).
 B<NOTE:> You can run the test cases for the final code through Chapter 8 
 with the following commands:
 
-    sudo cpan Catalyst::Model::DBIC::Schema Time::Warp DBICx::TestDatabase \
-        DBIx::Class::DynamicDefault DBIx::Class::EncodedColumn
     wget http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Chapter8.tgz
     tar zxvf MyApp_Chapter8.tgz
     cd MyApp
@@ -613,13 +623,12 @@ with the following commands:
 
 If you wish to include the L<HTML::FormFu|HTML::FormFu> section in 
 your tests, substitute C<MyApp_Chapter9_FormFu.tgz> for 
-C<MyApp_Chapter8.tgz> in the URL above.  However, you will also need to 
-run the following additional commands:
+C<MyApp_Chapter8.tgz> in the URL above.
 
-    sudo aptitude -y install libhtml-formfu-perl libmoose-perl \
-        libregexp-assemble-perl libhtml-formfu-model-dbic-perl
-    sudo aptitude clean
-    sudo cpan Catalyst::Component::InstancePerContext Catalyst::Controller::HTML::FormFu
+    wget http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Chapter9_FormFu.tgz
+    tar zxvf MyApp_Chapter8.tgz
+    cd MyApp
+    CATALYST_DEBUG=0 prove --lib lib t
 
 You can also fire up the application under the development server that is conveniently
 built in to Catalyst.  Just issue this command from the C<MyApp> directory where you

@@ -94,11 +94,6 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
                     Session::State::Cookie
                     /;
 
-B<Note:> As discussed in MoreCatalystBasics, different versions of 
-C<Catalyst::Devel> have used a variety of methods to load the plugins. 
-You can put the plugins in the C<use Catalyst> statement if you 
-prefer.
-
 Once again (remain sharp, by now you should be getting the hang of things)
 include this additional plugin as a new dependency in the Makefile.PL file
 like this:
@@ -138,7 +133,7 @@ lines to the bottom of the file:
     </p>
 
 This code displays a different combination of links depending on the
-roles assigned to the user.
+roles assigned to the user.  
 
 
 =head2 Limit Books::add to 'admin' Users
