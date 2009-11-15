@@ -193,8 +193,8 @@ previous step):
     [debug] Statistics enabled
     [debug] Loaded plugins:
     .----------------------------------------------------------------------------.
-    | Catalyst::Plugin::ConfigLoader  0.23                                       |
-    | Catalyst::Plugin::Static::Simple  0.21                                     |
+    | Catalyst::Plugin::ConfigLoader  0.27                                       |
+    | Catalyst::Plugin::Static::Simple  0.25                                     |
     '----------------------------------------------------------------------------'
     
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
