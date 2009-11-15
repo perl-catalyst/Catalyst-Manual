@@ -690,20 +690,20 @@ running this command:
 
     $ perl -MCatalyst::Model::DBIC::Schema -e \
         'print "$Catalyst::Model::DBIC::Schema::VERSION\n"'
-    0.23
+    0.31
 
 Please note the '\' above.  Depending on your environment, you might 
 be able to cut and paste the text as shown or need to remove the '\' 
 character to that the command is all on a single line.
 
-You should have version 0.23 or greater if you are following along 
+You should have version 0.31 or greater if you are following along 
 with Debian 5.  In other environments, you may need to run this 
 command to install it directly from CPAN:
 
     $ sudo cpan Catalyst::Model::DBIC::Schema
 
 And re-run the version print command to verify that you are now at 
-0.23 or higher.
+0.31 or higher.
 
 
 =head2 Create Static DBIx::Class Schema Files
@@ -906,9 +906,9 @@ display something like:
     [debug] Statistics enabled
     [debug] Loaded plugins:
     .----------------------------------------------------------------------------.
-    | Catalyst::Plugin::ConfigLoader  0.22                                       |
-    | Catalyst::Plugin::StackTrace  0.09                                         |
-    | Catalyst::Plugin::Static::Simple  0.21                                     |
+    | Catalyst::Plugin::ConfigLoader  0.27                                       |
+    | Catalyst::Plugin::StackTrace  0.11                                         |
+    | Catalyst::Plugin::Static::Simple  0.25                                     |
     '----------------------------------------------------------------------------'
     
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
@@ -949,7 +949,7 @@ display something like:
     | /books/list                         | /books/list                          |
     '-------------------------------------+--------------------------------------'
     
-    [info] MyApp powered by Catalyst 5.80003
+    [info] MyApp powered by Catalyst 5.80013
     You can connect to your server at http://debian:3000
 
 B<NOTE:> Be sure you run the C<script/myapp_server.pl> command from

@@ -230,12 +230,9 @@ Ctrl+Reload your browser at the C</books/list> page).  You should now
 see the six DBIC debug messages similar to the following (where 
 N=1-6):
 
-    SELECT author.id, author.first_name, author.last_name \
-        FROM book_author me  JOIN author author \
+    SELECT author.id, author.first_name, author.last_name 
+        FROM book_author me  JOIN author author 
         ON author.id = me.author_id WHERE ( me.book_id = ? ): 'N'
-
-(The '\' characters won't actually appear in the output -- we are 
-using them as "line continuation markers" here.)
 
 
 =head1 CONVERT TO A CHAINED ACTION

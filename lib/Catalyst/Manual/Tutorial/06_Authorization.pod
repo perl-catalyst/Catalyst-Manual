@@ -94,9 +94,8 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
                     Session::State::Cookie
                     /;
 
-Once again (remain sharp, by now you should be getting the hang of things)
-include this additional plugin as a new dependency in the Makefile.PL file
-like this:
+Once again, include this additional plugin as a new dependency in 
+the Makefile.PL file like this:
 
     requires (
         ...
