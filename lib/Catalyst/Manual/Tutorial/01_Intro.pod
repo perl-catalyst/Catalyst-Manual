@@ -162,8 +162,8 @@ by DBIx::Class.)
 
 =item * 
 
-The use of L<HTML::FormFu|HTML::FormFu> for automated form processing 
-and validation.
+The use of L<HTML::FormFu|HTML::FormFu> or L<HTML::FormHandler|HTML::FormHandler>
+for automated form processing and validation.
 
 =back
 
