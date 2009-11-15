@@ -1311,16 +1311,16 @@ C<< $c->request->args >>.
 If you don't want or need these features then it's perfectly acceptable
 (and faster) to do something like this:
 
-sub hello : Global {
-    my ( $self, $c ) = @_;
-    $c->stash->{message} = 'Hello World!';
-    $self->check_message( $c, 'test1' );
-}
-
-sub check_message {
-    my ( $self, $c, $first_argument ) = @_;
-    # do something...
-}
+    sub hello : Global {
+        my ( $self, $c ) = @_;
+        $c->stash->{message} = 'Hello World!';
+        $self->check_message( $c, 'test1' );
+    }
+    
+    sub check_message {
+        my ( $self, $c, $first_argument ) = @_;
+        # do something...
+    }
 
 Note that C<forward> returns to the calling action and continues
 processing after the action finishes. If you want all further processing
