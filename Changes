@@ -1,7 +1,18 @@
 Revision history for Catalyst-Manual
 
+5.8001 15 Nov 2009
+        - Update tutorial to match latest prepacked versions in Debian 5
+        - Add FormHandler branch (with thanks to gshank!)
+        - Misc cleanup/freshing up of tutorial.
+        - Fix indenting issue (with thanks to Kiffin Gish)
+        - Integrate tome fix branch (with thanks to tome!)
+        - Add a "negative" test to confirm that test02 does not have an admin create link
+        - Integrate sqlite3 clarification and link by wolfman2000 from tutorial_role_updates branch
         - Fix Pod typos in ::Internals (RT#51488)
         - Fix Pod typos in the Cookbook (RT#51466)
+        - Fix a Test::Pod failure and make Debian happier.
+        - Typo fixes from garu
+        - Misc minor and/or typo fixes
 
 5.8001 06 Oct 2009
         - Tutorial
