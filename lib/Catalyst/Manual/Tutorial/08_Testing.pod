@@ -270,7 +270,7 @@ editor and enter the following:
     # Make sure the appropriate logout buttons are displayed
     $_->content_contains("/logout\">User Logout</a>",
         "Both users should have a 'User Logout'") for $ua1, $ua2;
-    $ua1->content_contains("/books/form_create\">Create</a>",
+    $ua1->content_contains("/books/form_create\">Admin Create</a>",
         "Only 'test01' should have a create link");
     
     $ua1->get_ok("http://localhost/books/list", "View book list as 'test01'");

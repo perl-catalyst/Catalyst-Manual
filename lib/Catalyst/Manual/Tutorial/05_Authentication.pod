@@ -336,7 +336,6 @@ for the tutorial, but if you wish to use C<myapp.conf>, just convert
 to the following code:
 
     <Plugin::Authentication>
-        use_session 1
         <default>
             password_type clear
             user_model    DB::User

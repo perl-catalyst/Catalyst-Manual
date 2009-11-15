@@ -648,13 +648,13 @@ required if you do a single SQL statement on the command line).  Use
 your OS command prompt.
 
 Please note that here we have chosen to use 'singular' table names. This
-is because the default inflection code for L<DBIx::Class:Schema::Loader>
+is because the default inflection code for L<DBIx::Class::Schema::Loader>
 does NOT handle plurals. There has been much philosophical discussion
 on whether table names should be plural or singular. There is no one
 correct answer, as long as one makes a choice and remains consistent
 with it. If you prefer plural table names (e.g. they are easier and
 more natural to read) then you will need to pass it an inflect_map 
-option. See L<DBIx::Class:Schema::Loader> for more information.
+option. See L<DBIx::Class::Schema::Loader> for more information.
 
 For using other databases, such as PostgreSQL or MySQL, see 
 L<Appendix 2|Catalyst::Manual::Tutorial::10_Appendices>.
@@ -751,11 +751,6 @@ C<create=static> causes
 L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> to 
 load the schema as it runs and then write that information out
 into files.
-
-=item *
-
-C<components=TimeStamp> causes the help to include the 
-L<DBIx::Class::TimeStamp|DBIx::Class::TimeStamp> DBIC component.
 
 =item *
 
