@@ -59,36 +59,12 @@ L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 This portion of the tutorial explores L<HTML::FormFu|HTML::FormFu> and 
 how it can be used to manage forms, perform validation of form input, 
 as well as save and restore data to/from the database.  This was written
-using HTML::FormFu version 0.03007.
+using HTML::FormFu version 0.05001.
 
 See 
 L<Catalyst::Manual::Tutorial::09_AdvancedCRUD|Catalyst::Manual::Tutorial::09_AdvancedCRUD>
 for additional form management options other than 
 L<HTML::FormFu|HTML::FormFu>.
-
-
-=head1 Install HTML::FormFu
-
-If you are following along in Debian 5, it turns out that some of the 
-modules we need are not yet available as Debian packages at the time 
-this was written.  To install it with a combination of Debian packages 
-and traditional CPAN modules, first use C<aptitude> to install most of 
-the modules:
-
-we need to install the
-L<HTML::FormFu|HTML::FormFu> package: 
-
-    sudo aptitude -y install libhtml-formfu-perl libmoose-perl \
-        libregexp-assemble-perl libhtml-formfu-model-dbic-perl
-        
-    ...
-    
-    sudo aptitude clean
-
-Then use the following command to install directly from CPAN the modules 
-that aren't available as Debian packages:
-
-    sudo cpan Catalyst::Component::InstancePerContext Catalyst::Controller::HTML::FormFu
 
 
 =head1 HTML::FormFu FORM CREATION
@@ -272,9 +248,9 @@ Login as C<test01> (password: mypass).  Once at the Book List page,
 click the new HTML::FormFu "Create" link at the bottom to display the
 form.  Fill in the following values:
 
-    Title  = "Internetworking with TCP/IP Vol. II"
-    Rating = "4"
-    Author = "Comer"
+Title:  Internetworking with TCP/IP Vol. II
+Rating: 4
+Author: Comer
     
 Click the Submit button, and you will be returned to the Book List page
 with a "Book created" status message displayed.
@@ -526,7 +502,7 @@ We use C<$id> to look up the existing book from the database.
 
 We make sure the book lookup returned a valid book.  If not, we set 
 the error message and return to the book list.
- 
+
 =item *
 
 If the form has been submitted and passes validation, we skip creating a 
