@@ -997,7 +997,7 @@ Then you need a template. Here's the one from Agave:
 
 =head3 Using XML::Feed
 
-A more robust solution is to use XML::Feed, as was done in the Catalyst
+A more robust solution is to use L<XML::Feed>, as was done in the Catalyst
 Advent Calendar. Assuming we have a C<view> action that populates
 'entries' with some DBIx::Class iterator, the code would look something
 like this:
