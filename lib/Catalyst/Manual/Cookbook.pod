@@ -243,7 +243,7 @@ this.
 
 This is extensively covered in other documentation; see in particular
 L<Catalyst::Plugin::Authentication> and the Authentication chapter
-of the Tutorial at L<Catalyst::Manual::Tutorial::Authorization>.
+of the Tutorial at L<Catalyst::Manual::Tutorial::06_Authorization>.
 
 =head2 Pass-through login (and other actions)
 
