@@ -139,8 +139,10 @@ L<http://www.gnu.org/software/emacs/manual/html_node/emacs/Indentation-Commands.
 =head1 APPENDIX 2: USING POSTGRESQL AND MYSQL
 
 The main database used in this tutorial is the very simple yet powerful
-SQLite.  This section provides information that can be used to "convert"
-the tutorial to use PostgreSQL and MySQL.  However, note that part of
+L<SQLite|http://www.sqlite.org>.  This section provides information
+that can be used to "convert" the tutorial to use
+L<PostgreSQL|http://www.postgresql.org> and
+L<MySQL|http://dev.mysql.com>.  However, note that part of
 the beauty of the MVC architecture is that very little database-specific
 code is spread throughout the system (at least when MVC is "done
 right").  Consequently, converting from one database to another is
