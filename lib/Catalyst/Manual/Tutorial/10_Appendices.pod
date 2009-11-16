@@ -513,7 +513,7 @@ You can verify that it worked with this command:
 
 =head2 MySQL
 
-B<NOTE:> This section is out of data with the rest of the tutorial.
+B<NOTE:> This section is out of date with the rest of the tutorial.
 Consider using SQLite or PostgreSQL since they are current.
 
 Use the following steps to adapt the tutorial to MySQL.  Thanks to Jim
