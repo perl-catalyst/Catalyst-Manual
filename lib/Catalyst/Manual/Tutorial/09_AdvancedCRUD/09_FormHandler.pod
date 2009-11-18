@@ -280,9 +280,9 @@ green.  Experiment with other edits to various books.
 
 =head2 See additional documentation on FormHandler
 
-   L<HTML::FormHandler::Manual>
+L<HTML::FormHandler::Manual>
 
-   L<HTML::FormHandler>
+L<HTML::FormHandler>
 
    #formhandler on irc.perl.org
 
