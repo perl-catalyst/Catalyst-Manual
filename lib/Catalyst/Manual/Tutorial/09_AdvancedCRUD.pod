@@ -79,7 +79,7 @@ L<FormFu|Catalyst::Manual::Tutorial::09_AdvancedCRUD::09_FormFu>
 
 =item *
 
-L<FormHandler|Catalyst::Manual::Tutorial::09_AdvandedCRUD::09_FormHandler>
+L<FormHandler|Catalyst::Manual::Tutorial::09_AdvancedCRUD::09_FormHandler>
 
 =item *
 
