@@ -847,7 +847,7 @@ of the path is passed as arguments.
 Matches any URL beginning with> http://localhost:3000/my/controller/foo. The namespace and
 subroutine name together determine the path.
 
-=item * Namespace-level (C<:Global>)
+=item * Root-level (C<:Global>)
 
     package MyApp::Controller::Foo;
     sub foo : Global { }
@@ -855,8 +855,9 @@ subroutine name together determine the path.
 Matches http://localhost:3000/foo - that is, the action is mapped
 directly to the controller namespace, ignoring the function name.
 
-C<:Global> is equivalent C<:Local> one level higher in
-the namespace.
+C<:Global> always matches from root: it is sugar for C<:Path('/methodname')>.
+C<:Local> is simply sugar for C<:Path('methodname')>, which takes the package
+namespace as described above.
 
     package MyApp::Controller::Root;
     __PACKAGE__->config->{namespace}='';
@@ -887,7 +888,9 @@ C<:Args(0)> means that no arguments are taken.  Thus, the URL and path must
 match precisely.
 
 No :Args at all means that B<any number> of arguments are taken.  Thus, any
-URL that B<starts with> the controller's path will match.
+URL that B<starts with> the controller's path will match. Obviously, this means
+you cannot chain from an action that does not specify args, as the next action
+in the chain will be swallowed as an arg to the first!
 
 
 =item * Literal match (C<:Path>)
