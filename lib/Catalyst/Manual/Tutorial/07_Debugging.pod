@@ -93,7 +93,7 @@ template view use:
 
     [% c.log.debug("This is a test log message") %]
 
-As with many other logging facilities, you a method is defined for
+As with many other logging facilities, a method is defined for
 each of the following "logging levels" (in increasing order of
 severity/importance):
 
