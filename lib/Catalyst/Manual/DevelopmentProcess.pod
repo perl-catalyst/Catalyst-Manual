@@ -2,7 +2,47 @@
 
 Catalyst::Manual::DevelopmentProcess - Administrative structure of the Catalyst Development Process
 
+=head1 Contributing to Catalyst
+
+The main philosophy behind Catalyst development can be summarized as:
+
+    Patches welcome!
+
+Everyone is welcome (and will be encouraged) to contribute to Catalyst
+in whatever capacity they're able to. People in #catalyst-dev will be
+more than happy to talk newcomers through contributing their first patch,
+or how best to go about their first CPAN extension module....
+
 =head1 Catalyst development
+
+=head2 Discussing proposed bugfixes or improvements
+
+L<http://dev.catalystframework.org/wiki/#Community> has information about how
+to get in touch with the Catalyst "community".  In particular, you would
+want to discuss a proposed change on the mailing list:
+
+    http://lists.scsys.co.uk/cgi-bin/mailman/listinfo/catalyst-dev
+
+or on IRC:
+
+    irc://irc.perl.org/catalyst-dev
+    http://dev.catalystframework.org/wiki/livegroups
+
+Usually, the core team will be more than happy for you to contribute, and
+will talk you through how to submit a patch, or get a "commit bit".
+
+=head2 Repositories
+
+The Catalyst subversion repository can be found at:
+
+    svn: http://dev.catalyst.perl.org/repos/Catalyst
+    browser: http://dev.catalyst.perl.org/svnweb/Catalyst
+
+and the git repository can be found at:
+
+    read: git://git.shadowcat.co.uk/catagits/PROJECTNAME
+    write: catagits@git.shadowcat.co.uk:PROJECTNAME
+    browser: https://git.shadowcat.co.uk/gitweb/gitweb.cgi
 
 =head2 Schedule
 
@@ -106,30 +146,6 @@ correction, any member of the Core Team can perform a rescue release.
 The Core Team should strive to appear publicly as a group when answering
 questions or other correspondence. In cases where this is not possible,
 the same order as for CPAN releases applies.
-
-=head1 Contributing to Catalyst
-
-The main philosophy behind Catalyst development can be summarized as:
-
-    Patches welcome!
-
-Everyone is welcome (and will be encouraged) to contribute to Catalyst
-in whatever capacity they're able to. People in #catalyst-dev will be
-more than happy to talk newcomers through contributing their first patch,
-or how best to go about their first CPAN extension module....
-
-=head2 Repositories
-
-The Catalyst subversion repository can be found at:
-
-    svn: http://dev.catalyst.perl.org/repos/Catalyst
-    browser: http://dev.catalyst.perl.org/svnweb/Catalyst
-
-and the git repository can be found at:
-
-    read: git://git.shadowcat.co.uk/catagits/PROJECTNAME
-    write: catagits@git.shadowcat.co.uk:PROJECTNAME
-    browser: https://git.shadowcat.co.uk/gitweb/gitweb.cgi
 
 =head2 New Catalyst Extensions
 
