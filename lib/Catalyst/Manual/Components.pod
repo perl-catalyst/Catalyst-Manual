@@ -200,6 +200,9 @@ authorization for Catalyst based on L<Catalyst::Plugin::Authentication>.
 
 =head2 L<Catalyst::Plugin::AutoSession>
 
+L<Catalyst::Plugin::AutoSession> enables specified request parameters
+to generate session variables.
+
 =head2 L<Catalyst::Plugin::Browser>
 
 Extends L<Catalyst::Request> by adding the capability of browser
@@ -228,6 +231,8 @@ the C<< Cache:: >> APO, such as:
 =head2 L<Catalyst::Plugin::CGI::Untaint>
 
 =head2 L<Catalyst::Plugin::Charsets::Japanese>
+
+Provides specific charset handlers for the Japanese charsets.
 
 =head2 L<Catalyst::Plugin::Compress::Bzip2>
 
@@ -333,6 +338,8 @@ easily implement AJAX functionality without actually knowing Javascript.
 
 =head2 L<Catalyst::Plugin::Redirect>
 
+Allows for easy redirecting with the Catalyst app.
+
 =head2 L<Catalyst::Plugin::RequestToken>
 
 =head2 L<Catalyst::Plugin::RequireSSL>
@@ -424,6 +431,8 @@ you've already painted yourself into a corner - try to avoid!
 =head2 L<Catalyst::Plugin::Upload::Basename>
 
 =head2 L<Catalyst::Plugin::Upload::MD5>
+
+Computes the MD5 message digest of uploaded files.
 
 =head2 L<Catalyst::Plugin::Upload::MIME>
 
