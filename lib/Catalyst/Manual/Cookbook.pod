@@ -446,7 +446,7 @@ determines what this user is allowed to do.
 
 Under role based access control each user is allowed to perform any
 number of roles. For example, at a zoo no one but specially trained
-personnel can enter the moose cage (Mynd you, møøse bites kan be
+personnel can enter the moose cage (Mynd you, mÃ¸Ã¸se bites kan be
 pretty nasti!). For example:
 
     package Zoo::Controller::MooseCage;
@@ -745,8 +745,8 @@ display your data; you can choose to generate HTML, PDF files, or plain
 text if you wanted.
 
 Most Catalyst applications use a template system to generate their HTML,
-and though there are several template systems available, Template
-Toolkit is probably the most popular.
+and though there are several template systems available, 
+L<Template Toolkit|Template> is probably the most popular.
 
 Once again, the Catalyst developers have done all the hard work, and
 made things easy for the rest of us. Catalyst::View::TT provides the

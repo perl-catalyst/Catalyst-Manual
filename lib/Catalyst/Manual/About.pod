@@ -226,7 +226,7 @@ View. In Catalyst applications the View is usually a small module, just
 gluing some other module into Catalyst; the display logic is written
 within the template itself.
 
-The Controller is Catalyst itself. When a request is made to Catalyst,
+The B<Controller> is Catalyst itself. When a request is made to Catalyst,
 it will be received by one of your Controller modules; this module
 will figure out what the user is trying to do, gather the necessary
 data from a Model, and send it to a View for display.
