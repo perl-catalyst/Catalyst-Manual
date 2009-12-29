@@ -233,7 +233,7 @@ browser, not in the console window from which you're running your
 application, which is where logging output usually goes.
 
 Make sure when adding new plugins you also include them as a new
-dependancy within the Makefile.PL file. For example, after adding
+dependency within the Makefile.PL file. For example, after adding
 the StackTrace plugin the Makefile.PL should include the following
 line:
 

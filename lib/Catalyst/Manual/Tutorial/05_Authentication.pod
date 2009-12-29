@@ -738,7 +738,7 @@ Then run the following command:
 
     $ DBIC_TRACE=1 perl -Ilib set_hashed_passwords.pl
 
-We had to use the C<-Ilib> arguement to tell perl to look under the 
+We had to use the C<-Ilib> argument to tell perl to look under the 
 C<lib> directory for our C<MyApp::Schema> model.
 
 The DBIC_TRACE output should show that the update worked:
