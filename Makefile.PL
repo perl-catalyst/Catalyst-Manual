@@ -2,9 +2,8 @@ use strict;
 use warnings;
 use inc::Module::Install 0.87;
 
-if ($Module::Install::AUTHOR) {
-    require Module::Install::AuthorRequires;
-}
+use Module::Install::AuthorTests;
+use Module::Install::AuthorRequires;
 
 name 'Catalyst-Manual';
 all_from 'lib/Catalyst/Manual.pm';
@@ -13,8 +12,10 @@ license 'perl';
 
 test_requires 'Test::More';
 
-author_requires 'Test::Pod';
-author_requires 'Test::Pod::Coverage';
+author_requires 'Pod::Simple' => '3.11'; # L<Foo|http://foo.com> support
+author_requires 'Test::Pod' => '1.14';
+author_requires 'Test::Pod::Coverage' => '1.04';
+author_tests 't/author';
 
 auto_install;
 resources repository => 'http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Manual/5.80/trunk/';
