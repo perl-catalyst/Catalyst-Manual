@@ -1299,11 +1299,12 @@ will both be called when visiting
 You can put root actions in your main MyApp.pm file, but this is deprecated,
 please put your actions into your Root controller.
 
-=head3 More Information
+=head3 Flowchart
 
-L<http://dev.catalyst.perl.org/wiki/FlowChart>
+A graphical flowchart of how the dispatcher works can be found on the wiki at
+L<http://dev.catalyst.perl.org/attachment/wiki/WikiStart/catalyst-flow.png>.
 
-=head2 DRY Controllers with Chained actions.
+=head2 DRY Controllers with Chained actions
 
 Imagine that you would like the following paths in your application:
 
