@@ -357,7 +357,7 @@ Now we can create a DBIC::Schema model for this database.
 
     script/myapp_create.pl model MyModel DBIC::Schema MySchema create=static 'dbi:SQLite:/tmp/myapp.db'
 
-L<DBIx::Class::Schema::Loader> can automaticall load table layouts and
+L<DBIx::Class::Schema::Loader> can automatically load table layouts and
 relationships, and convert them into a static schema definition
 C<MySchema>, which you can edit later.
 
