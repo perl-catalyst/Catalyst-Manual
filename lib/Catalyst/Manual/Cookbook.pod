@@ -1084,36 +1084,6 @@ set the appropriate content type and disposition.
 Controllers are the main point of communication between the web server
 and your application.  Here we explore some aspects of how they work.
 
-=head2 Extending RenderView (formerly DefaultEnd)
-
-The recommended approach for an C<end> action is to use
-L<Catalyst::Action::RenderView> (taking the place of
-L<Catalyst::Plugin::DefaultEnd>), which does what you usually need.
-However there are times when you need to add a bit to it, but don't want
-to write your own C<end> action.
-
-You can extend it like this:
-
-To add something to an C<end> action that is called before rendering
-(this is likely to be what you want), simply place it in the C<end>
-method:
-
-    sub end : ActionClass('RenderView') {
-      my ( $self, $c ) = @_;
-      # do stuff here; the RenderView action is called afterwards
-    }
-
-To add things to an C<end> action that are called I<after> rendering,
-you can set it up like this:
-
-    sub render : ActionClass('RenderView') { }
-
-    sub end : Private {
-      my ( $self, $c ) = @_;
-      $c->forward('render');
-      # do stuff here
-    }
-
 =head2 Action Types
 
 =head3 Introduction
@@ -1510,6 +1480,38 @@ information on passing arguments via C<forward>.)
   use base qw/Catalyst::Controller/;
 
   sub key1 : Chained('/')
+  
+=head2 Extending RenderView (formerly DefaultEnd)
+
+The recommended approach for an C<end> action is to use
+L<Catalyst::Action::RenderView> (taking the place of
+L<Catalyst::Plugin::DefaultEnd>), which does what you usually need.
+However there are times when you need to add a bit to it, but don't want
+to write your own C<end> action.
+
+You can extend it like this:
+
+To add something to an C<end> action that is called before rendering
+(this is likely to be what you want), simply place it in the C<end>
+method:
+
+    sub end : ActionClass('RenderView') {
+      my ( $self, $c ) = @_;
+      # do stuff here; the RenderView action is called afterwards
+    }
+
+To add things to an C<end> action that are called I<after> rendering,
+you can set it up like this:
+
+    sub render : ActionClass('RenderView') { }
+
+    sub end : Private {
+      my ( $self, $c ) = @_;
+      $c->forward('render');
+      # do stuff here
+    }
+
+  
 
 =head1 Deployment
 
