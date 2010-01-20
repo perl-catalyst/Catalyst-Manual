@@ -427,11 +427,6 @@ default) view to be rendered (unless there's a C<$c-E<gt>response-
 E<gt>body()> statement). So your template will be magically displayed 
 at the end of your method.
 
-After saving the file, restart the development server, and look at 
-L<http://localhost:3000/hello> again. You should 
-see the template that you just made.
-
-
 =head1 CREATE A SIMPLE CONTROLLER AND AN ACTION
 
 Create a controller named "Site" by executing the create script:
@@ -474,10 +469,6 @@ file into the directory as C<root/site/test.tt>, or create a new
 template file at that location. Include a line like: 
 
     <p>Hello, [% username %]!</p>
-
-Bring up or restart the server.  Notice in the server output that 
-C</site/test> is listed in the Loaded Path actions. Go to 
-L<http://localhost:3000/site/test> in your browser.
 
 You should see your test.tt file displayed, including the name "John"
 that you set in the controller.
