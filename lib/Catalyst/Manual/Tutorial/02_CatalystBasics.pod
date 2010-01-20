@@ -249,7 +249,7 @@ to the logging output of the development server:
     | /end                                                       | 0.000425s |
     '------------------------------------------------------------+-----------'
 
-Press Ctrl-C to break out of the development server.
+B<Note>: Press Ctrl-C to break out of the development server if necessary.
 
 
 =head1 HELLO WORLD
