@@ -200,20 +200,22 @@ For our application, we want to add one new plugin into the mix.  To
 do this, edit C<lib/MyApp.pm> (this file is generally referred to as 
 your I<application class>) and delete the lines with:
 
-    use Catalyst qw/-Debug
-                    ConfigLoader
-                    Static::Simple/;
+    use Catalyst qw/
+        -Debug
+        ConfigLoader
+        Static::Simple
+    /;
 
 Then replace it with:
 
     # Load plugins
     use Catalyst qw/
-                    -Debug
-                    ConfigLoader
-                    Static::Simple
-                
-                    StackTrace
-                    /;
+        -Debug
+        ConfigLoader
+        Static::Simple
+    
+        StackTrace
+    /;
 
 B<Note:> Recent versions of C<Catalyst::Devel> have used a variety of 
 techniques to load these plugins/flags.  For example, you might see
