@@ -234,15 +234,16 @@ screen or an "Index" screen, you probably forgot to specify port 3000
 in your URL).  Information similar to the following should be appended 
 to the logging output of the development server:
 
-    [info] *** Request 1 (0.005/s) [20712] [Sun Oct 11 11:58:51 2009] ***
-    [debug] "GET" request for "/" from "172.0.0.1"
-    [info] Request took 0.007342s (136.203/s)
-    .----------------------------------------------------------------+-----------.
-    | Action                                                         | Time      |
-    +----------------------------------------------------------------+-----------+
-    | /index                                                         | 0.000491s |
-    | /end                                                           | 0.000595s |
-    '----------------------------------------------------------------+-----------'
+    [info] *** Request 1 (0.001/s) [23194] [Sat Jan 16 11:09:18 2010] ***
+    [debug] "GET" request for "/" from "127.0.0.1"
+    [debug] Path is "/"
+    [info] Request took 0.004851s (206.143/s)
+    .------------------------------------------------------------+-----------.
+    | Action                                                     | Time      |
+    +------------------------------------------------------------+-----------+
+    | /index                                                     | 0.000395s |
+    | /end                                                       | 0.000425s |
+    '------------------------------------------------------------+-----------'
 
 Press Ctrl-C to break out of the development server.
 
