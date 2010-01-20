@@ -303,7 +303,7 @@ C<create> method.
 Add the following subroutine to your C<lib/Hello/Controller/Root.pm> 
 file:
 
-    sub hello : Global {
+    sub hello :Global {
         my ( $self, $c ) = @_;
         
         $c->response->body("Hello, World!");
@@ -384,7 +384,7 @@ template file (C<hello.tt>).  The rest of the template is normal HTML.
 Change the hello method in C<lib/Hello/Controller/Root.pm> to the 
 following:
 
-    sub hello : Global {
+    sub hello :Global {
         my ( $self, $c ) = @_;
         
         $c->stash->{template} = 'hello.tt';
@@ -417,7 +417,7 @@ not much there.
 
 In C<lib/Hello/Controller/Site.pm>, add the following method:
 
-    sub test : Local {
+    sub test :Local {
         my ( $self, $c ) = @_;
     
         $c->stash->{username} = "John";
