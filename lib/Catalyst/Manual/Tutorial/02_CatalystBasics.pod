@@ -318,11 +318,34 @@ cutting and pasting example code from POD-based documents.
 
 Here you're sending your own string to the webpage.
 
-Save the file, start the server (stop and restart it if it's still 
-running), and go to L<http://localhost:3000/hello> to 
-see "Hello, World!"  Also notice that a new action is listed under
-"Loaded Private actions" in the development server debug output.
+Save the file, and you should notice the following in your server output:
 
+    Saw changes to the following files:
+     - /srv/http/xenoterracide/Catalyst/Hello/lib/Hello/Controller/Root.pm (modify)
+    
+    Attempting to restart the server
+    ...	
+    [debug] Loaded Private actions:
+    .----------------------+--------------------------------------+--------------.
+    | Private              | Class                                | Method       |
+    +----------------------+--------------------------------------+--------------+
+    | /default             | Hello::Controller::Root              | default      |
+    | /end                 | Hello::Controller::Root              | end          |
+    | /index               | Hello::Controller::Root              | index        |
+    | /hello               | Hello::Controller::Root              | hello        |
+    '----------------------+--------------------------------------+--------------'
+    
+    [debug] Loaded Path actions:
+    .-------------------------------------+--------------------------------------.
+    | Path                                | Private                              |
+    +-------------------------------------+--------------------------------------+
+    | /                                   | /index                               |
+    | /                                   | /default                             |
+    | /hello                              | /hello                               |
+    '-------------------------------------+--------------------------------------'
+    ...
+
+Go to L<http://localhost:3000/hello> to see "Hello, World!".
 
 =head2 Hello, World! Using a View and a Template
 
