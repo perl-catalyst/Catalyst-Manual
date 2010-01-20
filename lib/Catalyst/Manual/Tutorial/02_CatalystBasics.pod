@@ -188,7 +188,11 @@ Run the following command to start up the built-in development web
 server (make sure you didn't forget the "C<cd Hello>" from the 
 previous step):
 
-    $ script/hello_server.pl
+B<Note>: the -r enables reloading on code changes so you don't have to stop and
+start the server when you update code. see perldoc script/hello_server.pl for
+more useful options.
+
+    $ script/hello_server.pl -r
     [debug] Debug messages enabled
     [debug] Statistics enabled
     [debug] Loaded plugins:
