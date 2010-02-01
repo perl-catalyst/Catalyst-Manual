@@ -651,13 +651,13 @@ required if you do a single SQL statement on the command line).  Use
 your OS command prompt.
 
 Please note that here we have chosen to use 'singular' table names. This is
-because the default inflection code for the old version
+because the default inflection code for older versions
 L<DBIx::Class::Schema::Loader> does NOT handle plurals. There has been much
 philosophical discussion on whether table names should be plural or singular.
 There is no one correct answer, as long as one makes a choice and remains
-consistent with it. If you prefer plural table names (e.g. they are easier and
-more natural to read) then you will need version C<0.05000> or later of
-L<DBIx::Class::Schema::Loader>.
+consistent with it. If you prefer plural table names (e.g. you think that they
+are easier to read) then see the documentation in
+L<DBIx::Class::Schema::Loader::Base/naming> (version 0.05 or greater).
 
 For using other databases, such as PostgreSQL or MySQL, see 
 L<Appendix 2|Catalyst::Manual::Tutorial::10_Appendices>.
