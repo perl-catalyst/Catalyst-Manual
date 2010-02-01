@@ -997,7 +997,8 @@ Next, we should re-run the DBIC helper to update the Result Classes
 with the new fields:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static components=TimeStamp dbi:SQLite:myapp.db
+        create=static components=TimeStamp dbi:SQLite:myapp.db \
+        on_connect_do="PRAGMA foreign_keys = ON"
      exists "/root/dev/MyApp/script/../lib/MyApp/Model"
      exists "/root/dev/MyApp/script/../t"
     Dumping manual schema for MyApp::Schema to directory /root/dev/MyApp/script/../lib ...
@@ -1099,7 +1100,7 @@ Then open C<lib/MyApp/Schema/ResultSet/Book.pm> and enter the following:
     sub created_after {
         my ($self, $datetime) = @_;
     
-        my $date_str = $self->_source_handle->schema->storage
+        my $date_str = $self->result_source->schema->storage
                               ->datetime_parser->format_datetime($datetime);
     
         return $self->search({

@@ -577,8 +577,8 @@ C<myapp01.sql> in your editor and enter:
     );
     -- 'book_author' is a many-to-many join table between books & authors
     CREATE TABLE book_author (
-            book_id     INTEGER,
-            author_id   INTEGER,
+            book_id     INTEGER REFERENCES book(id) ON DELETE CASCADE ON UPDATE CASCADE,
+            author_id   INTEGER REFERENCES author(id) ON DELETE CASCADE ON UPDATE CASCADE,
             PRIMARY KEY (book_id, author_id)
     );
     CREATE TABLE author (
@@ -650,14 +650,14 @@ required if you do a single SQL statement on the command line).  Use
 ".q" to exit from SQLite from the SQLite interactive mode and return to
 your OS command prompt.
 
-Please note that here we have chosen to use 'singular' table names. This
-is because the default inflection code for L<DBIx::Class::Schema::Loader>
-does NOT handle plurals. There has been much philosophical discussion
-on whether table names should be plural or singular. There is no one
-correct answer, as long as one makes a choice and remains consistent
-with it. If you prefer plural table names (e.g. they are easier and
-more natural to read) then you will need to pass it an inflect_map 
-option. See L<DBIx::Class::Schema::Loader> for more information.
+Please note that here we have chosen to use 'singular' table names. This is
+because the default inflection code for the old version
+L<DBIx::Class::Schema::Loader> does NOT handle plurals. There has been much
+philosophical discussion on whether table names should be plural or singular.
+There is no one correct answer, as long as one makes a choice and remains
+consistent with it. If you prefer plural table names (e.g. they are easier and
+more natural to read) then you will need version C<0.05000> or later of
+L<DBIx::Class::Schema::Loader>.
 
 For using other databases, such as PostgreSQL or MySQL, see 
 L<Appendix 2|Catalyst::Manual::Tutorial::10_Appendices>.
@@ -708,6 +708,8 @@ command to install it directly from CPAN:
 And re-run the version print command to verify that you are now at 
 0.31 or higher.
 
+Please use version C<1.27> of L<DBD::SQLite> or later for proper foreign key
+support.
 
 =head2 Create Static DBIx::Class Schema Files
 
@@ -718,7 +720,8 @@ L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> and
 automatically build the required files for us:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static dbi:SQLite:myapp.db
+        create=static dbi:SQLite:myapp.db \
+        on_connect_do="PRAGMA foreign_keys = ON"
      exists "/home/me/MyApp/script/../lib/MyApp/Model"
      exists "/home/me/MyApp/script/../t"
     Dumping manual schema for MyApp::Schema to directory /home/me/MyApp/script/../lib ...
@@ -799,32 +802,15 @@ C<load_namspaces>.  For new applications, please try to use
 C<load_namespaces> since it more easily supports a very useful DBIC 
 technique called "ResultSet Classes."  If you need to convert an 
 existing application from "load_classes" to "load_namespaces," you can 
-use this process to automate the migration (but first make sure you 
-have v0.23 C<Catalyst::Model::DBIC::Schema> as discussed above):
+use this process to automate the migration, but first make sure you have
+version C<0.39> of L<Catalyst::Model::DBIC::Schema> and
+L<DBIx::Class::Schema::Loader> version C<0.05000> or later.
 
-    $ # First delete the existing schema file to disable "compatibility" mode
-    $ rm lib/MyApp/Schema.pm
-    $
-    $ # Then re-run the helper to build the files for "load_namespaces"
+    $ # Re-run the helper to upgrade for you
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static dbi:SQLite:myapp.db
-    $
-    $ # Now convert the existing files over
-    $ cd lib/MyApp/Schema
-    $ perl -MIO::All -e 'for (@ARGV) { my $s < io($_); $s =~ s/.*\n\# You can replace.*?\n//s;
-          $s =~ s/'MyApp::Schema::/'MyApp::Schema::Result::/g; my $d < io("Result/$_");
-          $d =~ s/1;\n?//; "$d$s" > io("Result/$_"); }' *.pm
-    $ cd ../../..
-    $
-    $ # And finally delete the old files
-    $ rm lib/MyApp/Schema/*.pm
-
-The "C<perl -MIO::ALL ...>" script will copy all the customized 
-relationship (and other) information below "C<# DO NOT MODIFY>" line 
-from the old files in C<lib/MyApp/Schema> to the new files in 
-C<lib/MyApp/Schema/Result> (we will be starting to add some 
-"customized relationship information in the section below).
-
+        create=static naming=current use_namespaces=1 \
+        dbi:SQLite:myapp.db \
+        on_connect_do="PRAGMA foreign_keys = ON"
 
 =head1 ENABLE THE MODEL IN THE CONTROLLER
 
@@ -1172,23 +1158,11 @@ template -- the wrapper will provide the overall feel of the page.
 =head2 Updating the Generated DBIx::Class Result Class Files
 
 Let's manually add some relationship information to the auto-generated 
-Result Class files. (Note: if you are using a database other than 
-SQLite, such as PostgreSQL, then the relationship could have been 
-automatically placed in the Result Class files.  If so, you can skip 
-this step.)  First edit C<lib/MyApp/Schema/Result/Book.pm> and add the 
+Result Class files. C<many_to_many> relationships are not currently
+automatically generated by L<DBIx::Class::Schema::Loader>.
+First edit C<lib/MyApp/Schema/Result/Book.pm> and add the 
 following text below the C<# You can replace this text...> comment:
 
-    #
-    # Set relationships:
-    #
-    
-    # has_many():
-    #   args:
-    #     1) Name of relationship, DBIC will create accessor with this name
-    #     2) Name of the model class referenced by this relationship
-    #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(book_authors => 'MyApp::Schema::Result::BookAuthor', 'book_id');
-    
     # many_to_many():
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
@@ -1197,15 +1171,14 @@ following text below the C<# You can replace this text...> comment:
     #   You must already have the has_many() defined to use a many_to_many().
     __PACKAGE__->many_to_many(authors => 'book_authors', 'author');
 
-
 B<Note:> Be careful to put this code I<above> the C<1;> at the end of the
 file.  As with any Perl package, we need to end the last line with
 a statement that evaluates to C<true>.  This is customarily done with
 C<1;> on a line by itself.
 
-This code defines both a C<has_many> and a C<many_to_many> 
-relationship. The C<many_to_many> relationship is optional, but it 
-makes it easier to map a book to its collection of authors.  Without 
+You'll notice there is already a C<has_many> relationship called
+C<book_authors>. The C<many_to_many> relationship is optional, but it makes it
+easier to map a book to its collection of authors.  Without 
 it, we would have to "walk" though the C<book_author> table as in 
 C<$book-E<gt>book_author-E<gt>first-E<gt>author-E<gt>last_name> (we 
 will see examples on how to use DBIx::Class objects in your code soon, 
@@ -1220,17 +1193,6 @@ Then edit C<lib/MyApp/Schema/Result/Author.pm> and add relationship
 information as follows (again, be careful to put in above the C<1;> but
 below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
 
-    #
-    # Set relationships:
-    #
-    
-    # has_many():
-    #   args:
-    #     1) Name of relationship, DBIC will create an accessor with this name
-    #     2) Name of the model class referenced by this relationship
-    #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(book_authors => 'MyApp::Schema::Result::BookAuthor', 'author_id');
-    
     # many_to_many():
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
@@ -1238,28 +1200,6 @@ below the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment):
     #     3) Name of belongs_to() relationship in model class of has_many() above
     #   You must already have the has_many() defined to use a many_to_many().
     __PACKAGE__->many_to_many(books => 'book_authors', 'book');
-
-Finally, do the same for the "join table,"
-C<lib/MyApp/Schema/Result/BookAuthor.pm>:
-
-    #
-    # Set relationships:
-    #
-    
-    # belongs_to():
-    #   args:
-    #     1) Name of relationship, DBIC will create accessor with this name
-    #     2) Name of the model class referenced by this relationship
-    #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(book => 'MyApp::Schema::Result::Book', 'book_id');
-    
-    # belongs_to():
-    #   args:
-    #     1) Name of relationship, DBIC will create accessor with this name
-    #     2) Name of the model class referenced by this relationship
-    #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(author => 'MyApp::Schema::Result::Author', 'author_id');
-
 
 =head2 Run The Application
 

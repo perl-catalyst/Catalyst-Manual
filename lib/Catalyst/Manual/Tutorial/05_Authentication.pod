@@ -98,8 +98,8 @@ C<myapp02.sql> in your editor and insert:
             role TEXT
     );
     CREATE TABLE user_role (
-            user_id INTEGER,
-            role_id INTEGER,
+            user_id INTEGER REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE,
+            role_id INTEGER REFERENCES role(id) ON DELETE CASCADE ON UPDATE CASCADE,
             PRIMARY KEY (user_id, role_id)
     );
     --
@@ -127,7 +127,8 @@ the new tables added in the previous step, let's use the C<create=static>
 option on the DBIC model helper to do most of the work for us:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static components=TimeStamp dbi:SQLite:myapp.db
+        create=static components=TimeStamp dbi:SQLite:myapp.db \
+        on_connect_do="PRAGMA foreign_keys = ON"
      exists "/root/dev/MyApp/script/../lib/MyApp/Model"
      exists "/root/dev/MyApp/script/../t"
     Dumping manual schema for MyApp::Schema to directory /root/dev/MyApp/script/../lib ...
@@ -151,63 +152,18 @@ DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment and the closing C<1;>:
 
 C<lib/MyApp/Schema/Result/User.pm>:
 
-    #
-    # Set relationships:
-    #
-    
-    # has_many():
-    #   args:
-    #     1) Name of relationship, DBIC will create accessor with this name
-    #     2) Name of the model class referenced by this relationship
-    #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(map_user_roles => 'MyApp::Schema::Result::UserRole', 'user_id');
-    
+   
     # many_to_many():
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
     #     2) Name of has_many() relationship this many_to_many() is shortcut for
     #     3) Name of belongs_to() relationship in model class of has_many() above
     #   You must already have the has_many() defined to use a many_to_many().
-    __PACKAGE__->many_to_many(roles => 'map_user_roles', 'role');
+    __PACKAGE__->many_to_many(roles => 'user_roles', 'role');
 
 
-C<lib/MyApp/Schema/Result/Role.pm>:
-
-    #
-    # Set relationships:
-    #
-    
-    # has_many():
-    #   args:
-    #     1) Name of relationship, DBIC will create accessor with this name
-    #     2) Name of the model class referenced by this relationship
-    #     3) Column name in *foreign* table (aka, foreign key in peer table)
-    __PACKAGE__->has_many(map_user_roles => 'MyApp::Schema::Result::UserRole', 'role_id');
-
-
-C<lib/MyApp/Schema/Result/UserRole.pm>:
-
-    #
-    # Set relationships:
-    #
-    
-    # belongs_to():
-    #   args:
-    #     1) Name of relationship, DBIC will create accessor with this name
-    #     2) Name of the model class referenced by this relationship
-    #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(user => 'MyApp::Schema::Result::User', 'user_id');
-    
-    # belongs_to():
-    #   args:
-    #     1) Name of relationship, DBIC will create accessor with this name
-    #     2) Name of the model class referenced by this relationship
-    #     3) Column name in *this* table
-    __PACKAGE__->belongs_to(role => 'MyApp::Schema::Result::Role', 'role_id');
-
-The code for these three sets of updates is obviously very similar to
-the edits we made to the C<Book>, C<Author>, and C<BookAuthor>
-classes created in Chapter 3.
+The code for this update is obviously very similar to the edits we made to the
+C<Book> and C<Author> classes created in Chapter 3.
 
 Note that we do not need to make any change to the
 C<lib/MyApp/Schema.pm> schema file.  It simply tells DBIC to load all
@@ -662,7 +618,8 @@ saw in Chapters 3 and 4, but add C<,EncodedColumn> to the C<components>
 argument:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static components=TimeStamp,EncodedColumn dbi:SQLite:myapp.db
+        create=static components=TimeStamp,EncodedColumn dbi:SQLite:myapp.db \
+        on_connect_do="PRAGMA foreign_keys = ON"
 
 If you then open one of the Result Classes, you will see that it 
 includes EncodedColumn in the C<load_components> line.  Take a look at 
