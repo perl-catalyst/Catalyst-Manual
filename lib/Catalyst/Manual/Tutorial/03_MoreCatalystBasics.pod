@@ -651,7 +651,7 @@ required if you do a single SQL statement on the command line).  Use
 your OS command prompt.
 
 Please note that here we have chosen to use 'singular' table names. This is
-because the default inflection code for older versions
+because the default inflection code for older versions of
 L<DBIx::Class::Schema::Loader> does NOT handle plurals. There has been much
 philosophical discussion on whether table names should be plural or singular.
 There is no one correct answer, as long as one makes a choice and remains
