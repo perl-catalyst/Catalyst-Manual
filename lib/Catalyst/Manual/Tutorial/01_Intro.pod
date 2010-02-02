@@ -72,8 +72,8 @@ catalyst subversion repository by issuing the command:
 
     svn co http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/ CatalystTutorial
 
-This will download the most recent tarball for each chapter of the 
-tutorial into the CatalystTutorial directory on your machine. 
+This will download the most recent code for each chapter of the
+tutorial into the CatalystTutorial directory on your machine.
 
 B<These reference implementations are provided so that when you follow
 the tutorial, you can use the code from the subversion repository to
