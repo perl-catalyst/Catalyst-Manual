@@ -81,6 +81,7 @@ add the role information here although it will not be used until the
 authorization section, Chapter 6).  Create a new SQL script file by opening
 C<myapp02.sql> in your editor and insert:
 
+    PRAGMA foreign_keys = ON;
     --
     -- Add user and role tables, along with a many-to-many join table
     --
