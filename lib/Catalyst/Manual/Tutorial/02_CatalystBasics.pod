@@ -414,7 +414,7 @@ following:
     sub hello :Global {
         my ( $self, $c ) = @_;
         
-        $c->stash->{template} = 'hello.tt';
+        $c->stash(template => 'hello.tt');
     }
 
 This time, instead of doing C<$c-E<gt>response-E<gt>body()>, you are 

@@ -308,7 +308,7 @@ and add the following method to the controller:
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
-        $c->stash->{template} = 'books/list.tt2';
+        $c->stash(template => 'books/list.tt2');
     }
 
 B<TIP>: See Appendix 1 for tips on removing the leading spaces when
@@ -839,7 +839,7 @@ and delete the next 2 lines):
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
-        $c->stash->{template} = 'books/list.tt2';
+        $c->stash(template => 'books/list.tt2');
     }
 
 B<TIP>: You may see the C<$c-E<gt>model('DB::Book')> un-commented 
@@ -1430,7 +1430,7 @@ has changed):
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (actions methods respond to user input in
         # your controllers).
-        #$c->stash->{template} = 'books/list.tt2';
+        #$c->stash(template => 'books/list.tt2');
     }
 
 

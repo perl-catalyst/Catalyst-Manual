@@ -1110,15 +1110,6 @@ Then open C<lib/MyApp/Schema/ResultSet/Book.pm> and enter the following:
     
     1;
 
-Then we need to tell the Result Class to to treat this as a ResultSet
-Class.  Open C<lib/MyApp/Schema/Result/Book.pm> and add the following
-above the "C<1;>" at the bottom of the file:
-
-    #
-    # Set ResultSet Class
-    #
-    __PACKAGE__->resultset_class('MyApp::Schema::ResultSet::Book');
-
 Then add the following method to the C<lib/MyApp/Controller/Books.pm>:
 
     =head2 list_recent
