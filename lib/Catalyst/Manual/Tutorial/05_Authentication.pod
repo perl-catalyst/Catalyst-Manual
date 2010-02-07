@@ -845,7 +845,7 @@ C<__PACKAGE__-E<gt>config> setting to something like:
 
     __PACKAGE__->config(
             name    => 'MyApp',
-            session => {flash_to_stash => 1},
+            session => { flash_to_stash => 1 },
         );
 
 B<or> add the following to C<myapp.conf>:

@@ -79,7 +79,7 @@ C<perl Makefile.PL> and C<make test>), but one of the easiest is with the
 C<prove> command.  For example, to run all of the tests in the C<t>
 directory, enter:
 
-    $ prove --lib lib t
+    $ prove -wl t
 
 There will be a lot of output because we have the C<-Debug> flag 
 enabled in C<lib/MyApp.pm> (see the C<CATALYST_DEBUG=0> tip below for 
@@ -130,7 +130,7 @@ Although you can edit the C<lib/MyApp.pm> to comment out the C<-Debug>
 plugin, it's generally easier to simply set the C<CATALYST_DEBUG=0>
 environment variable.  For example:
 
-    $ CATALYST_DEBUG=0 prove --lib lib t
+    $ CATALYST_DEBUG=0 prove -wl t
 
 B<Note:> Depending on the versions of various modules you have 
 installed, you might get some C<used only once> warnings -- you can 
@@ -160,7 +160,7 @@ C<all skipped: set TEST_POD to enable this test> warning message.  To
 execute the Pod-related tests, add C<TEST_POD=1> to the C<prove>
 command:
 
-    $ CATALYST_DEBUG=0 TEST_POD=1 prove --lib lib t
+    $ CATALYST_DEBUG=0 TEST_POD=1 prove -wl t
 
 If you omitted the Pod comments from any of the methods that were
 inserted, you might have to go back and fix them to get these tests to
@@ -169,7 +169,7 @@ pass. :-)
 Another useful option is the C<verbose> (C<-v>) option to C<prove>.  It
 prints the name of each test case as it is being run:
 
-    $ CATALYST_DEBUG=0 TEST_POD=1 prove --lib lib -v t
+    $ CATALYST_DEBUG=0 TEST_POD=1 prove -vwl t
 
 
 =head1 RUNNING A SINGLE TEST
@@ -177,12 +177,12 @@ prints the name of each test case as it is being run:
 You can also run a single script by appending its name to the C<prove>
 command. For example:
 
-    $ CATALYST_DEBUG=0 prove --lib lib t/01app.t
+    $ CATALYST_DEBUG=0 prove -wl t/01app.t
 
 Also note that you can also run tests directly from Perl without C<prove>.
 For example:
 
-    $ CATALYST_DEBUG=0 perl -Ilib t/01app.t
+    $ CATALYST_DEBUG=0 perl -w -Ilib t/01app.t
 
 
 =head1 ADDING YOUR OWN TEST SCRIPT
@@ -205,13 +205,7 @@ editor and enter the following:
     
     use strict;
     use warnings;
-    
-    # Load testing framework and use 'no_plan' to dynamically pick up
-    # all tests. Better to replace "'no_plan'" with "tests => 30" so it
-    # knows exactly how many tests need to be run (and will tell you if
-    # not), but 'no_plan' is nice for quick & dirty tests
-    
-    use Test::More 'no_plan';
+    use Test::More;
     
     # Need to specify the name of your app as arg on next line
     # Can also do:
@@ -306,6 +300,8 @@ editor and enter the following:
     $ua2->get_ok("http://localhost/books/url_create/TestTitle2/2/5", "'test02' add");
     $ua2->content_contains("Unauthorized!", "Check 'test02' cannot add");
 
+    done_testing;
+
 The C<live_app.t> test cases uses copious comments to explain each step
 of the process.  In addition to the techniques shown here, there are a
 variety of other methods available in 
@@ -324,11 +320,11 @@ template).
 
 To run the new test script, use a command such as:
 
-    $ CATALYST_DEBUG=0 prove --lib lib -v t/live_app01.t
+    $ CATALYST_DEBUG=0 prove -vwl t/live_app01.t
 
 or
 
-    $ DBIC_TRACE=0 CATALYST_DEBUG=0 prove --lib lib -v t/live_app01.t
+    $ DBIC_TRACE=0 CATALYST_DEBUG=0 prove -vwl t/live_app01.t
 
 Experiment with the C<DBIC_TRACE>, C<CATALYST_DEBUG> and C<-v> 
 settings.  If you find that there are errors, use the techniques 
@@ -384,15 +380,15 @@ change the C<__PACKAGE__-E<gt>config(...> declaration to resemble:
     my $dsn = $ENV{MYAPP_DSN} ||= 'dbi:SQLite:myapp.db';
     __PACKAGE__->config(
         schema_class => 'MyApp::Schema',
-        connect_info => [
-            $dsn,
-        ],
-    );
+
+        connect_info => {
+            dsn => $dsn,
+    ...
 
 Then, when you run your test case, you can use commands such as:
 
     $ cp myapp.db myappTEST.db
-    $ CATALYST_DEBUG=0 MYAPP_DSN="dbi:SQLite:myappTEST.db" prove --lib lib -v t/live_app01.t
+    $ CATALYST_DEBUG=0 MYAPP_DSN="dbi:SQLite:myappTEST.db" prove -vwl t/live_app01.t
 
 This will modify the DSN only while the test case is running.  If you
 launch your normal application without the C<MYAPP_DSN> environment
