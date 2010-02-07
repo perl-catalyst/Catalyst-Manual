@@ -85,6 +85,11 @@ to use the FormFu base controller class:
 
     BEGIN {extends 'Catalyst::Controller::HTML::FormFu'; }
 
+Don't forget to add:
+
+    requires 'Catalyst::Controller::HTML::FormFu';
+
+to your C<Makefile.PL>.
 
 =head2 Add Action to Display and Save the Form
 

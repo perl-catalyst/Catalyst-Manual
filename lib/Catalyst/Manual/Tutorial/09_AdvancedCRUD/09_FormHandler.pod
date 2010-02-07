@@ -77,6 +77,11 @@ from CPAN:
 
 It will install L<HTML::FormHandler> as a prereq. 
 
+Also add:
+
+    requires 'HTML::FormHandler::Model::DBIC';
+
+to your C<Makefile.PL>.
 
 =head1 HTML::FormHandler FORM CREATION
 
@@ -94,6 +99,7 @@ to a form is only a couple of lines of code.
 Create the directory C<lib/MyApp/Form>. Create C<lib/MyApp/Form/Book.pm>:
 
     package MyApp::Form::Book;
+
     use HTML::FormHandler::Moose;
     extends 'HTML::FormHandler::Model::DBIC';
     use namespace::autoclean;
@@ -218,7 +224,8 @@ The 'authors' relationship is a 'many-to-many' pseudo-relation, so this field
 can be set to Multiple to allow the selection of multiple authors and make it
 required:
 
-   has_field 'authors' => ( type => 'Multiple', required => 1 );
+   has_field 'authors' => ( type => 'Multiple', label_column => 'last_name',
+                            required => 1 );
 
 Note: FormHandler automatically strips whitespace at the beginning or end of fields.
 If you want some other kind of stripping (or none) you can specify it explicitly.
