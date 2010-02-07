@@ -620,16 +620,16 @@ with the following commands:
     wget http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Chapter8.tgz
     tar zxvf MyApp_Chapter8.tgz
     cd MyApp
-    CATALYST_DEBUG=0 prove --lib lib t
+    CATALYST_DEBUG=0 prove -wl t
 
-If you wish to include the L<HTML::FormFu|HTML::FormFu> section in 
-your tests, substitute C<MyApp_Chapter9_FormFu.tgz> for 
-C<MyApp_Chapter8.tgz> in the URL above.
+If you wish to include the L<HTML::FormFu|HTML::FormFu> section in your tests,
+substitute C<MyApp_Chapter9_FormFu.tgz> for C<MyApp_Chapter8.tgz> in the URL
+above.
 
     wget http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Chapter9_FormFu.tgz
     tar zxvf MyApp_Chapter8.tgz
     cd MyApp
-    CATALYST_DEBUG=0 prove --lib lib t
+    CATALYST_DEBUG=0 prove -wl t
 
 You can also fire up the application under the development server that is conveniently
 built in to Catalyst.  Just issue this command from the C<MyApp> directory where you

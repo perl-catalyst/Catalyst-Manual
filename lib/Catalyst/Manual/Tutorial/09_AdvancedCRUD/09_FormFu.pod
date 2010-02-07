@@ -77,13 +77,13 @@ add additional functionality to the manually created form from Chapter 4.
 
 First, change your C<lib/MyApp/Controller/Books.pm> to inherit from
 L<Catalyst::Controller::HTML::FormFu|Catalyst::Controller::HTML::FormFu>
-by changing the C<use parent> line from the default of:
+by changing the C<extends> line from the default of:
 
-    use parent 'Catalyst::Controller';
+    BEGIN {extends 'Catalyst::Controller'; }
 
 to use the FormFu base controller class:
 
-    use parent 'Catalyst::Controller::HTML::FormFu';
+    BEGIN {extends 'Catalyst::Controller::HTML::FormFu'; }
 
 
 =head2 Add Action to Display and Save the Form
