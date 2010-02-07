@@ -97,10 +97,7 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 Once again, include this additional plugin as a new dependency in 
 the Makefile.PL file like this:
 
-    requires (
-        ...
-        'Catalyst::Plugin::Authorization::Roles' => '0',
-    );
+    requires 'Catalyst::Plugin::Authorization::Roles';
 
 
 =head2 Add Role-Specific Logic to the "Book List" Template
