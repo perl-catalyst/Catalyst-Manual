@@ -188,9 +188,13 @@ Run the following command to start up the built-in development web
 server (make sure you didn't forget the "C<cd Hello>" from the 
 previous step):
 
-B<Note>: the -r enables reloading on code changes so you don't have to stop and
-start the server when you update code. see perldoc script/hello_server.pl for
-more useful options.
+B<Note>: The "-r" argument enables reloading on code changes so you 
+don't have to stop and start the server when you update code. See 
+C<perldoc script/hello_server.pl> for additional options you might find 
+helpful. Most of the rest of the tutorial will assume that you are using 
+"-r" when you start the development server, but feel free to manually 
+start and stop it (use C<Ctrl-C> to break out of the dev server) if you 
+prefer. 
 
     $ script/hello_server.pl -r
     [debug] Debug messages enabled
@@ -228,7 +232,7 @@ more useful options.
     | /                                   | /default                             |
     '-------------------------------------+--------------------------------------'
     
-    [info] Hello powered by Catalyst 5.80018
+    [info] Hello powered by Catalyst 5.80020
     You can connect to your server at http://debian:3000
 
 Point your web browser to L<http://localhost:3000> (substituting a 
@@ -249,7 +253,8 @@ to the logging output of the development server:
     | /end                                                       | 0.000425s |
     '------------------------------------------------------------+-----------'
 
-B<Note>: Press Ctrl-C to break out of the development server if necessary.
+B<Note>: Press C<Ctrl-C> to break out of the development server if 
+necessary.
 
 
 =head1 HELLO WORLD
@@ -260,9 +265,7 @@ The Root.pm controller is a place to put global actions that usually
 execute on the root URL. Open the C<lib/Hello/Controller/Root.pm> file in 
 your editor. You will see the "index" subroutine, which is 
 responsible for displaying the welcome screen that you just saw in 
-your browser. Later on you'll want to change that to something more 
-reasonable, such as a "404" message or a redirect, but for now just 
-leave it alone.
+your browser. 
 
     sub index :Path :Args(0) {
         my ( $self, $c ) = @_;
@@ -270,6 +273,9 @@ leave it alone.
         # Hello World
         $c->response->body( $c->welcome_message );
     }
+
+Later on you'll want to change that to something more reasonable, such 
+as a "404" message or a redirect, but for now just leave it alone. 
 
 The "C<$c>" here refers to the Catalyst context, which is used to 
 access the Catalyst application. In addition to many other things, 
@@ -279,14 +285,14 @@ L<Catalyst::Response|Catalyst::Response>, and
 L<Catalyst::Request|Catalyst::Request>) 
 
 C<$c-E<gt>response-E<gt>body> sets the HTTP response (see 
-L<Catalyst::Response|Catalyst::Response>), while C<$c-E<gt>welcome_message> 
-is a special method that returns the welcome message that you saw in 
-your browser.
+L<Catalyst::Response|Catalyst::Response>), while 
+C<$c-E<gt>welcome_message> is a special method that returns the 
+welcome message that you saw in your browser.
 
 The ":Path :Args(0)" after the method name are attributes which 
 determine which URLs will be dispatched to this method. (You might see 
 ":Private" if you are using an older version of Catalyst, but using 
-that with 'default' or 'index' is currently deprecated.  If so, you 
+that with "default" or "index" is currently deprecated.  If so, you 
 should also probably upgrade before continuing the tutorial.)
 
 Some MVC frameworks handle dispatching in a central place. Catalyst, 
@@ -321,7 +327,7 @@ Here you're sending your own string to the webpage.
 Save the file, and you should notice the following in your server output:
 
     Saw changes to the following files:
-     - /srv/http/xenoterracide/Catalyst/Hello/lib/Hello/Controller/Root.pm (modify)
+     - /home/me/Hello/lib/Hello/Controller/Root.pm (modify)
     
     Attempting to restart the server
     ...	
@@ -345,7 +351,10 @@ Save the file, and you should notice the following in your server output:
     '-------------------------------------+--------------------------------------'
     ...
 
-Go to L<http://localhost:3000/hello> to see "Hello, World!".
+Go to L<http://localhost:3000/hello> to see "Hello, World!".   Also 
+notice that the newly defined 'hello' action is listed under "Loaded 
+Private actions" in the development server debug output.
+
 
 =head2 Hello, World! Using a View and a Template
 
@@ -387,7 +396,7 @@ contains a config statement to set the TT extension to ".tt".
 
 Now that the TT.pm "View" exists, Catalyst will autodiscover it and be 
 able to use it to display the view templates using the "process" 
-method that it inherits from the C<Catalyst::View::TT class>.
+method that it inherits from the C<Catalyst::View::TT> class.
 
 Template Toolkit is a very full featured template facility, with 
 excellent documentation at L<http://template-toolkit.org/>, 
@@ -427,6 +436,13 @@ default) view to be rendered (unless there's a C<$c-E<gt>response-
 E<gt>body()> statement). So your template will be magically displayed 
 at the end of your method.
 
+After saving the file, the development server should automatically
+restart (again, the tutorial is written to assume that you are
+using the "-r" option -- manually restart it if you aren't), 
+and look at L<http://localhost:3000/hello> in your again. You 
+should see the template that you just made.
+
+
 =head1 CREATE A SIMPLE CONTROLLER AND AN ACTION
 
 Create a controller named "Site" by executing the create script:
@@ -442,8 +458,8 @@ In C<lib/Hello/Controller/Site.pm>, add the following method:
     sub test :Local {
         my ( $self, $c ) = @_;
     
-        $c->stash->{username} = "John";
-        $c->stash->{template} = 'site/test.tt';
+        $c->stash(username => 'John',
+				  template => 'site/test.tt');
     }
 
 Notice the "Local" attribute on the C<test> method. This will cause 
@@ -472,6 +488,10 @@ template file at that location. Include a line like:
 
 You should see your test.tt file displayed, including the name "John"
 that you set in the controller.
+
+Once the server automatically restarts, notice in the server 
+output that C</site/test> is listed in the Loaded Path actions. 
+Go to L<http://localhost:3000/site/test> in your browser.
 
 
 =head1 AUTHORS
