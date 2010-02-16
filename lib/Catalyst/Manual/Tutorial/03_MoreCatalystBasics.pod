@@ -1547,7 +1547,7 @@ has changed):
     
     =cut
     
-    sub list : Local {
+    sub list :Local {
         # Retrieve the usual Perl OO '$self' for this object. $c is the Catalyst
         # 'Context' that's used to 'glue together' the various components
         # that make up the application

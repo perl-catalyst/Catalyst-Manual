@@ -442,6 +442,27 @@ using the "-r" option -- manually restart it if you aren't),
 and look at L<http://localhost:3000/hello> in your again. You 
 should see the template that you just made.
 
+B<Note:> You will probably run into a variation of the "stash"
+statement above that looks like:
+
+    $c->stash->{template} = 'hello.tt';
+
+Although this style is still relatively common, the approach we
+used previous is becoming more common because it allows you to
+set multiple stash variables in one line.  For example:
+
+    $c->stash(template => 'hello.tt', foo => 'bar', 
+              another_thing => 1);
+
+You can also set multiple stash values with a hashref:
+
+    $c->stash({template => 'hello.tt', foo => 'bar', 
+              another_thing => 1});
+
+Any of these formats work, but the C<$c-E<gt>stash(name =E<gt> value);>
+style is growing in popularity -- you may wish to use it all the 
+time (even when you are only setting a single value).
+
 
 =head1 CREATE A SIMPLE CONTROLLER AND AN ACTION
 

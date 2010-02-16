@@ -465,7 +465,7 @@ the following method:
     # Note that 'auto' runs after 'begin' but before your actions and that
     # 'auto's "chain" (all from application path to most specific class are run)
     # See the 'Actions' section of 'Catalyst::Manual::Intro' for more info.
-    sub auto : Private {
+    sub auto :Private {
         my ($self, $c) = @_;
     
         # Allow unauthenticated users to reach the login page.  This
