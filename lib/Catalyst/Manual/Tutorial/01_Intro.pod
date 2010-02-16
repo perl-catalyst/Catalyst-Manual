@@ -411,7 +411,8 @@ Install Catalyst:
     sudo aptitude -y install sqlite3 libdbd-sqlite3-perl libcatalyst-perl \
         libcatalyst-modules-perl libdbix-class-timestamp-perl \
         libdatetime-format-sqlite-perl libconfig-general-perl \
-        libhtml-formfu-model-dbic-perl libterm-readline-perl-perl
+        libhtml-formfu-model-dbic-perl libterm-readline-perl-perl \
+        libdbix-class-encodedcolumn-perl
 
 Let it install (normally about a 30 to 90-second operaton) and you are 
 done. (Note the '\' above.  Depending on your environment, you might 
