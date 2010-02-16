@@ -68,8 +68,8 @@ functionality, will be addressed in Chapter 9.
 
 Although this chapter of the tutorial will show you how to build CRUD 
 functionality yourself, another option is to use a "CRUD builder" type 
-of tool to automate the process.  You get less control, but it's quick 
-and easy.  For example, see 
+of tool to automate the process.  You get less control, but it can be 
+quick and easy.  For example, see 
 L<Catalyst::Plugin::AutoCRUD|Catalyst::Plugin::AutoCRUD>, 
 L<CatalystX::CRUD|CatalystX::CRUD>, and 
 L<CatalystX::CRUD::YUI|CatalystX::CRUD::YUI>.
@@ -96,7 +96,7 @@ Edit C<lib/MyApp/Controller/Books.pm> and enter the following method:
     
     =cut
     
-    sub url_create : Local {
+    sub url_create :Local {
         # In addition to self & context, get the title, rating, &
         # author_id args from the URL.  Note that Catalyst automatically
         # puts extra information after the "/<controller_name>/<action_name/"
@@ -183,7 +183,7 @@ outputs the "last name for the first author" above to match this:
 
 to get around an issue in TT v2.15 where blessed hash objects were not 
 handled correctly.  But, if you are still using v2.15, it's probably 
-time to upgrade  (v2.15 is 3.5+ years old).  If you are following 
+time to upgrade  (v2.15 is almost 4 years old).  If you are following 
 along in Debian, then you should be on at least v2.20.  You can test 
 your version of Template Toolkit with the following:
 
@@ -192,20 +192,13 @@ your version of Template Toolkit with the following:
 
 =head2 Try the 'url_create' Feature
 
-If the application is still running from before, use C<Ctrl-C> to kill
-it. Then restart the server:
+Make sure the development server is running with the "-r" restart
+option:
 
-    $ DBIC_TRACE=1 script/myapp_server.pl
+    $ DBIC_TRACE=1 script/myapp_server.pl -r
 
 Note that new path for C</books/url_create> appears in the startup debug
 output.
-
-B<TIP>: You can use C<script/myapp_server.pl -r> to have the development
-server auto-detect changed files and reload itself (if your browser acts
-odd, you should also try throwing in a C<-k>).  If you make changes to
-the TT templates only, you do not need to reload the development server
-(only changes to "compiled code" such as Controller and Model C<.pm>
-files require a reload).
 
 Next, use your browser to enter the following URL:
 
@@ -443,9 +436,9 @@ C<url_create> to match the following:
 
     sub url_create :Chained('base') :PathPart('url_create') :Args(3) {
 
-Next, try out the refactored chain by restarting the development
-server.  Notice that our "Loaded Chained actions" section has changed
-slightly:
+Once you save C<lib/MyApp/Controller/Books.pm>, notice that the 
+development server will restart and our "Loaded Chained actions" section 
+will changed slightly:
 
     [debug] Loaded Chained actions:
     .-------------------------------------+--------------------------------------.
@@ -569,11 +562,6 @@ save the form information to the database:
 
 
 =head2 Test Out The Form
-
-If the application is still running from before, use C<Ctrl-C> to kill
-it.  Then restart the server:
-
-    $ script/myapp_server.pl
 
 Notice that the server startup log reflects the two new chained
 methods that we added:
@@ -735,22 +723,6 @@ Now, any other method that chains off C<object> will automatically
 have the appropriate book waiting for it in
 C<$c-E<gt>stash-E<gt>{object}>.
 
-Also note that we are using a different technique for setting
-C<$c-E<gt>stash>.  The advantage of this style is that it lets you set
-multiple stash variables at a time.  For example:
-
-    $c->stash(object => $c->stash->{resultset}->find($id),
-              another_thing => 1);
-
-or as a hashref:
-
-    $c->stash({object => $c->stash->{resultset}->find($id),
-              another_thing => 1});
-
-Either format works, but the C<$c-E<gt>stash(name =E<gt> value);>
-style is growing in popularity -- you may wish to use it all
-the time (even when you are only setting a single value).
-
 
 =head2 Add a Delete Action to the Controller
 
@@ -794,12 +766,8 @@ equivalent.
 
 =head2 Try the Delete Feature
 
-If the application is still running from before, use C<Ctrl-C> to kill
-it.  Then restart the server:
-
-    $ DBIC_TRACE=1 script/myapp_server.pl
-
-The C<delete> method now appears in the "Loaded Chained actions" section
+One you save the Books controller, the server should automatically restart.
+The C<delete> method should now appear in the "Loaded Chained actions" section
 of the startup debug output:
 
     [debug] Loaded Chained actions:
@@ -877,16 +845,15 @@ C<sub delete> method to match:
 
 =head2 Try the Delete and Redirect Logic
 
-Restart the development server and point your browser to
-L<http://localhost:3000/books/list> (don't just hit "Refresh" in your
-browser since we left the URL in an invalid state in the previous
-section!) and delete the first copy of the remaining two
-"TCPIP_Illustrated_Vol-2" books.  The URL in your browser should return
-to the L<http://localhost:3000/books/list> URL, so that is an
-improvement, but notice that I<no green "Book deleted" status message is
-displayed>.  Because the stash is reset on every request (and a redirect
-involves a second request), the C<status_msg> is cleared before it can
-be displayed.
+Point your browser to L<http://localhost:3000/books/list> (don't just 
+hit "Refresh" in your browser since we left the URL in an invalid state 
+in the previous section!) and delete the first copy of the remaining two 
+"TCPIP_Illustrated_Vol-2" books. The URL in your browser should return 
+to the L<http://localhost:3000/books/list> URL, so that is an 
+improvement, but notice that I<no green "Book deleted" status message is 
+displayed>. Because the stash is reset on every request (and a redirect 
+involves a second request), the C<status_msg> is cleared before it can 
+be displayed. 
 
 
 =head2 Using 'uri_for' to Pass Query Parameters
@@ -939,11 +906,10 @@ C<E<lt>span class="message"E<gt>> line.
 
 =head2 Try the Delete and Redirect With Query Param Logic
 
-Restart the development server and point your browser to
-L<http://localhost:3000/books/list> (you should now be able to safely
-hit "refresh" in your browser).  Then delete the remaining copy of
-"TCPIP_Illustrated_Vol-2".  The green "Book deleted" status message
-should return.
+Point your browser to L<http://localhost:3000/books/list> (you should 
+now be able to safely hit "refresh" in your browser). Then delete the 
+remaining copy of "TCPIP_Illustrated_Vol-2". The green "Book deleted" 
+status message should return. 
 
 B<NOTE:> Another popular method for maintaining server-side
 information across a redirect is to use the C<flash> technique we
@@ -978,12 +944,12 @@ each book was added and when each book is updated:
     sqlite> ALTER TABLE book ADD updated INTEGER;
     sqlite> UPDATE book SET created = DATETIME('NOW'), updated = DATETIME('NOW');
     sqlite> SELECT * FROM book;
-    1|CCSP SNRS Exam Certification Guide|5|2009-03-08 16:26:35|2009-03-08 16:26:35
-    2|TCP/IP Illustrated, Volume 1|5|2009-03-08 16:26:35|2009-03-08 16:26:35
-    3|Internetworking with TCP/IP Vol.1|4|2009-03-08 16:26:35|2009-03-08 16:26:35
-    4|Perl Cookbook|5|2009-03-08 16:26:35|2009-03-08 16:26:35
-    5|Designing with Web Standards|5|2009-03-08 16:26:35|2009-03-08 16:26:35
-    9|TCP/IP Illustrated, Vol 3|5|2009-03-08 16:26:35|2009-03-08 16:26:35
+    1|CCSP SNRS Exam Certification Guide|5|2010-02-16 04:15:45|2010-02-16 04:15:45
+    2|TCP/IP Illustrated, Volume 1|5|2010-02-16 04:15:45|2010-02-16 04:15:45
+    3|Internetworking with TCP/IP Vol.1|4|2010-02-16 04:15:45|2010-02-16 04:15:45
+    4|Perl Cookbook|5|2010-02-16 04:15:45|2010-02-16 04:15:45
+    5|Designing with Web Standards|5|2010-02-16 04:15:45|2010-02-16 04:15:45
+    9|TCP/IP Illustrated, Vol 3|5|2010-02-16 04:15:45|2010-02-16 04:15:45
     sqlite> .quit
     $
 
@@ -1009,10 +975,11 @@ Notice that we modified our use of the helper slightly: we told
 it to include the L<DBIx::Class::TimeStamp|DBIx::Class::TimeStamp>
 in the C<load_components> line of the Result Classes.
 
-If you open C<lib/MyApp/Schema/Result/Book.pm> in your editor you
-should see that the C<created> and C<updated> fields are now included
-in the call to C<add_columns()>, but our relationship information below
-the "C<# DO NOT MODIFY...>" line was automatically preserved.
+If you open C<lib/MyApp/Schema/Result/Book.pm> in your editor you should 
+see that the C<created> and C<updated> fields are now included in the 
+call to C<add_columns()>. However, also notice that the C<many_to_many> 
+relationships we manually added below the "C<# DO NOT MODIFY...>" line 
+were automatically preserved. 
 
 While we have this file open, let's update it with some additional
 information to have DBIC automatically handle the updating of these
@@ -1036,11 +1003,6 @@ C<set_on_update> options will cause DBIx::Class to automatically
 update the timestamps in these columns whenever a row is created or 
 modified.
 
-To test this out, restart the development server using the
-C<DBIC_TRACE=1> option:
-
-    DBIC_TRACE=1 script/myapp_server.pl
-
 Then enter the following URL into your web browser:
 
     http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
@@ -1051,19 +1013,19 @@ you will see that the new book we added has an appropriate date and
 time entered for it (see the last line in the listing below):
 
     $ sqlite3 myapp.db "select * from book"
-    1|CCSP SNRS Exam Certification Guide|5|2009-03-08 16:26:35|2009-03-08 16:26:35
-    2|TCP/IP Illustrated, Volume 1|5|2009-03-08 16:26:35|2009-03-08 16:26:35
-    3|Internetworking with TCP/IP Vol.1|4|2009-03-08 16:26:35|2009-03-08 16:26:35
-    4|Perl Cookbook|5|2009-03-08 16:26:35|2009-03-08 16:26:35
-    5|Designing with Web Standards|5|2009-03-08 16:26:35|2009-03-08 16:26:35
-    9|TCP/IP Illustrated, Vol 3|5|2009-03-08 16:26:35|2009-03-08 16:26:35
-    10|TCPIP_Illustrated_Vol-2|5|2009-03-08 16:29:08|2009-03-08 16:29:08
+    1|CCSP SNRS Exam Certification Guide|5|2010-02-16 04:15:45|2010-02-16 04:15:45
+    2|TCP/IP Illustrated, Volume 1|5|2010-02-16 04:15:45|2010-02-16 04:15:45
+    3|Internetworking with TCP/IP Vol.1|4|2010-02-16 04:15:45|2010-02-16 04:15:45
+    4|Perl Cookbook|5|2010-02-16 04:15:45|2010-02-16 04:15:45
+    5|Designing with Web Standards|5|2010-02-16 04:15:45|2010-02-16 04:15:45
+    9|TCP/IP Illustrated, Vol 3|5|2010-02-16 04:15:45|2010-02-16 04:15:45
+    10|TCPIP_Illustrated_Vol-2|5|2010-02-16 04:18:42|2010-02-16 04:18:42
 
 Notice in the debug log that the SQL DBIC generated has changed to
 incorporate the datetime logic:
 
     INSERT INTO book ( created, rating, title, updated ) VALUES ( ?, ?, ?, ? ): 
-    '2009-05-25 20:39:41', '5', 'TCPIP_Illustrated_Vol-2', '2009-05-25 20:39:41'
+    '2010-02-16 04:18:42', '5', 'TCPIP_Illustrated_Vol-2', '2010-02-16 04:18:42'
     INSERT INTO book_author ( author_id, book_id ) VALUES ( ?, ? ): '4', '10'
 
 
@@ -1133,10 +1095,10 @@ Then add the following method to the C<lib/MyApp/Controller/Books.pm>:
         $c->stash->{template} = 'books/list.tt2';
     }
 
-Now start the development server with C<DBIC_TRACE=1> and try
-different values for the minutes argument (the final number value) for
-the URL C<http://localhost:3000/books/list_recent/10>.  For example,
-this would list all books added in the last fifteen minutes:
+Now try different values for the "minutes" argument (the final number 
+value) using the URL C<http://localhost:3000/books/list_recent/_#_> in 
+your browser. For example, this would list all books added in the last 
+fifteen minutes: 
 
     http://localhost:3000/books/list_recent/15
 
@@ -1185,11 +1147,7 @@ C<lib/MyApp/Controller/Books.pm> and add the following method:
         $c->stash->{template} = 'books/list.tt2';
     }
 
-To try this out, restart the development server with:
-
-    DBIC_TRACE=1 script/myapp_server.pl
-
-And enter the following URL into your browser:
+To try this out, enter the following URL into your browser:
 
     http://localhost:3000/books/list_recent_tcp/100
 
@@ -1205,7 +1163,7 @@ Take a look at the DBIC_TRACE output in the development server log for
 the first URL and you should see something similar to the following:
 
     SELECT me.id, me.title, me.rating, me.created, me.updated FROM book me 
-    WHERE ( ( title LIKE ? AND created > ? ) ): '%TCP%', '2009-05-25 19:09:13'
+    WHERE ( ( title LIKE ? AND created > ? ) ): '%TCP%', '2010-02-16 02:49:32'
 
 However, let's not pollute our controller code with this raw "TCP"
 query -- it would be cleaner to encapsulate that code in a method on
@@ -1256,10 +1214,9 @@ shown here -- the rest of the method should be the same):
         $c->stash->{template} = 'books/list.tt2';
     }
 
-Then restart the development server and try out the C<list_recent_tcp>
-and C<list_recent> URL as we did above.  It should work just the same,
-but our code is obviously cleaner and more modular, while also being
-more flexible at the same time.
+Try out the C<list_recent_tcp> and C<list_recent> URLs as we did above. 
+They should work just the same, but our code is obviously cleaner and 
+more modular, while also being more flexible at the same time. 
 
 
 =head2 Adding Methods to Result Classes
@@ -1303,8 +1260,7 @@ to:
 (Only C<author.last_name> was changed to C<author.full_name> -- the
 rest of the file should remain the same.)
 
-Now restart the development server and go to the standard book list
-URL:
+Now go to the standard book list URL:
 
     http://localhost:3000/books/list
 
@@ -1401,13 +1357,13 @@ match the following:
     ...
 
 Although most of the code we removed comprised comments, the overall 
-effect is dramatic... because our view code is so simple, we don't 
-huge comments to clue people in to the gist of our code.  The view 
-code is now self-documenting and readable enough that you could 
-probably get by with no comments at all.  All of the "complex" work is 
-being done in our Result Class methods (and, because we have broken 
-the code into nice, modular chucks, the Result Class code is hardly 
-something you would call complex).  
+effect is dramatic... because our view code is so simple, we don't need 
+huge comments to clue people in to the gist of our code. The view code 
+is now self-documenting and readable enough that you could probably get 
+by with no comments at all. All of the "complex" work is being done in 
+our Result Class methods (and, because we have broken the code into 
+nice, modular chucks, the Result Class code is hardly something you 
+would call complex).
 
 As we saw in this section, always strive to keep your view AND 
 controller code as simple as possible by pulling code out into your 
@@ -1416,9 +1372,9 @@ ways, it's an excellent to way accomplish this objective.  It will
 make your code cleaner, easier to write, less error-prone, and easier 
 to debug and maintain.
 
-Before you conclude this section, fire up the development server and
-hit Refresh in your browser... the output should be the same even
-though the backend code has been trimmed down.
+Before you conclude this section, hit Refresh in your browser... the 
+output should be the same even though the backend code has been trimmed 
+down. 
 
 
 =head1 AUTHOR
