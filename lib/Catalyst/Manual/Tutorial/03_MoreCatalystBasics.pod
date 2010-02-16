@@ -1505,8 +1505,8 @@ detailed information on how to extend C<RenderView> in C<sub end>.
 One of the nice features of C<RenderView> is that it automatically 
 allows you to add C<dump_info=1> to the end of any URL for your 
 application and it will force the display of the "exception dump" 
-screen to the client browser.  You can try this out by starting the 
-development server as before and then point your browser to this URL: 
+screen to the client browser.  You can try this out by pointing 
+your browser to this URL: 
 
     http://localhost:3000/books/list?dump_info=1
 
@@ -1564,9 +1564,8 @@ has changed):
     }
 
 
-You should now be able to restart the development server as per the
-previous section and access the L<http://localhost:3000/books/list>
-as before.
+You should now be able to access the L<http://localhost:3000/books/list>
+URL as before.
 
 B<NOTE:> Please note that if you use the default template technique,
 you will B<not> be able to use either the C<$c-E<gt>forward> or
@@ -1588,9 +1587,8 @@ statement in C<sub list> in C<lib/MyApp/Controller/Books.pm>:
 Then delete the C<TEMPLATE_EXTENSION> line in
 C<lib/MyApp/View/TT.pm>.
 
-You should then be able to restart the development server and
-access L<http://localhost:3000/books/list> in the same manner as
-with earlier sections.
+Check the L<http://localhost:3000/books/list> URL in your browser.
+It should look the same manner as with earlier sections.
 
 
 =head1 AUTHOR

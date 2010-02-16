@@ -359,9 +359,8 @@ to the following:
     | /books/url_create                   | /books/url_create                    |
     '-------------------------------------+--------------------------------------'
 
-Now start the development server with our basic chained method in
-place and the startup debug output should change to something along
-the lines of the following:
+When the development server restarts, the debug output should change 
+to something along the lines of the following:
 
     [debug] Loaded Path actions:
     .-------------------------------------+--------------------------------------.
