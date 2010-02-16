@@ -81,10 +81,10 @@ add the role information here although it will not be used until the
 authorization section, Chapter 6).  Create a new SQL script file by opening
 C<myapp02.sql> in your editor and insert:
 
-    PRAGMA foreign_keys = ON;
     --
     -- Add user and role tables, along with a many-to-many join table
     --
+    PRAGMA foreign_keys = ON;
     CREATE TABLE user (
             id            INTEGER PRIMARY KEY,
             username      TEXT,
@@ -139,21 +139,27 @@ option on the DBIC model helper to do most of the work for us:
     $ ls lib/MyApp/Schema/Result
     Author.pm  BookAuthor.pm  Book.pm  Role.pm  User.pm  UserRole.pm
 
-Notice how the helper has added three new table-specific result source
+Notice how the helper has added three new table-specific Result Source
 files to the C<lib/MyApp/Schema/Result> directory.  And, more
 importantly, even if there were changes to the existing result source
 files, those changes would have only been written above the C<# DO NOT
 MODIFY THIS OR ANYTHING ABOVE!> comment and your hand-edited
 enhancements would have been preserved.
 
-Speaking of "hand-editted enhancements," we should now add
-relationship information to the three new result source files.  Edit
-each of these files and add the following information between the C<#
-DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment and the closing C<1;>:
+Speaking of "hand-editted enhancements," we should now add the 
+C<many_to_many> relationship information to the User Result Source file. 
+As with the Book, BookAuthor, and Author files in 
+L<Chapter 3|Catalyst::Manual::Tutorial::03_MoreCatalystBasics>, 
+L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> has 
+automatically created the C<has_many> and C<belongs_to> relationships 
+for the new User, UserRole, and Role tables. However, as a convenience 
+for mapping Users to their assigned roles (see 
+L<Chapter 6|Catalyst::Manual::Tutorial::06_Authorization>), we will 
+also manually add a C<many_to_many> relationship. Edit 
+C<lib/MyApp/Schema/Result/User.pm> add the following information between 
+the C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment and the closing 
+C<1;>: 
 
-C<lib/MyApp/Schema/Result/User.pm>:
-
-   
     # many_to_many():
     #   args:
     #     1) Name of relationship, DBIC will create accessor with this name
@@ -162,9 +168,12 @@ C<lib/MyApp/Schema/Result/User.pm>:
     #   You must already have the has_many() defined to use a many_to_many().
     __PACKAGE__->many_to_many(roles => 'user_roles', 'role');
 
-
-The code for this update is obviously very similar to the edits we made to the
-C<Book> and C<Author> classes created in Chapter 3.
+The code for this update is obviously very similar to the edits we made 
+to the C<Book> and C<Author> classes created in Chapter 3 with one 
+exception: we only defined the C<many_to_many> relationship in one 
+direction. Whereas we felt that we would want to map Authors to Books 
+B<AND> Books to Authors, here we are only adding the convenience 
+C<many_to_many> in the Users to Roles direction. 
 
 Note that we do not need to make any change to the
 C<lib/MyApp/Schema.pm> schema file.  It simply tells DBIC to load all
@@ -173,16 +182,15 @@ C<lib/MyApp/Schema> directory, so it will automatically pick up our
 new table information.
 
 
-=head2 Sanity-Check Reload of Development Server
+=head2 Sanity-Check of the Development Server Reload
 
-We aren't ready to try out the authentication just yet; we only want
-to do a quick check to be sure our model loads correctly.  Press
-C<Ctrl-C> to kill the previous server instance (if it's still running)
-and restart it:
-
-    $ script/myapp_server.pl
-
-Look for the three new model objects in the startup debug output:
+We aren't ready to try out the authentication just yet; we only want to 
+do a quick check to be sure our model loads correctly. Assuming that you 
+are following along and using the "-r" option on C<myapp_server.pl>, 
+then the development server should automatically reload (if not, press 
+C<Ctrl-C> to break out of the server if it's running and then enter 
+C<script/myapp_server.pl> to start it). Look for the three new model 
+objects in the startup debug output: 
 
     ...
      .-------------------------------------------------------------------+----------.
@@ -212,18 +220,18 @@ C<StackTrace> is new):
 
     # Load plugins
     use Catalyst qw/
-                    -Debug
-                    ConfigLoader
-                    Static::Simple
-    
-                    StackTrace
-    
-                    Authentication
-    
-                    Session
-                    Session::Store::FastMmap
-                    Session::State::Cookie
-                    /;
+        -Debug
+        ConfigLoader
+        Static::Simple
+
+        StackTrace
+
+        Authentication
+
+        Session
+        Session::Store::FastMmap
+        Session::State::Cookie
+    /;
 
 B<Note:> As discussed in MoreCatalystBasics, different versions of
 C<Catalyst::Devel> have used a variety of methods to load the plugins,
@@ -250,13 +258,12 @@ the Makefile.PL file something like this:
     requires 'Catalyst::Plugin::Session::State::Cookie';
 
 Note that there are several options for
-L<Session::Store|Catalyst::Plugin::Session::Store>
-
-(L<Session::Store::Memcached|Catalyst::Plugin::Session::Store::Memcached> or
+L<Session::Store|Catalyst::Plugin::Session::Store>.
+L<Session::Store::Memcached|Catalyst::Plugin::Session::Store::Memcached> or
 L<Session::Store::FastMmap|Catalyst::Plugin::Session::Store::FastMmap> is
-generally a good choice if you are on Unix; try
-L<Session::Store::File|Catalyst::Plugin::Session::Store::File> if you
-are on Win32) -- consult
+generally a good choice if you are on Unix.  If you are running on
+Windows, try
+L<Session::Store::File|Catalyst::Plugin::Session::Store::File>. Consult
 L<Session::Store|Catalyst::Plugin::Session::Store> and its subclasses
 for additional information and options (for example to use a database-
 backed session store).
@@ -304,11 +311,15 @@ B<TIP:> Here is a short script that will dump the contents of
 C<MyApp->config> to L<Config::General|Config::General> format in
 C<myapp.conf>:
 
-    $ perl -Ilib -e 'use MyApp; use Config::General; 
+    $ CATALYST_DEBUG=0 perl -Ilib -e 'use MyApp; use Config::General; 
         Config::General->new->save_file("myapp.conf", MyApp->config);'
 
+B<HOWEVER>, if you try out the command above, be sure to delete the
+"myapp.conf" command.  Otherwise, you will wind up with duplicate
+configurations.
+
 B<NOTE:> Because we are using SimpleDB along with a database layout 
-that complies with its default assumptions, we don't need to specify
+that complies with its default assumptions: we don't need to specify
 the names of the columns where our username and password information
 is stored (hence, the "Simple" part of "SimpleDB").  That being said,
 SimpleDB lets you specify that type of information if you need to.
@@ -370,7 +381,8 @@ and update the definition of C<sub index> to match:
         $c->stash->{template} = 'login.tt2';
     }
 
-Be sure to remove the C<$c-E<gt>response-E<gt>body('Matched MyApp::Controller::Login in Login.');>
+Be sure to remove the 
+C<$c-E<gt>response-E<gt>body('Matched MyApp::Controller::Login in Login.');>
 line of the C<sub index>.
 
 This controller fetches the C<username> and C<password> values from the
@@ -539,10 +551,15 @@ use of an IF-THEN-ELSE construct in TT).
 
 =head2 Try Out Authentication
 
-Press C<Ctrl-C> to kill the previous server instance (if it's still
-running) and restart it:
-
-    $ script/myapp_server.pl
+The development server should have reloaded each time we edited one of 
+the Controllers in the previous section. Now trying going to 
+L<http://localhost:3000/books/list> and you should be redirected to the 
+login page, hitting Shift+Reload or Ctrl+Reload if necessary (the "You 
+are already logged in" message should I<not> appear -- if it does, click 
+the C<logout> button and try again). Note the C<***Root::auto User not 
+found...> debug message in the development server output. Enter username 
+C<test01> and password C<mypass>, and you should be taken to the Book 
+List page. 
 
 B<IMPORTANT NOTE:> If you are having issues with authentication on
 Internet Explorer, be sure to check the system clocks on both your
@@ -565,14 +582,6 @@ UDP vs. the more common TCP that you see with most Internet protocols.
 Worse case, you might have to manually set the time on your development
 box instead of using NTP.
 
-Now trying going to L<http://localhost:3000/books/list> and you should
-be redirected to the login page, hitting Shift+Reload or Ctrl+Reload
-if necessary (the "You are already logged in" message should I<not>
-appear -- if it does, click the C<logout> button and try again). Note
-the C<***Root::auto User not found...> debug message in the
-development server output.  Enter username C<test01> and password
-C<mypass>, and you should be taken to the Book List page.
-
 Open C<root/src/books/list.tt2> and add the following lines to the
 bottom (below the closing </table> tag):
 
@@ -583,7 +592,7 @@ bottom (below the closing </table> tag):
 
 Reload your browser and you should now see a "Login" and "Create" links
 at the bottom of the page (as mentioned earlier, you can update template
-files without reloading the development server).  Click the first link
+files without a development server reload).  Click the first link
 to return to the login page.  This time you I<should> see the "You are
 already logged in" message.
 
@@ -750,14 +759,11 @@ C<check_password> method we enabled on our C<password> columns.
 
 =head2 Try Out the Hashed Passwords
 
-Press C<Ctrl-C> to kill the previous server instance (if it's still
-running) and restart it:
-
-    $ script/myapp_server.pl
-
-You should now be able to go to L<http://localhost:3000/books/list> and
-login as before.  When done, click the "logout" link on the login page
-(or point your browser at L<http://localhost:3000/logout>).
+The development server should restart as soon as your save the 
+C<lib/MyApp.pm> file in the previous section. You should now be able to 
+go to L<http://localhost:3000/books/list> and login as before. When 
+done, click the "logout" link on the login page (or point your browser 
+at L<http://localhost:3000/logout>). 
 
 
 =head1 USING THE SESSION FOR FLASH
@@ -817,7 +823,7 @@ C<< <span class="message"> >> line.
 
 =head2 Try Out Flash
 
-Restart the development server, log in, and then point your browser to
+Authenticate using the login screen and then point your browser to
 L<http://localhost:3000/books/url_create/Test/1/4> to create an extra
 several books.  Click the "Return to list" link and delete one of the
 "Test" books you just added.  The C<flash> mechanism should retain our
@@ -845,6 +851,8 @@ C<__PACKAGE__-E<gt>config> setting to something like:
 
     __PACKAGE__->config(
             name    => 'MyApp',
+            # Disable deprecated behavior needed by old applications
+            disable_component_resolution_regex_fallback => 1,
             session => { flash_to_stash => 1 },
         );
 
@@ -863,11 +871,10 @@ to match the following:
 
     <span class="message">[% status_msg %]</span>
 
-Restart the development server and go to
-L<http://localhost:3000/books/list> in your browser.  Delete another
-of the "Test" books you added in the previous step.  Flash should still
-maintain the status message across the redirect even though you are no
-longer explicitly accessing C<c.flash>.
+Now go to L<http://localhost:3000/books/list> in your browser. Delete 
+another of the "Test" books you added in the previous step. Flash should 
+still maintain the status message across the redirect even though you 
+are no longer explicitly accessing C<c.flash>. 
 
 
 =head1 AUTHOR
