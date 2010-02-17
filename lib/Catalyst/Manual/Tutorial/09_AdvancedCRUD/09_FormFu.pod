@@ -224,7 +224,8 @@ Open C<root/src/books/formfu_create.tt2> in your editor and enter the following:
     [%# Render the HTML::FormFu Form %]
     [% form %]
     
-    <p><a href="[% c.uri_for(c.controller.action_for('list')) %]">Return to book list</a></p>
+    <p><a href="[% c.uri_for(c.controller.action_for('list')) 
+        %]">Return to book list</a></p>
 
 
 =head2 Add Links for Create and Update via C<HTML::FormFu>
@@ -244,19 +245,18 @@ use to easily launch our HTML::FormFu-based form.
 
 =head2 Test The HTML::FormFu Create Form
 
-Press C<Ctrl-C> to kill the previous server instance (if it's still
-running) and restart it:
+Make sure the server is running with the "-r" restart option:
 
-    $ script/myapp_server.pl
+    $ script/myapp_server.pl -r
 
 Login as C<test01> (password: mypass).  Once at the Book List page,
 click the new HTML::FormFu "Create" link at the bottom to display the
 form.  Fill in the following values:
 
-Title:  Internetworking with TCP/IP Vol. II
-Rating: 4
-Author: Comer
-    
+    Title:  Internetworking with TCP/IP Vol. II
+    Rating: 4
+    Author: Comer
+
 Click the Submit button, and you will be returned to the Book List page
 with a "Book created" status message displayed.
 
@@ -407,11 +407,6 @@ for more filter options.
 
 =head2 Try Out the Updated Form
 
-Press C<Ctrl-C> to kill the previous server instance (if it's still 
-running) and restart it:
-
-    $ script/myapp_server.pl
-
 Make sure you are still logged in as C<test01> and try adding a book 
 with various errors: title less than 5 characters, non-numeric rating, a 
 rating of 0 or 6, etc.  Also try selecting one, two, and zero authors. 
@@ -543,11 +538,6 @@ existing C<delete> link.
 
 
 =head2 Try Out the Edit/Update Feature
-
-Press C<Ctrl-C> to kill the previous server instance (if it's still 
-running) and restart it:
-
-    $ script/myapp_server.pl
 
 Make sure you are still logged in as C<test01> and go to the 
 L<http://localhost:3000/books/list> URL in your browser.  Click the 
