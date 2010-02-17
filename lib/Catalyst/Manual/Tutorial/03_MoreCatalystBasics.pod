@@ -699,14 +699,16 @@ run this command:
 
     $ perl -MCatalyst::Model::DBIC::Schema -e \
         'print "$Catalyst::Model::DBIC::Schema::VERSION\n"'
-    0.39
+    0.4
 
 Please note the '\' above.  Depending on your environment, you might 
 be able to cut and paste the text as shown or need to remove the '\' 
 character to that the command is all on a single line.
 
-If you have less than v0.39, you will need to run this command to 
-install it directly from CPAN:
+If you are following along in Debian 5, you should have version 0.40 or 
+higher (shown above as "0.4" with the tailing zero removed). If you have 
+less than v0.39, you will need to run this command to install it 
+directly from CPAN: 
 
     $ sudo cpan Catalyst::Model::DBIC::Schema
 
@@ -897,7 +899,7 @@ enter:
 
     $ export DBIC_TRACE=1
     $ script/myapp_server.pl -r 
-    
+
 This assumes you are using bash as your shell -- adjust accordingly if
 you are using a different shell (for example, under tcsh, use
 C<setenv DBIC_TRACE 1>).
@@ -1282,10 +1284,9 @@ above:
       { join_type => "LEFT" },
     );
 
-
 The arguments are similar, but see 
 L<DBIx::Class::Relationship/belongs_to> for the details.
-    
+
 Although recent versions of SQLite and L<DBIx::Class::Schema::Loader> 
 automatically handle the C<has_many> and C<belongs_to> relationships, 
 C<many_to_many> relationships currently need to be manually inserted. 
@@ -1336,7 +1337,7 @@ ANYTHING ABOVE!> comment):
 
 Run the Catalyst development server script with the C<DBIC_TRACE> option
 (it might still be enabled from earlier in the tutorial, but here is an
-alternate way to specify the option just in case):
+alternate way to specify the trace option just in case):
 
     $ DBIC_TRACE=1 script/myapp_server.pl -r
 
@@ -1345,8 +1346,7 @@ three dynamically created model class (one for each of the
 Result Classes we created).
 
 Then hit the URL L<http://localhost:3000/books/list> with your browser 
-and be sure that the book list still displays correctly. You can leave 
-the development server running for the next step if you wish.
+and be sure that the book list still displays correctly.
 
 B<Note:> You will not see the authors yet because the view does not yet 
 use the new relations. Read on to the next section where we update the 
