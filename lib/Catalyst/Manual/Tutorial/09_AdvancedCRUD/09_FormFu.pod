@@ -136,7 +136,7 @@ following method:
         }
         
         # Set the template
-        $c->stash->{template} = 'books/formfu_create.tt2';
+        $c->stash(template => 'books/formfu_create.tt2');
     }
 
 
@@ -473,7 +473,7 @@ bottom:
         }
     
         # Set the template
-        $c->stash->{template} = 'books/formfu_create.tt2';
+        $c->stash(template => 'books/formfu_create.tt2');
     }
 
 Most of this code should look familiar to what we used in the 
@@ -580,7 +580,7 @@ Or you can proceed to write your own application, which is probably the
 real reason you worked through this Tutorial in the first place.
 
 
-=head2  Config::General Config for this tutorial
+=head2 Config::General Config for this tutorial
 
 If you are having difficulty with YAML config above, please save the
 below into the file C<formfu_create.conf> and delete the
