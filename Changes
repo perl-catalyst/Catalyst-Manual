@@ -1,5 +1,18 @@
 Revision history for Catalyst-Manual
 
+5.8004 17 Feb 2010
+    - Tutorial:
+        - Add foreign key support for SQLite 
+            (huge thanks to Caelum for that and other good edits!)
+        - Add "Quick Start" to Intro (Chapter 1)
+        - Switch to use of "-r" to auto-restart the dev svr
+        - Update for latest available Debian package versions
+        - Switch to individual files for example code vs. tarballs
+        - Switch to 'done_testing' and shorter 'prove' args for testing chapter
+        - Misc typo fixes
+    - Other:
+        - Minor Cookbook edits
+
 5.8003 28 Dec 2009
     - Variety of typo fixes
     - Fix incorrectness re :Global and :Local
