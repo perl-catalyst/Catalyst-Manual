@@ -303,9 +303,9 @@ and add the following method to the controller:
     
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
-        # $c->stash->{books} = [$c->model('DB::Book')->all];
+        # $c->stash(books => [$c->model('DB::Book')->all]);
         # But, for now, use this code until we create the model later
-        $c->stash->{books} = '';
+        $c->stash(books => '');
     
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
@@ -857,7 +857,7 @@ and delete the next 2 lines):
     
         # Retrieve all of the book records as book model objects and store
         # in the stash where they can be accessed by the TT template
-        $c->stash->{books} = [$c->model('DB::Book')->all];
+        $c->stash(books => [$c->model('DB::Book')->all]);
     
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
@@ -1555,7 +1555,7 @@ has changed):
     
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
-        $c->stash->{books} = [$c->model('DB::Book')->all];
+        $c->stash(books => [$c->model('DB::Book')->all]);
     
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (actions methods respond to user input in
@@ -1582,7 +1582,7 @@ In order to be able to use C<$c-E<gt>forward> and C<$c-E<gt>detach>
 later in the tutorial, you should remove the comment from the
 statement in C<sub list> in C<lib/MyApp/Controller/Books.pm>:
 
-    $c->stash->{template} = 'books/list.tt2';
+    $c->stash(template => 'books/list.tt2');
 
 Then delete the C<TEMPLATE_EXTENSION> line in
 C<lib/MyApp/View/TT.pm>.

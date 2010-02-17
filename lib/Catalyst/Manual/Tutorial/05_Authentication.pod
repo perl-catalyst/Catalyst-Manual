@@ -370,15 +370,15 @@ and update the definition of C<sub index> to match:
                 return;
             } else {
                 # Set an error message
-                $c->stash->{error_msg} = "Bad username or password.";
+                $c->stash(error_msg => "Bad username or password.");
             }
         } else {
             # Set an error message
-            $c->stash->{error_msg} = "Empty username or password.";
+            $c->stash(error_msg => "Empty username or password.");
         }
     
         # If either of above don't work out, send to the login page
-        $c->stash->{template} = 'login.tt2';
+        $c->stash(template => 'login.tt2');
     }
 
 Be sure to remove the 

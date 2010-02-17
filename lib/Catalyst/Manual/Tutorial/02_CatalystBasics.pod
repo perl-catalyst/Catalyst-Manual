@@ -330,7 +330,7 @@ Save the file, and you should notice the following in your server output:
      - /home/me/Hello/lib/Hello/Controller/Root.pm (modify)
     
     Attempting to restart the server
-    ...	
+    ...
     [debug] Loaded Private actions:
     .----------------------+--------------------------------------+--------------.
     | Private              | Class                                | Method       |
@@ -480,7 +480,7 @@ In C<lib/Hello/Controller/Site.pm>, add the following method:
         my ( $self, $c ) = @_;
     
         $c->stash(username => 'John',
-				  template => 'site/test.tt');
+                  template => 'site/test.tt');
     }
 
 Notice the "Local" attribute on the C<test> method. This will cause 

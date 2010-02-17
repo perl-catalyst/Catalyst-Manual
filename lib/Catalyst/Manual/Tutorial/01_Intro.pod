@@ -384,7 +384,7 @@ Once the system has booted to a "C<user@debian:~$>" prompt, first
 install the Subversion client in case you want to check out the
 completed chapter example code:
 
-	sudo aptitude -y install subversion
+    sudo aptitude -y install subversion
 
 Then enter the following command to add the more current "unstable" 
 package repository so we get the latest versions of Catalyst and
@@ -626,16 +626,16 @@ of each part for the appropriate svn command to use).
 B<NOTE:> You can run the test cases for the final code through Chapter 8 
 with the following commands:
 
-	svn co http://dev.catalystframework.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Chapter8
-	cd MyApp_Chapter8/MyApp
+    svn co http://dev.catalystframework.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Chapter8
+    cd MyApp_Chapter8/MyApp
     CATALYST_DEBUG=0 prove -wl t
 
 If you wish to include the L<HTML::FormFu|HTML::FormFu> section in your tests,
 substitute C<MyApp_Chapter9_FormFu> for C<MyApp_Chapter8> in the URL
 above (don't forget to "cd" out of the Ch8 directory if you ran the code above).
 
-	svn co http://dev.catalystframework.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Chapter9_FormFu
-	cd MyApp_Chapter9_FormFu/MyApp
+    svn co http://dev.catalystframework.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Chapter9_FormFu
+    cd MyApp_Chapter9_FormFu/MyApp
     CATALYST_DEBUG=0 prove -wl t
 
 You can also fire up the application under the development server that is conveniently

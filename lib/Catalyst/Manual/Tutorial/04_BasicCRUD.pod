@@ -116,11 +116,9 @@ Edit C<lib/MyApp/Controller/Books.pm> and enter the following method:
         # Note: Above is a shortcut for this:
         # $book->create_related('book_authors', {author_id => $author_id});
     
-        # Assign the Book object to the stash for display in the view
-        $c->stash->{book} = $book;
-    
-        # Set the TT template to use
-        $c->stash->{template} = 'books/create_done.tt2';
+        # Assign the Book object to the stash for display and set template
+        $c->stash(book     => $book,
+                  template => 'books/create_done.tt2');
     }
 
 Notice that Catalyst takes "extra slash-separated information" from the
@@ -412,7 +410,7 @@ method:
         my ($self, $c) = @_;
     
         # Store the ResultSet in stash so it's available for other methods
-        $c->stash->{resultset} = $c->model('DB::Book');
+        $c->stash(resultset => $c->model('DB::Book'));
     
         # Print a message to the debug log
         $c->log->debug('*** INSIDE BASE METHOD ***');
@@ -494,7 +492,7 @@ Edit C<lib/MyApp/Controller/Books.pm> and add the following method:
         my ($self, $c) = @_;
     
         # Set the TT template to use
-        $c->stash->{template} = 'books/form_create.tt2';
+        $c->stash(template => 'books/form_create.tt2');
     }
 
 This action simply invokes a view containing a form to create a book.
@@ -548,15 +546,13 @@ save the form information to the database:
         # Note: Above is a shortcut for this:
         # $book->create_related('book_authors', {author_id => $author_id});
     
-        # Store new model object in stash
-        $c->stash->{book} = $book;
-    
         # Avoid Data::Dumper issue mentioned earlier
         # You can probably omit this
         $Data::Dumper::Useperl = 1;
     
-        # Set the TT template to use
-        $c->stash->{template} = 'books/create_done.tt2';
+        # Store new model object in stash and set template
+        $c->stash(book     => $book,
+                  template => 'books/create_done.tt2');
     }
 
 
@@ -1085,13 +1081,13 @@ Then add the following method to the C<lib/MyApp/Controller/Books.pm>:
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
-        $c->stash->{books} = [$c->model('DB::Book')
-                                ->created_after(DateTime->now->subtract(minutes => $mins))];
+        $c->stash(books => [$c->model('DB::Book')
+                                ->created_after(DateTime->now->subtract(minutes => $mins))]);
     
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
-        $c->stash->{template} = 'books/list.tt2';
+        $c->stash(template => 'books/list.tt2');
     }
 
 Now try different values for the "minutes" argument (the final number 
@@ -1135,15 +1131,15 @@ C<lib/MyApp/Controller/Books.pm> and add the following method:
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
         # AND that have 'TCP' in the title
-        $c->stash->{books} = [$c->model('DB::Book')
+        $c->stash(books => [$c->model('DB::Book')
                                 ->created_after(DateTime->now->subtract(minutes => $mins))
                                 ->search({title => {'like', '%TCP%'}})
-                             ];
+                            ]);
     
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
-        $c->stash->{template} = 'books/list.tt2';
+        $c->stash(template => 'books/list.tt2');
     }
 
 To try this out, enter the following URL into your browser:
@@ -1202,15 +1198,15 @@ shown here -- the rest of the method should be the same):
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
         # AND that have 'TCP' in the title
-        $c->stash->{books} = [$c->model('DB::Book')
+        $c->stash(books => [$c->model('DB::Book')
                                 ->created_after(DateTime->now->subtract(minutes => $mins))
                                 ->title_like('TCP')
-                             ];
+                            ]);
     
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
-        $c->stash->{template} = 'books/list.tt2';
+        $c->stash(template => 'books/list.tt2');
     }
 
 Try out the C<list_recent_tcp> and C<list_recent> URLs as we did above. 
