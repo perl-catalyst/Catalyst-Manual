@@ -708,17 +708,17 @@ PostgreSQL content in the Appendix.
 =item *
 
 People who have emailed me with corrections and suggestions on the 
-tutorial.  As of the most recent release, this include: Florian 
-Ragwitz, Mauro Andreolini, Jim Howard, Giovanni Gigante, William 
-Moreno,  Bryan Roach, Ashley Berlin, David Kamholz, Kevin Old, Henning 
-Sprang, Jeremy Jones, David Kurtz, Ingo Wichmann, Shlomi Fish, Murray 
-Walker, Adam Witney and xenoterracide.  Thanks to Devin Austin for 
-coming up with an initial version of a non-TTSite wrapper page.  
-Also, a huge thank you to Kiffin Gish for all the hard work on the 
-"database depluralization" effort and Rafael Kitover for the work on 
-updating the tutorial to include foreign key support for SQLite.  
-I'm sure I am missing some names here... apologies for that (please 
-let me know if you name should be here).
+tutorial. As of the most recent release, this include: Florian Ragwitz, 
+Mauro Andreolini, Jim Howard, Giovanni Gigante, William Moreno, Bryan 
+Roach, Ashley Berlin, David Kamholz, Kevin Old, Henning Sprang, Jeremy 
+Jones, David Kurtz, Ingo Wichmann, Shlomi Fish, Murray Walker, Adam 
+Witney and xenoterracide (Caleb Cushing). Thanks to Devin Austin for 
+coming up with an initial version of a non-TTSite wrapper page. Also, a 
+huge thank you to Kiffin Gish for all the hard work on the "database 
+depluralization" effort and Rafael Kitover for the work on updating the 
+tutorial to include foreign key support for SQLite. I'm sure I am 
+missing some names here... apologies for that (please let me know if you 
+name should be here). 
 
 =back
 
