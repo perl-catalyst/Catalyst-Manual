@@ -78,21 +78,21 @@ Catalyst.
 
 Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 
-    # Load plugins
-    use Catalyst qw/
-                    -Debug
-                    ConfigLoader
-                    Static::Simple
-                
-                    StackTrace
-                
-                    Authentication
-                    Authorization::Roles
-        
-                    Session
-                    Session::Store::FastMmap
-                    Session::State::Cookie
-                    /;
+	# Load plugins
+	use Catalyst qw/
+		-Debug
+		ConfigLoader
+		Static::Simple
+
+		StackTrace
+
+		Authentication
+		Authorization::Roles
+
+		Session
+		Session::Store::FastMmap
+		Session::State::Cookie
+	/;
 
 Once again, include this additional plugin as a new dependency in 
 the Makefile.PL file like this:
@@ -172,11 +172,9 @@ updating C<url_create> to match the following code:
             # Note: Above is a shortcut for this:
             # $book->create_related('book_authors', {author_id => $author_id});
     
-            # Assign the Book object to the stash for display in the view
-            $c->stash->{book} = $book;
-    
-            # Set the TT template to use
-            $c->stash->{template} = 'books/create_done.tt2';
+            # Assign the Book object to the stash and set template
+            $c->stash(book     => $book,
+					  template => 'books/create_done.tt2');
         } else {
             # Provide very simple feedback to the user.
             $c->response->body('Unauthorized!');
@@ -202,10 +200,9 @@ C<sub add : Local {> and C<=end> after the closing C<}>.
 
 =head2 Try Out Authentication And Authorization
 
-Press C<Ctrl-C> to kill the previous server instance (if it's still
-running) and restart it:
+Make sure the development server is running:
 
-    $ script/myapp_server.pl
+    $ script/myapp_server.pl -r
 
 Now trying going to L<http://localhost:3000/books/list> and you should 
 be taken to the login page (you might have to C<Shift+Reload> or 
@@ -314,17 +311,13 @@ C<lib/MyApp/Controller/Root.pm> and add this method:
     sub error_noperms :Chained('/') :PathPart('error_noperms') :Args(0) {
         my ($self, $c) = @_;
     
-        $c->stash->{template} = 'error_noperms.tt2';
+        $c->stash(template => 'error_noperms.tt2');
     }
 
 And also add the template file by putting the following text into
 C<root/src/error_noperms.tt2>:
 
     <span class="error">Permission Denied</span>
-
-Then run the Catalyst development server script:
-
-    $ script/myapp_server.pl
 
 Log in as C<test01> and create several new books using the C<url_create>
 feature:
