@@ -407,7 +407,7 @@ chapters of the tutorial).
 Create a C<root/hello.tt> template file (put it in the C<root> under 
 the C<Hello> directory that is the base of your application). Here is 
 a simple sample:
-  
+
     <p>
         This is a TT view template, called '[% template.name %]'.
     </p>
@@ -441,6 +441,11 @@ restart (again, the tutorial is written to assume that you are
 using the "-r" option -- manually restart it if you aren't), 
 and look at L<http://localhost:3000/hello> in your again. You 
 should see the template that you just made.
+
+B<TIP:> If you keep the server running with "-r" in a "background 
+window," don't let that window get totally hidden... if you have an 
+syntax error in your code, the debug server output will contain the 
+error information.
 
 B<Note:> You will probably run into a variation of the "stash"
 statement above that looks like:
