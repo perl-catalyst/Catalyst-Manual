@@ -185,6 +185,88 @@ Subversion repository at
 L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/>.
 
 
+=head1 QUICK START
+
+For those who want to get going quickly, here is a short "cookbook-style 
+recipe" to quickly get you up and running. Although there are many 
+different ways to get a Catalyst environment going, this tutorial has 
+been written with and tested against Debian 5 Live CD, using the steps 
+in this Quick Start. 
+
+If you want, you can follow the directions in this section and then jump 
+right to L<Chapter 2|Catalyst::Manual::Tutorial::02_CatalystBasics> of 
+the tutorial. However, it would be a good idea to come back and read the 
+sections below the Quick Start when you have time. Or, continue reading 
+those other sections for suggestions if you do not wish to use the 
+Debian 5 Live CD. 
+
+
+=over 4
+
+=item 1 
+
+Download the C<debian-live-503-i386-rescue.iso> image from
+L<http://cdimage.debian.org/cdimage/release/current-live/i386/iso-cd/>.
+
+=item 2
+
+Boot this disk, either in a physical machine, or possibly some sort
+of virtual machine (can be a very handy way to practice).
+
+=item 3
+
+Select "C<Live>" from the initial boot menu.
+
+=item 4
+
+At the "C<user@debian:~$>" prompt, type:
+
+    sudo aptitude -y install subversion
+
+=item 5
+
+If you want to be able to remotely SSH to this system, set a
+password for root:
+
+    sudo passwd
+    ...
+
+=item 6
+
+Add the "unstable" Debian package repository:
+
+    sudo vi /etc/apt/sources.list
+
+Add the following line to the bottom of this file:
+
+    deb http://ftp.us.debian.org/debian/ unstable main
+
+=item 7
+
+Install Catalyst and related libraries:
+
+    sudo aptitude update
+    sudo aptitude -y install sqlite3 libdbd-sqlite3-perl libcatalyst-perl \
+        libcatalyst-modules-perl libdbix-class-timestamp-perl \
+        libdatetime-format-sqlite-perl libconfig-general-perl \
+        libhtml-formfu-model-dbic-perl libterm-readline-perl-perl \
+        libdbix-class-encodedcolumn-perl libperl6-junction-perl
+    sudo aptitude clean
+
+=item 8
+
+Test example code:
+
+    mkdir test
+    cd test
+    svn co http://dev.catalystframework.org/repos/Catalyst/trunk/examples/Tutorial/MyApp_Chapter8
+    cd MyApp_Chapter8/MyApp
+    CATALYST_DEBUG=0 prove -wl t
+    cd
+
+=back
+
+
 =head1 VERSIONS AND CONVENTIONS USED IN THIS TUTORIAL
 
 This tutorial was built using the following resources. Please note that
@@ -213,7 +295,12 @@ DBIx::Class v0.08115
 
 =item *
 
+Catalyst::Model::DBIC::Schema v0.40
+
+=item *
+
 Template Toolkit v2.20
+
 
 =item * 
 
@@ -256,9 +343,13 @@ Catalyst::Plugin::StackTrace -- v0.11
 
 =item *
 
-Catalyst::Plugin::Static::Simple -- v0.28
+Catalyst::Plugin::Static::Simple -- v0.29
 
 =back
+
+=item *
+
+HTML::FormFu -- v0.06001
 
 =item * 
 
@@ -385,6 +476,12 @@ install the Subversion client in case you want to check out the
 completed chapter example code:
 
     sudo aptitude -y install subversion
+
+If you want to be able to remotely SSH to this system, set a
+password for root:
+
+    sudo passwd
+    ...
 
 Then enter the following command to add the more current "unstable" 
 package repository so we get the latest versions of Catalyst and
