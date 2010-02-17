@@ -904,7 +904,10 @@ C<E<lt>span class="message"E<gt>> line.
 Point your browser to L<http://localhost:3000/books/list> (you should 
 now be able to safely hit "refresh" in your browser). Then delete the 
 remaining copy of "TCPIP_Illustrated_Vol-2". The green "Book deleted" 
-status message should return. 
+status message should return.  But notice that you can now hit the
+"Reload" button in your browser and it just redisplays the book
+list (and it correctly shows it without the "Book deleted" message
+on redisplay).
 
 B<NOTE:> Another popular method for maintaining server-side
 information across a redirect is to use the C<flash> technique we
@@ -1015,6 +1018,7 @@ time entered for it (see the last line in the listing below):
     5|Designing with Web Standards|5|2010-02-16 04:15:45|2010-02-16 04:15:45
     9|TCP/IP Illustrated, Vol 3|5|2010-02-16 04:15:45|2010-02-16 04:15:45
     10|TCPIP_Illustrated_Vol-2|5|2010-02-16 04:18:42|2010-02-16 04:18:42
+    sqlite> .q
 
 Notice in the debug log that the SQL DBIC generated has changed to
 incorporate the datetime logic:
@@ -1098,7 +1102,7 @@ fifteen minutes:
     http://localhost:3000/books/list_recent/15
 
 Depending on how recently you added books, you might want to
-try a higher or lower value.
+try a higher or lower value for the minutes.
 
 
 =head2 Chaining ResultSets
@@ -1228,7 +1232,7 @@ C<lib/MyApp/Schema/Result/Author.pm> and add the following method (as
 always, it must be above the closing "C<1;>"):
 
     #
-    # Helper methods
+    # Row-level helper methods
     #
     sub full_name {
         my ($self) = @_;
