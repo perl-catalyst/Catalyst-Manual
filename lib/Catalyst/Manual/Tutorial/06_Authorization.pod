@@ -78,21 +78,21 @@ Catalyst.
 
 Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
 
-	# Load plugins
-	use Catalyst qw/
-		-Debug
-		ConfigLoader
-		Static::Simple
-
-		StackTrace
-
-		Authentication
-		Authorization::Roles
-
-		Session
-		Session::Store::FastMmap
-		Session::State::Cookie
-	/;
+    # Load plugins
+    use Catalyst qw/
+        -Debug
+        ConfigLoader
+        Static::Simple
+        
+        StackTrace
+        
+        Authentication
+        Authorization::Roles
+        
+        Session
+        Session::Store::FastMmap
+        Session::State::Cookie
+    /;
 
 Once again, include this additional plugin as a new dependency in 
 the Makefile.PL file like this:
@@ -174,7 +174,7 @@ updating C<url_create> to match the following code:
     
             # Assign the Book object to the stash and set template
             $c->stash(book     => $book,
-					  template => 'books/create_done.tt2');
+                      template => 'books/create_done.tt2');
         } else {
             # Provide very simple feedback to the user.
             $c->response->body('Unauthorized!');
@@ -255,7 +255,7 @@ this method to our Result Class.  Open
 C<lib/MyApp/Schema/Result/User.pm> and add the following method below 
 the "C<DO NOT MODIFY ...>" line:
 
-    =head 2 has_role
+    =head2 has_role
     
     Check if a user has the specified role
     

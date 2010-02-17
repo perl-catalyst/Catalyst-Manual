@@ -223,11 +223,11 @@ C<StackTrace> is new):
         -Debug
         ConfigLoader
         Static::Simple
-
+    
         StackTrace
-
+    
         Authentication
-
+    
         Session
         Session::Store::FastMmap
         Session::State::Cookie
@@ -585,6 +585,7 @@ box instead of using NTP.
 Open C<root/src/books/list.tt2> and add the following lines to the
 bottom (below the closing </table> tag):
 
+    ...
     <p>
       <a href="[% c.uri_for('/login') %]">Login</a>
       <a href="[% c.uri_for(c.controller.action_for('form_create')) %]">Create</a>

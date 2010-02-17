@@ -125,7 +125,7 @@ you can obviously indent them if you prefer):
         my ($self, $c) = @_;
     
     $DB::single=1;
-            
+    
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
         $c->stash->{books} = [$c->model('DB::Book')->all];
