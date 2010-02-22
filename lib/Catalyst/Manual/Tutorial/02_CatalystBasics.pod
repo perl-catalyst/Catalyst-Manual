@@ -190,11 +190,11 @@ previous step):
 
 B<Note>: The "-r" argument enables reloading on code changes so you 
 don't have to stop and start the server when you update code. See 
-C<perldoc script/hello_server.pl> for additional options you might find 
-helpful. Most of the rest of the tutorial will assume that you are using 
-"-r" when you start the development server, but feel free to manually 
-start and stop it (use C<Ctrl-C> to break out of the dev server) if you 
-prefer. 
+C<perldoc script/hello_server.pl> or C<script/hello_server.pl --help>
+for additional options you might find helpful. Most of the rest of the
+tutorial will assume that you are using "-r" when you start the development
+server, but feel free to manually start and stop it (use C<Ctrl-C> to
+breakout of the dev server) if you prefer. 
 
     $ script/hello_server.pl -r
     [debug] Debug messages enabled
