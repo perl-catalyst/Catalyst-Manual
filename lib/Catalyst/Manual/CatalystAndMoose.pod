@@ -140,7 +140,7 @@ It is possible to have action methods with attributes inside Moose roles, using
 L<MooseX::MethodAttributes>, example:
 
     package MyApp::ControllerRole;
-    use MooseX::MethodAttribute::Role;
+    use MooseX::MethodAttributes::Role;
     use namespace::autoclean;
 
     sub foo : Local {
