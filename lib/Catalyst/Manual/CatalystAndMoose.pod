@@ -122,39 +122,39 @@ It is possible to use roles to apply method modifiers on controller actions
 from 5.80003 onwards, or use modifiers in your controller classes
 themselves. For example
 
-	package MyApp::Controller::Foo;
-	use Moose;
-	use namespace::autoclean;
-	BEGIN { extends 'Catalyst::Controller' };
-	
+    package MyApp::Controller::Foo;
+    use Moose;
+    use namespace::autoclean;
+    BEGIN { extends 'Catalyst::Controller' };
+    
     sub foo : Local { 
-	    my ($self, $c) = @_;
-	    $c->res->body('Hello ');
-	}
-	after foo => sub {
-		my ($self, $c) = @_;
-		$c->res->body($c->res->body . 'World');
-	};
-	
+        my ($self, $c) = @_;
+        $c->res->body('Hello ');
+    }
+    after foo => sub {
+        my ($self, $c) = @_;
+        $c->res->body($c->res->body . 'World');
+    };
+    
 It is possible to have action methods with attributes inside Moose roles, using
 L<MooseX::MethodAttributes>, example:
 
     package MyApp::ControllerRole;
     use MooseX::MethodAttributes::Role;
     use namespace::autoclean;
-
+    
     sub foo : Local {
         my ($self, $c) = @_;
         ...
     }
+    
+    package MyApp::Controller::Foo;
+    use Moose;
+    use namespace::autoclean;
+    BEGIN { extends 'Catalyst::Controller' };
+    
+    with 'MyApp::ControllerRole';
 
-	package MyApp::Controller::Foo;
-   	use Moose;
-   	use namespace::autoclean;
-   	BEGIN { extends 'Catalyst::Controller' };
-
-	with 'MyApp::ControllerRole';
-	
 =head1 AUTHORS
 
 Catalyst Contributors, see Catalyst.pm
