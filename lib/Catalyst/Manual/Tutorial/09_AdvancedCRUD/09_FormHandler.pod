@@ -56,10 +56,11 @@ L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 
 =head1 DESCRIPTION
 
-This portion of the tutorial explores L<HTML::FormHandler|HTML::FormHandler> and 
-how it can be used to manage forms, perform validation of form input, 
-as well as save and restore data to/from the database.  This was written
-using HTML::FormHandler version 0.28001.
+This portion of the tutorial explores
+L<HTML::FormHandler|HTML::FormHandler> and how it can be used to manage
+forms, perform validation of form input, and save and restore data
+to or from the database. This was written using HTML::FormHandler version
+0.28001.
 
 See 
 L<Catalyst::Manual::Tutorial::09_AdvancedCRUD|Catalyst::Manual::Tutorial::09_AdvancedCRUD>
@@ -75,9 +76,9 @@ from CPAN:
 
     sudo cpan HTML::FormHandler::Model::DBIC 
 
-It will install L<HTML::FormHandler> as a prereq. 
+It will install L<HTML::FormHandler> as a prerequisite. 
 
-Also add:
+Also, add:
 
     requires 'HTML::FormHandler::Model::DBIC';
 
@@ -91,7 +92,7 @@ add additional functionality to the manually created form from Chapter 4.
 
 =head2 Using FormHandler in your controllers 
 
-FormHandler doen't have a Catalyst base controller, because interfacing
+FormHandler dosen't have a Catalyst base controller, because interfacing
 to a form is only a couple of lines of code.
 
 =head2 Create a Book Form
@@ -221,15 +222,15 @@ Add range constraints to the 'rating' field:
    has_field 'rating' => ( type => 'Integer', range_start => 1, range_end => 5 );
 
 The 'authors' relationship is a 'many-to-many' pseudo-relation, so this field
-can be set to Multiple to allow the selection of multiple authors and make it
+can be set to Multiple to allow the selection of multiple authors; also, make it
 required:
 
    has_field 'authors' => ( type => 'Multiple', label_column => 'last_name',
                             required => 1 );
 
-Note: FormHandler automatically strips whitespace at the beginning or end of fields.
-If you want some other kind of stripping (or none) you can specify it explicitly.
-(see L<HTML::FormHandler::Manual>)
+Note: FormHandler automatically strips whitespace at the beginning and
+end of fields. If you want some other kind of stripping (or none) you
+can specify it explicitly; see L<HTML::FormHandler::Manual>.
 
 =head2 Try Out the Updated Form
 
