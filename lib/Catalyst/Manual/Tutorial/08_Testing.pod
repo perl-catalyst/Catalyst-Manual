@@ -349,7 +349,11 @@ maintain both a "production database" for your live application and a
 "testing database" for your test cases.  One advantage to
 L<Test::WWW::Mechanize::Catalyst|Test::WWW::Mechanize::Catalyst> is that
 it runs your full application; however, this can complicate things when
-you want to support multiple databases.  One solution is to allow the
+you want to support multiple databases.
+
+=head2 DATABASE CONFIG SWITCHING IN YOUR MODEL CLASS
+
+One solution is to allow the
 database specification to be overridden with an environment variable.
 For example, open C<lib/MyApp/Model/DB.pm> in your editor and
 change the C<__PACKAGE__-E<gt>config(...> declaration to resemble:
@@ -375,6 +379,50 @@ This will modify the DSN only while the test case is running.  If you
 launch your normal application without the C<MYAPP_DSN> environment
 variable defined, it will default to the same C<dbi:SQLite:myapp.db> as
 before.
+
+=head2 DATABASE CONFIG SWITCHING USING MULTIPLE CONFIG FILES
+
+By utilizing L<Catalyst::Plugin::ConfigLoader>s functionality for loading
+multiple config files based on environment variables you can override your
+default (production) database connection settings.
+
+Setting C<$ENV{ MYAPP_CONFIG_LOCAL_SUFFIX }> to 'testing' in your test script
+results in loading of an additional config file named myapp_testing.conf after
+myapp.conf which will override any parameters in myapp.conf.
+
+You should set the environment variable in the BEGIN block of your test script
+to make sure it's set before your Catalyst application is started.
+
+The following is an example for a config and test script for a DBIx::Class
+model named MyDB and a controller named Foo:
+
+myapp_testing.conf:
+
+    <Model::MyDB>
+        <connect_info>
+            dsn dbi:SQLite:myapp.db
+        </connect_info>
+    </Model::MyDB>
+
+
+t/controller_Foo.t:
+
+    use strict;
+    use warnings;
+    use Test::More;
+
+    BEGIN {
+        $ENV{ MYAPP_CONFIG_LOCAL_SUFFIX } = 'testing';
+    }
+
+    eval "use Test::WWW::Mechanize::Catalyst 'MyApp'";
+    plan $@
+        ? ( skip_all => 'Test::WWW::Mechanize::Catalyst required' )
+        : ( tests => 2 );
+
+    ok( my $mech = Test::WWW::Mechanize::Catalyst->new, 'Created mech object' );
+
+    $mech->get_ok( 'http://localhost/foo' );
 
 
 =head1 AUTHOR
