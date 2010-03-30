@@ -381,8 +381,10 @@ The "view" keyword tells the create script that you are creating a view.
 =item *
 
 The first "TT" tells the script to name the View module "TT.pm", which is a
-commonly used name for TT views.  (You can name it anything you want, such as
-"HTML.pm".)
+commonly used name for TT views.  You can name it anything you want, such as
+"HTML.pm". If you name it something other than TT.pm be sure to set the
+default_view in Hello.pm (See L<Catalyst::View::TT|Catalyst::View::TT> for
+more details on setting this).
 
 =item *
 
