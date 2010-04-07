@@ -205,7 +205,7 @@ objects in the startup debug output:
     | MyApp::Model::DB::Role                                            | class    |
     | MyApp::Model::DB::User                                            | class    |
     | MyApp::Model::DB::UserRole                                        | class    |
-    | MyApp::View::TT                                                   | instance |
+    | MyApp::View::HTML                                                 | instance |
     '-------------------------------------------------------------------+----------'
     ...
 

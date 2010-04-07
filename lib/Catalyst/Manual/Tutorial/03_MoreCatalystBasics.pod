@@ -436,22 +436,20 @@ but its use is now deprecated.
 Enter the following command to enable the C<TT> style of view
 rendering for this tutorial:
 
-    $ script/myapp_create.pl view TT TT
+    $ script/myapp_create.pl view HTML TT
      exists "/home/me/MyApp/script/../lib/MyApp/View"
      exists "/home/me/MyApp/script/../t"
-     created "/home/me/MyApp/script/../lib/MyApp/View/TT.pm"
-     created "/home/me/MyApp/script/../t/view_TT.t"
+     created "/home/me/MyApp/script/../lib/MyApp/View/HTML.pm"
+     created "/home/me/MyApp/script/../t/view_HTML.t"
 
-This simply creates a view called C<TT> (the second 'TT' argument) in 
-a file called C<TT.pm> (the first 'TT' argument). It is now up to you 
-to decide how you want to structure your view layout.  For the 
-tutorial, we will start with a very simple TT template to initially 
-demonstrate the concepts, but quickly migrate to a more typical 
-"wrapper page" type of configuration (where the "wrapper" controls the 
-overall "look and feel" of your site from a single file or set of 
-files).
+This simply creates a view called C<HTML> in a file called C<HTML.pm> (the first
+argument). It is now up to you to decide how you want to structure your view
+layout.  For the tutorial, we will start with a very simple TT template to
+initially demonstrate the concepts, but quickly migrate to a more typical
+"wrapper page" type of configuration (where the "wrapper" controls the overall
+"look and feel" of your site from a single file or set of files).
 
-Edit C<lib/MyApp/View/TT.pm> and you should see that the default
+Edit C<lib/MyApp/View/HTML.pm> and you should see that the default
 contents contains something similar to the following:
 
     __PACKAGE__->config(TEMPLATE_EXTENSION => '.tt');
@@ -936,7 +934,7 @@ display something like:
     | MyApp::Model::DB::Author                                        | class    |
     | MyApp::Model::DB::Book                                          | class    |
     | MyApp::Model::DB::BookAuthor                                    | class    |
-    | MyApp::View::TT                                                 | instance |
+    | MyApp::View::HTML                                               | instance |
     '-----------------------------------------------------------------+----------'
     
     [debug] Loaded Private actions:
@@ -1018,12 +1016,12 @@ will appear across your entire site/application instead of having to
 edit many individual files.
 
 
-=head2 Configure TT.pm For The Wrapper
+=head2 Configure HTML.pm For The Wrapper
 
 In order to create a wrapper, you must first edit your TT view and
 tell it where to find your wrapper file. 
 
-Edit you TT view in C<lib/MyApp/View/TT.pm> and change it to match the 
+Edit you TT view in C<lib/MyApp/View/HTML.pm> and change it to match the 
 following:
 
     __PACKAGE__->config(
@@ -1176,7 +1174,7 @@ provide lots of high-quality CSS functionality.
 Hit "Reload" in your web browser and you should now see a formatted 
 version of our basic book list. (Again, the development server should 
 have automatically restarted when you made changes to 
-C<lib/MyApp/View/TT.pm>. If you are not using the "-r" option, you will 
+C<lib/MyApp/View/HTML.pm>. If you are not using the "-r" option, you will 
 need to hit C<Ctrl-C> and manually restart it. Also note that the 
 development server does I<NOT> need to restart for changes to the TT and 
 static files we created and edited in the C<root> directory -- those 
@@ -1585,7 +1583,7 @@ statement in C<sub list> in C<lib/MyApp/Controller/Books.pm>:
     $c->stash(template => 'books/list.tt2');
 
 Then delete the C<TEMPLATE_EXTENSION> line in
-C<lib/MyApp/View/TT.pm>.
+C<lib/MyApp/View/HTML.pm>.
 
 Check the L<http://localhost:3000/books/list> URL in your browser.
 It should look the same manner as with earlier sections.

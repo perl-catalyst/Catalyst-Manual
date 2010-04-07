@@ -348,7 +348,7 @@ Otherwise, it returns undef and nothing will be printed.
 If you run into issues during the rendering of your template, it might 
 be helpful to enable TT C<DEBUG> options.  You can do this in a Catalyst 
 environment by adding a C<DEBUG> line to the C<__PACKAGE__->config> 
-declaration in C<lib/MyApp/View/TT.pm>:
+declaration in C<lib/MyApp/View/HTML.pm>:
 
     __PACKAGE__->config({
         TEMPLATE_EXTENSION => '.tt2',

@@ -367,9 +367,9 @@ Toolkit Template template file), the actual templates go under the
 
 To create a TT view, run:
 
-    $ script/hello_create.pl view TT TT
+    $ script/hello_create.pl view HTML TT
 
-This creates the C<lib/Hello/View/TT.pm> module, which is a subclass of 
+This creates the C<lib/Hello/View/HTML.pm> module, which is a subclass of 
 C<Catalyst::View::TT>. 
 
 =over 4
@@ -380,11 +380,11 @@ The "view" keyword tells the create script that you are creating a view.
 
 =item *
 
-The first "TT" tells the script to name the View module "TT.pm", which is a
-commonly used name for TT views.  You can name it anything you want, such as
-"HTML.pm". If you name it something other than TT.pm be sure to set the
-default_view in Hello.pm (See L<Catalyst::View::TT|Catalyst::View::TT> for
-more details on setting this).
+The first argument "HTML" tells the script to name the View module "HTML.pm",
+which is a commonly used name for TT views.  You can name it anything you want,
+such as "MyView.pm". If you have more than one view, be sure to set the
+default_view in Hello.pm (See L<Catalyst::View::TT|Catalyst::View::TT> for more
+details on setting this).
 
 =item *
 
@@ -393,10 +393,10 @@ indicating that you want to a Template Toolkit view.
 
 =back
 
-If you look at C<lib/Hello/View/TT.pm> you will find that it only 
+If you look at C<lib/Hello/View/HTML.pm> you will find that it only 
 contains a config statement to set the TT extension to ".tt".
 
-Now that the TT.pm "View" exists, Catalyst will autodiscover it and be 
+Now that the HTML.pm "View" exists, Catalyst will autodiscover it and be 
 able to use it to display the view templates using the "process" 
 method that it inherits from the C<Catalyst::View::TT> class.
 
