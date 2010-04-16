@@ -1760,6 +1760,9 @@ mod_fastcgi for Apache is a third party module, and can be found at
 L<http://www.fastcgi.com/>.  It is also packaged in many distributions,
 for example, libapache2-mod-fastcgi in Debian.
 
+Important Note! If you experience difficulty properly rendering pages,
+try disabling Apache's mod_deflate (Deflate Module), e.g. 'a2dismod deflate'.
+
 =head4 2. Configure your application
 
     # Serve static content directly
