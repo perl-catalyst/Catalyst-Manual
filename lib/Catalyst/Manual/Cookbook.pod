@@ -373,17 +373,17 @@ the user is a member.
                  },
              },
          },
-     },   
+     },
   );
 
   package MyApp::Controller::Root;
   use Moose;
   use namespace::autoclean;
-  
+
   BEGIN { extends 'Catalyst::Controller' }
-  
+
   __PACKAGE__->config(namespace => '');
-  
+
   sub login : Local {
      my ($self, $c) = @_;
 
@@ -745,7 +745,7 @@ display your data; you can choose to generate HTML, PDF files, or plain
 text if you wanted.
 
 Most Catalyst applications use a template system to generate their HTML,
-and though there are several template systems available, 
+and though there are several template systems available,
 L<Template Toolkit|Template> is probably the most popular.
 
 Once again, the Catalyst developers have done all the hard work, and
@@ -1481,7 +1481,7 @@ information on passing arguments via C<forward>.)
   use base qw/Catalyst::Controller/;
 
   sub key1 : Chained('/')
-  
+
 =head2 Extending RenderView (formerly DefaultEnd)
 
 The recommended approach for an C<end> action is to use
@@ -1512,7 +1512,7 @@ you can set it up like this:
       # do stuff here
     }
 
-  
+
 
 =head1 Deployment
 
@@ -1758,7 +1758,8 @@ than when using mod_perl.
 
 mod_fastcgi for Apache is a third party module, and can be found at
 L<http://www.fastcgi.com/>.  It is also packaged in many distributions,
-for example, libapache2-mod-fastcgi in Debian.
+for example, libapache2-mod-fastcgi in Debian. You will also need to install
+the L<FCGI> module from cpan.
 
 Important Note! If you experience difficulty properly rendering pages,
 try disabling Apache's mod_deflate (Deflate Module), e.g. 'a2dismod deflate'.
