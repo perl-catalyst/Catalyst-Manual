@@ -938,8 +938,8 @@ Let's add two columns to our existing C<books> table to track when
 each book was added and when each book is updated:
 
     $ sqlite3 myapp.db
-    sqlite> ALTER TABLE book ADD created INTEGER;
-    sqlite> ALTER TABLE book ADD updated INTEGER;
+    sqlite> ALTER TABLE book ADD created TIMESTAMP;
+    sqlite> ALTER TABLE book ADD updated TIMESTAMP;
     sqlite> UPDATE book SET created = DATETIME('NOW'), updated = DATETIME('NOW');
     sqlite> SELECT * FROM book;
     1|CCSP SNRS Exam Certification Guide|5|2010-02-16 04:15:45|2010-02-16 04:15:45
@@ -990,9 +990,9 @@ B<above> the C<1;> on the last line):
     #
     __PACKAGE__->add_columns(
         "created",
-        { data_type => 'datetime', set_on_create => 1 },
+        { data_type => 'timestamp', set_on_create => 1 },
         "updated",
-        { data_type => 'datetime', set_on_create => 1, set_on_update => 1 },
+        { data_type => 'timestamp', set_on_create => 1, set_on_update => 1 },
     );
 
 This will override the definition for these fields that Schema::Loader 
