@@ -46,7 +46,7 @@ the Action class:
     $c->stash->{what} = 'world';
   };
 
-  after 'extecute' => sub {
+  after 'execute' => sub {
       my ( $self, $controller, $c, $test ) = @_;
       $c->stash->{foo} = 'bar';
   };
