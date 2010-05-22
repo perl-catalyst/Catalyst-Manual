@@ -1521,15 +1521,15 @@ including web server engines and tips to improve application efficiency.
 
 =head2 mod_perl Deployment
 
-mod_perl is the best solution for many applications, but we'll list some pros
-and cons so you can decide for yourself.  The other production deployment
-option is FastCGI, for which see below.
+mod_perl is not the best solution for many applications, but we'll list some
+pros and cons so you can decide for yourself. The other (recommended)
+deployment option is FastCGI, for which see below.
 
 =head3 Pros
 
 =head4 Speed
 
-mod_perl is very fast and your app will benefit from being loaded in memory
+mod_perl is fast and your app will be loaded in memory
 within each Apache process.
 
 =head4 Shared memory for multiple apps
@@ -1559,6 +1559,14 @@ C<ErrorDocument 502> page to report that your app is down for maintenance.
 
 It is not possible to run two different versions of the same application in
 the same Apache instance because the namespaces will collide.
+
+=head4 Cannot run different versions of libraries.
+
+If you have two differnet applications which run on the same machine,
+which need two different versions of a library then the only way to do
+this is to have per-vhost perl interpreters (with different library paths).
+This is entirely possible, but nullifies all the memory sharing benefits that
+you get from having multiple applications sharing the same interpreter.
 
 =head4 Setup
 
