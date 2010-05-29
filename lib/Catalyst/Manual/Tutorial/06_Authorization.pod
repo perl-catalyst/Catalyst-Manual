@@ -269,6 +269,11 @@ the "C<DO NOT MODIFY ...>" line:
         return any(map { $_->role } $self->roles) eq $role;
     }
 
+Let's also add Perl6::Junction to the requirements listed in 
+Makefile.PL:
+
+    requires 'Perl6::Junction';
+
 Now we need to add some enforcement inside our controller.  Open
 C<lib/MyApp/Controller/Books.pm> and update the C<delete> method to
 match the following code:
