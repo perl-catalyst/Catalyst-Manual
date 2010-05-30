@@ -133,7 +133,7 @@ reference.
   sub add_item : Local {
      my ( $self, $c ) = @_;
 
-     my $item_id = $c->req->param("item");
+     my $item_id = $c->req->params->{item};
 
      push @{ $c->session->{items} }, $item_id;
 
@@ -387,8 +387,8 @@ the user is a member.
   sub login : Local {
      my ($self, $c) = @_;
 
-     if (    my $user = $c->req->param("user")
-         and my $password = $c->req->param("password") )
+     if ( my $user = $c->req->params->{user}
+         and my $password = $c->req->param->{password} )
      {
          if ( $c->authenticate( username => $user, password => $password ) ) {
               $c->res->body( "hello " . $c->user->name );
@@ -454,7 +454,7 @@ pretty nasti!). For example:
     sub feed_moose : Local {
         my ( $self, $c ) = @_;
 
-        $c->model( "Moose" )->eat( $c->req->param("food") );
+        $c->model( "Moose" )->eat( $c->req->params->{food} );
     }
 
 With this action, anyone can just come into the moose cage and feed
@@ -476,7 +476,7 @@ And now our action should look like this:
         my ( $self, $c ) = @_;
 
         if ( $c->check_roles( "moose_feeder" ) ) {
-            $c->model( "Moose" )->eat( $c->req->param("food") );
+            $c->model( "Moose" )->eat( $c->req->params->{food} );
         } else {
             $c->stash->{error} = "unauthorized";
         }
