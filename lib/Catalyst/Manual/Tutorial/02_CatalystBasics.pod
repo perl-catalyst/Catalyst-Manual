@@ -319,6 +319,10 @@ file:
         $c->response->body("Hello, World!");
     }
 
+Once you restart the server, you will need to use the new address
+L<http://localhost:3000/hello> instead of L<http://localhost:3000/> to see the
+changes.
+
 B<TIP>: See Appendix 1 for tips on removing the leading spaces when
 cutting and pasting example code from POD-based documents.
 
