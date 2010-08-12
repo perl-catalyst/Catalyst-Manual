@@ -33,9 +33,12 @@ to go into this C<end> method; see L<Catalyst::Plugin::FillInForm>).
 
         if ( scalar @{ $c->error } ) {
             $c->stash->{errors}   = $c->error;
+            for my $error ( @{ $c->error } ) {
+                $c->log->error($error);
+            }
             $c->stash->{template} = 'errors.tt';
             $c->forward('MyApp::View::TT');
-            $c->error(0);
+            $c->clear_errors;
         }
 
         return 1 if $c->response->status =~ /^3\d\d$/;
