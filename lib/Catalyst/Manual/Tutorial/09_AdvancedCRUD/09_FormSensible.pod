@@ -55,3 +55,104 @@ L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 
 
 =head1 DESCRIPTION
+
+This part of the tutorial explores managing your CRUD operations with L<Form::Sensible> and L<Form::Sensible::Reflector::DBIC>. 
+As of this writing, Form::Sensible is at version 0.20002 and Form::Sensible::Reflector::DBIC is at 0.0341.
+
+See 
+L<Catalyst::Manual::Tutorial::09_AdvancedCRUD|Catalyst::Manual::Tutorial::09_AdvancedCRUD>
+for additional form management options other than L<Form::Sensible>.
+
+=head1 Installing Form::Sensible
+
+The easiest way to install L<Form::Sensible> is via CPAN:
+
+    cpan Form::Sensible
+
+or just
+
+    cpan Form::Sensible::Reflector::DBIC
+
+if you're using the reflector.
+
+Also, add:
+
+    requires 'Form::Sensible';
+
+or
+
+    requires 'Form::Sensible::Reflector::DBIC';
+
+to your app's C<Makefile.PL>.
+
+=head1 Form Creation
+
+Here we split a bit:
+
+L<Form::Sensible Form Creation>
+
+L<Form::Sensible::Reflector::DBIC Form Creation>
+
+=head1 Form::Sensible Form Creation
+
+From the documentation, we can see that you are able to create forms via simple data structures or programmatically.
+Typically, it's easiest to the do former, so we'll use that example here:
+
+    use Form::Sensible;
+        
+    my $form = Form::Sensible->create_form( {
+                                                name => 'test',
+                                                fields => [
+                                                             { 
+                                                                field_class => 'Text',
+                                                                name => 'username',
+                                                                validation => { regex => '^[0-9a-z]*'  }
+                                                             },
+                                                             {
+                                                                 field_class => 'Text',
+                                                                 name => 'password',
+                                                                 render_hints => { 
+                                                                        'HTML' => {
+                                                                                    field_type => 'password' 
+                                                                                  }
+                                                                        },
+                                                             },
+                                                             {
+                                                                 field_class => 'Trigger',
+                                                                 name => 'submit'
+                                                             }
+                                                          ],
+                                            } );
+
+=head1 Form::Sensible::Reflector::DBIC Form Creation
+
+A reflector literally reflects off of a data source, whether it's configuration files, XML files, or in this case, a L<DBIx::Class> schema object.
+
+The long and the short of this is that Form::Sensible::Reflector::DBIC searches through your schema and creates the appropriate form field types from the data types your columns are defined as.
+
+All you need is your schema object from your model:
+
+    my $output;
+    my $captcha   = $c->captcha_string;  # from Plugin::CAPTCHA
+    my $reflector = Form::Sensible::Reflector::DBIC->new;
+    my $form      = $reflector->reflect_from( $c->model('Database::Quote'),
+        { form => { name => 'uploads' } } );
+    my $captcha_field = Form::Sensible::Field::Text->new(
+        name          => 'captcha',
+        default_value => $captcha,
+        required      => 1
+    );
+    my $submit_button = Form::Sensible::Field::Trigger->new( name => 'add' );
+    my $renderer = Form::Sensible->get_renderer('HTML');
+
+    $form->add_field($captcha_field);
+    $form->add_field($submit_button);
+
+    if ( $c->req->param('add') ) {
+
+        $c->forward(qw/Controller::API::Quote create/);
+
+    }
+
+    my $output = $renderer->render($form)->complete( '/quotes/new', 'POST' );
+    $c->stash( form => $output );
