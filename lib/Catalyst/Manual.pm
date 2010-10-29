@@ -6,7 +6,7 @@ package Catalyst::Manual;
 use strict;
 use warnings;
 
-our $VERSION = '5.8004';
+our $VERSION = '5.8005';
 
 =head1 NAME
 
@@ -24,7 +24,7 @@ Catalyst::Manual - The Catalyst developer's manual
 Install L<Task::Catalyst::Tutorial|Task::Catalyst::Tutorial> to
 install all the dependencies you need to follow along with the
 Tutorial.  You can also refer to 
-L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::Intro>
+L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::01_Intro>
 for more information on installation options.
 
 Some "Getting Started" Links:

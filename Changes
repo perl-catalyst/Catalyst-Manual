@@ -1,8 +1,9 @@
 Revision history for Catalyst-Manual
 
+5.8005 27 Oct 2010 
     - Tutorial:
         - Add DATABASE CONFIG SWITCHING USING MULTIPLE CONFIG FILES section
-
+        - Critical bugfix on index page.
 5.8004 17 Feb 2010
     - Tutorial:
         - Add foreign key support for SQLite 
