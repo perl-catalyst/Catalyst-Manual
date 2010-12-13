@@ -2358,7 +2358,7 @@ C<TEST_POD> environment variable is true.
 
     mundus:~/MyApp chansen$ cat t/01app.t | perl -ne 'printf( "%2d  %s", $., $_ )'
     1  use Test::More tests => 2;
-    2  use_ok( Catalyst::Test, 'MyApp' );
+    2  BEGIN { use_ok( Catalyst::Test, 'MyApp' ) }
     3
     4  ok( request('/')->is_success );
 
@@ -2423,7 +2423,7 @@ Be sure to check out C<Test::WWW::Mechanize::Catalyst>. It makes it easy to
 test HTML, forms and links. A short example of usage:
 
     use Test::More tests => 6;
-    use_ok( Test::WWW::Mechanize::Catalyst, 'MyApp' );
+    BEGIN { use_ok( Test::WWW::Mechanize::Catalyst, 'MyApp' ) }
 
     my $mech = Test::WWW::Mechanize::Catalyst->new;
     $mech->get_ok("http://localhost/", 'Got index page');
@@ -2438,7 +2438,7 @@ test HTML, forms and links. A short example of usage:
 
 =item Catalyst::Test
 
-L<http://search.cpan.org/dist/Catalyst/lib/Catalyst/Test.pm>
+L<Catalyst::Test>
 
 =item Test::WWW::Mechanize::Catalyst
 

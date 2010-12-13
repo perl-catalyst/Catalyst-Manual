@@ -188,7 +188,7 @@ editor and enter the following:
     # Can also do:
     #   use Test::WWW::Mechanize::Catalyst "MyApp";
     
-    use ok "Test::WWW::Mechanize::Catalyst" => "MyApp";
+    BEGIN { use_ok("Test::WWW::Mechanize::Catalyst" => "MyApp") }
         
     # Create two 'user agents' to simulate two different users ('test01' & 'test02')
     my $ua1 = Test::WWW::Mechanize::Catalyst->new;
