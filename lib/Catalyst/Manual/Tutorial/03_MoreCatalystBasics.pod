@@ -821,7 +821,7 @@ when you launch the application).
 B<NOTE:> Older versions of 
 L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> use the 
 deprecated DBIx::Class C<load_classes> technique instead of the newer 
-C<load_namspaces>.  For new applications, please try to use 
+C<load_namespaces>.  For new applications, please try to use 
 C<load_namespaces> since it more easily supports a very useful DBIC 
 technique called "ResultSet Classes."  If you need to convert an 
 existing application from "load_classes" to "load_namespaces," you can 
