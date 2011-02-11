@@ -1307,7 +1307,7 @@ C<1;> on a line by itself.
 
 The C<many_to_many> relationship is optional, but it makes it
 easier to map a book to its collection of authors.  Without 
-it, we would have to "walk" though the C<book_author> table as in 
+it, we would have to "walk" through the C<book_author> table as in 
 C<$book-E<gt>book_author-E<gt>first-E<gt>author-E<gt>last_name> (we 
 will see examples on how to use DBIx::Class objects in your code soon, 
 but note that because C<$book-E<gt>book_author> can return multiple 
