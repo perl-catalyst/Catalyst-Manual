@@ -345,7 +345,7 @@ method" that you don't want to be an action at all, then just define
 the method without any attribute -- you can call it in your code, but 
 the Catalyst dispatcher will ignore it.)
 
-There are five types of "special" build-in C<:Private> actions: 
+There are five types of "special" built-in C<:Private> actions:
 C<begin>, C<end>, C<default>, C<index>, and C<auto>.
 
 =over 4
@@ -680,7 +680,7 @@ applications rely on DBIx::Class, as will this tutorial.
 
 Although DBIx::Class has included support for a C<create=dynamic> mode 
 to automatically read the database structure every time the 
-application starts, it's use is no longer recommended.  While it can 
+application starts, its use is no longer recommended.  While it can
 make for "flashy" demos, the use of the C<create=static> mode we use 
 below can be implemented just as quickly and provides many advantages 
 (such as the ability to add your own methods to the overall DBIC 

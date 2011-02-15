@@ -377,7 +377,7 @@ to something along the lines of the following:
     | /books/url_create/*/*/*             | /books/url_create                    |
     '-------------------------------------+--------------------------------------'
 
-C<url_create> has disappeared form the "Loaded Path actions" section
+C<url_create> has disappeared from the "Loaded Path actions" section
 but it now shows up under the newly created "Loaded Chained actions"
 section.  And the "/*/*/*" portion clearly shows our requirement for
 three arguments.
