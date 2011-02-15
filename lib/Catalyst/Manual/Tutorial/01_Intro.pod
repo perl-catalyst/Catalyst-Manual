@@ -357,7 +357,7 @@ HTML::FormFu -- v0.06001
 B<NOTE:> You can check the versions you have installed with the
 following command:
 
-    perl -M<_mod_name_> -e '"print $<_mod_name_>::VERSION\n"'
+    perl -M<_mod_name_> -e 'print "$<_mod_name_>::VERSION\n"'
 
 For example:
 
