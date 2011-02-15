@@ -513,11 +513,8 @@ You can verify that it worked with this command:
 
 =head2 MySQL
 
-B<NOTE:> This section is out of date with the rest of the tutorial.
-Consider using SQLite or PostgreSQL since they are current.
-
 Use the following steps to adapt the tutorial to MySQL.  Thanks to Jim
-Howard for the help.
+Howard for the help and Zsolt Zemancsik for the up to date fixes.
 
 =over 4
 
@@ -551,27 +548,59 @@ daemon:
     yum -y install mysql mysql-server
     service mysqld start
 
+For Debian users you can use the following commands to install the software and start the MySQL
+daemon:
+
+    apt-get install mysql-client mysql-server
+    /etc/init.d/mysql start
+
+B<NOTE:> The tutorial is based on Foreign Keys in database which is supported by InnoDB.
+Only MySQL 5.0 and above supports InnoDB storage Engine so you need to have InnoDB support
+in you MySQL. You can simply figure out that your install supports it or not:
+
+    # mysql -u root -p
+    Enter password:
+    Welcome to the MySQL monitor.  Commands end with ; or \g.
+    
+    Type 'help;' or '\h' for help. Type '\c' to clear the current input 
+    statement.
+    
+    mysql> SHOW VARIABLES LIKE 'have_innodb';
+    +---------------+-------+
+    | Variable_name | Value |
+    +---------------+-------+
+    | have_innodb   | YES   |
+    +---------------+-------+
+    1 row in set (0.01 sec)
+    
+    mysql> exit
+    Bye
+
+If the Value is "YES" you can use your setup (Debian based mysql supports it by default).
+Else, you need to configure your my.cnf or start your MySQL daemon without --skip-innodb option.
+
 =item *
 
 Create the database and set the permissions:
 
-    $ mysql
+    # mysql -u root -p
+    Enter password:
     Welcome to the MySQL monitor.  Commands end with ; or \g.
-    Your MySQL connection id is 2 to server version: 4.1.20
     
-    Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
+    Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
     
-    mysql> create database myapp;
+    mysql> CREATE DATABASE `myapp`;
     Query OK, 1 row affected (0.01 sec)
     
-    mysql> grant all on myapp.* to tutorial@'localhost';
+    mysql> GRANT ALL PRIVILEGES ON myapp.* TO 'tutorial'@'localhost' IDENTIFIED BY 'yourpassword';
     Query OK, 0 rows affected (0.00 sec)
     
-    mysql> flush privileges;
+    mysql> FLUSH PRIVILEGES;
     Query OK, 0 rows affected (0.00 sec)
     
-    mysql> quit
+    mysql> exit
     Bye
+    
 
 =item *
 
@@ -586,66 +615,74 @@ Open the C<myapp01_mysql.sql> in your editor and enter:
     --
     -- Create a very simple database to hold book and author information
     --
-    DROP TABLE IF EXISTS books;
-    DROP TABLE IF EXISTS book_authors;
-    DROP TABLE IF EXISTS authors;
-    CREATE TABLE books (
-           id          INT(11) PRIMARY KEY AUTO_INCREMENT,
-           title       TEXT ,
-           rating      INT(11)
-    );
+    CREATE TABLE IF NOT EXISTS `book` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `title` text CHARACTER SET utf8,
+      `rating` int(11) DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
     -- 'book_authors' is a many-to-many join table between books & authors
-    CREATE TABLE book_authors (
-           book_id     INT(11),
-           author_id   INT(11),
-           PRIMARY KEY (book_id, author_id)
-    );
-    CREATE TABLE authors (
-           id          INT(11) PRIMARY KEY AUTO_INCREMENT,
-           first_name  TEXT,
-           last_name   TEXT
-    );
+    CREATE TABLE IF NOT EXISTS `book_author` (
+      `book_id` int(11) NOT NULL DEFAULT '0',
+      `author_id` int(11) NOT NULL DEFAULT '0',
+      PRIMARY KEY (`book_id`,`author_id`),
+      KEY `author_id` (`author_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    CREATE TABLE IF NOT EXISTS `author` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `first_name` text CHARACTER SET utf8,
+      `last_name` text CHARACTER SET utf8,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
     ---
     --- Load some sample data
     ---
-    INSERT INTO books VALUES (1, 'CCSP SNRS Exam Certification Guide', 5);
-    INSERT INTO books VALUES (2, 'TCP/IP Illustrated, Volume 1', 5);
-    INSERT INTO books VALUES (3, 'Internetworking with TCP/IP Vol.1', 4);
-    INSERT INTO books VALUES (4, 'Perl Cookbook', 5);
-    INSERT INTO books VALUES (5, 'Designing with Web Standards', 5);
-    INSERT INTO authors VALUES (1, 'Greg', 'Bastien');
-    INSERT INTO authors VALUES (2, 'Sara', 'Nasseh');
-    INSERT INTO authors VALUES (3, 'Christian', 'Degu');
-    INSERT INTO authors VALUES (4, 'Richard', 'Stevens');
-    INSERT INTO authors VALUES (5, 'Douglas', 'Comer');
-    INSERT INTO authors VALUES (6, 'Tom', 'Christiansen');
-    INSERT INTO authors VALUES (7, ' Nathan', 'Torkington');
-    INSERT INTO authors VALUES (8, 'Jeffrey', 'Zeldman');
-    INSERT INTO book_authors VALUES (1, 1);
-    INSERT INTO book_authors VALUES (1, 2);
-    INSERT INTO book_authors VALUES (1, 3);
-    INSERT INTO book_authors VALUES (2, 4);
-    INSERT INTO book_authors VALUES (3, 5);
-    INSERT INTO book_authors VALUES (4, 6);
-    INSERT INTO book_authors VALUES (4, 7);
-    INSERT INTO book_authors VALUES (5, 8);
+    INSERT INTO `book` (`id`, `title`, `rating`) VALUES
+    (1, 'CCSP SNRS Exam Certification Guide', 5),
+    (2, 'TCP/IP Illustrated, Volume 1', 5),
+    (3, 'Internetworking with TCP/IP Vol.1', 4),
+    (4, 'Perl Cookbook', 5),
+    (5, 'Designing with Web Standards', 5);
+    
+    INSERT INTO `book_author` (`book_id`, `author_id`) VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (2, 4),
+    (3, 5),
+    (4, 6),
+    (4, 7),
+    (5, 8);
+    
+    INSERT INTO `author` (`id`, `first_name`, `last_name`) VALUES
+    (1, 'Greg', 'Bastien'),
+    (2, 'Sara', 'Nasseh'),
+    (3, 'Christian', 'Degu'),
+    (4, 'Richard', 'Stevens'),
+    (5, 'Douglas', 'Comer'),
+    (6, 'Tom', 'Christiansen'),
+    (7, 'Nathan', 'Torkington'),
+    (8, 'Jeffrey', 'Zeldman');
+    
+    ALTER TABLE `book_author`
+    ADD CONSTRAINT `book_author_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `author` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `book_author_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 =item *
 
 Load the data:
 
-    mysql -ututorial myapp < myapp01_mysql.sql
+    mysql -u tutorial -p myapp < myapp01_mysql.sql
 
 =item *
 
 Make sure the data loaded correctly:
 
-    $ mysql -ututorial myapp
+    $ mysql -u tutorial -p myapp
     Reading table information for completion of table and column names
     You can turn off this feature to get a quicker startup with -A
     
     Welcome to the MySQL monitor.  Commands end with ; or \g.
-    Your MySQL connection id is 4 to server version: 4.1.20
     
     Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
     
@@ -691,8 +728,8 @@ Delete the existing model:
 
 Regenerate the model using the Catalyst "_create.pl" script:
 
-    script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        dbi:mysql:myapp '_username_here_' '_password_here_' '{ AutoCommit => 1 }'
+    script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=static \
+	dbi:mysql:myapp 'tutorial' 'yourpassword' '{ AutoCommit => 1 }'
 
 =back
 
@@ -713,42 +750,69 @@ Open C<myapp02_mysql.sql> in your editor and enter:
     --
     -- Add users and roles tables, along with a many-to-many join table
     --
-    CREATE TABLE users (
-            id            INT(11) PRIMARY KEY,
-            username      TEXT,
-            password      TEXT,
-            email_address TEXT,
-            first_name    TEXT,
-            last_name     TEXT,
-            active        INT(11)
-    );
-    CREATE TABLE roles (
-            id   INTEGER PRIMARY KEY,
-            role TEXT
-    );
-    CREATE TABLE user_roles (
-            user_id INT(11),
-            role_id INT(11),
-            PRIMARY KEY (user_id, role_id)
-    );
+    CREATE TABLE IF NOT EXISTS `role` (
+      `id` int(11) NOT NULL,
+      `role` text CHARACTER SET utf8,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    CREATE TABLE IF NOT EXISTS `user` (
+      `id` int(11) NOT NULL,
+      `username` text CHARACTER SET utf8,
+      `password` text CHARACTER SET utf8,
+      `email_address` text CHARACTER SET utf8,
+      `first_name` text CHARACTER SET utf8,
+      `last_name` text CHARACTER SET utf8,
+      `active` int(11) DEFAULT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    CREATE TABLE IF NOT EXISTS `user_role` (
+      `user_id` int(11) NOT NULL DEFAULT '0',
+      `role_id` int(11) NOT NULL DEFAULT '0',
+      PRIMARY KEY (`user_id`,`role_id`),
+      KEY `role_id` (`role_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     --
     -- Load up some initial test data
     --
-    INSERT INTO users VALUES (1, 'test01', 'mypass', 't01@na.com', 'Joe',  'Blow', 1);
-    INSERT INTO users VALUES (2, 'test02', 'mypass', 't02@na.com', 'Jane', 'Doe',  1);
-    INSERT INTO users VALUES (3, 'test03', 'mypass', 't03@na.com', 'No',   'Go',   0);
-    INSERT INTO roles VALUES (1, 'user');
-    INSERT INTO roles VALUES (2, 'admin');
-    INSERT INTO user_roles VALUES (1, 1);
-    INSERT INTO user_roles VALUES (1, 2);
-    INSERT INTO user_roles VALUES (2, 1);
-    INSERT INTO user_roles VALUES (3, 1);
+    INSERT INTO `role` (`id`, `role`) VALUES
+    (1, 'user'),
+    (2, 'admin');
+    
+    INSERT INTO `user` (`id`, `username`, `password`, `email_address`, `first_name`, `last_name`, `active`) VALUES
+    (1, 'test01', 'mypass', 't01@na.com', 'Joe', 'Blow', 1),
+    (2, 'test02', 'mypass', 't02@na.com', 'Jane', 'Doe', 1),
+    (3, 'test03', 'mypass', 't03@na.com', 'No', 'Go', 0);
+    
+    INSERT INTO `user_role` (`user_id`, `role_id`) VALUES
+    (1, 1),
+    (2, 1),
+    (3, 1),
+    (1, 2);
+    
+    ALTER TABLE `user_role`
+    ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 =item *
 
 Load the user/roles data:
 
-    mysql -ututorial myapp < myapp02_mysql.sql
+    mysql -u tutorial -p myapp < myapp02_mysql.sql
+
+=item *
+
+Update the model:
+
+=over 4
+
+=item *
+
+Regenerate the model using the Catalyst "_create.pl" script:
+
+    script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=static \
+	components=TimeStamp,EncodedColumn dbi:mysql:myapp 'tutorial' 'yourpassword' '{ AutoCommit => 1 }'
+
+=back
 
 =item *
 
@@ -767,7 +831,7 @@ Open C<myapp03_mysql.sql> in your editor and enter:
 
 Load the user/roles data:
 
-    mysql -ututorial myapp < myapp03_mysql.sql
+    mysql -u tutorial -p myapp < myapp03_mysql.sql
 
 =back
 
