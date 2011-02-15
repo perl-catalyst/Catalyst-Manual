@@ -121,7 +121,7 @@ current members.
 Any change to the Catalyst core which can not be conceived as a
 correction of an error in the current feature set will need to be
 accepted by at least 3 members of the Core Team before it can be
-commited to the trunk (which is the basis for CPAN releases). Anyone
+committed to the trunk (which is the basis for CPAN releases). Anyone
 with access is at any time free to make a branch to develop a proof of
 concept for a feature to be committed to trunk.
 
