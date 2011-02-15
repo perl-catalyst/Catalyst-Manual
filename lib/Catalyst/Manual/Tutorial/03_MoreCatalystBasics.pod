@@ -1597,5 +1597,6 @@ Please report any errors, issues or suggestions to the author.  The
 most recent version of the Catalyst Tutorial can be found at
 L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Manual/5.80/trunk/lib/Catalyst/Manual/Tutorial/>.
 
-Copyright 2006-2010, Kennedy Clark, under Creative Commons License
+Copyright 2006-2010, Kennedy Clark, under the
+Creative Commons Attribution Share-Alike License Version 3.0
 (L<http://creativecommons.org/licenses/by-sa/3.0/us/>).
