@@ -553,7 +553,7 @@ use of an IF-THEN-ELSE construct in TT).
 =head2 Try Out Authentication
 
 The development server should have reloaded each time we edited one of
-the Controllers in the previous section. Now trying going to
+the Controllers in the previous section. Now try going to
 L<http://localhost:3000/books/list> and you should be redirected to the
 login page, hitting Shift+Reload or Ctrl+Reload if necessary (the "You
 are already logged in" message should I<not> appear -- if it does, click
@@ -699,7 +699,7 @@ C<set_hashed_passwords.pl> in your editor and enter the following text:
         $user->update;
     }
 
-EncodedColumn lets us simple call C<$user->check_password($password)>
+EncodedColumn lets us simply call C<$user->check_password($password)>
 to see if the user has supplied the correct password, or, as we show
 above, call C<$user->update($new_password)> to update the hashed
 password stored for this user.
