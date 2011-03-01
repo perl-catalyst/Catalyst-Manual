@@ -17,7 +17,7 @@ or how best to go about their first CPAN extension module....
 
 =head2 Discussing proposed bugfixes or improvements
 
-L<http://dev.catalystframework.org/wiki/#Community> has information about how
+L<http://wiki.catalystframework.org/wiki/#Community> has information about how
 to get in touch with the Catalyst "community".  In particular, you would
 want to discuss a proposed change on the mailing list:
 
@@ -26,7 +26,7 @@ want to discuss a proposed change on the mailing list:
 or on IRC:
 
     irc://irc.perl.org/catalyst-dev
-    http://dev.catalystframework.org/wiki/livegroups
+    http://wiki.catalystframework.org/wiki/livegroups
 
 Usually, the core team will be more than happy for you to contribute, and
 will talk you through how to submit a patch, or get a "commit bit".
@@ -53,12 +53,12 @@ significant feature addition, is completed.
 =head2 Roadmap for features
 
 The Catalyst Roadmap is kept at
-L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Runtime/5.80/trunk/lib/Roadmap.pod>
+L<http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=catagits/Catalyst-Runtime.git;a=blob_plain;f=lib/Catalyst/ROADMAP.pod;hb=master>
 
 =head2 Bug list
 
 The TODO list with known bugs / deficiences is kept at
-L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Runtime/5.80/trunk/TODO>
+L<http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=catagits/Catalyst-Runtime.git;a=blob_plain;f=TODO;hb=master>
 
 =head1 The Catalyst Core Team
 
