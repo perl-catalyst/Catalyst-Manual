@@ -589,7 +589,7 @@ write a simple component in Catalyst that slurps in an outside Model:
 
     __PACKAGE__->config(
         schema_class => 'Some::DBIC::Schema',
-        connect_info => ['dbi:SQLite:foo.db', '', '', {AutoCommit=>1}];
+        connect_info => ['dbi:SQLite:foo.db', '', '', {AutoCommit=>1}],
     );
 
     1;
