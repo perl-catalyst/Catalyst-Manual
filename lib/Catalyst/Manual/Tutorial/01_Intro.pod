@@ -336,7 +336,7 @@ Catalyst::Plugin::Session::State::Cookie -- v0.17
 
 =item *
 
-Catalyst::Plugin::Session::Store::FastMmap -- v0.13
+Catalyst::Plugin::Session::Store::File -- v0.18
 
 =item *
 

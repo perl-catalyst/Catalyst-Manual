@@ -229,7 +229,7 @@ C<StackTrace> is new):
         Authentication
 
         Session
-        Session::Store::FastMmap
+        Session::Store::File
         Session::State::Cookie
     /;
 
@@ -254,16 +254,15 @@ the Makefile.PL file something like this:
 
     requires 'Catalyst::Plugin::Authentication';
     requires 'Catalyst::Plugin::Session';
-    requires 'Catalyst::Plugin::Session::Store::FastMmap';
+    requires 'Catalyst::Plugin::Session::Store::File';
     requires 'Catalyst::Plugin::Session::State::Cookie';
 
 Note that there are several options for
 L<Session::Store|Catalyst::Plugin::Session::Store>.
-L<Session::Store::Memcached|Catalyst::Plugin::Session::Store::Memcached> or
-L<Session::Store::FastMmap|Catalyst::Plugin::Session::Store::FastMmap> is
+L<Session::Store::Memcached|Catalyst::Plugin::Session::Store::Memcached> is
 generally a good choice if you are on Unix.  If you are running on
-Windows, try
-L<Session::Store::File|Catalyst::Plugin::Session::Store::File>. Consult
+Windows
+L<Session::Store::File|Catalyst::Plugin::Session::Store::File> is fine. Consult
 L<Session::Store|Catalyst::Plugin::Session::Store> and its subclasses
 for additional information and options (for example to use a database-
 backed session store).

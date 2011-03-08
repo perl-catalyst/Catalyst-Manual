@@ -90,7 +90,7 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
         Authorization::Roles
         
         Session
-        Session::Store::FastMmap
+        Session::Store::File
         Session::State::Cookie
     /;
 
