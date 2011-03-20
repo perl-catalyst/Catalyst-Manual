@@ -1287,14 +1287,15 @@ L<DBIx::Class::Relationship/belongs_to> for the details.
 
 Although recent versions of SQLite and L<DBIx::Class::Schema::Loader> 
 automatically handle the C<has_many> and C<belongs_to> relationships, 
-C<many_to_many> relationships currently need to be manually inserted. 
-To add a C<many_to_many> relationship, first edit 
+C<many_to_many> relationship bridges (not technically a relationship)
+currently need to be manually inserted. 
+To add a C<many_to_many> relationship bridge, first edit 
 C<lib/MyApp/Schema/Result/Book.pm> and add the following text below 
 the C<# You can replace this text...> comment:
 
     # many_to_many():
     #   args:
-    #     1) Name of relationship, DBIC will create accessor with this name
+    #     1) Name of relationship bridge, DBIC will create accessor with this name
     #     2) Name of has_many() relationship this many_to_many() is shortcut for
     #     3) Name of belongs_to() relationship in model class of has_many() above
     #   You must already have the has_many() defined to use a many_to_many().
@@ -1305,7 +1306,7 @@ file.  As with any Perl package, we need to end the last line with
 a statement that evaluates to C<true>.  This is customarily done with
 C<1;> on a line by itself.
 
-The C<many_to_many> relationship is optional, but it makes it
+The C<many_to_many> relationship bridge is optional, but it makes it
 easier to map a book to its collection of authors.  Without 
 it, we would have to "walk" through the C<book_author> table as in 
 C<$book-E<gt>book_author-E<gt>first-E<gt>author-E<gt>last_name> (we 
@@ -1314,17 +1315,17 @@ but note that because C<$book-E<gt>book_author> can return multiple
 authors, we have to use C<first> to display a single author). 
 C<many_to_many> allows us to use the shorter 
 C<$book-E<gt>author-E<gt>first-E<gt>last_name>. Note that you cannot 
-define a C<many_to_many> relationship without also having the 
+define a C<many_to_many> relationship bridge without also having the 
 C<has_many> relationship in place.
 
 Then edit C<lib/MyApp/Schema/Result/Author.pm> and add the reverse 
-C<many_to_many> relationship for C<Author> as follows (again, be careful 
+C<many_to_many> relationship bridge for C<Author> as follows (again, be careful 
 to put in above the C<1;> but below the C<# DO NOT MODIFY THIS OR 
 ANYTHING ABOVE!> comment): 
 
     # many_to_many():
     #   args:
-    #     1) Name of relationship, DBIC will create accessor with this name
+    #     1) Name of relationship bridge, DBIC will create accessor with this name
     #     2) Name of has_many() relationship this many_to_many() is shortcut for
     #     3) Name of belongs_to() relationship in model class of has_many() above
     #   You must already have the has_many() defined to use a many_to_many().
