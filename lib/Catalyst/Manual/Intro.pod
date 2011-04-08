@@ -759,7 +759,7 @@ will look at the URL it is processing, and the actions that it has
 found, and automatically call the actions it finds that match the
 circumstances of the request.
 
-The URL (for example http://localhost.3000/foo/bar) consists of two
+The URL (for example http://localhost:3000/foo/bar) consists of two
 parts, the base, describing how to connect to the server
 (http://localhost:3000/ in this example) and the path, which the
 server uses to decide what to return (foo/bar).  Please note that the
