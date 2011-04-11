@@ -761,7 +761,7 @@ equivalent.
 
 =head2 Try the Delete Feature
 
-One you save the Books controller, the server should automatically restart.
+Once you save the Books controller, the server should automatically restart.
 The C<delete> method should now appear in the "Loaded Chained actions" section
 of the startup debug output:
 
@@ -1268,7 +1268,7 @@ And, because the concatenation logic was encapsulated inside our
 Result Class, it keeps the code inside our TT template nice and clean
 (remember, we want the templates to be as close to pure HTML markup as
 possible). Obviously, this capability becomes even more useful as you
-use to to remove even more complicated row-specific logic from your
+use it to remove even more complicated row-specific logic from your
 templates!
 
 
@@ -1361,7 +1361,7 @@ huge comments to clue people in to the gist of our code. The view code
 is now self-documenting and readable enough that you could probably get 
 by with no comments at all. All of the "complex" work is being done in 
 our Result Class methods (and, because we have broken the code into 
-nice, modular chucks, the Result Class code is hardly something you 
+nice, modular chunks, the Result Class code is hardly something you 
 would call complex).
 
 As we saw in this section, always strive to keep your view AND 
