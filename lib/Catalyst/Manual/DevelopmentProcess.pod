@@ -33,16 +33,16 @@ will talk you through how to submit a patch, or get a "commit bit".
 
 =head2 Repositories
 
-The Catalyst subversion repository can be found at:
-
-    svn: http://dev.catalyst.perl.org/repos/Catalyst
-    browser: http://dev.catalyst.perl.org/svnweb/Catalyst
-
-and the git repository can be found at:
+The Catalyst git repository can be found at:
 
     read: git://git.shadowcat.co.uk/catagits/PROJECTNAME
     write: catagits@git.shadowcat.co.uk:PROJECTNAME
     browser: https://git.shadowcat.co.uk/gitweb/gitweb.cgi
+
+The Catalyst subversion repository can be found at:
+
+    svn: http://dev.catalyst.perl.org/repos/Catalyst
+    browser: http://dev.catalyst.perl.org/svnweb/Catalyst
 
 =head2 Schedule
 
@@ -53,12 +53,12 @@ significant feature addition, is completed.
 =head2 Roadmap for features
 
 The Catalyst Roadmap is kept at
-L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Runtime/5.80/trunk/lib/Roadmap.pod>
+L<http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=catagits/Catalyst-Runtime.git;a=blob;f=lib/Catalyst/ROADMAP.pod;hb=HEAD>
 
 =head2 Bug list
 
 The TODO list with known bugs / deficiences is kept at
-L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Runtime/5.80/trunk/TODO>
+L<http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=catagits/Catalyst-Runtime.git;a=blob;f=TODO;hb=HEAD>
 
 =head1 The Catalyst Core Team
 
@@ -121,9 +121,9 @@ current members.
 Any change to the Catalyst core which can not be conceived as a
 correction of an error in the current feature set will need to be
 accepted by at least 3 members of the Core Team before it can be
-committed to the trunk (which is the basis for CPAN releases). Anyone
+committed to master (which is the basis for CPAN releases). Anyone
 with access is at any time free to make a branch to develop a proof of
-concept for a feature to be committed to trunk.
+concept for a feature to be committed to master.
 
 =head2 Organizational and Philosophical Decisions.
 
