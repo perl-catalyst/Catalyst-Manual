@@ -623,10 +623,9 @@ easy with the Catalyst plugin Catalyst::Plugin:RequireSSL.
 =head2 Re-Run the DBIC::Schema Model Helper to Include DBIx::Class::EncodedColumn
 
 Next, we can re-run the model helper to have it include
-L<DBIx::Class::EncodedColumn|DBIx::Class::EncodedColumn> in all of the
-Result Classes it generates for us.  Simply use the same command we
-saw in Chapters 3 and 4, but add C<,EncodedColumn> to the C<components>
-argument:
+L<DBIx::Class::EncodedColumn> in all of the Result Classes it generates for us.
+Simply use the same command we saw in Chapters 3 and 4, but add
+C<,EncodedColumn> to the C<components> argument:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
         create=static components=TimeStamp,EncodedColumn dbi:SQLite:myapp.db \
