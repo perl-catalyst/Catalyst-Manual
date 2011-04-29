@@ -360,7 +360,7 @@ Generate the model using the Catalyst "_create.pl" script:
 
     $ rm lib/MyApp/Model/DB.pm   # Delete just in case already there
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static components=TimeStamp,EncodedColumn \
+        create=static components=TimeStamp,PassphraseColumn \
         'dbi:Pg:dbname=catappdb' 'catappuser' 'catalyst' '{ AutoCommit => 1 }'
 
 =back
@@ -382,7 +382,7 @@ Add Datetime Columns to Our Existing Books Table
 Re-generate the model using the Catalyst "_create.pl" script:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static components=TimeStamp,EncodedColumn \
+        create=static components=TimeStamp,PassphraseColumn \
         'dbi:Pg:dbname=catappdb' 'catappuser' 'catalyst' '{ AutoCommit => 1 }'
 
 
@@ -810,7 +810,7 @@ Update the model:
 Regenerate the model using the Catalyst "_create.pl" script:
 
     script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=static \
-	components=TimeStamp,EncodedColumn dbi:mysql:myapp 'tutorial' 'yourpassword' '{ AutoCommit => 1 }'
+	components=TimeStamp,PassphraseColumn dbi:mysql:myapp 'tutorial' 'yourpassword' '{ AutoCommit => 1 }'
 
 =back
 
@@ -823,9 +823,9 @@ Open C<myapp03_mysql.sql> in your editor and enter:
     --
     -- Convert passwords to SHA-1 hashes
     --
-    UPDATE users SET password = 'e727d1464ae12436e899a726da5b2f11d8381b26' WHERE id = 1;
-    UPDATE users SET password = 'e727d1464ae12436e899a726da5b2f11d8381b26' WHERE id = 2;
-    UPDATE users SET password = 'e727d1464ae12436e899a726da5b2f11d8381b26' WHERE id = 3;
+    UPDATE users SET password = '{SSHA}esgz64CpHMo8pMfgIIszP13ft23z/zio04aCwNdm0wc6MDeloMUH4g==' WHERE id = 1;
+    UPDATE users SET password = '{SSHA}FpGhpCJus+Ea9ne4ww8404HH+hJKW/fW+bAv1v6FuRUy2G7I2aoTRQ==' WHERE id = 2;
+    UPDATE users SET password = '{SSHA}ZyGlpiHls8qFBSbHr3r5t/iqcZE602XLMbkSVRRNl6rF8imv1abQVg==' WHERE id = 3;
 
 =item *
 

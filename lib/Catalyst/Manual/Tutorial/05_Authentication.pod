@@ -620,60 +620,55 @@ between the browser and your application, consider using SSL/TLS, made
 easy with the Catalyst plugin Catalyst::Plugin:RequireSSL.
 
 
-=head2 Re-Run the DBIC::Schema Model Helper to Include DBIx::Class::EncodedColumn
+=head2 Re-Run the DBIC::Schema Model Helper to Include DBIx::Class::PassphraseColumn
 
 Next, we can re-run the model helper to have it include
-L<DBIx::Class::EncodedColumn> in all of the Result Classes it generates for us.
-Simply use the same command we saw in Chapters 3 and 4, but add
-C<,EncodedColumn> to the C<components> argument:
+L<DBIx::Class::PassphraseColumn> in all of the Result Classes it generates for
+us.  Simply use the same command we saw in Chapters 3 and 4, but add
+C<,PassphraseColumn> to the C<components> argument:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static components=TimeStamp,EncodedColumn dbi:SQLite:myapp.db \
+        create=static components=TimeStamp,PassphraseColumn dbi:SQLite:myapp.db \
         on_connect_do="PRAGMA foreign_keys = ON"
 
 If you then open one of the Result Classes, you will see that it
-includes EncodedColumn in the C<load_components> line.  Take a look at
+includes PassphraseColumn in the C<load_components> line.  Take a look at
 C<lib/MyApp/Schema/Result/User.pm> since that's the main class where we
 want to use hashed and salted passwords:
 
-    __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "EncodedColumn");
+    __PACKAGE__->load_components("InflateColumn::DateTime", "TimeStamp", "PassphraseColumn");
 
 
-=head2 Modify the "password" Column to Use EncodedColumn
+=head2 Modify the "password" Column to Use PassphraseColumn
 
 Open the file C<lib/MyApp/Schema/Result/User.pm> and enter the following
 text below the "# DO NOT MODIFY THIS OR ANYTHING ABOVE!" line but above
 the closing "1;":
 
-    # Have the 'password' column use a SHA-1 hash and 10-character salt
-    # with hex encoding; Generate the 'check_password" method
+    # Have the 'password' column use a SHA-1 hash and 20-byte salt
+    # with RFC 2307 encoding; Generate the 'check_password" method
     __PACKAGE__->add_columns(
         'password' => {
-            encode_column       => 1,
-            encode_class        => 'Digest',
-            encode_args         => {salt_length => 10},
-            encode_check_method => 'check_password',
+            passphrase       => 'rfc2307',
+            passphrase_class => 'SaltedDigest',
+            passphrase_args  => {
+                algorithm   => 'SHA-1',
+                salt_random => 20.
+            },
+            passphrase_check_method => 'check_password',
         },
     );
 
-This redefines the automatically generated definition for the password
-fields at the top of the Result Class file to now use EncodedColumn
-logic (C<encoded_column> is set to 1).  C<encode_class> can be set to
-either C<Digest> to use
-L<DBIx::Class::EncodedColumn::Digest|DBIx::Class::EncodedColumn::Digest>,
-or C<Crypt::Eksblowfish::Bcrypt> for
-L<DBIx::Class::EncodedColumn::Crypt::Eksblowfish::Bcrypt|DBIx::Class::EncodedColumn::Crypt::Eksblowfish::Bcrypt>.
-C<encode_args> is then used to customize the type of Digest you
-selected. Here we only specified the size of the salt to use, but
-we could have also modified the hashing algorithm ('SHA-256' is
-the default) and the format to use ('base64' is the default, but
-'hex' and 'binary' are other options).  To use these, you could
-change the C<encode_args> to something like:
-
-            encode_args         => {algorithm => 'SHA-1',
-                                    format => 'hex',
-                                    salt_length => 10},
-
+This redefines the automatically generated definition for the password fields at
+the top of the Result Class file to now use PassphraseColumn logic, storing
+passwords in RFC 2307 format (C<passphrase> is set to C<rfc2307>).
+C<passphrase_class> can be set to the name of any C<Authen::Passphrase::*>
+class, such as C<SaltedDigest> to use L<Authen::Passphrase::SaltedDigest>, or
+C<BlowfishCrypt> to use L<Authen::Passphrase::BlowfishCrypt>.
+C<passphrase_args> is then used to customize the passphrase class you
+selected. Here we specified the digest algorithm to use as C<SHA-1> and the size
+of the salt to use, but we could have also specified any other option the
+selected passphrase class supports.
 
 =head2 Load Hashed Passwords in the Database
 
@@ -697,7 +692,7 @@ C<set_hashed_passwords.pl> in your editor and enter the following text:
         $user->update;
     }
 
-EncodedColumn lets us simply call C<$user->check_password($password)>
+PassphraseColumn lets us simply call C<$user->check_password($password)>
 to see if the user has supplied the correct password, or, as we show
 above, call C<$user->update($new_password)> to update the hashed
 password stored for this user.
@@ -715,18 +710,18 @@ The DBIC_TRACE output should show that the update worked:
     SELECT me.id, me.username, me.password, me.email_address,
     me.first_name, me.last_name, me.active FROM users me:
     UPDATE users SET password = ? WHERE ( id = ? ):
-    'oXiyAcGOjowz7ISUhpIm1IrS8AxSZ9r4jNjpX9VnVeQmN6GRtRKTz', '1'
+    '{SSHA}esgz64CpHMo8pMfgIIszP13ft23z/zio04aCwNdm0wc6MDeloMUH4g==', '1'
     UPDATE users SET password = ? WHERE ( id = ? ):
-    'PmyEPrkB8EGwvaF/DvJm7LIfxoZARjv8ygFIR7pc1gEA1OfwHGNzs', '2'
+    '{SSHA}FpGhpCJus+Ea9ne4ww8404HH+hJKW/fW+bAv1v6FuRUy2G7I2aoTRQ==', '2'
     UPDATE users SET password = ? WHERE ( id = ? ):
-    'h7CS1Fm9UCs4hjcbu2im0HumaHCJUq4Uriac+SQgdUMUfFSoOrz3c', '3'
+    '{SSHA}ZyGlpiHls8qFBSbHr3r5t/iqcZE602XLMbkSVRRNl6rF8imv1abQVg==', '3'
 
 But we can further confirm our actions by dumping the users table:
 
     $ sqlite3 myapp.db "select * from users"
-    1|test01|38d3974fa9e9263099f7bc2574284b2f55473a9bM=fwpX2NR8|t01@na.com|Joe|Blow|1
-    2|test02|6ed8586587e53e0d7509b1cfed5df08feadc68cbMJlnPyPt0I|t02@na.com|Jane|Doe|1
-    3|test03|af929a151340c6aed4d54d7e2651795d1ad2e2f7UW8dHoGv9z|t03@na.com|No|Go|0
+    1|test01|{SSHA}esgz64CpHMo8pMfgIIszP13ft23z/zio04aCwNdm0wc6MDeloMUH4g==|t01@na.com|Joe|Blow|1
+    2|test02|{SSHA}FpGhpCJus+Ea9ne4ww8404HH+hJKW/fW+bAv1v6FuRUy2G7I2aoTRQ==|t02@na.com|Jane|Doe|1
+    3|test03|{SSHA}ZyGlpiHls8qFBSbHr3r5t/iqcZE602XLMbkSVRRNl6rF8imv1abQVg==|t03@na.com|No|Go|0
 
 As you can see, the passwords are much harder to steal from the
 database (not only are the hashes stored, but every hash is different
