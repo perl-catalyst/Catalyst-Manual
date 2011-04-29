@@ -13,6 +13,7 @@ Revision history for Catalyst-Manual
       - RT #64087: typos
       - RT #64126: Use precise name of licence
       - RT #64126: typos
+      - RT #67820: fix relationship decleration
       - Do not recommend FastMmap
     - DevelopmentProcess
       - RT #62610: typo
