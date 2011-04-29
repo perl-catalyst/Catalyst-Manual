@@ -1,5 +1,6 @@
 Revision history for Catalyst-Manual
 
+5.8006 29 Feb 2011
     - Fix metadata to refer to the new git repository
     - Cookbook
       - Small fixes and typos
