@@ -1,5 +1,10 @@
 Revision history for Catalyst-Manual
 
+    - Tutorial
+      - Switch to use of DBIx::Class::PassphraseColumn for hashed & salted
+        passwords. It's much more flexible than the previously used
+        DBIx::Class::EncodedColumn.
+
 5.8006 29 Feb 2011
     - Fix metadata to refer to the new git repository
     - Cookbook
