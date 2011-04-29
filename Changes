@@ -19,13 +19,13 @@ Revision history for Catalyst-Manual
     - DevelopmentProcess
       - RT #62610: typo
 
-5.8005 27 Oct 2010 
+5.8005 27 Oct 2010
     - Tutorial:
         - Add DATABASE CONFIG SWITCHING USING MULTIPLE CONFIG FILES section
         - Critical bugfix on index page.
 5.8004 17 Feb 2010
     - Tutorial:
-        - Add foreign key support for SQLite 
+        - Add foreign key support for SQLite
             (huge thanks to Caelum for that and other good edits!)
         - Add "Quick Start" to Intro (Chapter 1)
         - Switch to use of "-r" to auto-restart the dev svr
@@ -101,10 +101,10 @@ Revision history for Catalyst-Manual
 5.7019  11 Mar 2009
     - Tutorial:
         - Change from the use of "part" to refer to each .pod file for the
-            tutorial in favor of the more intuitive word "chapter."  "Part" 
-            was just to ambiguous (e.g., does "prior part" refer to the prior 
+            tutorial in favor of the more intuitive word "chapter."  "Part"
+            was just to ambiguous (e.g., does "prior part" refer to the prior
             .pod file or the prior section in the current .pod file).
-        - Move use of "load_namespaces" for DBIC from BasicCRUD to 
+        - Move use of "load_namespaces" for DBIC from BasicCRUD to
             MoreCatalystBasics
         - Update the "Table of Contents" in Tutorial.pod to match the current
             sections
@@ -112,7 +112,7 @@ Revision history for Catalyst-Manual
 
 5.7018  8 Mar 2009
     - Tutorial:
-        - Add a new section to BasicCRUD covering more advanced features of 
+        - Add a new section to BasicCRUD covering more advanced features of
             DBIC ("EXPLORING THE POWER OF DBIC")
         - Convert from Ubuntu to Debian 5 live CD as the recommended way to do
             the tutorial (all code and examples updated and tested to match)
@@ -132,9 +132,9 @@ Revision history for Catalyst-Manual
         - MoreCatalystBasics - Additional clarification about TTSite
           (Del Merritt)
         - Tutorial::Authorization - Corrects the ACL for "/books/delete"
-                                  - Additional comments 
+                                  - Additional comments
           (Del Merritt)
-        - Tutorial::AdvancedCRUD::FormFu - suggest how the intrepid user 
+        - Tutorial::AdvancedCRUD::FormFu - suggest how the intrepid user
           might now proceed, having completed the Tutorial. (Del Merritt)
         - Fix typo in Authorization section (RT #42091)
         - Fix typo in BasicCRUD (RT #42034)
@@ -154,16 +154,16 @@ Revision history for Catalyst-Manual
 5.7015  15 Dec 2008
     - Tutorial:
         - Remove TTSite from Tutorial (thanks to dhoss for the help)
-        - Update Tutorial for Ubuntu 8.10 (therefore update to 
+        - Update Tutorial for Ubuntu 8.10 (therefore update to
           Cat v5.7014, C::Devel v1.07, DBIC v0.08010, etc.)
-        - Reorganize MoreCatalystBasics.pod so user is able to run 
-          the app the first time much earlier and build on it from 
+        - Reorganize MoreCatalystBasics.pod so user is able to run
+          the app the first time much earlier and build on it from
           there (running the app each time along the way)
         - Update URL for latest copy in SVN to match new location of repo
     - Other:
         - Misc typo fix
         - Change use of Class::C3 to MRO::Compat, as rafl tells me
-            this is best practice, and gives you native next::method in 
+            this is best practice, and gives you native next::method in
             5.10. (t0m)
 
 5.7014   04 Nov 2008
@@ -181,9 +181,9 @@ Revision history for Catalyst-Manual
     - Expurgation of all use of default :Private and index :Private in favour
       of default :Path and index :Path :Args(0)
     - Expurgation of all yaml as configuration format
-    - Major updates to tutorial, thanks hkclark and gerda 
+    - Major updates to tutorial, thanks hkclark and gerda
 
-5.7011   16 May 2008 
+5.7011   16 May 2008
     - added warnings and poiinters to newer examples in HTML::Widget,
       and Authentication parts of the tutorial.
     - pod fix (RT #32636)
@@ -198,14 +198,14 @@ Revision history for Catalyst-Manual
 5.701002 25 Aug 2007
 
 5.701001 17 Aug 2007
-    - Changes to mocation of lib/Catalyst/Manual.pod to 
+    - Changes to mocation of lib/Catalyst/Manual.pod to
       lib/Catalyst/ManualPlaceholder.pm to keep cpan indexer happy.
 
 5.700704 08 Aug 2007
     - Updated mailing list addresses to scsys.co.uk domains
 
-5.700703 
-    - Cookbook: Updated development server deployment instructions, and 
+5.700703
+    - Cookbook: Updated development server deployment instructions, and
       included a better description of the POE engine.
 
 5.700702 26 April 2007
