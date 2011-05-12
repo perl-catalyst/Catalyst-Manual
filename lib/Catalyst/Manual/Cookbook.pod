@@ -572,7 +572,7 @@ root of your app (but not in any other controller).
 
 =head1 Models
 
-Models are where application data belongs.  Catalyst is exteremely
+Models are where application data belongs.  Catalyst is extremely
 flexible with the kind of models that it can use.  The recipes here
 are just the start.
 
@@ -961,13 +961,13 @@ L<http://search.cpan.org/perldoc?Template>
 =head2 Adding RSS feeds
 
 Adding RSS feeds to your Catalyst applications is simple. We'll see two
-different aproaches here, but the basic premise is that you forward to
+different approaches here, but the basic premise is that you forward to
 the normal view action first to get the objects, then handle the output
 differently.
 
 =head3 Using TT templates
 
-This is the aproach used in Agave (L<http://dev.rawmode.org/>).
+This is the approach used in Agave (L<http://dev.rawmode.org/>).
 
     sub rss : Local {
         my ($self,$c) = @_;
@@ -1028,7 +1028,7 @@ like this:
 A little more code in the controller, but with this approach you're
 pretty sure to get something that validates.
 
-Note that for both of the above aproaches, you'll need to set the
+Note that for both of the above approaches, you'll need to set the
 content type like this:
 
     $c->res->content_type('application/rss+xml');
@@ -1369,7 +1369,7 @@ even though there are two different methods of looking up a track.
 
 This technique can be expanded as needed to fulfil your requirements - for example,
 if you inherit the first action of a chain from a base class, then mixing in a
-different base class can be used to duplicate an entire URL hieratchy at a different
+different base class can be used to duplicate an entire URL hierarchy at a different
 point within your application.
 
 =head2 Component-based Subrequests
@@ -1565,7 +1565,7 @@ the same Apache instance because the namespaces will collide.
 
 =head4 Cannot run different versions of libraries.
 
-If you have two differnet applications which run on the same machine,
+If you have two different applications which run on the same machine,
 which need two different versions of a library then the only way to do
 this is to have per-vhost perl interpreters (with different library paths).
 This is entirely possible, but nullifies all the memory sharing benefits that

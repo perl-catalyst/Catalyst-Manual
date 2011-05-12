@@ -127,7 +127,7 @@ for more information about roles in general.
 
 =head2 Inheritance and overriding methods
 
-When overriding a method, keep in mind that some day additionall
+When overriding a method, keep in mind that some day additional
 arguments may be provided to the method, if the last parameter is not
 a flat list. It is thus better to override a method by shifting the
 invocant off of C<@_> and assign the rest of the used arguments, so

@@ -145,7 +145,7 @@ The C<-d> option to C<script/myapp_server.pl>
 =item *
 
 The C<CATALYST_DEBUG=1> environment variable (or set it to
-zero to templorarily disable debug output).
+zero to temporarily disable debug output).
 
 =back
 

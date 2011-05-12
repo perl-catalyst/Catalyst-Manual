@@ -92,7 +92,7 @@ add additional functionality to the manually created form from Chapter 4.
 
 =head2 Using FormHandler in your controllers 
 
-FormHandler dosen't have a Catalyst base controller, because interfacing
+FormHandler doesn't have a Catalyst base controller, because interfacing
 to a form is only a couple of lines of code.
 
 =head2 Create a Book Form
