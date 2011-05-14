@@ -846,14 +846,14 @@ C<__PACKAGE__-E<gt>config> setting to something like:
             name    => 'MyApp',
             # Disable deprecated behavior needed by old applications
             disable_component_resolution_regex_fallback => 1,
-            session => { flash_to_stash => 1 },
+            'Plugin::Session' => { flash_to_stash => 1 },
         );
 
 B<or> add the following to C<myapp.conf>:
 
-    <session>
+    <Plugin::Session>
         flash_to_stash   1
-    </session>
+    </Plugin::Session>
 
 The C<__PACKAGE__-E<gt>config> option is probably preferable here
 since it's not something you will want to change at runtime without it
