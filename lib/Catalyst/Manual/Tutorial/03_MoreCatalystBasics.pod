@@ -481,6 +481,21 @@ C<root/src/_controller_name_/_action_name_.tt2>.  Another popular option is to
 use C<root/> as the base (with a full filename pattern of 
 C<root/_controller_name_/_action_name_.tt2>).
 
+B<NOTE:> Since we've added a call to C<< MyApp->path_to() >> inside of
+C<lib/MyApp/View/HTML.pm>, we need to update C<t/view_HTML.t> to include
+C<MyApp> or the test will fail. Edit C<t/view_HTML.t> and add the C<use>
+statement after the others, so this:
+
+    use Test::More;
+    
+    BEGIN { use_ok 'MyApp::View::HTML' }
+
+looks like this:
+
+    use Test::More;
+    use MyApp;
+
+    BEGIN { use_ok 'MyApp::View::HTML' }
 
 =head2 Create a TT Template Page
 
