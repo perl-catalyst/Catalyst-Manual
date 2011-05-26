@@ -1021,7 +1021,7 @@ edit many individual files.
 In order to create a wrapper, you must first edit your TT view and
 tell it where to find your wrapper file. 
 
-Edit you TT view in C<lib/MyApp/View/HTML.pm> and change it to match the 
+Edit your TT view in C<lib/MyApp/View/HTML.pm> and change it to match the 
 following:
 
     __PACKAGE__->config(
