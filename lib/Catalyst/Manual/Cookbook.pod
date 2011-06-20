@@ -965,43 +965,9 @@ different approaches here, but the basic premise is that you forward to
 the normal view action first to get the objects, then handle the output
 differently.
 
-=head3 Using TT templates
-
-This is the approach used in Agave (L<http://dev.rawmode.org/>).
-
-    sub rss : Local {
-        my ($self,$c) = @_;
-        $c->forward('view');
-        $c->stash->{template}='rss.tt';
-    }
-
-Then you need a template. Here's the one from Agave:
-
-    <?xml version="1.0" encoding="UTF-8"?>
-    <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
-      <channel>
-	<title>[ [% blog.name || c.config.name || "Agave" %] ] RSS Feed</title>
-        <link>[% base %]</link>
-        <description>Recent posts</description>
-        <language>en-us</language>
-        <ttl>40</ttl>
-     [% WHILE (post = posts.next) %]
-      <item>
-        <title>[% post.title %]</title>
-        <description>[% post.formatted_teaser|html%]</description>
-        <pubDate>[% post.pub_date %]</pubDate>
-        <guid>[% post.full_uri %]</guid>
-        <link>[% post.full_uri %]</link>
-        <dc:creator>[% post.author.screenname %]</dc:creator>
-      </item>
-    [% END %]
-      </channel>
-    </rss>
-
 =head3 Using XML::Feed
 
-A more robust solution is to use L<XML::Feed>, as was done in the Catalyst
-Advent Calendar. Assuming we have a C<view> action that populates
+Assuming we have a C<view> action that populates
 'entries' with some DBIx::Class iterator, the code would look something
 like this:
 
@@ -1025,7 +991,7 @@ like this:
         $c->res->body( $feed->as_xml );
    }
 
-A little more code in the controller, but with this approach you're
+With this approach you're
 pretty sure to get something that validates.
 
 Note that for both of the above approaches, you'll need to set the

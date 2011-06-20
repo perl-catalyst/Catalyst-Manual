@@ -1,5 +1,10 @@
 Revision history for Catalyst-Manual
 
+    - Cookbook
+      - Remove suggestion to generate RSS feeds using Template Toolkit.
+        This is a horrible idea, and it's very very easy to generate an
+        invalid feed.
+
 5.8007 29 Feb 2011
     - Tutorial
       - Switch to use of DBIx::Class::PassphraseColumn for hashed & salted
