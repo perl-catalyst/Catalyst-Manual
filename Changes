@@ -1,5 +1,6 @@
 Revision history for Catalyst-Manual
 
+5.8008 2 Aug 2011
     - Tutorial chaper 3
       - Remove note about hacking tests to require MyApp so that MyApp->path_to
         works. Application components should compile independently, and
