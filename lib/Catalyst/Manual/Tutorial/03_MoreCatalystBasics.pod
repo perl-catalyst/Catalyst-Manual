@@ -449,30 +449,61 @@ initially demonstrate the concepts, but quickly migrate to a more typical
 "wrapper page" type of configuration (where the "wrapper" controls the overall
 "look and feel" of your site from a single file or set of files).
 
-Edit C<lib/MyApp/View/HTML.pm> and you should see that the default
-contents contains something similar to the following:
+Edit C<lib/MyApp/View/HTML.pm> and you should see
+something similar to the following:
 
-    __PACKAGE__->config(TEMPLATE_EXTENSION => '.tt');
+    __PACKAGE__->config(
+        TEMPLATE_EXTENSION => '.tt',
+        render_die => 1,
+    );
 
 And update it to match:
 
     __PACKAGE__->config(
         # Change default TT extension
         TEMPLATE_EXTENSION => '.tt2',
-        # Set the location for TT files
-        INCLUDE_PATH => [
-                MyApp->path_to( 'root', 'src' ),
-            ],
+        render_die => 1,
     );
 
-B<NOTE:> Make sure to add a comma after '.tt2' outside the single
-quote.
+This changes the default extension for Template Toolkit from '.tt' to
+'.tt2'.
 
-This changes the default extension for Template Toolkit from '.tt' to 
-'.tt2' and changes the base directory for your template files from 
-C<root> to C<root/src>.  Stick with these conventions for the 
-tutorial, but feel free to use whatever options you desire in your 
-applications (as with most things Perl, there's more than one way to 
+You can also configure components in your application class. For example,
+Edit C<lib/MyApp.pm> and you should see that the default:
+
+    __PACKAGE__->setup;
+
+Above this, add config:
+
+    __PACKAGE__->config(
+        'View::HTML' => {
+            #Set the location for TT files
+            INCLUDE_PATH => [
+                __PACKAGE__->path_to( 'root', 'src' ),
+            ],
+        },
+    );
+    # This line was here already
+    __PACKAGE__->setup;
+
+This changes the base directory for your template files from
+C<root> to C<root/src>.
+
+The reason to do this outside the C<lib/MyApp/View/HTML.pm> file
+is that the template path is found with the C<path_to> method,
+to get a path relative to the application root (no matter where it
+is installed), but this requires the application to be loaded...
+
+Trying to set this setting in the view means that you have a chicken
+and egg problem, in that the view requires the application to be loaded,
+but loading the application loads the view.
+
+Putting the configuration which depends on the application class into
+that class is the neatest way to avoid this issue.
+
+Please stick with the settings above for the duration of the
+tutorial, but feel free to use whatever options you desire in your
+applications (as with most things Perl, there's more than one way to
 do it...).
 
 B<Note:> We will use C<root/src> as the base directory for our 
@@ -480,22 +511,6 @@ template files, with a full naming convention of
 C<root/src/_controller_name_/_action_name_.tt2>.  Another popular option is to
 use C<root/> as the base (with a full filename pattern of 
 C<root/_controller_name_/_action_name_.tt2>).
-
-B<NOTE:> Since we've added a call to C<< MyApp->path_to() >> inside of
-C<lib/MyApp/View/HTML.pm>, we need to update C<t/view_HTML.t> to include
-C<MyApp> or the test will fail. Edit C<t/view_HTML.t> and add the C<use>
-statement after the others, so this:
-
-    use Test::More;
-    
-    BEGIN { use_ok 'MyApp::View::HTML' }
-
-looks like this:
-
-    use Test::More;
-    use MyApp;
-
-    BEGIN { use_ok 'MyApp::View::HTML' }
 
 =head2 Create a TT Template Page
 
