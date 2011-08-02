@@ -6,6 +6,10 @@ Revision history for Catalyst-Manual
         therefore explain this and show configuring components from the
         app class.
 
+    - Tutorial appendix
+      - Fix confusing mix of singular and plural table names in the MySQL
+        section to be plural, as per the rest of the tutorial.
+
     - Cookbook
       - Remove suggestion to generate RSS feeds using Template Toolkit.
         This is a horrible idea, and it's very very easy to generate an
