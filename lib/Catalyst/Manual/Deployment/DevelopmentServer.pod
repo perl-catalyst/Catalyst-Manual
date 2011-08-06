@@ -1,0 +1,76 @@
+=head2 Development server deployment
+
+The development server is a mini web server written in perl.  If you
+expect a low number of hits or you don't need mod_perl/FastCGI speed,
+you could use the development server as the application server with a
+lightweight proxy web server at the front.  However, consider using
+L<Catalyst::Engine::HTTP::Prefork> for this kind of deployment instead, since
+it can better handle multiple concurrent requests without forking, or can
+prefork a set number of servers for improved performance.
+
+=head3 Pros
+
+As this is an application server setup, the pros are the same as
+FastCGI (with the exception of speed).
+It is also:
+
+=head4 Simple
+
+The development server is what you create your code on, so if it works
+here, it should work in production!
+
+=head3 Cons
+
+=head4 Speed
+
+Not as fast as mod_perl or FastCGI. Needs to fork for each request
+that comes in - make sure static files are served by the web server to
+save forking.
+
+=head3 Setup
+
+=head4 Start up the development server
+
+   script/myapp_server.pl -p 8080 -k  -f -pidfile=/tmp/myapp.pid
+
+You will probably want to write an init script to handle stop/starting
+the app using the pid file.
+
+=head4 Configuring Apache
+
+Make sure mod_proxy is enabled and add:
+
+    # Serve static content directly
+    DocumentRoot /var/www/MyApp/root
+    Alias /static /var/www/MyApp/root/static
+
+    ProxyRequests Off
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+
+    # Need to specifically stop these paths from being passed to proxy
+    ProxyPass /static !
+    ProxyPass /favicon.ico !
+
+    ProxyPass / http://localhost:8080/
+    ProxyPassReverse / http://localhost:8080/
+
+    # This is optional if you'd like to show a custom error page
+    # if the proxy is not available
+    ErrorDocument 502 /static/error_pages/http502.html
+
+You can wrap the above within a VirtualHost container if you want
+different apps served on the same host.
+
+=head1 AUTHORS
+
+Catalyst Contributors, see Catalyst.pm
+
+=head1 COPYRIGHT
+
+This library is free software. You can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
