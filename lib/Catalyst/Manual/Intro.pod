@@ -784,7 +784,7 @@ of Catalyst component class names.
 
 =item * B<Overriding the namespace>
 
-Note that __PACKAGE__->config->{namespace} can be used to override the
+Note that I<< __PACKAGE__->config->(namespace => ... ) >> can be used to override the
 current namespace when matching.  So:
 
     package MyApp::Controller::Example;
@@ -792,7 +792,7 @@ current namespace when matching.  So:
 would normally use 'example' as its namespace for matching, but if
 this is specially overridden with
 
-    __PACKAGE__->config->{namespace}='thing';
+    __PACKAGE__->config( namespace => 'thing' );
 
 it matches using the namespace 'thing' instead.
 
@@ -806,7 +806,7 @@ application (e.g. http://localhost:3000/ ):
     use base 'Catalyst::Controller';
     # Sets the actions in this controller to be registered with no prefix
     # so they function identically to actions created in MyApp.pm
-    __PACKAGE__->config->{namespace} = '';
+    __PACKAGE__->config( namespace => '');
     sub default : Path  {
         my ( $self, $context ) = @_;
         $context->response->status(404);
@@ -817,7 +817,7 @@ application (e.g. http://localhost:3000/ ):
 
 The code
 
-    __PACKAGE__->config->{namespace} = '';
+    __PACKAGE__->config( namespace => '' );
 
 makes the controller act as if its namespace is empty.  As you'll see
 below, an empty namespace makes many of the URL-matching attributes,
@@ -860,7 +860,7 @@ C<:Local> is simply sugar for C<:Path('methodname')>, which takes the package
 namespace as described above.
 
     package MyApp::Controller::Root;
-    __PACKAGE__->config->{namespace}='';
+    __PACKAGE__->config( namespace => '');
     sub foo : Local { }
 
 Use whichever makes the most sense for your application.

@@ -279,13 +279,15 @@ C<lib/MyApp.pm> and place the following text above the call to
 C<__PACKAGE__-E<gt>setup();>:
 
     # Configure SimpleDB Authentication
-    __PACKAGE__->config->{'Plugin::Authentication'} = {
+    __PACKAGE__->config(
+        'Plugin::Authentication' => {
             default => {
                 class           => 'SimpleDB',
                 user_model      => 'DB::User',
                 password_type   => 'clear',
             },
-        };
+        },
+    );
 
 We could have placed this configuration in C<myapp.conf>, but placing
 it in C<lib/MyApp.pm> is probably a better place since it's not likely
@@ -737,13 +739,15 @@ Edit C<lib/MyApp.pm> and update it to match the following text (the
 only change is to the C<password_type> field):
 
     # Configure SimpleDB Authentication
-    __PACKAGE__->config->{'Plugin::Authentication'} = {
+    __PACKAGE__->config(
+        'Plugin::Authentication' => {
             default => {
                 class           => 'SimpleDB',
                 user_model      => 'DB::User',
                 password_type   => 'self_check',
             },
-        };
+        },
+    );
 
 The use of C<self_check> will cause
 Catalyst::Plugin::Authentication::Store::DBIC to call the
