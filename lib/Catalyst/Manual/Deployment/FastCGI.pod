@@ -52,9 +52,29 @@ than when using mod_perl.
 
 XXX - FIXME, note not just apache!
 
-=head3 More Info
+=head2 Standalone FastCGI Server
 
-L<Catalyst::Engine::FastCGI> - XXX FIXME.
+In server mode the application runs as a standalone server and accepts
+connections from a web server.  The application can be on the same machine as
+the web server, on a remote machine, or even on multiple remote machines.
+Advantages of this method include running the Catalyst application as a
+different user than the web server, and the ability to set up a scalable
+server farm.
+
+To start your application in server mode, install the FCGI::ProcManager
+module and then use the included fastcgi.pl script.
+
+    $ script/myapp_fastcgi.pl -l /tmp/myapp.socket -n 5
+
+Command line options for fastcgi.pl include:
+
+    -d -daemon     Daemonize the server.
+    -p -pidfile    Write a pidfile with the pid of the process manager.
+    -l -listen     Listen on a socket path, hostname:port, or :port.
+    -n -nproc      The number of processes started to handle requests.
+
+See below for the specific web server configurations for using the external
+server.
 
 =head1 AUTHORS
 
