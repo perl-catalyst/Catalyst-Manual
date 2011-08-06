@@ -1,0 +1,69 @@
+=head1 NAME
+
+Catalyst::Manual::Deployment::FastCGI - Deploying Catalyst with FastCGI
+
+=head1 FastCGI Deployment
+
+FastCGI is a high-performance extension to CGI. It is suitable
+for production environments.
+
+=head2 Pros
+
+=head3 Speed
+
+FastCGI performs equally as well as mod_perl.  Don't let the 'CGI' fool you;
+your app runs as multiple persistent processes ready to receive connections
+from the web server.
+
+=head3 App Server
+
+When using external FastCGI servers, your application runs as a standalone
+application server.  It may be restarted independently from the web server.
+This allows for a more robust environment and faster reload times when
+pushing new app changes.  The frontend server can even be configured to
+display a friendly "down for maintenance" page while the application is
+restarting.
+
+=head3 Load-balancing
+
+You can launch your application on multiple backend servers and allow the
+frontend web server to load-balance between all of them.  And of course, if
+one goes down, your app continues to run fine.
+
+=head3 Multiple versions of the same app
+
+Each FastCGI application is a separate process, so you can run different
+versions of the same app on a single server.
+
+=head3 Can run with threaded Apache
+
+Since your app is not running inside of Apache, the faster mpm_worker module
+can be used without worrying about the thread safety of your application.
+
+=head2 Cons
+
+You may have to disable mod_deflate.  If you experience page hangs with
+mod_fastcgi then remove deflate.load and deflate.conf from mods-enabled/
+
+=head3 More complex environment
+
+With FastCGI, there are more things to monitor and more processes running
+than when using mod_perl.
+
+XXX - FIXME, note not just apache!
+
+=head3 More Info
+
+L<Catalyst::Engine::FastCGI> - XXX FIXME.
+
+=head1 AUTHORS
+
+Catalyst Contributors, see Catalyst.pm
+
+=head1 COPYRIGHT
+
+This library is free software. You can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
+

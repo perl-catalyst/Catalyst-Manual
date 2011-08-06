@@ -1,0 +1,22 @@
+=head1 NAME
+
+Catalyst::Manual::Deployment::lighttpd::FastCGI - Deploying Catalyst with lighttpd
+
+=head4 Static file handling
+
+Static files can be served directly by lighttpd for a performance boost.
+
+   $HTTP["url"] !~ "^/(?:img/|static/|css/|favicon.ico$)" {
+         fastcgi.server = (
+             "" => (
+                 "MyApp" => (
+                     "socket"       => "/tmp/myapp.socket",
+                     "check-local"  => "disable",
+                 )
+             )
+         )
+    }
+
+Which serves everything in the img, static, css directories
+statically, as well as the favicon file.
+

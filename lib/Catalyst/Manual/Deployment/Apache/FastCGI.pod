@@ -1,0 +1,77 @@
+=head1 NAME
+
+Catalyst::Manual::Deployment::Apache::FastCGI - Deploying Catalyst with FastCGI on Apache
+
+=head2 Setup
+
+=head3 1. Install Apache with mod_fastcgi
+
+mod_fastcgi for Apache is a third party module, and can be found at
+L<http://www.fastcgi.com/>.  It is also packaged in many distributions,
+for example, libapache2-mod-fastcgi in Debian. You will also need to install
+the L<FCGI> module from cpan.
+
+Important Note! If you experience difficulty properly rendering pages,
+try disabling Apache's mod_deflate (Deflate Module), e.g. 'a2dismod deflate'.
+
+=head4 2. Configure your application
+
+    # Serve static content directly
+    DocumentRoot  /var/www/MyApp/root
+    Alias /static /var/www/MyApp/root/static
+
+    FastCgiServer /var/www/MyApp/script/myapp_fastcgi.pl -processes 3
+    Alias /myapp/ /var/www/MyApp/script/myapp_fastcgi.pl/
+
+    # Or, run at the root
+    Alias / /var/www/MyApp/script/myapp_fastcgi.pl/
+
+The above commands will launch 3 app processes and make the app available at
+/myapp/
+
+=head3 Standalone server mode
+
+While not as easy as the previous method, running your app as an external
+server gives you much more flexibility.
+
+First, launch your app as a standalone server listening on a socket.
+
+    script/myapp_fastcgi.pl -l /tmp/myapp.socket -n 5 -p /tmp/myapp.pid -d
+
+You can also listen on a TCP port if your web server is not on the same
+machine.
+
+    script/myapp_fastcgi.pl -l :8080 -n 5 -p /tmp/myapp.pid -d
+
+You will probably want to write an init script to handle starting/stopping
+of the app using the pid file.
+
+Now, we simply configure Apache to connect to the running server.
+
+    # 502 is a Bad Gateway error, and will occur if the backend server is down
+    # This allows us to display a friendly static page that says "down for
+    # maintenance"
+    Alias /_errors /var/www/MyApp/root/error-pages
+    ErrorDocument 502 /_errors/502.html
+
+    FastCgiExternalServer /tmp/myapp.fcgi -socket /tmp/myapp.socket
+    Alias /myapp/ /tmp/myapp.fcgi/
+
+    # Or, run at the root
+    Alias / /tmp/myapp.fcgi/
+
+=head3 More Info
+
+L<Catalyst::Engine::FastCGI> - XXX FIXME.
+
+=head1 AUTHORS
+
+Catalyst Contributors, see Catalyst.pm
+
+=head1 COPYRIGHT
+
+This library is free software. You can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
+
