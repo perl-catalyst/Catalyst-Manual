@@ -370,6 +370,84 @@ Make sure mod_proxy is enabled and add:
 You can wrap the above within a VirtualHost container if you want
 different apps served on the same host.
 
+    # Set up your Catalyst app as a mod_perl 2.x application in httpd.conf
+    PerlSwitches -I/var/www/MyApp/lib
+
+    # Preload your entire application
+    PerlModule MyApp
+
+    <VirtualHost *>
+        ServerName    myapp.hostname.com
+        DocumentRoot  /var/www/MyApp/root
+
+        <Location />
+            SetHandler          modperl
+            PerlResponseHandler MyApp
+        </Location>
+
+        # you can also run your app in any non-root location
+        <Location /some/other/path>
+            SetHandler          perl-script
+            PerlResponseHandler MyApp
+        </Location>
+
+        # Make sure to let Apache handle your static files
+        # (It is not necessary to remove the Static::Simple plugin
+        # in production; Apache will bypass Static::Simple if
+        # configured in this way)
+
+        <Location /static>
+            SetHandler          default-handler
+        </Location>
+
+        # If not running at a root location in a VirtualHost,
+        # you'll probably need to set an Alias to the location
+        # of your static files, and allow access to this location:
+
+        Alias /myapp/static /filesystem/path/to/MyApp/root/static
+        <Directory /filesystem/path/to/MyApp/root/static>
+            allow from all
+        </Directory>
+        <Location /myapp/static>
+            SetHandler default-handler
+        </Location>
+
+    </VirtualHost>
+
+=head1 DESCRIPTION
+
+This is the Catalyst engine specialized for Apache2 mod_perl version 2.x.
+
+=head1 ModPerl::Registry
+
+While this method is not recommended, you can also run your Catalyst
+application via a ModPerl::Registry script.
+
+httpd.conf:
+
+    PerlModule ModPerl::Registry
+    Alias / /var/www/MyApp/script/myapp_registry.pl/
+
+    <Directory /var/www/MyApp/script>
+        Options +ExecCGI
+    </Directory>
+
+    <Location />
+        SetHandler          perl-script
+        PerlResponseHandler ModPerl::Registry
+    </Location>
+
+script/myapp_registry.pl (you will need to create this):
+
+    #!/usr/bin/perl
+
+    use strict;
+    use warnings;
+    use MyApp;
+
+    MyApp->handle_request( Apache2::RequestUtil->request );
+
+
 =head1 AUTHORS
 
 Catalyst Contributors, see Catalyst.pm
