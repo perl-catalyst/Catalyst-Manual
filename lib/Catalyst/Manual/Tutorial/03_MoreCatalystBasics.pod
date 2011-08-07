@@ -229,7 +229,7 @@ Don't let these variations confuse you -- they all accomplish the same
 result.
 
 This tells Catalyst to start using one additional plugin, 
-L<Catalyst::Plugin::StackTrace|Catalyst::Plugin::StackTrace>, to add a 
+L<Catalyst::Plugin::StackTrace>, to add a 
 stack trace to the standard Catalyst "debug screen" (the screen 
 Catalyst sends to your browser when an error occurs). Be aware that 
 L<StackTrace|Catalyst::Plugin::StackTrace> output appears in your 
@@ -720,7 +720,7 @@ framework, a technique that we see in Chapter 4).
 =head2 Make Sure You Have a Recent Version of the DBIx::Class Model
 
 First, let's be sure we have a recent version of the DBIC helper,
-L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema>, so
+L<Catalyst::Model::DBIC::Schema>, so
 that we can take advantage of some recent enhancements in how
 foreign keys are handled with SQLite.  To check your version, 
 run this command:
@@ -738,7 +738,7 @@ higher (shown above as "0.4" with the tailing zero removed). If you have
 less than v0.39, you will need to run this command to install it 
 directly from CPAN: 
 
-    $ sudo cpan Catalyst::Model::DBIC::Schema
+    $ cpan -i Catalyst::Model::DBIC::Schema
 
 And re-run the version print command to verify that you are now at 
 0.39 or higher.
@@ -751,6 +751,8 @@ please be sure that you use version C<1.27> of L<DBD::SQLite> or later:
 
 Upgrade if you are not at version C<1.27> or higher.
 
+Also, remember to put a line requiring the version of the module
+you just installed into your Makefile.PL
 
 =head2 Create Static DBIx::Class Schema Files
 
