@@ -1,5 +1,10 @@
 Revision history for Catalyst-Manual
 
+5.8901 7 Aug 2011 - TRIAL RELEASE
+    - Added Catalyst::Manual::Deployment containing the documentation
+      which used to be in Catalyst::Engine::*, updated for the
+      new PSGI engine.
+
 5.8008 2 Aug 2011
     - Tutorial chaper 3
       - Remove note about hacking tests to require MyApp so that MyApp->path_to
