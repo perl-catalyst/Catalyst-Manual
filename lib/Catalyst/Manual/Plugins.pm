@@ -1,12 +1,10 @@
 =head1 NAME
 
-Catalyst::Manual::Plugins - See Catalyst::Manual::Components instead 
+Catalyst::Manual::Plugins - DEPRECATED, see L<Catalyst::Manual::Components> instead .
 
 =head1 SEE INSTEAD
 
 L<Catalyst::Manual::Components>
-
-=cut
 
 =head1 AUTHORS
 

@@ -26,7 +26,7 @@ module, it stores any options.
 =item 2
 
 When C<< __PACKAGE__->setup >> is called, it evaluates any
-options stored (C<-Debug>, C<-Engine=XXX>), and makes the application
+options stored (C<-Debug>), and makes the application
 inherit from L<Catalyst> (if that hasn't already been done with an
 explicit C<< use base 'Catalyst'; >> or C<< extends 'Catalyst'; >>.
 Any specified plugins are then loaded, the application module is made to
@@ -90,8 +90,8 @@ extend Catalyst.
 These steps are normally overloaded from engine classes, and may also be
 extended by plugins. For more on extending Catalyst, see L<Catalyst::Manual::ExtendingCatalyst>.
 
-The specialized engine classes populate the Catalyst request object with
-information from the underlying layer (C<Apache::Request> or C<CGI::Simple>)
+The engine class populate sthe Catalyst request object with
+information from the underlying layer (L<PSGI>)
 during the prepare phase, then push the generated response information down to
 the underlying layer during the finalize phase.
 

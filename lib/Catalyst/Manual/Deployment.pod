@@ -2,18 +2,41 @@
 
 Catalyst::Manual::Deployment - Deploying Catalyst
 
-=head1
+=head1 DEPLOYMENT OPTIONS
 
-=head1 mod_perl
+=head2 Deployment for shared hosting
+
+L<Catalyst::Manual::Deployment::SharedHosting>
+
+=head2 mod_perl
 
 L<Catalyst::Manual::Deployment::Apache::mod_perl>
 
-=head1 FastCGI
+=head2 FastCGI
 
-=head2 Apache
+L<Catalyst::Manual::Deployment::FastCGI>
+
+=head3 Apache
 
 L<Catalyst::Manual::Deployment::Apache::FastCGI>
 
+=head3 nginx
+
+L<Catalyst::Manual::Deployment::nginx::FastCGI>
+
+=head3 lighttpd
+
+L<Catalyst::Manual::Deployment::lighttpd::FastCGI>
+
+=head3 Microsoft IIS
+
+L<Catalyst::Manual::Deployment::IIS::FastCGI>
+
+=head2 Development Server
+
+L<Catalyst::Manual::Deployment::DevelopmentServer>.
+
+=head2 PSGI
 
 =head1 AUTHORS
 
