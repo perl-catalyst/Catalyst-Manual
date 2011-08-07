@@ -3,16 +3,11 @@
 The development server is a mini web server written in perl.  If you
 expect a low number of hits or you don't need mod_perl/FastCGI speed,
 you could use the development server as the application server with a
-lightweight proxy web server at the front.  However, consider using
-L<Catalyst::Engine::HTTP::Prefork> for this kind of deployment instead, since
-it can better handle multiple concurrent requests without forking, or can
-prefork a set number of servers for improved performance.
+lightweight proxy web server at the front.
+
+XXX - FIXME Starman!
 
 =head3 Pros
-
-As this is an application server setup, the pros are the same as
-FastCGI (with the exception of speed).
-It is also:
 
 =head4 Simple
 
@@ -31,7 +26,7 @@ save forking.
 
 =head4 Start up the development server
 
-   script/myapp_server.pl -p 8080 -k  -f -pidfile=/tmp/myapp.pid
+   script/myapp_server.pl -p 8080 -k -f -pidfile=/tmp/myapp.pid
 
 You will probably want to write an init script to handle stop/starting
 the app using the pid file.

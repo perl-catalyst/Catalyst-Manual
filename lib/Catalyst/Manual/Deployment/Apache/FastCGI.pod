@@ -161,7 +161,7 @@ Now, we simply configure Apache to connect to the running server.
 
 =head3 More Info
 
-L<Catalyst::Engine::FastCGI> - XXX FIXME.
+L<Catalyst::Manual::Deployment::FastCGI>.
 
 =head1 AUTHORS
 

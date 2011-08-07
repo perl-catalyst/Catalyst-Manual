@@ -2,7 +2,7 @@
 
 Catalyst::Manual::Deployment::nginx::FastCGI - Deploying Catalyst with nginx
 
-=head nginx
+=head1 nginx
 
 Catalyst runs under nginx via FastCGI in a similar fashion as the lighttpd
 standalone server as described above.
@@ -10,7 +10,7 @@ standalone server as described above.
 nginx does not have its own internal FastCGI process manager, so you must run
 the FastCGI service separately.
 
-=head3 Configuration
+=head2 Configuration
 
 To configure nginx, you must configure the FastCGI parameters and also the
 socket your FastCGI daemon is listening on.  It can be either a TCP socket
@@ -52,7 +52,7 @@ It is the standard convention of nginx to include the fastcgi_params in a
 separate file (usually something like C</etc/nginx/fastcgi_params>) and
 simply include that file.
 
-=head3  Non-root configuration
+=head2  Non-root configuration
 
 If you properly specify the PATH_INFO and SCRIPT_NAME parameters your
 application will be accessible at any path. The SCRIPT_NAME variable is the

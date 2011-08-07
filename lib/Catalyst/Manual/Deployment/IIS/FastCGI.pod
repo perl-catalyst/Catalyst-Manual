@@ -2,7 +2,7 @@
 
 Catalyst::Manual::Deployment::IIS::FastCGI - Deploying Catalyst with Microsoft IIS
 
-=head2 Microsoft IIS
+=head1 Microsoft IIS
 
 It is possible to run Catalyst under IIS with FastCGI, but only on IIS 6.0
 (Microsoft Windows 2003), IIS 7.0 (Microsoft Windows 2008 and Vista) and
@@ -18,9 +18,9 @@ Let us assume that our server has the following layout:
     d:\strawberry\perl\bin\perl.exe  path to perl interpreter (with Catalyst installed)
     c:\windows                       Windows directory
 
-=head3 Setup IIS 6.0 (Windows 2003)
+=head2 Setup IIS 6.0 (Windows 2003)
 
-=over 4
+=over
 
 =item Install FastCGI extension for IIS 6.0
 
@@ -86,12 +86,12 @@ system c:\windows\syswow64\inetsrv\fcgiext.ini):
 
 =back
 
-=head3 Setup IIS 7.0 (Windows 2008 and Vista)
+=head2 Setup IIS 7.0 (Windows 2008 and Vista)
 
 Microsoft IIS 7.0 has built-in support for FastCGI so you do not have to install
 any addons.
 
-=over 4
+=over
 
 =item Necessary steps during IIS7 installation
 
@@ -114,7 +114,7 @@ Open "Control Panel" > "Administrative Tools" > "Internet Information Services M
 You can configure FastCGI extension using commandline utility
 "c:\windows\system32\inetsrv\appcmd.exe"
 
-=over 4
+=over
 
 =item Configuring section "fastCgi" (it is a global setting)
 

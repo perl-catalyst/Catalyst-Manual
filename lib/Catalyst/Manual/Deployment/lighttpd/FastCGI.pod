@@ -2,11 +2,11 @@
 
 Catalyst::Manual::Deployment::lighttpd::FastCGI - Deploying Catalyst with lighttpd
 
-=head2 Lighttpd
+=head1 Lighttpd
 
 These configurations were tested with Lighttpd 1.4.7.
 
-=head3 Standalone server mode
+=head2 Standalone server mode
 
     server.document-root = "/var/www/MyApp/root"
 
@@ -19,7 +19,7 @@ These configurations were tested with Lighttpd 1.4.7.
         )
     )
 
-=head3 Static mode
+=head2 Static mode
 
     server.document-root = "/var/www/MyApp/root"
 
@@ -39,7 +39,7 @@ These configurations were tested with Lighttpd 1.4.7.
 Note that in newer versions of lighttpd, the min-procs and idle-timeout
 values are disabled.  The above example would start 5 processes.
 
-=head3 Non-root configuration
+=head2 Non-root configuration
 
 You can also run your application at any non-root location with either of the
 above modes.  Note the required mod_rewrite rule.
@@ -57,7 +57,7 @@ For more information on using FastCGI under Lighttpd, visit
 L<http://www.lighttpd.net/documentation/fastcgi.html>
 
 
-=head4 Static file handling
+=head2 Static file handling
 
 Static files can be served directly by lighttpd for a performance boost.
 
