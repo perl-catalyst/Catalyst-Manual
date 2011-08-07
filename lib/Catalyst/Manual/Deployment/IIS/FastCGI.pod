@@ -88,22 +88,22 @@ system c:\windows\syswow64\inetsrv\fcgiext.ini):
 
 =head2 Setup IIS 7.0 (Windows 2008 and Vista)
 
-Microsoft IIS 7.0 has built-in support for FastCGI so you do not have to install
-any addons.
+Microsoft IIS 7.0 has built-in support for FastCGI so you do not have to
+install any addons.
 
 =over
 
 =item Necessary steps during IIS7 installation
 
-During IIS7 installation after you have added role "Web Server (IIS)"
-you need to check to install role feature "CGI" (do not be nervous that it is
-not FastCGI). If you already have IIS7 installed you can add "CGI" role feature
+During IIS7 installation after you have added role "Web Server (IIS)" you need
+to check to install role feature "CGI" (do not be nervous that it is not
+FastCGI). If you already have IIS7 installed you can add "CGI" role feature
 through "Control panel" > "Programs and Features".
 
 =item Create a new website
 
-Open "Control Panel" > "Administrative Tools" > "Internet Information Services Manager"
-> "Add Web Site".
+Open "Control Panel" > "Administrative Tools" > "Internet Information Services
+Manager" > "Add Web Site".
 
     site name: "CatalystSite"
     content directory: "d:\WWW\WebApp\root"
