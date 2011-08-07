@@ -5,7 +5,8 @@ Catalyst::Manual::Deployment::FastCGI - Deploying Catalyst with FastCGI
 =head1 FastCGI Deployment
 
 FastCGI is a high-performance extension to CGI. It is suitable
-for production environments.
+for production environments, and is the standard method for deploying Catalyst
+in shared hosting environments.
 
 =head2 Pros
 
@@ -75,6 +76,28 @@ Command line options for fastcgi.pl include:
 
 See below for the specific web server configurations for using the external
 server.
+
+=head1 WEB SERVERS
+
+Any web server which supports FastCGI should work with Catalyst. Configuration recipies for
+well-known web servers are linked below, and we would welcome contributions from people
+deploying Catalyst against other web servers.
+
+=head2 Apache
+
+L<Catalyst::Manual::Deployment::Apache::FastCGI>
+
+=head2 nginx
+
+L<Catalyst::Manual::Deployment::nginx::FastCGI>
+
+=head2 lighttpd
+
+L<Catalyst::Manual::Deployment::lighttpd::FastCGI>
+
+=head2 Microsoft IIS
+
+L<Catalyst::Manual::Deployment::IIS::FastCGI>
 
 =head1 AUTHORS
 

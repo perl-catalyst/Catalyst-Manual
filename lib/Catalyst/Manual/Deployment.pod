@@ -4,17 +4,27 @@ Catalyst::Manual::Deployment - Deploying Catalyst
 
 =head1 DEPLOYMENT OPTIONS
 
+Catalyst applications most often deployed as a FastCGI or mod_perl application, however
+as Catalyst is based on the L<PSGI> specification, any web handler implementing that specification
+can be used to run Catalyst applications.
+
+This documentation most thoroughly covers the normal and traditional deployment options, but
+will mention alternate methods of deployment, and we welcome additional documentation from
+people deploying Catalyst in non-standard environments.
+
 =head2 Deployment for shared hosting
 
-L<Catalyst::Manual::Deployment::SharedHosting>
+Almost all shared hosting environments involve deploying Catalyst as a FastCGI on Apache.
 
-=head2 mod_perl
-
-L<Catalyst::Manual::Deployment::Apache::mod_perl>
+You will usually want to have a set of libraries specific to your application installed on
+your shared host, and there are instructions about
+this in L<Catalyst::Manual::Deployment::SharedHosting>.
 
 =head2 FastCGI
 
-L<Catalyst::Manual::Deployment::FastCGI>
+FastCGI is the most common Catalyst deployment option, it is documented generally in
+L<Catalyst::Manual::Deployment::FastCGI>, and there are specific instructions for common
+web servers linked below:
 
 =head3 Apache
 
@@ -32,11 +42,37 @@ L<Catalyst::Manual::Deployment::lighttpd::FastCGI>
 
 L<Catalyst::Manual::Deployment::IIS::FastCGI>
 
+=head2 mod_perl
+
+Traditionally a common deployment option for dedicated applications, with some advantages and
+disadvantages over FastCGI. This is documented in L<Catalyst::Manual::Deployment::Apache::mod_perl>.
+
 =head2 Development Server
 
-L<Catalyst::Manual::Deployment::DevelopmentServer>.
+It is possible to deploy the Catalyst development server behind a reverse proxy. This may work
+well for small scale applications which are in an early development phase, but you want to be
+able to show to people. See: L<Catalyst::Manual::Deployment::DevelopmentServer>.
 
 =head2 PSGI
+
+Catalyst can be deployed with any PSGI compliant handler. See L<Catalyst::PSGI> for more information,
+and a list of possible deployment servers are shown below:
+
+=head3 Starman
+
+L<Starman> is a high performance pure perl server implementation, which is designed to be used
+directly.
+
+=head3 Starlet.
+
+XXX - FIXME
+
++ other options?
+
+=head3 Twiggy
+
+L<Twiggy> is a high-performance asynchronous web server. It can be used in conjunction with Catalyst,
+but with a number of caveats which mean that it is not suitable for most deployments.
 
 =head1 AUTHORS
 
