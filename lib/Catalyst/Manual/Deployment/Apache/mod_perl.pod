@@ -58,11 +58,12 @@ to run a Catalyst app.
 =head2 2. Install Apache with mod_perl
 
 Both Apache 1.3 and Apache 2 are supported, although Apache 2 is highly
-recommended.  With Apache 2, make sure you are using the prefork MPM and not
-the worker MPM.  The reason for this is that many Perl modules are not
-thread-safe and may have problems running within the threaded worker
-environment.  Catalyst is thread-safe however, so if you know what you're
-doing, you may be able to run using worker.
+recommended.  Apache 1.3 will no longer be supported with Catalyst 5.9.  With
+Apache 2, make sure you are using the prefork MPM and not the worker MPM.  The
+reason for this is that many Perl modules are not thread-safe and may have
+problems running within the threaded worker environment.  Catalyst is
+thread-safe however, so if you know what you're doing, you may be able to run
+using worker.
 
 In Debian, the following commands should get you going.
 
