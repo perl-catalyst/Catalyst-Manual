@@ -60,14 +60,14 @@ and a list of possible deployment servers are shown below:
 
 =head3 Starman
 
-L<Starman> is a high performance pure perl server implementation, which is designed to be used
-directly.
+L<Starman> is a high performance perl server implementation, which is designed to be used
+directly (rather than behind a reverse proxy). It includes HTTP/1.1 support,
+chunked requests and responses, keep-alive xxand pipeline requests.
 
 =head3 Starlet.
 
-XXX - FIXME
-
-+ other options?
+Starlet is a standalone HTTP/1.0 server with keep‐alive support which is suitable for running
+HTTP application servers behind a reverse proxy.
 
 =head3 Twiggy
 

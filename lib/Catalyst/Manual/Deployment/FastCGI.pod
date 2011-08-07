@@ -41,6 +41,10 @@ versions of the same app on a single server.
 Since your app is not running inside of Apache, the faster mpm_worker module
 can be used without worrying about the thread safety of your application.
 
+=head3 Widely supported.
+
+FastCGI is compatible with a lot more server implementations than Apache.
+
 =head2 Cons
 
 You may have to disable mod_deflate.  If you experience page hangs with
@@ -50,8 +54,6 @@ mod_fastcgi then remove deflate.load and deflate.conf from mods-enabled/
 
 With FastCGI, there are more things to monitor and more processes running
 than when using mod_perl.
-
-XXX - FIXME, note not just apache!
 
 =head2 Standalone FastCGI Server
 
