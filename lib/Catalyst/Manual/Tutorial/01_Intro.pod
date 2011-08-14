@@ -534,7 +534,7 @@ different Debian ISO image and install it to your hard drive.
 Although there are many different ways to download and install Debian, 
 the "netinst" ISO image (such as "C<debian-500-i386-netinst.iso>" 
 represents a great option because it keeps your initial download small 
-(but still let's you install anything you want "over the network").
+(but still lets you install anything you want "over the network").
 
 Here are some tips if you are running from a live CD and are running
 out of disk space (which really means you are running out of RAM):
