@@ -72,8 +72,8 @@ Static files can be served directly by lighttpd for a performance boost.
          )
     }
 
-Which serves everything in the img, static, css directories
-statically, as well as the favicon file.
+This will serve everything in the C<img>, C<static>, and C<css>
+directories statically, as well as the favicon file.
 
 =head1 AUTHORS
 

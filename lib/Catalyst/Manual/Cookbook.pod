@@ -1748,7 +1748,7 @@ allows old entries to be automatically expired when they are no longer needed.
 =head3 Page Caching
 
 Another method of caching is to cache the entire HTML page.  While this is
-traditionally handled by a front-end proxy server like Squid, the Catalyst
+traditionally handled by a frontend proxy server like Squid, the Catalyst
 PageCache plugin makes it trivial to cache the entire output from
 frequently-used or slow actions.
 
@@ -1786,7 +1786,7 @@ Note that the page cache is keyed on the page URI plus all parameters, so
 requests for / and /?foo=bar will result in different cache items.  Also,
 only GET requests will be cached by the plugin.
 
-You can even get that front-end Squid proxy to help out by enabling HTTP
+You can even get that frontend Squid proxy to help out by enabling HTTP
 headers for the cached page.
 
     MyApp->config(

@@ -4,25 +4,25 @@ Catalyst::Manual::Deployment::SharedHosting - Deploying Catalyst on Shared Hosti
 
 =head1 Catalyst on shared hosting
 
-So, you want to put your Catalyst app out there for the whole world to
-see, but you don't want to break the bank. There is an answer - if you
-can get shared hosting with FastCGI and a shell, you can install your
-Catalyst app in a local directory on your shared host. First, run
+So, you want to put your Catalyst application out there for the whole
+world to see, but you don't want to break the bank. There is an answer -
+if you can get shared hosting with FastCGI and a shell, you can install
+your Catalyst app in a local directory on your shared host. First, run
 
     perl -MCPAN -e shell
 
-and go through the standard CPAN configuration process. Then exit out
+and go through the standard CPAN configuration process. Then exit
 without installing anything. Next, download the latest L<local::lib>
-package and follow it's 'bootstrap' instructions to get it installed
+package and follow its 'bootstrap' instructions to get it installed
 and the local configuration added to your C<< ~/.bashrc >>.
 
 Now log out, then back in again (or run C<". .bashrc"> if you
 prefer).
 
-Now you can install the modules you need using CPAN as normal; they
-will be installed into your local directory, and perl will pick them
-up. Finally, change directory into the root of your virtual host and
-symlink your application's script directory in:
+Now you can install the modules you need using CPAN as normal; they will
+be installed into your local directory, and Perl will pick them up.
+Finally, change into the root directory of your virtual host, and
+symlink your application's script directory:
 
     cd path/to/mydomain.com
     ln -s ~/lib/MyApp/script script

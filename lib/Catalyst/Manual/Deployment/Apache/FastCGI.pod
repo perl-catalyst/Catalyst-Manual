@@ -6,10 +6,10 @@ Catalyst::Manual::Deployment::Apache::FastCGI - Deploying Catalyst with FastCGI 
 
 =head3 1. Install Apache with mod_fastcgi
 
-mod_fastcgi for Apache is a third party module, and can be found at
-L<http://www.fastcgi.com/>.  It is also packaged in many distributions,
-for example, libapache2-mod-fastcgi in Debian. You will also need to install
-the L<FCGI> module from cpan.
+mod_fastcgi for Apache is a third-party module, and can be found at
+L<http://www.fastcgi.com/>. It is also packaged in many distributions
+(for example, libapache2-mod-fastcgi in Debian). You will also need to
+install the L<FCGI> module from CPAN.
 
 Important Note! If you experience difficulty properly rendering pages,
 try disabling Apache's mod_deflate (Deflate Module), e.g. 'a2dismod deflate'.
@@ -35,7 +35,7 @@ static, and dynamic.
 
 
 The FastCgiExternalServer directive tells Apache that when serving
-/tmp/myapp to use the FastCGI application listenting on the socket
+/tmp/myapp to use the FastCGI application listening on the socket
 /tmp/mapp.socket.  Note that /tmp/myapp.fcgi B<MUST NOT> exist --
 it's a virtual file name.  With some versions of C<mod_fastcgi> or
 C<mod_fcgid>, you can use any name you like, but some require that the

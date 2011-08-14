@@ -27,9 +27,9 @@ restarting.
 
 =head3 Load-balancing
 
-You can launch your application on multiple backend servers and allow the
-frontend web server to load-balance between all of them.  And of course, if
-one goes down, your app continues to run fine.
+You can launch your application on multiple backend servers and allow
+the frontend web server to perform load-balancing among all of them. And
+of course, if one goes down, your app continues to run.
 
 =head3 Multiple versions of the same app
 
@@ -43,7 +43,7 @@ can be used without worrying about the thread safety of your application.
 
 =head3 Widely supported.
 
-FastCGI is compatible with a lot more server implementations than Apache.
+FastCGI is compatible with many server implementations, not just Apache.
 
 =head2 Cons
 
@@ -83,7 +83,7 @@ server.
 
 Any web server which supports FastCGI should work with Catalyst. Configuration
 recipies for well-known web servers are linked below, and we would welcome
-contributions from people deploying Catalyst against other web servers.
+contributions from people deploying Catalyst on other web servers.
 
 =head2 Apache
 

@@ -2,9 +2,9 @@
 
 Catalyst::Manual::DevelopmentServer - Development server deployment
 
-The development server is a mini web server written in perl.  However if
-you supply the C<-f> option to the development server, it will load
-the higher performance L<Starman> server, which can be used as an
+The development server is a mini web server written in Perl. However, if
+you supply the C<-f> option to the development server, it will load the
+higher performance L<Starman> server, which can be used as an
 application server with a lightweight proxy web server at the front.
 
 =head1 Setup
@@ -46,8 +46,8 @@ different apps served on the same host.
 
 =head2 Other web servers
 
-The proxy configuration above can also be replicated with a different front end
-server or proxy such as varnish, nginx or lighttpd.
+The proxy configuration above can also be replicated with a different
+frontend server or proxy, such as varnish, nginx, or lighttpd. 
 
 =head1 AUTHORS
 

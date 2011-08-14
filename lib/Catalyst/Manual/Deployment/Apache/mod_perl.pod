@@ -4,15 +4,16 @@ Catalyst::Manual::Deployment::Apache::mod_perl - Deploying Catalyst with mod_per
 
 =head1 mod_perl Deployment
 
-mod_perl is not the best solution for many applications, but we'll list some
-pros and cons so you can decide for yourself.
+The recommended method of deploying Catalyst applications is FastCGI. In
+many cases, mod_perl is not the best solution, but we'll list some pros
+and cons so you can decide for yourself.
 
 =head2 Pros
 
 =head3 Speed
 
-mod_perl is fast and your app will be loaded in memory
-within each Apache process.
+mod_perl is fast, and your entire app will be loaded in memory within
+each Apache process.
 
 =head3 Shared memory for multiple apps
 
@@ -32,23 +33,25 @@ server.
 
 =head3 Reloading
 
-Any changes made to the core code of your app require a full Apache restart.
-Catalyst does not support Apache::Reload or StatINC.  This is another good
-reason to run a frontend web server where you can set up an
-C<ErrorDocument 502> page to report that your app is down for maintenance.
+Any changes made to the code of your app require a full restart of
+Apache. Catalyst does not support Apache::Reload or StatINC. This is
+another good reason to run a frontend web server where you can set up an
+C<ErrorDocument 502> page to report that your app is down for
+maintenance.
 
 =head4 Cannot run multiple versions of the same app
 
 It is not possible to run two different versions of the same application in
 the same Apache instance because the namespaces will collide.
 
-=head3 Cannot run different versions of libraries.
+=head3 Cannot run different versions of libraries
 
 If you have two different applications which run on the same machine,
-which need two different versions of a library then the only way to do
-this is to have per-vhost perl interpreters (with different library paths).
-This is entirely possible, but nullifies all the memory sharing benefits that
-you get from having multiple applications sharing the same interpreter.
+and each application needs a different versions of a library, the only
+way to do this is to have per-vhost perl interpreters (with different
+library paths). This is entirely possible, but nullifies all the memory
+sharing benefits that you get from having multiple applications sharing
+the same interpreter.
 
 =head1 Setup
 

@@ -5,7 +5,7 @@ Catalyst::Manual::Deployment::nginx::FastCGI - Deploying Catalyst with nginx
 =head1 nginx
 
 Catalyst runs under nginx via FastCGI in a similar fashion as the lighttpd
-standalone server as described above.
+standalone server.
 
 nginx does not have its own internal FastCGI process manager, so you must run
 the FastCGI service separately.
@@ -66,7 +66,7 @@ As an example, if your application is rooted at /myapp, you would configure:
 C<$fastcgi_script_name> would be "/myapp/path/of/the/action".  Catalyst will
 process this accordingly and setup the application base as expected.
 
-This behavior is somewhat different than Apache and Lighttpd, but is still
+This behavior is somewhat different from Apache and lighttpd, but is still
 functional.
 
 For more information on nginx, visit:

@@ -4,29 +4,31 @@ Catalyst::Manual::Deployment - Deploying Catalyst
 
 =head1 DEPLOYMENT OPTIONS
 
-Catalyst applications most often deployed as a FastCGI or mod_perl application,
-however as Catalyst is based on the L<PSGI> specification, any web handler
-implementing that specification can be used to run Catalyst applications.
+Catalyst applications are most often deployed as a FastCGI or mod_perl
+application (with FastCGI being the recommended option). However, as
+Catalyst is based on the L<PSGI> specification, any web handler
+implementing that specification can be used to run Catalyst
+applications.
 
 This documentation most thoroughly covers the normal and traditional deployment
 options, but will mention alternate methods of deployment, and we welcome
 additional documentation from people deploying Catalyst in non-standard
 environments.
 
-=head2 Deployment for shared hosting
+=head2 Deployment in a shared hosting environment
 
-Almost all shared hosting environments involve deploying Catalyst as a FastCGI
-on Apache.
+Almost all shared hosting environments involve deploying Catalyst as a
+FastCGI application on Apache. You will usually want to have a set of
+libraries specific to your application installed on your shared host.
 
-You will usually want to have a set of libraries specific to your application
-installed on your shared host, and there are instructions about this in
+Full details of deploying Catalyst in a shared hosting enviroment are at
 L<Catalyst::Manual::Deployment::SharedHosting>.
 
 =head2 FastCGI
 
-FastCGI is the most common Catalyst deployment option, it is documented
+FastCGI is the most common Catalyst deployment option. It is documented
 generally in L<Catalyst::Manual::Deployment::FastCGI>, and there are specific
-instructions for common web servers linked below:
+instructions for using FastCGI with common web servers below:
 
 =head3 Apache
 
@@ -46,39 +48,40 @@ L<Catalyst::Manual::Deployment::IIS::FastCGI>
 
 =head2 mod_perl
 
-Traditionally a common deployment option for dedicated applications, with some
-advantages and disadvantages over FastCGI. This is documented in
+Traditionally a common deployment option for dedicated applications,
+mod_perl has some advantages and disadvantages over FastCGI. Use of
+mod_perl is documented in
 L<Catalyst::Manual::Deployment::Apache::mod_perl>.
 
 =head2 Development Server
 
-It is possible to deploy the Catalyst development server behind a reverse
-proxy. This may work well for small scale applications which are in an early
-development phase, but you want to be able to show to people. See:
-L<Catalyst::Manual::Deployment::DevelopmentServer>.
+It is possible to deploy the Catalyst development server behind a
+reverse proxy. This may work well for small-scale applications which are
+in an early development phase, but which you want to be able to show to
+people. See L<Catalyst::Manual::Deployment::DevelopmentServer>.
 
 =head2 PSGI
 
-Catalyst can be deployed with any PSGI compliant handler. See L<Catalyst::PSGI>
-for more information, and a list of possible deployment servers are shown
+Catalyst can be deployed with any PSGI-compliant handler. See L<Catalyst::PSGI>
+for more information; a list of possible deployment servers are shown
 below:
 
 =head3 Starman
 
-L<Starman> is a high performance perl server implementation, which is designed
+L<Starman> is a high-performance Perl server implementation, which is designed
 to be used directly (rather than behind a reverse proxy). It includes HTTP/1.1
-support, chunked requests and responses, keep-alive xxand pipeline requests.
+support, chunked requests and responses, keep-alive, and pipeline requests.
 
-=head3 Starlet.
+=head3 Starlet
 
 Starlet is a standalone HTTP/1.0 server with keep‐alive support which is
 suitable for running HTTP application servers behind a reverse proxy.
 
 =head3 Twiggy
 
-L<Twiggy> is a high-performance asynchronous web server. It can be used in
-conjunction with Catalyst, but with a number of caveats which mean that it is
-not suitable for most deployments.
+L<Twiggy> is a high-performance asynchronous web server. It can be used
+in conjunction with Catalyst, but there are a number of caveats which
+mean that it is not suitable for most deployments.
 
 =head1 AUTHORS
 
