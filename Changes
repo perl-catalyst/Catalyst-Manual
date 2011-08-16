@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+5.9000 16 Aug 2011
+
+    - Copy editing to make more sense in deployment documentation.
+
 5.8901 7 Aug 2011 - TRIAL RELEASE
     - Added Catalyst::Manual::Deployment containing the documentation
       which used to be in Catalyst::Engine::*, updated for the
