@@ -251,30 +251,51 @@ information.
 At creation time, the class configuration of your component (the one
 available via C<$self-E<gt>config>) will be merged with possible
 configuration settings from the applications configuration (either
-directly or via config file).  This is then stored in the controller
-object's hash reference. So, if you read possible configurations like:
+directly or via config file). This is done by Catalyst, and the
+correctly merged configuration is passed to your component's
+constructor (i.e. the new method).
 
-  my $model_name = $controller->{model_name};
+Ergo, if you define an accessor for each configuration value
+that your component takes, then the value will be automatically stored
+in the controller object's hash reference, and available from the
+accessor.
 
-you will get the right value. The C<config> accessor always only
-contains the original class configuration and must not be used for
-component configuration.
+The C<config> accessor always only contains the original class configuration
+and you B<MUST NEVER> call $self->config to get your component configuration,
+as the data there is likely to be a subset of the correct config.
 
-You are advised to create accessors on your component class for your
-configuration values. This is good practice and makes it easier to
-capture configuration key typos, or missing keys.
+For example:
 
-You can do this with L<Moose>:
+  package MyApp
+  use Moose;
+
+  extends 'Catalyst';
+
+  ...
+
+  __PACKAGE__->config(
+    'Controller::Foo' => { some_value => 'bar' },
+  );
+
+  ...
 
   package MyApp::Controller::Foo;
   use Moose;
   use namespace::autoclean;
   BEGIN { extends 'Catalyst::Controller' };
 
-  has model_name ( is => 'ro', required => 1 );
+  has some_value ( is => 'ro', required => 1 );
+
+  sub some_method {
+      my $self = shift;
+      return "the value of 'some_value' is " . $self->some_value;
+  }
 
   ...
-  my $model_name = $controller->model_name;
+
+  my $controller = $c->controller('Foo');
+  warn $controller->some_value;
+  warn $controller->some_method;
 
 =head1 IMPLEMENTATION
 
