@@ -65,7 +65,7 @@ upgrade various pieces of your application over time.
 
 You can check out the source code for this example from the Catalyst
 Subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::01_Intro|Catalyst::Manual::Tutorial::01_Intro>.
+L<Catalyst::Manual::Tutorial::01_Intro>.
 
 For an excellent introduction to learning the many benefits of testing
 your Perl applications and modules, you might want to read 'Perl Testing: 
@@ -167,10 +167,10 @@ For example:
 Although the Catalyst helper scripts provide a basic level of checks
 "for free," testing can become significantly more helpful when you write
 your own script to exercise the various parts of your application.  The
-L<Test::WWW::Mechanize::Catalyst|Test::WWW::Mechanize::Catalyst> module 
+L<Test::WWW::Mechanize::Catalyst> module 
 is very popular for writing these sorts of test cases.  This module 
-extends L<Test::WWW::Mechanize|Test::WWW::Mechanize> (and therefore 
-L<WWW::Mechanize|WWW::Mechanize>) to allow you to automate the action of
+extends L<Test::WWW::Mechanize> (and therefore 
+L<WWW::Mechanize>) to allow you to automate the action of
 a user "clicking around" inside your application.  It gives you all the
 benefits of testing on a live system without the messiness of having to
 use an actual web server, and a real person to do the clicking.
@@ -282,13 +282,13 @@ editor and enter the following:
 The C<live_app.t> test cases uses copious comments to explain each step
 of the process.  In addition to the techniques shown here, there are a
 variety of other methods available in 
-L<Test::WWW::Mechanize::Catalyst|Test::WWW::Mechanize::Catalyst> (for 
+L<Test::WWW::Mechanize::Catalyst> (for 
 example, regex-based matching). Consult the documentation for more
 detail.
 
 B<TIP>: For I<unit tests> vs. the "full application tests" approach used
-by L<Test::WWW::Mechanize::Catalyst|Test::WWW::Mechanize::Catalyst>, see 
-L<Catalyst::Test|Catalyst::Test>.
+by L<Test::WWW::Mechanize::Catalyst>, see 
+L<Catalyst::Test>.
 
 B<Note:> The test script does not test the C<form_create> and
 C<form_create_do> actions.  That is left as an exercise for the reader
@@ -347,7 +347,7 @@ the state of the application right before or after the failure.
 You may wish to leverage the techniques discussed in this tutorial to
 maintain both a "production database" for your live application and a
 "testing database" for your test cases.  One advantage to
-L<Test::WWW::Mechanize::Catalyst|Test::WWW::Mechanize::Catalyst> is that
+L<Test::WWW::Mechanize::Catalyst> is that
 it runs your full application; however, this can complicate things when
 you want to support multiple databases.
 

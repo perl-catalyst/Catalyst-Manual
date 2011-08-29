@@ -541,7 +541,7 @@ The Perl C<DBD::MySQL> module
 =back
 
 For CentOS users (see
-L<Catalyst::Manual::Installation::CentOS4|Catalyst::Manual::Installation::CentOS4>),
+L<Catalyst::Manual::Installation::CentOS4>),
 you can use the following commands to install the software and start the MySQL
 daemon:
 

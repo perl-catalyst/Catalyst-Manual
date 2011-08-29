@@ -74,7 +74,7 @@ clean "separation of control" between the different portions of your
 application. Given that many other documents cover this subject in
 detail, MVC will not be discussed in depth here (for an excellent
 introduction to MVC and general Catalyst concepts, please see
-L<Catalyst::Manual::About|Catalyst::Manual::About>). In short:
+L<Catalyst::Manual::About>). In short:
 
 =over 4
 
@@ -110,7 +110,7 @@ automatically create our Catalyst model for use with a database.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::01_Intro|Catalyst::Manual::Tutorial::01_Intro>.
+L<Catalyst::Manual::Tutorial::01_Intro>.
 
 
 =head1 CREATE A CATALYST PROJECT
@@ -118,10 +118,10 @@ L<Catalyst::Manual::Tutorial::01_Intro|Catalyst::Manual::Tutorial::01_Intro>.
 Catalyst provides a number of helper scripts that can be used to quickly
 flesh out the basic structure of your application. All Catalyst projects
 begin with the C<catalyst.pl> helper (see
-L<Catalyst::Helper|Catalyst::Helper> for more information on helpers).
+L<Catalyst::Helper> for more information on helpers).
 Also note that as of Catalyst 5.7000, you will not have the helper
-scripts unless you install both L<Catalyst::Runtime|Catalyst::Runtime>
-and L<Catalyst::Devel|Catalyst::Devel>.
+scripts unless you install both L<Catalyst::Runtime>
+and L<Catalyst::Devel>.
 
 In this first chapter of the tutorial, use the Catalyst C<catalyst.pl>
 script to initialize the framework for an application called C<Hello>:
@@ -279,11 +279,11 @@ as a "404" message or a redirect, but for now just leave it alone.
 The "C<$c>" here refers to the Catalyst context, which is used to access
 the Catalyst application. In addition to many other things, the Catalyst
 context provides access to "response" and "request" objects. (See
-L<Catalyst|Catalyst>, L<Catalyst::Response|Catalyst::Response>, and
-L<Catalyst::Request|Catalyst::Request>)
+L<Catalyst>, L<Catalyst::Response>, and
+L<Catalyst::Request>)
 
 C<$c-E<gt>response-E<gt>body> sets the HTTP response (see
-L<Catalyst::Response|Catalyst::Response>), while
+L<Catalyst::Response>), while
 C<$c-E<gt>welcome_message> is a special method that returns the welcome
 message that you saw in your browser.
 
@@ -385,7 +385,7 @@ The "view" keyword tells the create script that you are creating a view.
 The first argument "HTML" tells the script to name the View module "HTML.pm",
 which is a commonly used name for TT views.  You can name it anything you want,
 such as "MyView.pm". If you have more than one view, be sure to set the
-default_view in Hello.pm (See L<Catalyst::View::TT|Catalyst::View::TT> for more
+default_view in Hello.pm (See L<Catalyst::View::TT> for more
 details on setting this).
 
 =item *

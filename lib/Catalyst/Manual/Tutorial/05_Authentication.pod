@@ -65,7 +65,7 @@ cleartext authentication and 2) hash-based authentication.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::01_Intro|Catalyst::Manual::Tutorial::01_Intro>.
+L<Catalyst::Manual::Tutorial::01_Intro>.
 
 
 =head1 BASIC AUTHENTICATION
@@ -150,7 +150,7 @@ Speaking of "hand-editted enhancements," we should now add the
 C<many_to_many> relationship information to the User Result Source file.
 As with the Book, BookAuthor, and Author files in
 L<Chapter 3|Catalyst::Manual::Tutorial::03_MoreCatalystBasics>,
-L<DBIx::Class::Schema::Loader|DBIx::Class::Schema::Loader> has
+L<DBIx::Class::Schema::Loader> has
 automatically created the C<has_many> and C<belongs_to> relationships
 for the new User, UserRole, and Role tables. However, as a convenience
 for mapping Users to their assigned roles (see
@@ -271,9 +271,9 @@ backed session store).
 =head2 Configure Authentication
 
 There are a variety of ways to provide configuration information to
-L<Catalyst::Plugin::Authentication|Catalyst::Plugin::Authentication>.
+L<Catalyst::Plugin::Authentication>.
 Here we will use
-L<Catalyst::Authentication::Realm::SimpleDB|Catalyst::Authentication::Realm::SimpleDB>
+L<Catalyst::Authentication::Realm::SimpleDB>
 because it automatically sets a reasonable set of defaults for us. Open
 C<lib/MyApp.pm> and place the following text above the call to
 C<__PACKAGE__-E<gt>setup();>:
@@ -309,7 +309,7 @@ to the following code:
     </Plugin::Authentication>
 
 B<TIP:> Here is a short script that will dump the contents of
-C<MyApp->config> to L<Config::General|Config::General> format in
+C<MyApp->config> to L<Config::General> format in
 C<myapp.conf>:
 
     $ CATALYST_DEBUG=0 perl -Ilib -e 'use MyApp; use Config::General;
@@ -831,7 +831,7 @@ I<it does get cleared the first time it is read>.  In general, this is
 exactly what you want -- the C<flash> message will get displayed on
 the next screen where it's appropriate, but it won't "keep showing up"
 after that first time (unless you reset it).  Please refer to
-L<Catalyst::Plugin::Session|Catalyst::Plugin::Session> for additional
+L<Catalyst::Plugin::Session> for additional
 information.
 
 

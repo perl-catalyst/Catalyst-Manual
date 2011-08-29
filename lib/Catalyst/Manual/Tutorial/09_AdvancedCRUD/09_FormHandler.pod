@@ -57,15 +57,15 @@ L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 =head1 DESCRIPTION
 
 This portion of the tutorial explores
-L<HTML::FormHandler|HTML::FormHandler> and how it can be used to manage
+L<HTML::FormHandler> and how it can be used to manage
 forms, perform validation of form input, and save and restore data
 to or from the database. This was written using HTML::FormHandler version
 0.28001.
 
 See 
-L<Catalyst::Manual::Tutorial::09_AdvancedCRUD|Catalyst::Manual::Tutorial::09_AdvancedCRUD>
+L<Catalyst::Manual::Tutorial::09_AdvancedCRUD>
 for additional form management options other than 
-L<HTML::FormHandler|HTML::FormHandler>.
+L<HTML::FormHandler>.
 
 
 =head1 Install HTML::FormHandler
@@ -86,7 +86,7 @@ to your C<Makefile.PL>.
 
 =head1 HTML::FormHandler FORM CREATION
 
-This section looks at how L<HTML::FormHandler|HTML::FormHandler> can be used to 
+This section looks at how L<HTML::FormHandler> can be used to 
 add additional functionality to the manually created form from Chapter 4.
 
 

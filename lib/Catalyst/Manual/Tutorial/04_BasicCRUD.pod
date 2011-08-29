@@ -70,13 +70,13 @@ Although this chapter of the tutorial will show you how to build CRUD
 functionality yourself, another option is to use a "CRUD builder" type 
 of tool to automate the process.  You get less control, but it can be 
 quick and easy.  For example, see 
-L<Catalyst::Plugin::AutoCRUD|Catalyst::Plugin::AutoCRUD>, 
-L<CatalystX::CRUD|CatalystX::CRUD>, and 
-L<CatalystX::CRUD::YUI|CatalystX::CRUD::YUI>.
+L<Catalyst::Plugin::AutoCRUD>, 
+L<CatalystX::CRUD>, and 
+L<CatalystX::CRUD::YUI>.
 
 You can check out the source code for this example from the Catalyst
 Subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::01_Intro|Catalyst::Manual::Tutorial::01_Intro>.
+L<Catalyst::Manual::Tutorial::01_Intro>.
 
 
 =head1 FORMLESS SUBMISSION
@@ -168,7 +168,7 @@ Edit C<root/src/books/create_done.tt2> and then enter:
 The TT C<USE> directive allows access to a variety of plugin modules
 (TT plugins, that is, not Catalyst plugins) to add extra functionality
 to the base TT capabilities.  Here, the plugin allows
-L<Data::Dumper|Data::Dumper> "pretty printing" of objects and
+L<Data::Dumper> "pretty printing" of objects and
 variables.  Other than that, the rest of the code should be familiar
 from the examples in Chapter 3.
 
@@ -334,7 +334,7 @@ chapter of the tutorial and explore slightly more advanced capabilities
 with the base method and delete feature below.  But Chained dispatch
 is capable of far more.  For additional information, see
 L<Catalyst::Manual::Intro/Action types>,
-L<Catalyst::DispatchType::Chained|Catalyst::DispatchType::Chained>,
+L<Catalyst::DispatchType::Chained>,
 and the 2006 Advent calendar entry on the subject:
 L<http://www.catalystframework.org/calendar/2006/10>.
 
@@ -970,7 +970,7 @@ with the new fields:
      exists "/root/dev/MyApp/script/../lib/MyApp/Model/DB.pm"
 
 Notice that we modified our use of the helper slightly: we told
-it to include the L<DBIx::Class::TimeStamp|DBIx::Class::TimeStamp>
+it to include the L<DBIx::Class::TimeStamp>
 in the C<load_components> line of the Result Classes.
 
 If you open C<lib/MyApp/Schema/Result/Book.pm> in your editor you should 

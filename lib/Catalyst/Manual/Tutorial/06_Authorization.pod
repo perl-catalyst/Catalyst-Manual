@@ -65,7 +65,7 @@ can simplify your code and make things easier to maintain.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::01_Intro|Catalyst::Manual::Tutorial::01_Intro>.
+L<Catalyst::Manual::Tutorial::01_Intro>.
 
 
 =head1 BASIC AUTHORIZATION

@@ -80,7 +80,7 @@ Catalyst is able to easily accommodate both styles of debugging.
 =head1 LOG STATEMENTS
 
 Folks in the former group can use Catalyst's C<$c-E<gt>log> facility. 
-(See L<Catalyst::Log|Catalyst::Log> for more detail.) For example, if 
+(See L<Catalyst::Log> for more detail.) For example, if 
 you add the following code to a controller action method:
 
     $c->log->info("Starting the foreach loop here");
@@ -103,7 +103,7 @@ severity/importance):
     $c->log->error
     $c->log->fatal
 
-You can also use L<Data::Dumper|Data::Dumper> in both Catalyst code 
+You can also use L<Data::Dumper> in both Catalyst code 
 (C<use Data::Dumper; $c-E<gt>log-E<gt>debug("\$var is: ".Dumper($var));)>) 
 and TT templates (C<[% Dumper.dump(book) %]>.
 
@@ -293,7 +293,7 @@ need to install the C<perl-doc> package to use the C<perldoc> command.
 Use C<sudo aptitude install perl-doc> to do that.
 
 For example, you could make a copy of 
-L<Catalyst::Plugin::Authentication|Catalyst::Plugin::Authentication>
+L<Catalyst::Plugin::Authentication>
 with the following command:
 
     mkdir -p lib/Catalyst/Plugin; cp \
@@ -357,7 +357,7 @@ declaration in C<lib/MyApp/View/HTML.pm>:
 
 There are a variety of options you can use, such as 'undef', 'all', 
 'service', 'context', 'parser' and 'provider'.  See 
-L<Template::Constants|Template::Constants> for more information 
+L<Template::Constants> for more information 
 (remove the C<DEBUG_> portion of the name shown in the TT docs and 
 convert to lower case for use inside Catalyst).
 

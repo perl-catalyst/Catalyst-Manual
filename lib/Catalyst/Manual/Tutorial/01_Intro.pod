@@ -117,7 +117,7 @@ A simple application that lists and adds books.
 
 =item *
 
-The use of L<DBIx::Class|DBIx::Class> (DBIC) for the model (including
+The use of L<DBIx::Class> (DBIC) for the model (including
 some of the more advanced techniques you will probably want to use in
 your applications).
 
@@ -158,7 +158,7 @@ DBIx::Class.)
 
 =item * 
 
-The use of L<HTML::FormFu|HTML::FormFu> or L<HTML::FormHandler|HTML::FormHandler>
+The use of L<HTML::FormFu> or L<HTML::FormHandler>
 for automated form processing and validation.
 
 =back
@@ -632,7 +632,7 @@ CatInABox
 
 You can get more information at
 L<http://www.catalystframework.org/calendar/2008/7> or
-L<Perl::Dist::CatInABox|Perl::Dist::CatInABox>.
+L<Perl::Dist::CatInABox>.
 
 =item * 
 
@@ -641,7 +641,7 @@ Frank Speiser's Amazon EC2 Catalyst SDK
 There are currently two flavors of publicly available Amazon Machine
 Images (AMI) that include all the elements you'd need to begin
 developing in a fully functional Catalyst environment within minutes.
-See L<Catalyst::Manual::Installation|Catalyst::Manual::Installation>
+See L<Catalyst::Manual::Installation>
 for more details.
 
 =back
@@ -650,7 +650,7 @@ for more details.
 
 For additional information and recommendations on Catalyst installation,
 please refer to
-L<Catalyst::Manual::Installation|Catalyst::Manual::Installation>.
+L<Catalyst::Manual::Installation>.
 
 
 =head1 DATABASES
@@ -679,7 +679,7 @@ with the following commands:
     cd MyApp_Chapter8/MyApp
     CATALYST_DEBUG=0 prove -wl t
 
-If you wish to include the L<HTML::FormFu|HTML::FormFu> section in your tests,
+If you wish to include the L<HTML::FormFu> section in your tests,
 substitute C<MyApp_Chapter9_FormFu> for C<MyApp_Chapter8> in the URL
 above (don't forget to "cd" out of the Ch8 directory if you ran the code above).
 

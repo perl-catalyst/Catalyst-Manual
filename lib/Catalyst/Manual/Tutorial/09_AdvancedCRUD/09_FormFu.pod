@@ -56,27 +56,27 @@ L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 
 =head1 DESCRIPTION
 
-This portion of the tutorial explores L<HTML::FormFu|HTML::FormFu> and 
+This portion of the tutorial explores L<HTML::FormFu> and 
 how it can be used to manage forms, perform validation of form input, 
 as well as save and restore data to/from the database.  This was written
 using HTML::FormFu version 0.05001.
 
 See 
-L<Catalyst::Manual::Tutorial::09_AdvancedCRUD|Catalyst::Manual::Tutorial::09_AdvancedCRUD>
+L<Catalyst::Manual::Tutorial::09_AdvancedCRUD>
 for additional form management options other than 
-L<HTML::FormFu|HTML::FormFu>.
+L<HTML::FormFu>.
 
 
 =head1 HTML::FormFu FORM CREATION
 
-This section looks at how L<HTML::FormFu|HTML::FormFu> can be used to 
+This section looks at how L<HTML::FormFu> can be used to 
 add additional functionality to the manually created form from Chapter 4.
 
 
 =head2 Inherit From Catalyst::Controller::HTML::FormFu
 
 First, change your C<lib/MyApp/Controller/Books.pm> to inherit from
-L<Catalyst::Controller::HTML::FormFu|Catalyst::Controller::HTML::FormFu>
+L<Catalyst::Controller::HTML::FormFu>
 by changing the C<extends> line from the default of:
 
     BEGIN {extends 'Catalyst::Controller'; }
@@ -143,7 +143,7 @@ following method:
 =head2 Create a Form Config File
 
 Although C<HTML::FormFu> supports any configuration file handled by
-L<Config::Any|Config::Any>, most people tend to use YAML.  First
+L<Config::Any>, most people tend to use YAML.  First
 create a directory to hold your form configuration files:
 
     mkdir -p root/forms/books
@@ -278,7 +278,7 @@ performing any validation.
 
 =head1 HTML::FormFu VALIDATION AND FILTERING
 
-Although the use of L<HTML::FormFu|HTML::FormFu> in the previous section 
+Although the use of L<HTML::FormFu> in the previous section 
 did provide an automated mechanism to build the form, the real power of 
 this module stems from functionality that can automatically validate and 
 filter the user input.  Validation uses constraints to be sure that 
@@ -393,13 +393,13 @@ C<multiple> and C<size> options in C<formfu_create.yml>.
 =item *
 
 Constraints are added to provide validation of the user input.  See
-L<HTML::FormFu::Constraint|HTML::FormFu::Constraint> for other
+L<HTML::FormFu::Constraint> for other
 constraints that are available.
 
 =item *
 
 A variety of filters are run on every field to remove and escape 
-unwanted input.  See L<HTML::FormFu::Filter|HTML::FormFu::Filter>
+unwanted input.  See L<HTML::FormFu::Filter>
 for more filter options.
 
 =back
@@ -585,7 +585,7 @@ real reason you worked through this Tutorial in the first place.
 If you are having difficulty with YAML config above, please save the
 below into the file C<formfu_create.conf> and delete the
 C<formfu_create.yml> file.  The below is in
-L<Config::General|Config::General> format which follows the syntax of
+L<Config::General> format which follows the syntax of
 Apache config files.
 
    constraints   Required
