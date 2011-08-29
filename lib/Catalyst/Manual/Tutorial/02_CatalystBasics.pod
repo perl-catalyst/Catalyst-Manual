@@ -363,7 +363,7 @@ Private actions" in the development server debug output.
 In the Catalyst world a "View" itself is not a page of XHTML or a
 template designed to present a page to a browser. Rather, it is the
 module that determines the I<type> of view -- HTML, pdf, XML, etc. For
-the thing that generates the I<content> of that view (such as the a
+the thing that generates the I<content> of that view (such as a
 Toolkit Template template file), the actual templates go under the
 "root" directory.
 
