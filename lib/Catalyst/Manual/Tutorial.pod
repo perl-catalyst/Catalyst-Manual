@@ -11,7 +11,7 @@ commonly used features while focusing on real-world best practices.
 
 We suggest that you read this introduction on the web.  Make sure you are
 reading the latest version of the tutorial by visiting
-L<http://search.cpan.org/perldoc?Catalyst::Manual::Tutorial>.  Alternatively
+L<https://metacpan.org/module/Catalyst::Manual::Tutorial>.  Alternatively
 you can use CPAN modules like L<Pod::Webserver>, L<Pod::POM::Web>,
 L<Pod::Browser> (Catalyst based), or L<CPAN::Mini::Webserver> to read a local
 copy of the tutorial.

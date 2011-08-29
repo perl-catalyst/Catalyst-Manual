@@ -551,10 +551,10 @@ looping, conditional logic, etc.  In general, TT simplifies the usual
 range of Perl operators down to the single dot (".") operator.  This
 applies to operations as diverse as method calls, hash lookups, and list
 index values (see
-L<http://search.cpan.org/perldoc?Template::Manual::Variables> for
+L<https://metacpan.org/module/Template::Manual::Variables> for
 details and examples).  In addition to the usual L<Template> module Pod
 documentation, you can access the TT manual at
-L<http://search.cpan.org/perldoc?Template::Manual>.
+L<https://metacpan.org/module/Template::Manual>.
 
 B<TIP:> While you can build all sorts of complex logic into your TT 
 templates, you should in general keep the "code" part of your 
