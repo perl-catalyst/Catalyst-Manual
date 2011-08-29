@@ -170,7 +170,7 @@ directories and files it creates:
 
 
 Catalyst will "auto-discover" modules in the Controller, Model, and View
-directories. When you use the hello_create.pl script it will create Perl
+directories. When you use the C<hello_create.pl> script it will create Perl
 module scaffolds in those directories, plus test files in the "t"
 directory. The default location for templates is in the "root"
 directory. The scripts in the script directory will always start with
@@ -231,7 +231,7 @@ C<Ctrl-C> to breakout of the dev server) if you prefer.
     | /                                   | /default                             |
     '-------------------------------------+--------------------------------------'
     
-    [info] Hello powered by Catalyst 5.80020
+    [info] Hello powered by Catalyst 5.80025
     You can connect to your server at http://debian:3000
 
 Point your web browser to L<http://localhost:3000> (substituting a
@@ -510,18 +510,20 @@ default naming convention).
 We've also put the variable "username" into the stash, for use in the
 template.
 
-Make a subdirectory "site" in the "root" directory. Copy the hello.tt
-file into the directory as C<root/site/test.tt>, or create a new
-template file at that location. Include a line like:
+Make a subdirectory "site" in the "root" directory.
+
+    $ mkdir root/site
+
+Create a new template file in that direction named C<root/site/test.tt>
+and include a line like:
 
     <p>Hello, [% username %]!</p>
 
-You should see your test.tt file displayed, including the name "John"
-that you set in the controller.
-
 Once the server automatically restarts, notice in the server output that
 C</site/test> is listed in the Loaded Path actions.  Go to
-L<http://localhost:3000/site/test> in your browser.
+L<http://localhost:3000/site/test> in your browser and you should see
+your test.tt file displayed, including the name "John" that you set in
+the controller.
 
 
 =head1 AUTHORS
