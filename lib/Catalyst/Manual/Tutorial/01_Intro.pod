@@ -83,7 +83,7 @@ part of the tutorial.>
 
 B<NOTE: You can use any Perl-supported OS and environment to run
 Catalyst.> It should make little or no difference to Catalyst's
-operation, B<but this tutorial has been written using the Debian 6 live
+operation, B<but this tutorial has been written using the Debian 6 Live
 CD> because that represents a quick and easy way for most people to try
 out Catalyst with virtually zero setup time and hassles.  Also, the
 tutorial has been tested to work correctly with the versions of Catalyst
@@ -187,8 +187,8 @@ L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/>.
 For those who want to get going quickly, here is a short "cookbook-style
 recipe" to quickly get you up and running. Although there are many
 different ways to get a Catalyst environment going, this tutorial has
-been written with and tested against Debian 6 Live CD, using the steps
-in this Quick Start.
+been written with and tested against the Debian 6 Live CD, using the
+steps in this Quick Start.
 
 If you want, you can follow the directions in this section and then jump
 right to L<Chapter 2|Catalyst::Manual::Tutorial::02_CatalystBasics> of
@@ -196,7 +196,6 @@ the tutorial. However, it would be a good idea to come back and read the
 sections below the Quick Start when you have time. Or, continue reading
 those other sections for suggestions if you do not wish to use the
 Debian 6 Live CD.
-
 
 =over 4
 
@@ -223,7 +222,9 @@ At the "C<user@debian:~$>" prompt, type:
 =item 5
 
 If you want to be able to remotely SSH to this system, set a
-password for root:
+password for root (you might want to do "dpkg -l | grep openssh-server"
+to be sure the ISO image you downloaded has the SSH daemon installed...
+if it's missing, do a "sudo aptitude -y install openssh-server"):
 
     sudo passwd
     ...
@@ -268,10 +269,10 @@ Test example code:
 =head1 VERSIONS AND CONVENTIONS USED IN THIS TUTORIAL
 
 This tutorial was built using the following resources. Please note that
-you may need to make adjustments for different environments and
-versions (note that trailing zeros in version numbers are not 
-significant and may get dropped with techniques for viewing them;
-for example, Catalyst v5.80020 might show up as 5.8002):
+you may need to make adjustments for different environments and versions
+(note that trailing zeros in version numbers are not significant and may
+get dropped with some techniques for viewing them; for example, Catalyst
+v5.80020 might show up as 5.8002):
 
 =over 4
 
@@ -369,7 +370,8 @@ or:
 This tutorial will assume that the web browser is located on the same
 system where the Catalyst development server is running, and therefore
 use a URL of C<http://localhost:3000> (the Catalyst development server
-defaults to port 3000).  If you are running Perl on a different box than
+defaults to port 3000, but can be changed with the "-p" option to the
+development server).  If you are running Perl on a different box than
 where your web browser is located (or using a different port number via
 the C<-p> I<port_number> option to the development server), then you
 will need to update the URL you use accordingly.
@@ -427,11 +429,11 @@ consider the following points:
 "C<debian-live-6.0.1-i386-rescue.iso>" is probably the best all-around
 option for most people because it includes many extra tools such as the
 GCC compiler, therefore saving RAM (every package you need to install
-when running from live CD consumes memory because RAM disk is being used
-in lieu of real disk space).  When initially booting under this image,
-you may see some cryptic warning messages having to do with various
-diagnostic tools it tries to load or enable, but you should be able to
-safely ignore these.
+when running from a Live CD consumes memory because RAM disk is being
+used in lieu of real disk space).  When initially booting under this
+image, you may see some cryptic warning messages having to do with
+various diagnostic tools it tries to load or enable, but you should be
+able to safely ignore these.
 
 =item *
 
@@ -566,9 +568,9 @@ bullet to free the space up (and then do another "C<aptitude update>").
 =item *
 
 Although you can free up space by removing packages you installed since
-you last booted (check out "C<aptitude remove _pkg_name>"), don't bother
+you last booted (check out "C<aptitude remove _pkg_name_>"), don't bother
 trying to remove packages already available at the time of boot. Instead
-of freeing up space, it will actual I<consume> some space. (The live CD
+of freeing up space, it will actual consume I<more> space. (The live CD
 uses these "burn in" packages right from the CD disk vs. first loading
 them on the virtual RAM disk. However, if you remove them, the system
 has to update various files, something that I<does> consume some space
@@ -582,8 +584,8 @@ on the virtual RAM disk.)
 
 Ubuntu
 
-Ubuntu is an extremely popular offshoot of Debian.  It provides cutting
-edge versions of many common tools, application and libraries in an
+Ubuntu is a popular offshoot of Debian.  It provides cutting edge
+versions of many common tools, application and libraries in an
 easy-to-run live CD configuration (and because a single download option
 can be used for both live CD and install-to-disk usage, it keeps your
 download options nice and simple).  As with Debian 6, you should be able
@@ -639,12 +641,12 @@ Matt Trout's C<cat-install>
 
 Available at L<http://www.shadowcat.co.uk/static/cat-install>,
 C<cat-install> can be a fairly painless way to get Catalyst up and
-running.  Just download the script from the link above and type C<perl
-cat-install>.  Depending on the speed of your Internet connection and
-your computer, it will probably take 30 to 60 minutes to install because
-it downloads, makes, compiles, and tests every module.  But this is an
-excellent way to automate the installation of all the latest modules
-used by Catalyst from CPAN.
+running.  Just download the script from the link above and type
+C<perl cat-install>.  Depending on the speed of your Internet connection
+and your computer, it will probably take 30 to 60 minutes to install
+because it downloads, makes, compiles, and tests every module.  But this
+is an excellent way to automate the installation of all the latest
+modules used by Catalyst from CPAN.
 
 
 =item * 
@@ -700,12 +702,12 @@ L<Catalyst::Manual::Installation|Catalyst::Manual::Installation>.
 
 This tutorial will primarily focus on SQLite because of its simplicity
 of installation and use; however, modifications in the script required
-to support MySQL and PostgreSQL will be presented in Appendix.
+to support MySQL and PostgreSQL will be presented in the Appendix.
 
-B<Note:> One of the advantages of the MVC design patterns is that
-applications become much more database independent.  As such, you will
-notice that only the C<.sql> files used to initialize the database
-change between database systems: the Catalyst code generally remains the
+B<Note:> One of the advantages of using tools like Catalyst and DBIC is
+that applications become much more database independent.  As such, you
+will notice that only the C<.sql> files used to initialize the database
+change between database systems: most of the code generally remains the
 same.
 
 
