@@ -276,88 +276,47 @@ v5.80020 might show up as 5.8002):
 
 =item * 
 
-Debian 5 (Lenny)
+Debian 6 (Squeeze)
 
 =item * 
 
-Catalyst v5.80020 (note: may show up as '5.8002' without the trailing zero)
+Catalyst v5.80025
 
 =item *
 
-Catalyst::Devel v1.26
+Catalyst::Devel v1.28
 
 =item * 
 
-DBIx::Class v0.08115
+DBIx::Class v0.08123
 
 =item *
 
-Catalyst::Model::DBIC::Schema v0.40
+Catalyst::Model::DBIC::Schema v0.41
 
 =item *
 
-Template Toolkit v2.20
+Template Toolkit v2.22
 
-
-=item * 
-
-Catalyst Plugins
-
-The plugins used in this tutorial all have sufficiently stable APIs that
-you shouldn't need to worry about versions. However, there could be
-cases where the tutorial is affected by what version of plugins you
-use. This tutorial has been tested against the following set of plugins:
-
-=over 4
-
-=item * 
-
-Catalyst::Plugin::Authentication -- v0.10016
 
 =item *
 
-Catalyst::Plugin::Authorization::Roles -- v0.08
-
-=item *
-
-Catalyst::Plugin::ConfigLoader -- v0.27
-
-=item *
-
-Catalyst::Plugin::Session -- v0.29
-
-=item *
-
-Catalyst::Plugin::Session::State::Cookie -- v0.17
-
-=item *
-
-Catalyst::Plugin::Session::Store::File -- v0.18
-
-=item *
-
-Catalyst::Plugin::StackTrace -- v0.11
-
-=item *
-
-Catalyst::Plugin::Static::Simple -- v0.29
-
-=back
-
-=item *
-
-HTML::FormFu -- v0.06001
+HTML::FormFu -- v0.07002
 
 =item * 
 
 B<NOTE:> You can check the versions you have installed with the
-following command:
+following command (note the slash before the space):
+
+    perl -M<_mod_name_>\ 999
+
+or:
 
     perl -M<_mod_name_> -e 'print "$<_mod_name_>::VERSION\n"'
 
 For example:
 
-    perl -MCatalyst -e 'print "$Catalyst::VERSION\n";'
+    perl -MCatalyst::Devel\ 999
 
 or:
 
