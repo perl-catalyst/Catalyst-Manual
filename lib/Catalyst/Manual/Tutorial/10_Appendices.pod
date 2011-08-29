@@ -175,7 +175,7 @@ Chapter 3: More Catalyst Basics
 
 Install the PostgreSQL server and client and DBD::Pg:
 
-If you are following along in Debian 5, you can quickly install these 
+If you are following along in Debian 6, you can quickly install these
 items via this command:
 
     sudo aptitude install postgresql libdbd-pg-perl libdatetime-format-pg-perl

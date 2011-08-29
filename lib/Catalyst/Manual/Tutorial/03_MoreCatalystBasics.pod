@@ -72,7 +72,7 @@ Please take a look at
 L<Catalyst::Manual::Tutorial::01_Intro/CATALYST INSTALLATION> before
 doing the rest of this tutorial.  Although the tutorial should work
 correctly under most any recent version of Perl running on any operating
-system, the tutorial has been written using Debian 5 and tested to be
+system, the tutorial has been written using Debian 6 and tested to be
 sure it runs correctly in this environment.
 
 
@@ -732,7 +732,7 @@ Please note the '\' above.  Depending on your environment, you might be
 able to cut and paste the text as shown or need to remove the '\'
 character to that the command is all on a single line.
 
-If you are following along in Debian 5, you should have version 0.40 or
+If you are following along in Debian 6, you should have version 0.40 or
 higher (shown above as "0.4" with the tailing zero removed). If you have
 less than v0.39, you will need to run this command to install it
 directly from CPAN:

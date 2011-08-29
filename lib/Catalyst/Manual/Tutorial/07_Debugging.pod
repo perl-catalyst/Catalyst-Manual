@@ -288,7 +288,7 @@ copy of an installed module:
 
     mkdir -p lib/Module; cp `perldoc -l Module::Name` lib/Module/
 
-Note: If you are following along in Debian 5 or Ubuntu, you will
+Note: If you are following along in Debian 6 or Ubuntu, you will
 need to install the C<perl-doc> package to use the C<perldoc> command.  
 Use C<sudo aptitude install perl-doc> to do that.
 
