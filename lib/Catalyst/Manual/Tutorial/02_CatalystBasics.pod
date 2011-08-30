@@ -200,13 +200,13 @@ C<Ctrl-C> to breakout of the dev server) if you prefer.
     [debug] Statistics enabled
     [debug] Loaded plugins:
     .----------------------------------------------------------------------------.
-    | Catalyst::Plugin::ConfigLoader  0.27                                       |
+    | Catalyst::Plugin::ConfigLoader  0.30                                       |
     '----------------------------------------------------------------------------'
     
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
-    [debug] Loaded engine "Catalyst::Engine::HTTP"
-    [debug] Found home "/home/me/Hello"
-    [debug] Loaded Config "/home/me/Hello/hello.conf"
+    [debug] Loaded engine "Catalyst::Engine"
+    [debug] Found home "/root/Hello"
+    [debug] Loaded Config "/root/Hello/hello.conf"
     [debug] Loaded components:
     .-----------------------------------------------------------------+----------.
     | Class                                                           | Type     |
@@ -231,8 +231,8 @@ C<Ctrl-C> to breakout of the dev server) if you prefer.
     | /                                   | /default                             |
     '-------------------------------------+--------------------------------------'
     
-    [info] Hello powered by Catalyst 5.80025
-    You can connect to your server at http://debian:3000
+    [info] Hello powered by Catalyst 5.90002
+    HTTP::Server::PSGI: Accepting connections at http://0:3000/
 
 Point your web browser to L<http://localhost:3000> (substituting a
 different hostname or IP address as appropriate) and you should be
@@ -241,15 +241,18 @@ screen or an "Index" screen, you probably forgot to specify port 3000 in
 your URL).  Information similar to the following should be appended to
 the logging output of the development server:
 
-    [info] *** Request 1 (0.001/s) [23194] [Sat Jan 16 11:09:18 2010] ***
-    [debug] "GET" request for "/" from "127.0.0.1"
+    [info] Hello powered by Catalyst 5.90002
+    HTTP::Server::PSGI: Accepting connections at http://0:3000/
+    [info] *** Request 1 (0.067/s) [19026] [Tue Aug 30 17:24:32 2011] ***
+    [debug] "GET" request for "/" from "192.168.245.2"
     [debug] Path is "/"
-    [info] Request took 0.004851s (206.143/s)
+    [debug] Response Code: 200; Content-Type: text/html; charset=utf-8; Content-Length: 5613
+    [info] Request took 0.040895s (24.453/s)
     .------------------------------------------------------------+-----------.
     | Action                                                     | Time      |
     +------------------------------------------------------------+-----------+
-    | /index                                                     | 0.000395s |
-    | /end                                                       | 0.000425s |
+    | /index                                                     | 0.000916s |
+    | /end                                                       | 0.000877s |
     '------------------------------------------------------------+-----------'
 
 B<Note>: Press C<Ctrl-C> to break out of the development server if
@@ -268,7 +271,7 @@ browser.
 
     sub index :Path :Args(0) {
         my ( $self, $c ) = @_;
-        
+    
         # Hello World
         $c->response->body( $c->welcome_message );
     }
@@ -308,28 +311,25 @@ way. For example, the URL C<http://hello.com/admin/articles/create> maps
 to the package C<Hello::Controller::Admin::Articles>, and the C<create>
 method.
 
-Add the following subroutine to your C<lib/Hello/Controller/Root.pm>
-file:
+While you leave the C<script/hello_server.pl -r> command running the
+development server in one window (don't forget the "-r" on the end!),
+open another window and add the following subroutine to your
+C<lib/Hello/Controller/Root.pm> file:
 
     sub hello :Global {
         my ( $self, $c ) = @_;
-        
+    
         $c->response->body("Hello, World!");
     }
-
-Once you restart the server, you will need to use the new address
-L<http://localhost:3000/hello> instead of L<http://localhost:3000/> to see the
-changes.
 
 B<TIP>: See Appendix 1 for tips on removing the leading spaces when
 cutting and pasting example code from POD-based documents.
 
-Here you're sending your own string to the webpage.
-
-Save the file, and you should notice the following in your server output:
+Notice in the window running the Development Server that you should
+get output similar to the following:
 
     Saw changes to the following files:
-     - /home/me/Hello/lib/Hello/Controller/Root.pm (modify)
+     - /root/Hello/lib/Hello/Controller/Root.pm (modify)
     
     Attempting to restart the server
     ...
@@ -342,16 +342,10 @@ Save the file, and you should notice the following in your server output:
     | /index               | Hello::Controller::Root              | index        |
     | /hello               | Hello::Controller::Root              | hello        |
     '----------------------+--------------------------------------+--------------'
-    
-    [debug] Loaded Path actions:
-    .-------------------------------------+--------------------------------------.
-    | Path                                | Private                              |
-    +-------------------------------------+--------------------------------------+
-    | /                                   | /index                               |
-    | /                                   | /default                             |
-    | /hello                              | /hello                               |
-    '-------------------------------------+--------------------------------------'
     ...
+
+The development server noticed the change in C<Hello::Controller::Root>
+and automatically restarted itself.
 
 Go to L<http://localhost:3000/hello> to see "Hello, World!".   Also
 notice that the newly defined 'hello' action is listed under "Loaded
