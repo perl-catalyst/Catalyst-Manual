@@ -787,8 +787,6 @@ cascading delete operation via the DBIC_TRACE output:
 
     SELECT me.id, me.title, me.rating FROM book me WHERE ( ( me.id = ? ) ): '6'
     DELETE FROM book WHERE ( id = ? ): '6'
-    SELECT me.book_id, me.author_id FROM book_author me WHERE ( me.book_id = ? ): '6'
-    DELETE FROM book_author WHERE ( author_id = ? AND book_id = ? ): '4', '6'
 
 
 =head2 Fixing a Dangerous URL
@@ -943,6 +941,15 @@ book was added and when each book is updated:
     sqlite> .quit
     $
 
+Here are the commands without the surrounding sqlite3 prompt and output
+in case you want to cut and paste them as a single block (but still
+start sqlite3 before you paste these in):
+
+    ALTER TABLE book ADD created TIMESTAMP;
+    ALTER TABLE book ADD updated TIMESTAMP;
+    UPDATE book SET created = DATETIME('NOW'), updated = DATETIME('NOW');
+    SELECT * FROM book;
+
 This will modify the C<books> table to include the two new fields and
 populate those fields with the current time.
 
@@ -971,11 +978,11 @@ call to C<add_columns()>. However, also notice that the C<many_to_many>
 relationships we manually added below the "C<# DO NOT MODIFY...>" line
 were automatically preserved.
 
-While we have this file open, let's update it with some additional
-information to have DBIC automatically handle the updating of these two
-fields for us.  Insert the following code at the bottom of the file (it
-B<must> be B<below> the "C<# DO NOT MODIFY...>" line and B<above> the
-C<1;> on the last line):
+While we C<lib/MyApp/Schema/Result/Book.pm> open, let's update it with
+some additional information to have DBIC automatically handle the
+updating of these two fields for us.  Insert the following code at the
+bottom of the file (it B<must> be B<below> the "C<# DO NOT MODIFY...>"
+line and B<above> the C<1;> on the last line):
 
     #
     # Enable automatic date handling
