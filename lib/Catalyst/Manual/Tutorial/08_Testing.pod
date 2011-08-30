@@ -189,7 +189,7 @@ editor and enter the following:
     #   use Test::WWW::Mechanize::Catalyst "MyApp";
     
     BEGIN { use_ok("Test::WWW::Mechanize::Catalyst" => "MyApp") }
-        
+    
     # Create two 'user agents' to simulate two different users ('test01' & 'test02')
     my $ua1 = Test::WWW::Mechanize::Catalyst->new;
     my $ua2 = Test::WWW::Mechanize::Catalyst->new;
@@ -410,18 +410,18 @@ t/controller_Foo.t:
     use strict;
     use warnings;
     use Test::More;
-
+    
     BEGIN {
         $ENV{ MYAPP_CONFIG_LOCAL_SUFFIX } = 'testing';
     }
-
+    
     eval "use Test::WWW::Mechanize::Catalyst 'MyApp'";
     plan $@
         ? ( skip_all => 'Test::WWW::Mechanize::Catalyst required' )
         : ( tests => 2 );
-
+    
     ok( my $mech = Test::WWW::Mechanize::Catalyst->new, 'Created mech object' );
-
+    
     $mech->get_ok( 'http://localhost/foo' );
 
 

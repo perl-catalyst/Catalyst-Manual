@@ -84,7 +84,7 @@ Folks in the former group can use Catalyst's C<$c-E<gt>log> facility.
 you add the following code to a controller action method:
 
     $c->log->info("Starting the foreach loop here");
-
+    
     $c->log->debug("Value of \$id is: ".$id);
 
 Then the Catalyst development server will display your message along
@@ -129,7 +129,7 @@ you can obviously indent them if you prefer):
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
         $c->stash->{books} = [$c->model('DB::Book')->all];
-            
+    
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods.
         $c->stash->{template} = 'books/list.tt2';

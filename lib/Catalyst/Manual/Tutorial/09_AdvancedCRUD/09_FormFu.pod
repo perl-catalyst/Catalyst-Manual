@@ -107,7 +107,7 @@ following method:
     
         # Get the form that the :FormConfig attribute saved in the stash
         my $form = $c->stash->{form};
-  
+    
         # Check if the form has been submitted (vs. displaying the initial
         # form) and if the data passed validation.  "submitted_and_valid"
         # is shorthand for "$form->submitted && !$form->has_errors"
@@ -134,7 +134,7 @@ following method:
             # Add the authors to it
             $select->options(\@authors);
         }
-        
+    
         # Set the template
         $c->stash(template => 'books/formfu_create.tt2');
     }
@@ -632,7 +632,7 @@ Apache config files.
        type   Submit
    </elements>
    indicator   submit
-   
+
 
 =head1 AUTHOR
 

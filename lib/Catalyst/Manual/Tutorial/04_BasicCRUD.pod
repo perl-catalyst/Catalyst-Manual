@@ -595,14 +595,14 @@ Edit C<root/src/books/list.tt2> and update it to match the following
 header, and 2) the five lines for the Delete link near the bottom):
 
     [% # This is a TT comment. -%]
-
+    
     [%- # Provide a title -%]
     [% META title = 'Book List' -%]
-
+    
     [% # Note That the '-' at the beginning or end of TT code  -%]
     [% # "chomps" the whitespace/newline at that end of the    -%]
     [% # output (use View Source in browser to see the effect) -%]
-
+    
     [% # Some basic HTML with a loop to display books -%]
     <table>
     <tr><th>Title</th><th>Rating</th><th>Author(s)</th><th>Links</th></tr>
