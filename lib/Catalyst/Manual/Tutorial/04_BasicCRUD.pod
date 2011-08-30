@@ -60,12 +60,13 @@ This chapter of the tutorial builds on the fairly primitive application
 created in
 L<Chapter 3|Catalyst::Manual::Tutorial::03_MoreCatalystBasics> to add
 basic support for Create, Read, Update, and Delete (CRUD) of C<Book>
-objects.  Note that the 'list' function in Chapter 3 already implements
-the Read portion of CRUD (although Read normally refers to reading a
-single object; you could implement full Read functionality using the
-techniques introduced below).  This section will focus on the Create and
-Delete aspects of CRUD.  More advanced capabilities, including full
-Update functionality, will be addressed in
+objects.  Note that the 'list' function in
+L<Chapter 3|Catalyst::Manual::Tutorial::03_MoreCatalystBasics> already
+implements the Read portion of CRUD (although Read normally refers to
+reading a single object; you could implement full Read functionality
+using the techniques introduced below).  This section will focus on the
+Create and Delete aspects of CRUD.  More advanced capabilities,
+including full Update functionality, will be addressed in
 L<Chapter 9|Catalyst::Manual::Tutorial::09_AdvancedCRUD>.
 
 Although this chapter of the tutorial will show you how to build CRUD
