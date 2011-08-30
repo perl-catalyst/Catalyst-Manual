@@ -1259,15 +1259,15 @@ keys. For example, take a look at C<lib/MyApp/Schema/Result/Book.pm> and
 notice the following code:
 
     =head1 RELATIONS
-
+    
     =head2 book_authors
-
+    
     Type: has_many
-
+    
     Related object: L<MyApp::Schema::Result::BookAuthor>
-
+    
     =cut
-
+    
     __PACKAGE__->has_many(
       "book_authors",
       "MyApp::Schema::Result::BookAuthor",
@@ -1328,15 +1328,15 @@ there is a C<belongs_to> relationship defined that acts as the "mirror
 image" to the C<has_many> relationship we just looked at above:
 
     =head1 RELATIONS
-
+    
     =head2 book
-
+    
     Type: belongs_to
-
+    
     Related object: L<MyApp::Schema::Result::Book>
-
+    
     =cut
-
+    
     __PACKAGE__->belongs_to(
       "book",
       "MyApp::Schema::Result::Book",
