@@ -57,14 +57,16 @@ L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 =head1 DESCRIPTION
 
 This chapter of the tutorial builds on the fairly primitive application
-created in Chapter 3 to add basic support for Create, Read, Update, and
-Delete (CRUD) of C<Book> objects.  Note that the 'list' function in
-Chapter 2 already implements the Read portion of CRUD (although Read
-normally refers to reading a single object; you could implement full
-Read functionality using the techniques introduced below).  This section
-will focus on the Create and Delete aspects of CRUD.  More advanced
-capabilities, including full Update functionality, will be addressed in
-Chapter 9.
+created in
+L<Chapter 3|Catalyst::Manual::Tutorial::03_MoreCatalystBasics> to add
+basic support for Create, Read, Update, and Delete (CRUD) of C<Book>
+objects.  Note that the 'list' function in Chapter 3 already implements
+the Read portion of CRUD (although Read normally refers to reading a
+single object; you could implement full Read functionality using the
+techniques introduced below).  This section will focus on the Create and
+Delete aspects of CRUD.  More advanced capabilities, including full
+Update functionality, will be addressed in
+L<Chapter 9|Catalyst::Manual::Tutorial::09_AdvancedCRUD>.
 
 Although this chapter of the tutorial will show you how to build CRUD
 functionality yourself, another option is to use a "CRUD builder" type
@@ -80,7 +82,7 @@ L<Catalyst::Manual::Tutorial::01_Intro>.
 =head1 FORMLESS SUBMISSION
 
 Our initial attempt at object creation will utilize the "URL arguments"
-feature of Catalyst (we will employ the more common form- based
+feature of Catalyst (we will employ the more common form-based
 submission in the sections that follow).
 
 
@@ -117,15 +119,27 @@ Edit C<lib/MyApp/Controller/Books.pm> and enter the following method:
         # Assign the Book object to the stash for display and set template
         $c->stash(book     => $book,
                   template => 'books/create_done.tt2');
+    
+        # Disable caching for this page
+        $c->response->header('Cache-Control' => 'no-cache');
     }
 
 Notice that Catalyst takes "extra slash-separated information" from the
-URL and passes it as arguments in C<@_>.  The C<url_create> action then
-uses a simple call to the DBIC C<create> method to add the requested
-information to the database (with a separate call to
-C<add_to_book_authors> to update the join table).  As do virtually all
-controller methods (at least the ones that directly handle user input),
-it then sets the template that should handle this request.
+URL and passes it as arguments in C<@_> (as long as the number of
+arguments is not "fixed" using an attribute like C<:Args(0)>).  The
+C<url_create> action then uses a simple call to the DBIC C<create>
+method to add the requested information to the database (with a separate
+call to C<add_to_book_authors> to update the join table).  As do
+virtually all controller methods (at least the ones that directly handle
+user input), it then sets the template that should handle this request.
+
+Also note that we are explicitly setting a C<no-cache> "Cache-Control"
+header to force browsers using the page to get a fresh copy every time.
+You could even move this to a C<auto> method in
+C<lib/MyApp/Controller/Root.pm> and it would automatically get applied
+to every page in the whole application via a single line of code
+(remember from Chapter 3, that every C<auto> method gets run in the
+Controller hierarchy).
 
 
 =head2 Include a Template for the 'url_create' Action:
@@ -138,23 +152,24 @@ Edit C<root/src/books/create_done.tt2> and then enter:
     [% USE Dumper(Indent=1) -%]
     
     [% # Set the page title.  META can 'go back' and set values in templates -%]
-    [% # that have been processed 'before' this template (here it's for      -%]
-    [% # root/lib/site/html and root/lib/site/header).  Note that META only  -%]
-    [% # works on simple/static strings (i.e. there is no variable           -%]
-    [% # interpolation).                                                     -%]
+    [% # that have been processed 'before' this template (here it's updating -%]
+    [% # the title in the root/src/wrapper.tt2 wrapper template).  Note that -%]
+    [% # META only works on simple/static strings (i.e. there is no variable -%]
+    [% # interpolation -- if you need dynamic/interpolated content in your   -%]
+    [% # title, set "$c->stash(title => $something)" in the controller).     -%]
     [% META title = 'Book Created' %]
     
     [% # Output information about the record that was added.  First title.   -%]
     <p>Added book '[% book.title %]'
     
-    [% # Output the last name of the first author.                           -%]
+    [% # Then, output the last name of the first author -%]
     by '[% book.authors.first.last_name %]'
     
-    [% # Output the rating for the book that was added -%]
+    [% # Then, output the rating for the book that was added -%]
     with a rating of [% book.rating %].</p>
     
-    [% # Provide a link back to the list page                                    -%]
-    [% # 'uri_for()' builds a full URI; e.g., 'http://localhost:3000/books/list' -%]
+    [% # Provide a link back to the list page.  'c.uri_for' builds -%]
+    [% # a full URI; e.g., 'http://localhost:3000/books/list'      -%]
     <p><a href="[% c.uri_for('/books/list') %]">Return to list</a></p>
     
     [% # Try out the TT Dumper (for development only!) -%]
@@ -168,21 +183,6 @@ plugins, that is, not Catalyst plugins) to add extra functionality to
 the base TT capabilities.  Here, the plugin allows L<Data::Dumper>
 "pretty printing" of objects and variables.  Other than that, the rest
 of the code should be familiar from the examples in Chapter 3.
-
-Note: If you are using TT v2.15 you will need to change the code that
-outputs the "last name for the first author" above to match this:
-
-    [% authors = book.authors %]
-    by '[% authors.first.last_name IF authors.first;
-           authors.list.first.value.last_name IF ! authors.first %]'
-
-to get around an issue in TT v2.15 where blessed hash objects were not
-handled correctly.  But, if you are still using v2.15, it's probably
-time to upgrade  (v2.15 is almost 4 years old).  If you are following
-along in Debian, then you should be on at least v2.20.  You can test
-your version of Template Toolkit with the following:
-
-    perl -MTemplate -e 'print "$Template::VERSION\n"'
 
 
 =head2 Try the 'url_create' Feature
@@ -353,8 +353,9 @@ following:
     | /books/url_create                   | /books/url_create                    |
     '-------------------------------------+--------------------------------------'
 
-When the development server restarts, the debug output should change to
-something along the lines of the following:
+When the development server restarts after our conversion to Chained
+dispatch, the debug output should change to something along the lines of
+the following:
 
     [debug] Loaded Path actions:
     .-------------------------------------+--------------------------------------.
@@ -471,7 +472,9 @@ url_create variations above.)
 Although the C<url_create> action in the previous step does begin to
 reveal the power and flexibility of both Catalyst and DBIC, it's
 obviously not a very realistic example of how users should be expected
-to enter data.  This section begins to address that concern.
+to enter data.  This section begins to address that concern (but just
+barely, see L<Chapter 9|Catalyst::Manual::Tutorial::09_AdvancedCRUD>
+for better options for handling web-based forms).
 
 
 =head2 Add Method to Display The Form
@@ -542,10 +545,6 @@ save the form information to the database:
         # Note: Above is a shortcut for this:
         # $book->create_related('book_authors', {author_id => $author_id});
     
-        # Avoid Data::Dumper issue mentioned earlier
-        # You can probably omit this
-        $Data::Dumper::Useperl = 1;
-    
         # Store new model object in stash and set template
         $c->stash(book     => $book,
                   template => 'books/create_done.tt2');
@@ -577,7 +576,8 @@ C<create_done.tt2> template seen in earlier examples.  Finally, click
 
 B<Note:> Having the user enter the primary key ID for the author is
 obviously crude; we will address this concern with a drop-down list and
-add validation to our forms in Chapter 9.
+add validation to our forms in
+L<Chapter 9|Catalyst::Manual::Tutorial::09_AdvancedCRUD>.
 
 
 =head1 A SIMPLE DELETE FEATURE
@@ -591,16 +591,18 @@ from the database.
 
 Edit C<root/src/books/list.tt2> and update it to match the following
 (two sections have changed: 1) the additional '<th>Links</th>' table
-header, and 2) the four lines for the Delete link near the bottom):
+header, and 2) the five lines for the Delete link near the bottom):
 
-    [% # This is a TT comment.  The '-' at the end "chomps" the newline.  You won't -%]
-    [% # see this "chomping" in your browser because HTML ignores blank lines, but  -%]
-    [% # it WILL eliminate a blank line if you view the HTML source.  It's purely   -%]
-    [%- # optional, but both the beginning and the ending TT tags support chomping. -%]
-    
-    [% # Provide a title -%]
+    [% # This is a TT comment. -%]
+
+    [%- # Provide a title -%]
     [% META title = 'Book List' -%]
-    
+
+    [% # Note That the '-' at the beginning or end of TT code  -%]
+    [% # "chomps" the whitespace/newline at that end of the    -%]
+    [% # output (use View Source in browser to see the effect) -%]
+
+    [% # Some basic HTML with a loop to display books -%]
     <table>
     <tr><th>Title</th><th>Rating</th><th>Author(s)</th><th>Links</th></tr>
     [% # Display each book in a table row %]
@@ -609,12 +611,12 @@ header, and 2) the four lines for the Delete link near the bottom):
         <td>[% book.title %]</td>
         <td>[% book.rating %]</td>
         <td>
-          [% # NOTE: See "Exploring The Power of DBIC" for a better way to do this!  -%]
+          [% # NOTE: See Chapter 4 for a better way to do this!                      -%]
           [% # First initialize a TT variable to hold a list.  Then use a TT FOREACH -%]
           [% # loop in 'side effect notation' to load just the last names of the     -%]
           [% # authors into the list. Note that the 'push' TT vmethod doesn't return -%]
           [% # a value, so nothing will be printed here.  But, if you have something -%]
-          [% # in TT that does return a value and you don't want it printed, you can -%]
+          [% # in TT that does return a value and you don't want it printed, you     -%]
           [% # 1) assign it to a bogus value, or                                     -%]
           [% # 2) use the CALL keyword to call it and discard the return value.      -%]
           [% tt_authors = [ ];
@@ -627,7 +629,8 @@ header, and 2) the four lines for the Delete link near the bottom):
         </td>
         <td>
           [% # Add a link to delete a book %]
-          <a href="[% c.uri_for(c.controller.action_for('delete'), [book.id]) %]">Delete</a>
+          <a href="[%
+            c.uri_for(c.controller.action_for('delete'), [book.id]) %]">Delete</a>
         </td>
       </tr>
     [% END -%]
@@ -635,19 +638,20 @@ header, and 2) the four lines for the Delete link near the bottom):
 
 The additional code is obviously designed to add a new column to the
 right side of the table with a C<Delete> "button" (for simplicity, links
-will be used instead of full HTML buttons; in practice, anything that
-modifies data should be handled with a form sending a POST request).
+will be used instead of full HTML buttons; but, in practice, anything
+that modifies data should be handled with a form sending a POST
+request).
 
 Also notice that we are using a more advanced form of C<uri_for> than we
 have seen before.  Here we use C<$c-E<gt>controller-E<gt>action_for> to
 automatically generate a URI appropriate for that action based on the
 method we want to link to while inserting the C<book.id> value into the
 appropriate place.  Now, if you ever change C<:PathPart('delete')> in
-your controller method to C<:PathPart('kill')>, then your links will
-automatically update without any changes to your .tt2 template file.  As
-long as the name of your method does not change (here, "delete"), then
-your links will still be correct.  There are a few shortcuts and options
-when using C<action_for()>:
+your controller method to something like C<:PathPart('kill')>, then your
+links will automatically update without any changes to your .tt2
+template file.  As long as the name of your method does not change
+(here, "delete"), then your links will still be correct.  There are a
+few shortcuts and options when using C<action_for()>:
 
 =over 4
 
@@ -796,8 +800,8 @@ prior step -- it is still referencing the delete action:
 What if the user were to press reload with this URL still active?  In
 this case the redundant delete is harmless (although it does generate an
 exception screen, it doesn't perform any undesirable actions on the
-application or database), but in other cases this could clearly be
-extremely dangerous.
+application or database), but in other cases this could clearly lead to
+trouble.
 
 We can improve the logic by converting to a redirect.  Unlike
 C<$c-E<gt>forward('list'))> or C<$c-E<gt>detach('list'))> that perform a
@@ -842,13 +846,14 @@ to the L<http://localhost:3000/books/list> URL, so that is an
 improvement, but notice that I<no green "Book deleted" status message is
 displayed>. Because the stash is reset on every request (and a redirect
 involves a second request), the C<status_msg> is cleared before it can
-be displayed. 
+be displayed.
 
 
 =head2 Using 'uri_for' to Pass Query Parameters
 
 There are several ways to pass information across a redirect. One option
-is to use the C<flash> technique that we will see in Chapter 5 of this
+is to use the C<flash> technique that we will see in
+L<Chapter 5|Catalyst::Manual::Tutorial::05_Authentication> of this
 tutorial; however, here we will pass the information via query
 parameters on the redirect itself.  Open
 C<lib/MyApp/Controller/Books.pm> and update the existing C<sub delete>
@@ -890,8 +895,8 @@ query parameter:
 
 Although the sample above only shows the C<content> div, leave the rest
 of the file intact -- the only change we made to the C<wrapper.tt2> was
-to add "C<|| c.request.params.status_msg>" to the C<E<lt>span
-class="message"E<gt>> line.
+to add "C<|| c.request.params.status_msg>" to the
+C<E<lt>span class="message"E<gt>> line.
 
 
 =head2 Try the Delete and Redirect With Query Param Logic
@@ -904,27 +909,18 @@ status message should return.  But notice that you can now hit the
 (and it correctly shows it without the "Book deleted" message on
 redisplay).
 
-B<NOTE:> Another popular method for maintaining server-side information
-across a redirect is to use the C<flash> technique we discuss in the
-next chapter of the tutorial,
-L<Authentication|Catalyst::Manual::Tutorial::05_Authentication>. While
-C<flash> is a "slicker" mechanism in that it's all handled by the server
-and doesn't "pollute" your URLs, B<it is important to note that C<flash>
-can lead to situations where the wrong information shows up in the wrong
-browser window if the user has multiple windows or browser tabs open>.
-For example, Window A causes something to be placed in the stash, but
-before that window performs a redirect, Window B makes a request to the
-server and gets the status information that should really go to Window
-A.  For this reason, you may wish to use the "query param" technique
-shown here in your applications.
+B<NOTE:> Be sure to check out
+L<Authentication|Catalyst::Manual::Tutorial::05_Authentication> where we
+use an improved technique that is better suited to your real world
+applications.
 
 
 =head1 EXPLORING THE POWER OF DBIC
 
 In this section we will explore some additional capabilities offered by
-DBIx::Class.  Although these features have relatively little to do with
-Catalyst per se, you will almost certainly want to take advantage of
-them in your applications.
+L<DBIx::Class>.  Although these features have relatively little to do
+with Catalyst per se, you will almost certainly want to take advantage
+of them in your applications.
 
 
 =head2 Add Datetime Columns to Our Existing Books Table
@@ -995,11 +991,20 @@ placed at the top of the file.  The C<set_on_create> and
 C<set_on_update> options will cause DBIx::Class to automatically update
 the timestamps in these columns whenever a row is created or modified.
 
+B<Note> that adding the lines above will cause the development server to
+automatically restart if you are running it with the "-r" option.  In
+other words, the development server is smart enough to restart not only
+for code under the C<MyApp/Controller/>, C<MyApp/Model/>, and
+C<MyApp/View/> directories, but also under other directions such as our
+"external DBIC model" in C<MyApp/Schema/>.  However, also note that it's
+smart enough to B<not> restart when you edit your C<.tt2> files under
+C<root/>.
+
 Then enter the following URL into your web browser:
 
     http://localhost:3000/books/url_create/TCPIP_Illustrated_Vol-2/5/4
 
-You should get the same "Book Created" screen we saw above.  However, if
+You should get the same "Book Created" screen we saw earlier.  However, if
 you now use the sqlite3 command-line tool to dump the C<books> table,
 you will see that the new book we added has an appropriate date and time
 entered for it (see the last line in the listing below):
@@ -1012,7 +1017,6 @@ entered for it (see the last line in the listing below):
     5|Designing with Web Standards|5|2010-02-16 04:15:45|2010-02-16 04:15:45
     9|TCP/IP Illustrated, Vol 3|5|2010-02-16 04:15:45|2010-02-16 04:15:45
     10|TCPIP_Illustrated_Vol-2|5|2010-02-16 04:18:42|2010-02-16 04:18:42
-    sqlite> .q
 
 Notice in the debug log that the SQL DBIC generated has changed to
 incorporate the datetime logic:
@@ -1026,11 +1030,11 @@ incorporate the datetime logic:
 
 An often overlooked but extremely powerful features of DBIC is that it
 allows you to supply your own subclasses of C<DBIx::Class::ResultSet>.
-It allows you to pull complex and unsightly "query code" out of your
+This can be used to pull complex and unsightly "query code" out of your
 controllers and encapsulate it in a method of your ResultSet Class.
 These "canned queries" in your ResultSet Class can then be invoked via a
 single call, resulting in much cleaner and easier to read controller
-code.
+code (or View code, if that's where you want to call it).
 
 To illustrate the concept with a fairly simple example, let's create a
 method that returns books added in the last 10 minutes.  Start by making
@@ -1101,15 +1105,15 @@ higher or lower value for the minutes.
 
 =head2 Chaining ResultSets
 
-One of the most helpful and powerful features in DBIx::Class is that it
-allows you to "chain together" a series of queries (note that this has
-nothing to do with the "Chained Dispatch" for Catalyst that we were
-discussing above).  Because each ResultSet returns another ResultSet,
-you can take an initial query and immediately feed that into a second
-query (and so on for as many queries you need). Note that no matter how
-many ResultSets you chain together, the database itself will not be hit
-until you use a method that attempts to access the data. And, because
-this technique carries over to the ResultSet Class feature we
+One of the most helpful and powerful features in C<DBIx::Class> is that
+it allows you to "chain together" a series of queries (note that this
+has nothing to do with the "Chained Dispatch" for Catalyst that we were
+discussing earlier).  Because each ResultSet method returns another
+ResultSet, you can take an initial query and immediately feed that into
+a second query (and so on for as many queries you need).  Note that no
+matter how many ResultSets you chain together, the database itself will
+not be hit until you use a method that attempts to access the data. And,
+because this technique carries over to the ResultSet Class feature we
 implemented in the previous section for our "canned search", we can
 combine the two capabilities.  For example, let's add an action to our
 C<Books> controller that lists books that are both recent I<and> have
@@ -1129,10 +1133,11 @@ the following method:
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
         # AND that have 'TCP' in the title
-        $c->stash(books => [$c->model('DB::Book')
-                                ->created_after(DateTime->now->subtract(minutes => $mins))
-                                ->search({title => {'like', '%TCP%'}})
-                            ]);
+        $c->stash(books => [
+                $c->model('DB::Book')
+                    ->created_after(DateTime->now->subtract(minutes => $mins))
+                    ->search({title => {'like', '%TCP%'}})
+            ]);
     
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
@@ -1196,10 +1201,11 @@ shown here -- the rest of the method should be the same):
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
         # AND that have 'TCP' in the title
-        $c->stash(books => [$c->model('DB::Book')
-                                ->created_after(DateTime->now->subtract(minutes => $mins))
-                                ->title_like('TCP')
-                            ]);
+        $c->stash(books => [
+                $c->model('DB::Book')
+                    ->created_after(DateTime->now->subtract(minutes => $mins))
+                    ->title_like('TCP')
+            ]);
     
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
@@ -1351,16 +1357,16 @@ match the following:
 
 Although most of the code we removed comprised comments, the overall
 effect is dramatic... because our view code is so simple, we don't need
-huge comments to clue people in to the gist of our code. The view code
+huge comments to clue people in to the gist of our code.  The view code
 is now self-documenting and readable enough that you could probably get
-by with no comments at all. All of the "complex" work is being done in
+by with no comments at all.  All of the "complex" work is being done in
 our Result Class methods (and, because we have broken the code into
 nice, modular chunks, the Result Class code is hardly something you
 would call complex).
 
 As we saw in this section, always strive to keep your view AND
 controller code as simple as possible by pulling code out into your
-model objects.  Because DBIx::Class can be easily extended in so many
+model objects.  Because L<DBIx::Class> can be easily extended in so many
 ways, it's an excellent to way accomplish this objective.  It will make
 your code cleaner, easier to write, less error-prone, and easier to
 debug and maintain.
