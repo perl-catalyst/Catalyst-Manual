@@ -215,6 +215,10 @@ This is equivalent to:
   # configure email sending
   __PACKAGE__->config( email => [qw/SMTP localhost/] );
 
+L<Catalyst> explains precedence of multiple sources for configuration
+values, how to access the values in your components, and many 'base'
+config variables used internally.
+
 See also L<Config::General|Config::General>.
 
 =head1 Skipping your VCS's directories
