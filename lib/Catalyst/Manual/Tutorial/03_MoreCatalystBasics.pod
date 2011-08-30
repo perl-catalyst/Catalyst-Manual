@@ -69,11 +69,13 @@ Subversion repository as per the instructions in
 L<Catalyst::Manual::Tutorial::01_Intro>.
 
 Please take a look at
-L<Catalyst::Manual::Tutorial::01_Intro/CATALYST INSTALLATION> before
-doing the rest of this tutorial.  Although the tutorial should work
-correctly under most any recent version of Perl running on any operating
-system, the tutorial has been written using Debian 6 and tested to be
-sure it runs correctly in this environment.
+L<Catalyst::Manual::Tutorial::01_Intro/STARTING WITH THE TUTORIAL VIRTUAL MACHINE>
+before doing the rest of this tutorial.  Although the tutorial should
+work correctly under most any recent version of Perl running on any
+operating system, the tutorial has been written using the virtual
+machine that is available for download.  The entire tutorial has been
+tested to be sure it runs correctly in this environment, so it is
+the most trouble-free way to get started with Catalyst.
 
 
 =head1 CREATE A NEW APPLICATION
@@ -296,10 +298,10 @@ Use the Catalyst C<create> script to add a controller for book-related
 actions:
 
     $ script/myapp_create.pl controller Books
-     exists "/home/me/MyApp/script/../lib/MyApp/Controller"
-     exists "/home/me/MyApp/script/../t"
-    created "/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm"
-    created "/home/me/MyApp/script/../t/controller_Books.t"
+     exists "/root/MyApp/script/../lib/MyApp/Controller"
+     exists "/root/MyApp/script/../t"
+    created "/root/MyApp/script/../lib/MyApp/Controller/Books.pm"
+    created "/root/MyApp/script/../t/controller_Books.t"
 
 Then edit C<lib/MyApp/Controller/Books.pm> (as discussed in
 L<Chapter 2|Catalyst::Manual::Tutorial::02_CatalystBasics> of
@@ -458,10 +460,10 @@ For our book application, enter the following command to enable the
 C<TT> style of view rendering:
 
     $ script/myapp_create.pl view HTML TT
-     exists "/home/me/MyApp/script/../lib/MyApp/View"
-     exists "/home/me/MyApp/script/../t"
-     created "/home/me/MyApp/script/../lib/MyApp/View/HTML.pm"
-     created "/home/me/MyApp/script/../t/view_HTML.t"
+     exists "/root/MyApp/script/../lib/MyApp/View"
+     exists "/root/MyApp/script/../t"
+     created "/root/MyApp/script/../lib/MyApp/View/HTML.pm"
+     created "/root/MyApp/script/../t/view_HTML.t"
 
 This creates a view called C<HTML> (the first argument) in a file called
 C<HTML.pm> that uses L<Catalyst::View::TT> (the second argument) as the
@@ -505,12 +507,15 @@ could be different depending on the version of Catalyst you are using):
     );
 
 
-Change this to match the following:
+Change this to match the following (insert a new
+C<__PACKAGE__-E<gt>config> below the existing statement):
 
     __PACKAGE__->config(
         name => 'MyApp',
         # Disable deprecated behavior needed by old applications
         disable_component_resolution_regex_fallback => 1,
+    );
+    __PACKAGE__->config(
         # Configure the view
         'View::HTML' => {
             #Set the location for TT files
@@ -739,44 +744,16 @@ technique that we see in
 L<Chapter 4|Catalyst::Manual::Tutorial::04_BasicCRUD>).
 
 
-=head2 Make Sure You Have a Recent Version of the DBIx::Class Model
+=head2 Create Static DBIx::Class Schema Files
 
-First, let's be sure we have a recent version of the DBIC helper,
-L<Catalyst::Model::DBIC::Schema>, so that we can take advantage of some
-recent enhancements in how foreign keys are handled with SQLite.  To
-check your version, run this command:
+B<Note:> If you are not following along in the Tutorial Virtual Machine,
+please be sure that you have version 1.27 or higher of DBD::SQLite and
+version 0.39 or higher of Catalyst::Model::DBIC::Schema.  (The Tutorial
+VM already has versions that are known to work.)  You can get your
+currently installed version numbers with the following commands.
 
     $ perl -MCatalyst::Model::DBIC::Schema\ 999
-    Catalyst::Model::DBIC::Schema version 999 required--this is only version 0.41.
-    BEGIN failed--compilation aborted.
-
-The part we are after is the "version 0.41" at the end of the second
-line.  If you are following along in Debian 6, you should have version
-0.41 or higher. If you have less than v0.39, you will need to run this
-command to install it directly from CPAN:
-
-    $ cpan -i Catalyst::Model::DBIC::Schema
-
-And re-run the version print command to verify that you are now at 0.39
-or higher.
-
-In addition, since we are using SQLite's foreign key support here,
-please be sure that you use version C<1.27> of L<DBD::SQLite> or later:
-
     $ perl -MDBD::SQLite\ 999
-    DBD::SQLite version 999 required--this is only version 1.29.
-    BEGIN failed--compilation aborted.
-
-Upgrade if you are not at version C<1.27> or higher.
-
-Open C<Makefile.PL> and add the following lines to require these versions
-going forward:
-
-    requires 'Catalyst::Model::DBIC::Schema' => '0.39';
-    requires 'DBD::SQLite' => '1.27';
-
-
-=head2 Create Static DBIx::Class Schema Files
 
 Before you continue, make sure your C<myapp.db> database file is in the
 application's topmost directory. Now use the model helper with the
@@ -787,12 +764,12 @@ automatically build the required files for us:
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
         create=static dbi:SQLite:myapp.db \
         on_connect_do="PRAGMA foreign_keys = ON"
-     exists "/home/me/MyApp/script/../lib/MyApp/Model"
-     exists "/home/me/MyApp/script/../t"
-    Dumping manual schema for MyApp::Schema to directory /home/me/MyApp/script/../lib ...
+     exists "/root/MyApp/script/../lib/MyApp/Model"
+     exists "/root/MyApp/script/../t"
+    Dumping manual schema for MyApp::Schema to directory /root/MyApp/script/../lib ...
     Schema dump completed.
-    created "/home/me/MyApp/script/../lib/MyApp/Model/DB.pm"
-    created "/home/me/MyApp/script/../t/model_DB.t"
+    created "/root/MyApp/script/../lib/MyApp/Model/DB.pm"
+    created "/root/MyApp/script/../t/model_DB.t"
 
 Please note the '\' above.  Depending on your environment, you might be
 able to cut and paste the text as shown or need to remove the '\'
@@ -840,8 +817,8 @@ at C<lib/MyApp/Model/DB.pm>, you will see that the SQLite pragma is
 propagated to the Model, so that SQLite's recent (and optional) foreign
 key enforcement is enabled at the start of every database connection.
 
-
 =back
+
 
 If you look in the C<lib/MyApp/Schema.pm> file, you will find that it
 only contains a call to the C<load_namespaces> method.  You will also
@@ -978,14 +955,14 @@ display something like:
     [debug] Statistics enabled
     [debug] Loaded plugins:
     .----------------------------------------------------------------------------.
-    | Catalyst::Plugin::ConfigLoader  0.27                                       |
+    | Catalyst::Plugin::ConfigLoader  0.30                                       |
     | Catalyst::Plugin::StackTrace  0.11                                         |
     '----------------------------------------------------------------------------'
     
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
-    [debug] Loaded engine "Catalyst::Engine::HTTP"
-    [debug] Found home "/home/me/MyApp"
-    [debug] Loaded Config "/home/me/MyApp/myapp.conf"
+    [debug] Loaded engine "Catalyst::Engine"
+    [debug] Found home "/root/MyApp"
+    [debug] Loaded Config "/root/MyApp/myapp.conf"
     [debug] Loaded components:
     .-----------------------------------------------------------------+----------.
     | Class                                                           | Type     |
@@ -1021,7 +998,7 @@ display something like:
     '-------------------------------------+--------------------------------------'
     
     [info] MyApp powered by Catalyst 5.80020
-    You can connect to your server at http://debian:3000
+    HTTP::Server::PSGI: Accepting connections at http://0:3000
 
 B<NOTE:> Be sure you run the C<script/myapp_server.pl> command from the
 'base' directory of your application, not inside the C<script> directory
@@ -1500,7 +1477,8 @@ C<scripts/myapp_test.pl> script.  Just supply the URL you wish to
 display and it will run that request through the normal controller
 dispatch logic and use the appropriate view to render the output
 (obviously, complex pages may dump a lot of text to your terminal
-window).  For example, if you type:
+window).  For example, if C<Ctrl+C> out of the development server
+and then type:
 
     $ script/myapp_test.pl "/books/list"
 
