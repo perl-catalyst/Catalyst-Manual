@@ -143,14 +143,14 @@ for us:
 Notice how the helper has added three new table-specific Result Source
 files to the C<lib/MyApp/Schema/Result> directory.  And, more
 importantly, even if there were changes to the existing result source
-files, those changes would have only been written above the C<# DO NOT
-MODIFY THIS OR ANYTHING ABOVE!> comment and your hand-edited
+files, those changes would have only been written above the
+C<# DO NOT MODIFY THIS OR ANYTHING ABOVE!> comment and your hand-edited
 enhancements would have been preserved.
 
 Speaking of "hand-edited enhancements," we should now add the
 C<many_to_many> relationship information to the User Result Source file.
-As with the Book, BookAuthor, and Author files in L<Chapter
-3|Catalyst::Manual::Tutorial::03_MoreCatalystBasics>,
+As with the Book, BookAuthor, and Author files in
+L<Chapter 3|Catalyst::Manual::Tutorial::03_MoreCatalystBasics>,
 L<DBIx::Class::Schema::Loader> has automatically created the C<has_many>
 and C<belongs_to> relationships for the new User, UserRole, and Role
 tables. However, as a convenience for mapping Users to their assigned
@@ -169,7 +169,8 @@ C<1;>:
     __PACKAGE__->many_to_many(roles => 'user_roles', 'role_id');
 
 The code for this update is obviously very similar to the edits we made
-to the C<Book> and C<Author> classes created in Chapter 3 with one
+to the C<Book> and C<Author> classes created in
+L<Chapter 3|Catalyst::Manual::Tutorial::03_MoreCatalystBasics> with one
 exception: we only defined the C<many_to_many> relationship in one
 direction. Whereas we felt that we would want to map Authors to Books
 B<AND> Books to Authors, here we are only adding the convenience
@@ -177,7 +178,7 @@ C<many_to_many> in the Users to Roles direction.
 
 Note that we do not need to make any change to the
 C<lib/MyApp/Schema.pm> schema file.  It simply tells DBIC to load all of
-the Result Class and ResultSet Class files it finds in below the
+the Result Class and ResultSet Class files it finds below the
 C<lib/MyApp/Schema> directory, so it will automatically pick up our new
 table information.
 
@@ -233,21 +234,24 @@ C<StackTrace> is new):
         Session::State::Cookie
     /;
 
-B<Note:> As discussed in MoreCatalystBasics, different versions of
-C<Catalyst::Devel> have used a variety of methods to load the plugins,
-but we are going to use the current Catalyst 5.8X practice of putting
-them on the C<use Catalyst> line.
+B<Note:> As discussed in
+L<Chapter 3|Catalyst::Manual::Tutorial::03_MoreCatalystBasics>,
+different versions of C<Catalyst::Devel> have used a variety of methods
+to load the plugins, but we are going to use the current Catalyst 5.9
+practice of putting them on the C<use Catalyst> line.
 
 The C<Authentication> plugin supports Authentication while the
 C<Session> plugins are required to maintain state across multiple HTTP
 requests.
 
 Note that the only required Authentication class is the main one. This
-is a change that occurred in version 0.09999_01 of the C<Authentication>
-plugin. You B<do not need> to specify a particular Authentication::Store
-or Authentication::Credential plugin. Instead, indicate the Store and
-Credential you want to use in your application configuration (see
-below).
+is a change that occurred in version 0.09999_01 of the
+L<Authentication|Catalyst::Plugin::Authentication> plugin. You
+B<do not need> to specify a particular
+L<Authentication::Store|Catalyst::Authentication::Store> or
+C<Authentication::Credential> you want to use.  Instead, indicate the
+Store and Credential you want to use in your application configuration
+(see below).
 
 Make sure you include the additional plugins as new dependencies in the
 Makefile.PL file something like this:
@@ -264,7 +268,7 @@ is generally a good choice if you are on Unix.  If you are running on
 Windows L<Session::Store::File|Catalyst::Plugin::Session::Store::File>
 is fine. Consult L<Session::Store|Catalyst::Plugin::Session::Store> and
 its subclasses for additional information and options (for example to
-use a database- backed session store).
+use a database-backed session store).
 
 
 =head2 Configure Authentication
@@ -272,8 +276,11 @@ use a database- backed session store).
 There are a variety of ways to provide configuration information to
 L<Catalyst::Plugin::Authentication>.  Here we will use
 L<Catalyst::Authentication::Realm::SimpleDB> because it automatically
-sets a reasonable set of defaults for us. Open C<lib/MyApp.pm> and place
-the following text above the call to C<__PACKAGE__-E<gt>setup();>:
+sets a reasonable set of defaults for us.  (Note: the C<SimpleDB> here
+has nothing to do with the SimpleDB offered in Amazon's web services
+offerings -- here we are only talking about a "simple" way to use your
+DB as an authentication backend.)  Open C<lib/MyApp.pm> and place the
+following text above the call to C<__PACKAGE__-E<gt>setup();>:
 
     # Configure SimpleDB Authentication
     __PACKAGE__->config(
@@ -315,13 +322,13 @@ B<HOWEVER>, if you try out the command above, be sure to delete the
 "myapp.conf" command.  Otherwise, you will wind up with duplicate
 configurations.
 
-B<NOTE:> Because we are using SimpleDB along with a database layout that
-complies with its default assumptions: we don't need to specify the
-names of the columns where our username and password information is
-stored (hence, the "Simple" part of "SimpleDB").  That being said,
-SimpleDB lets you specify that type of information if you need to.  Take
-a look at
-C<Catalyst::Authentication::Realm::SimpleDB|Catalyst::Authentication::Realm::SimpleDB>
+B<NOTE:> Because we are using
+L<SimpleDB|L<Catalyst::Authentication::Realm::SimpleDB> along with a
+database layout that complies with its default assumptions: we don't
+need to specify the names of the columns where our username and password
+information is stored (hence, the "Simple" part of "SimpleDB").  That
+being said, SimpleDB lets you specify that type of information if you
+need to.  Take a look at C<Catalyst::Authentication::Realm::SimpleDB>
 for details.
 
 
@@ -337,11 +344,8 @@ have a C<User> controller with both C<login> and C<logout> actions.
 Remember, Catalyst is designed to be very flexible, and leaves such
 matters up to you, the designer and programmer.
 
-Then open C<lib/MyApp/Controller/Login.pm>, locate the
-C<sub index :Path :Args(0)> method (or C<sub index : Private> if you are
-using an older version of Catalyst) that was automatically inserted by
-the helpers when we created the Login controller above, and update the
-definition of C<sub index> to match:
+Then open C<lib/MyApp/Controller/Login.pm>, and update the definition of
+C<sub index> to match:
 
     =head2 index
     
@@ -378,10 +382,6 @@ definition of C<sub index> to match:
         # If either of above don't work out, send to the login page
         $c->stash(template => 'login.tt2');
     }
-
-Be sure to remove the
-C<$c-E<gt>response-E<gt>body('Matched MyApp::Controller::Login in Login.');>
-line of the C<sub index>.
 
 This controller fetches the C<username> and C<password> values from the
 login form and attempts to authenticate the user.  If successful, it
@@ -424,10 +424,6 @@ C<lib/MyApp/Controller/Logout.pm> to match:
         # Send the user to the starting point
         $c->response->redirect($c->uri_for('/'));
     }
-
-As with the login controller, be sure to delete the
-C<$c-E<gt>response-E<gt>body('Matched MyApp::Controller::Logout in Logout.');>
-line of the C<sub index>.
 
 
 =head2 Add a Login Form TT Template Page
@@ -558,18 +554,15 @@ C<test01> and password C<mypass>, and you should be taken to the Book
 List page.
 
 B<IMPORTANT NOTE:> If you are having issues with authentication on
-Internet Explorer, be sure to check the system clocks on both your
-server and client machines.  Internet Explorer is very picky about
-timestamps for cookies.  You can quickly sync a Debian system by
-installing the "ntpdate" package:
-
-    sudo aptitude -y install ntpdate
-
-And then run the following command:
+Internet Explorer (or potentially other browsers), be sure to check the
+system clocks on both your server and client machines.  Internet
+Explorer is very picky about timestamps for cookies.  You can use the
+C<ntpq -p> command on the Tutorial Virtual Machine to check time sync
+and/or use the following command to force a sync:
 
     sudo ntpdate-debian
 
-Or, depending on your firewall configuration:
+Or, depending on your firewall configuration, try it with "-u":
 
     sudo ntpdate-debian -u
 
@@ -602,8 +595,8 @@ need to log in to use this application."
 
 In this section we increase the security of our system by converting
 from cleartext passwords to SHA-1 password hashes that include a random
-"salt" value to make them extremely difficult to crack with dictionary
-and "rainbow table" attacks.
+"salt" value to make them extremely difficult to crack, even with
+dictionary and "rainbow table" attacks.
 
 B<Note:> This section is optional.  You can skip it and the rest of the
 tutorial will function normally.
@@ -613,13 +606,13 @@ browser still transmits the passwords in cleartext to your application.
 We are just avoiding the I<storage> of cleartext passwords in the
 database by using a salted SHA-1 hash. If you are concerned about
 cleartext passwords between the browser and your application, consider
-using SSL/TLS, made easy with the Catalyst plugin
-L<Catalyst::Plugin:RequireSSL>.
+using SSL/TLS, made easy with modules such as
+L<Catalyst::Plugin:RequireSSL> and L<Catalyst::ActionRole::RequireSSL>.
 
 
 =head2 Re-Run the DBIC::Schema Model Helper to Include DBIx::Class::PassphraseColumn
 
-Next, we can re-run the model helper to have it include
+Let's re-run the model helper to have it include
 L<DBIx::Class::PassphraseColumn> in all of the Result Classes it
 generates for us.  Simply use the same command we saw in Chapters 3 and
 4, but add C<,PassphraseColumn> to the C<components> argument:
@@ -732,7 +725,8 @@ your web application -- a very useful feature in many situations.
 
 =head2 Enable Hashed and Salted Passwords
 
-Edit C<lib/MyApp.pm> and update it to match the following text (the only
+Edit C<lib/MyApp.pm> and update the config() section for
+C<Plugin::Authentication> it to match the following text (the only
 change is to the C<password_type> field):
 
     # Configure SimpleDB Authentication
@@ -830,44 +824,131 @@ next screen where it's appropriate, but it won't "keep showing up" after
 that first time (unless you reset it).  Please refer to
 L<Catalyst::Plugin::Session> for additional information.
 
+B<Note:> There is also a C<flash-to-stash> feature that will
+automatically load the contents the contents of flash into stash,
+allowing us to use the more typical C<c.flash.status_msg> in our TT
+template in lieu of the more verbose C<status_msg || c.flash.status_msg>
+we used above.  Consult L<Catalyst::Plugin::Session> for additional
+information.
 
-=head2 Switch To Flash-To-Stash
 
-Although the use of flash above works well, the
-C<status_msg || c.flash.status_msg> statement is a little ugly. A nice
-alternative is to use the C<flash_to_stash> feature that automatically
-copies the content of flash to stash.  This makes your controller and
-template code work regardless of where it was directly access, a
-forward, or a redirect.  To enable C<flash_to_stash>, you can either set
-the value in C<lib/MyApp.pm> by changing the default
-C<__PACKAGE__-E<gt>config> setting to something like:
+=head2 Switch To Catalyst::Plugin::StatusMessages 
 
-    __PACKAGE__->config(
-            name    => 'MyApp',
-            # Disable deprecated behavior needed by old applications
-            disable_component_resolution_regex_fallback => 1,
-            'Plugin::Session' => { flash_to_stash => 1 },
-        );
+Although the query parameter technique we used in
+L<Chapter 4|Catalyst::Manual::Tutorial::04_BasicCRUD> and the C<flash>
+approach we used above will work in most cases, they both have their
+drawbacks.  The query parameters can leave the status message on the
+screen longer than it should (for example, if the user hits refresh).
+And C<flash> can display the wrong message on the wrong screen (flash
+just shows the message on the next page for that user... if the user
+has multiple windows or tabs open, then the wrong one can get the
+status message).
 
-B<or> add the following to C<myapp.conf>:
+L<Catalyst::Plugin::StatusMessage> is designed to address these
+shortcomings.  It stores the messages in the user's session (so they are
+available across multiple requests), but ties each status message to a
+random token.  By passing this token across the redirect, we are no
+longer relying on a potentially ambiguous "next request" like we do with
+flash.  And, because the message is deleted the first time it's
+displayed, the user can hit refresh and still only see the message a
+single time (even though the URL may continue to reference the token,
+it's only displayed the first time).  The use of C<StatusMessage>
+or a similar mechanism is recommended for all Catalyst applications.
 
-    <Plugin::Session>
-        flash_to_stash   1
-    </Plugin::Session>
+To enable C<StatusMessage>, first edit C<lib/MyApp.pm> and add
+C<StatusMessage> to the list of plugins:
 
-The C<__PACKAGE__-E<gt>config> option is probably preferable here since
-it's not something you will want to change at runtime without it
-possibly breaking some of your code.
+    use Catalyst qw/
+        -Debug
+        ConfigLoader
+        Static::Simple
+    
+        Authentication
+    
+        Session
+        Session::Store::File
+        Session::State::Cookie
+    
+        StatusMessage
+    /;
 
-Then edit C<root/src/wrapper.tt2> and change the C<status_msg> line to
-match the following:
+Then edit C<lib/MyApp/Controller/Books.pm> and modify the C<delete>
+action to match the following:
 
-    <span class="message">[% status_msg %]</span>
+    sub delete :Chained('object') :PathPart('delete') :Args(0) {
+        my ($self, $c) = @_;
+    
+        # Saved the PK id for status_msg below
+        my $id = $c->stash->{object}->id;
+    
+        # Use the book object saved by 'object' and delete it along
+        # with related 'book_authors' entries
+        $c->stash->{object}->delete;
+    
+        # Redirect the user back to the list page
+        $c->response->redirect($c->uri_for($self->action_for('list'),
+            {mid => $c->set_status_msg("Deleted book $id")}));
+    }
+
+This uses the C<set_status_msg> that the plugin added to C<$c> to save
+the message under a random token.  (If we wanted to save an error
+message, we could have used C<set_error_msg>.)  Because
+C<set_status_msg> and C<set_error_msg> both return the random token, we
+can assign that value to the "C<mid>" query parameter via C<uri_for> as
+shown above.
+
+Next, we need to make sure that the list page will load display the
+message.  The easiest way to do this is to take advantage of the chained
+dispatch we implemented in
+L<Chapter 4|Catalyst::Manual::Tutorial::04_BasicCRUD>.  Edit
+C<lib/MyApp/Controller/Books.pm> again and update the C<base> action to
+match:
+
+    sub base :Chained('/') :PathPart('books') :CaptureArgs(0) {
+        my ($self, $c) = @_;
+    
+        # Store the ResultSet in stash so it's available for other methods
+        $c->stash(resultset => $c->model('DB::Book'));
+    
+        # Print a message to the debug log
+        $c->log->debug('*** INSIDE BASE METHOD ***');
+    
+        # Load status messages
+        $c->load_status_msgs;
+    }
+
+That way, anything that chains off C<base> will automatically get any
+status or error messages loaded into the stash.  Let's convert the
+C<list> action to take advantage of this.  Modify the method signature
+for C<list> from:
+
+    sub list :Local {
+
+to:
+
+    sub list :Chained('base') :PathParth('list') :Args(0) {
+
+Finally, let's clean up the status/error message code in our wrapper
+template.  Edit C<root/src/wrapper.tt2> and change the "content" div
+to match the following:
+
+    <div id="content">
+        [%# Status and error messages %]
+        <span class="message">[% status_msg %]</span>
+        <span class="error">[% error_msg %]</span>
+        [%# This is where TT will stick all of your template's contents. -%]
+        [% content %]
+    </div><!-- end content -->
 
 Now go to L<http://localhost:3000/books/list> in your browser. Delete
-another of the "Test" books you added in the previous step. Flash should
-still maintain the status message across the redirect even though you
-are no longer explicitly accessing C<c.flash>.
+another of the "Test" books you added in the previous step.  You should
+get redirection from the C<delete> action back to the C<list> action,
+but with a "mid=########" message ID query parameter.  The screen should
+say "Deleted book #" (where # is the PK id of the book you removed).
+However, if you hit refresh in your browser, the status message is no
+longer displayed  (even though the URL does still contain the message ID
+token, it is ignored -- thereby keeping the state of our status/error
+messages in sync with the users actions).
 
 
 =head1 AUTHOR
