@@ -56,7 +56,7 @@ L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 
 =head1 DESCRIPTION
 
-This chapter of the tutorial takes a brief look at the primary options 
+This chapter of the tutorial takes a brief look at the primary options
 available for troubleshooting Catalyst applications.
 
 Note that when it comes to debugging and troubleshooting, there are two
@@ -79,9 +79,9 @@ Catalyst is able to easily accommodate both styles of debugging.
 
 =head1 LOG STATEMENTS
 
-Folks in the former group can use Catalyst's C<$c-E<gt>log> facility. 
-(See L<Catalyst::Log> for more detail.) For example, if 
-you add the following code to a controller action method:
+Folks in the former group can use Catalyst's C<$c-E<gt>log> facility.
+(See L<Catalyst::Log> for more detail.) For example, if you add the
+following code to a controller action method:
 
     $c->log->info("Starting the foreach loop here");
     
@@ -93,8 +93,8 @@ template view use:
 
     [% c.log.debug("This is a test log message") %]
 
-As with many other logging facilities, a method is defined for
-each of the following "logging levels" (in increasing order of
+As with many other logging facilities, a method is defined for each of
+the following "logging levels" (in increasing order of
 severity/importance):
 
     $c->log->debug
@@ -103,8 +103,8 @@ severity/importance):
     $c->log->error
     $c->log->fatal
 
-You can also use L<Data::Dumper> in both Catalyst code 
-(C<use Data::Dumper; $c-E<gt>log-E<gt>debug("\$var is: ".Dumper($var));)>) 
+You can also use L<Data::Dumper> in both Catalyst code
+(C<use Data::Dumper; $c-E<gt>log-E<gt>debug("\$var is: ".Dumper($var));)>)
 and TT templates (C<[% Dumper.dump(book) %]>.
 
 
@@ -135,8 +135,9 @@ you can obviously indent them if you prefer):
         $c->stash->{template} = 'books/list.tt2';
     }
 
-This causes the Perl Debugger to enter "single step mode" when this command is 
-encountered (it has no effect when Perl is run without the C<-d> flag).
+This causes the Perl Debugger to enter "single step mode" when this
+command is encountered (it has no effect when Perl is run without the
+C<-d> flag).
 
 B<NOTE:> The C<DB> here is the Perl Debugger, not the DB model.
 
@@ -144,8 +145,8 @@ If you haven't done it already, enable SQL logging as before:
 
     $ export DBIC_TRACE=1
 
-To now run the Catalyst development server under the Perl debugger, simply 
-prepend C<perl -d> to the front of C<script/myapp_server.pl>:
+To now run the Catalyst development server under the Perl debugger,
+simply prepend C<perl -d> to the front of C<script/myapp_server.pl>:
 
     $ perl -d script/myapp_server.pl
 
@@ -190,8 +191,8 @@ C<single-step> into methods/subroutines):
       DB<1>
 
 This takes you to the next line of code where the template name is set.
-Notice that because we enabled C<DBIC_TRACE=1> earlier, SQL debug 
-output also shows up in the development server debug information.
+Notice that because we enabled C<DBIC_TRACE=1> earlier, SQL debug output
+also shows up in the development server debug information.
 
 Next, list the methods available on our C<Book> model:
 
@@ -241,15 +242,15 @@ breakpoint is hit (or the application exits):
 
 Finally, press C<Ctrl+C> to break out of the development server.
 Because we are running inside the Perl debugger, you will drop to the
-debugger prompt.  
+debugger prompt.
 
     ^CCatalyst::Engine::HTTP::run(/usr/local/share/perl/5.10.0/Catalyst/Engine/HTTP.pm:260):
     260:            while ( accept( Remote, $daemon ) ) {
 
     DB<4>
 
-Finally, press C<q> to exit the debugger and return to your OS
-shell prompt:
+Finally, press C<q> to exit the debugger and return to your OS shell
+prompt:
 
       DB<4> q
     $
@@ -262,39 +263,37 @@ out C<perldebguts>.
 You can also type C<h> or C<h h> at the debugger prompt to view the
 built-in help screens.
 
-For an excellent book covering all aspects of the Perl debugger, we highly
-recommend reading 'Pro Perl Debugging' by Richard Foley.
+For an excellent book covering all aspects of the Perl debugger, we
+highly recommend reading 'Pro Perl Debugging' by Richard Foley.
 
-Oh yeah, before you forget, be sure to remove the C<DB::single=1> line you
-added above in C<lib/MyApp/Controller/Books.pm>.
+Oh yeah, before you forget, be sure to remove the C<DB::single=1> line
+you added above in C<lib/MyApp/Controller/Books.pm>.
 
 =head1 DEBUGGING MODULES FROM CPAN
 
-Although the techniques discussed above work well for code you are 
-writing, what if you want to use print/log/warn messages or set 
-breakpoints in code that you have installed from CPAN (or in module that 
-ship with Perl)?  One helpful approach is to place a copy of the module 
-inside the C<lib> directory of your Catalyst project.  When Catalyst 
-loads, it will load from inside your C<lib> directory first, only 
-turning to the global modules if a local copy cannot be found.  You can 
-then make modifications such as adding a C<$DB::single=1> to the local 
-copy of the module without risking the copy in the original location. 
-This can also be a great way to "locally override" bugs in modules while 
+Although the techniques discussed above work well for code you are
+writing, what if you want to use print/log/warn messages or set
+breakpoints in code that you have installed from CPAN (or in module that
+ship with Perl)?  One helpful approach is to place a copy of the module
+inside the C<lib> directory of your Catalyst project.  When Catalyst
+loads, it will load from inside your C<lib> directory first, only
+turning to the global modules if a local copy cannot be found.  You can
+then make modifications such as adding a C<$DB::single=1> to the local
+copy of the module without risking the copy in the original location.
+This can also be a great way to "locally override" bugs in modules while
 you wait for a fix on CPAN.
 
-
-Matt Trout has suggested the following shortcut to create a local
-copy of an installed module:
+Matt Trout has suggested the following shortcut to create a local copy
+of an installed module:
 
     mkdir -p lib/Module; cp `perldoc -l Module::Name` lib/Module/
 
-Note: If you are following along in Debian 6 or Ubuntu, you will
-need to install the C<perl-doc> package to use the C<perldoc> command.  
-Use C<sudo aptitude install perl-doc> to do that.
+Note: If you are following along in Debian 6 or Ubuntu, you will need to
+install the C<perl-doc> package to use the C<perldoc> command.  Use
+C<sudo aptitude install perl-doc> to do that.
 
-For example, you could make a copy of 
-L<Catalyst::Plugin::Authentication>
-with the following command:
+For example, you could make a copy of
+L<Catalyst::Plugin::Authentication> with the following command:
 
     mkdir -p lib/Catalyst/Plugin; cp \
         `perldoc -l Catalyst::Plugin::Authentication` lib/Catalyst/Plugin
@@ -302,8 +301,7 @@ with the following command:
 You can then use the local copy inside your project to place logging
 messages and/or breakpoints for further study of that module.
 
-B<Note:> Matt has also suggested the following tips for Perl 
-debugging:
+B<Note:> Matt has also suggested the following tips for Perl debugging:
 
 =over 4
 
@@ -345,9 +343,9 @@ Otherwise, it returns undef and nothing will be printed.
 
 =head1 TT DEBUGGING
 
-If you run into issues during the rendering of your template, it might 
-be helpful to enable TT C<DEBUG> options.  You can do this in a Catalyst 
-environment by adding a C<DEBUG> line to the C<__PACKAGE__->config> 
+If you run into issues during the rendering of your template, it might
+be helpful to enable TT C<DEBUG> options.  You can do this in a Catalyst
+environment by adding a C<DEBUG> line to the C<__PACKAGE__->config>
 declaration in C<lib/MyApp/View/HTML.pm>:
 
     __PACKAGE__->config({
@@ -355,15 +353,15 @@ declaration in C<lib/MyApp/View/HTML.pm>:
         DEBUG              => 'undef',
     });
 
-There are a variety of options you can use, such as 'undef', 'all', 
-'service', 'context', 'parser' and 'provider'.  See 
-L<Template::Constants> for more information 
-(remove the C<DEBUG_> portion of the name shown in the TT docs and 
-convert to lower case for use inside Catalyst).
+There are a variety of options you can use, such as 'undef', 'all',
+'service', 'context', 'parser' and 'provider'.  See
+L<Template::Constants> for more information (remove the C<DEBUG_>
+portion of the name shown in the TT docs and convert to lower case for
+use inside Catalyst).
 
-B<NOTE:> B<Please be sure to disable TT debug options before continuing 
-with the tutorial> (especially the 'undef' option -- leaving this 
-enabled will conflict with several of the conventions used by this 
+B<NOTE:> B<Please be sure to disable TT debug options before continuing
+with the tutorial> (especially the 'undef' option -- leaving this
+enabled will conflict with several of the conventions used by this
 tutorial to leave some variables undefined on purpose).
 
 Happy debugging.
