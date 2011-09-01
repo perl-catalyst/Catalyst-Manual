@@ -208,11 +208,7 @@ the file:
         display: block;
     }
 
-These changes will display form elements vertically.  Note that the 
-existing definition of the C<.error> class is pulling the color scheme 
-settings from the C<root/lib/config/col> file that was created by the 
-TTSite helper.  This allows control over the CSS color settings from a 
-single location.
+These changes will display form elements vertically.
 
 
 =head2 Create a Template Page To Display The Form
