@@ -107,6 +107,12 @@ You can also use L<Data::Dumper> in both Catalyst code
 (C<use Data::Dumper; $c-E<gt>log-E<gt>debug("\$var is: ".Dumper($var));)>)
 and TT templates (C<[% Dumper.dump(book) %]>.
 
+B<NOTE:> Whether you are a logging fanatic or not, we strongly recommend
+that you take advantage of L<Log::Log4perl> or L<Log::Dispatch>.  It's
+easy to use L<Catalyst::Log> with either of these and they will provide
+a huge amount of extra functionality that you will want in virtually
+every production application you run or support.
+
 
 =head1 RUNNING CATALYST UNDER THE PERL DEBUGGER
 
@@ -173,7 +179,7 @@ in.  Once the breakpoint is encountered in the
 C<MyApp::Controller::list> method, the console session running the
 development server will drop to the Perl debugger prompt:
 
-    MyApp::Controller::Books::list(/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm:48):
+    MyApp::Controller::Books::list(/root/MyApp/script/../lib/MyApp/Controller/Books.pm:48):
     48:         $c->stash->{books} = [$c->model('DB::Book')->all];
     
       DB<1>
@@ -185,7 +191,7 @@ C<single-step> into methods/subroutines):
 
       DB<1> n
     SELECT me.id, me.title, me.rating, me.created, me.updated FROM book me:
-    MyApp::Controller::Books::list(/home/me/MyApp/script/../lib/MyApp/Controller/Books.pm:53):
+    MyApp::Controller::Books::list(/root/MyApp/script/../lib/MyApp/Controller/Books.pm:53):
     53:         $c->stash->{template} = 'books/list.tt2';
     
       DB<1>
