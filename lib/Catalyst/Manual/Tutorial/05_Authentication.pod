@@ -166,7 +166,7 @@ C<1;>:
     #     2) Name of has_many() relationship this many_to_many() is shortcut for
     #     3) Name of belongs_to() relationship in model class of has_many() above
     #   You must already have the has_many() defined to use a many_to_many().
-    __PACKAGE__->many_to_many(roles => 'user_roles', 'role_id');
+    __PACKAGE__->many_to_many(roles => 'user_roles', 'role');
 
 The code for this update is obviously very similar to the edits we made
 to the C<Book> and C<Author> classes created in
@@ -694,7 +694,7 @@ Then run the following command:
 
     $ DBIC_TRACE=1 perl -Ilib set_hashed_passwords.pl
 
-We had to use the C<-Ilib> argument to tell perl to look under the
+We had to use the C<-Ilib> argument to tell Perl to look under the
 C<lib> directory for our C<MyApp::Schema> model.
 
 The DBIC_TRACE output should show that the update worked:
