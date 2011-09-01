@@ -64,8 +64,9 @@ will be too limited to be of use to anyone, it should provide a basic
 environment where we can explore a variety of features used in virtually
 all web applications.
 
-You can check out the source code for this example from the Catalyst
-Subversion repository as per the instructions in
+Source code for the tutorial in included in the F</root/Final> directory
+of the Tutorial Virtual machine (one subdirectory per chapter).  There
+are also instructions for downloading the code in
 L<Catalyst::Manual::Tutorial::01_Intro>.
 
 Please take a look at

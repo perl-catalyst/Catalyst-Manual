@@ -63,6 +63,11 @@ and restore data to/from the database.
 See L<Catalyst::Manual::Tutorial::09_AdvancedCRUD> for additional form
 management options other than L<HTML::FormFu>.
 
+Source code for the tutorial in included in the F</root/Final> directory
+of the Tutorial Virtual machine (one subdirectory per chapter).  There
+are also instructions for downloading the code in
+L<Catalyst::Manual::Tutorial::01_Intro>.
+
 
 =head1 HTML::FormFu FORM CREATION
 

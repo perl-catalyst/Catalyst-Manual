@@ -63,8 +63,9 @@ L<Chapter 6|Catalyst::Manual::Tutorial::06_Authorization>).
 This chapter of the tutorial is divided into two main sections: 1)
 basic, cleartext authentication and 2) hash-based authentication.
 
-You can checkout the source code for this example from the catalyst
-subversion repository as per the instructions in
+Source code for the tutorial in included in the F</root/Final> directory
+of the Tutorial Virtual machine (one subdirectory per chapter).  There
+are also instructions for downloading the code in
 L<Catalyst::Manual::Tutorial::01_Intro>.
 
 

@@ -75,8 +75,9 @@ of tool to automate the process.  You get less control, but it can be
 quick and easy.  For example, see L<Catalyst::Plugin::AutoCRUD>,
 L<CatalystX::CRUD>, and L<CatalystX::CRUD::YUI>.
 
-You can check out the source code for this example from the Catalyst
-Subversion repository as per the instructions in
+Source code for the tutorial in included in the F</root/Final> directory
+of the Tutorial Virtual machine (one subdirectory per chapter).  There
+are also instructions for downloading the code in
 L<Catalyst::Manual::Tutorial::01_Intro>.
 
 
