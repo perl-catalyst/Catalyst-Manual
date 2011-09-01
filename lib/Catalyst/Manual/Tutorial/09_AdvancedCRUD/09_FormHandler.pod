@@ -150,9 +150,9 @@ Add the following methods:
         $c->stash( template => 'books/form.tt2', form => $form );
         $form->process( item => $book, params => $c->req->params );
         return unless $form->validated;
-        $c->flash( message => 'Book created' );
-        # Redirect the user back to the list page
-        $c->response->redirect($c->uri_for($self->action_for('list')));
+        # Set a status message for the user & return to books list
+        $c->response->redirect($c->uri_for($self->action_for('list'),
+            {mid => $c->set_status_msg("Book created")}));
     }
 
 These two methods could be combined at this point, but we'll use the 'form'
