@@ -58,8 +58,7 @@ L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 
 This portion of the tutorial explores L<HTML::FormFu> and how it can be
 used to manage forms, perform validation of form input, as well as save
-and restore data to/from the database.  This was written using
-HTML::FormFu version 0.05001.
+and restore data to/from the database.
 
 See L<Catalyst::Manual::Tutorial::09_AdvancedCRUD> for additional form
 management options other than L<HTML::FormFu>.
@@ -68,7 +67,8 @@ management options other than L<HTML::FormFu>.
 =head1 HTML::FormFu FORM CREATION
 
 This section looks at how L<HTML::FormFu> can be used to add additional
-functionality to the manually created form from Chapter 4.
+functionality to the manually created form from
+L<Chapter 4|Catalyst::Manual::Tutorial::04_BasicCRUD>.
 
 
 =head2 Inherit From Catalyst::Controller::HTML::FormFu
@@ -85,9 +85,12 @@ to use the FormFu base controller class:
 
 Don't forget to add:
 
+    requires 'HTML::FormFu';
     requires 'Catalyst::Controller::HTML::FormFu';
+    requires 'requires 'HTML::FormFu::Model::DBIC';';
 
 to your C<Makefile.PL>.
+
 
 =head2 Add Action to Display and Save the Form
 
@@ -114,10 +117,9 @@ following method:
             my $book = $c->model('DB::Book')->new_result({});
             # Save the form data for the book
             $form->model->update($book);
-            # Set a status message for the user
-            $c->flash->{status_msg} = 'Book created';
-            # Return to the books list
-            $c->response->redirect($c->uri_for($self->action_for('list'))); 
+            # Set a status message for the user & return to books list
+            $c->response->redirect($c->uri_for($self->action_for('list'),
+                {mid => $c->set_status_msg("Book created")}));
             $c->detach;
         } else {
             # Get the authors from the DB
@@ -144,7 +146,7 @@ Although C<HTML::FormFu> supports any configuration file handled by
 L<Config::Any>, most people tend to use YAML.  First create a directory
 to hold your form configuration files:
 
-    mkdir -p root/forms/books
+    $ mkdir -p root/forms/books
 
 Then create the file C<root/forms/books/formfu_create.yml> and enter the
 following text:
@@ -252,7 +254,7 @@ form.  Fill in the following values:
     Rating: 4
     Author: Comer
 
-Click the Submit button, and you will be returned to the Book List page
+Click the "Submit" button, and you will be returned to the Book List page
 with a "Book created" status message displayed.
 
 Also note that this implementation allows you to create books with any
@@ -360,15 +362,15 @@ to match:
     
     # Global filters and constraints.
     constraints:
-      # The user cannot leave any fields blank
-      - Required
-      # If not all fields are required, move the Required constraint to the 
-      # fields that are
+        # The user cannot leave any fields blank
+        - Required
+        # If not all fields are required, move the Required constraint to the
+        # fields that are
     filter:
-      # Remove whitespace at both ends
-      - TrimEdges
-      # Escape HTML characters for safety
-      - HTMLEscape
+        # Remove whitespace at both ends
+        - TrimEdges
+        # Escape HTML characters for safety
+        - HTMLEscape
 
 B<NOTE:> Copying and pasting YAML from Perl documentation is sometimes
 tricky.  See the L<Config::General Config for this tutorial> section of
@@ -407,6 +409,10 @@ validate the logic and insert feedback as appropriate.  Try adding blank
 spaces at the front or the back of the title and note that it will be
 removed.
 
+Note that you can update your FormFu YAML forms and the development
+server does not need to reload -- the form definition is read from
+the YAML file each time a controller action uses it.
+
 
 =head1 CREATE AND UPDATE/EDIT ACTION
 
@@ -429,8 +435,9 @@ bottom:
     
         # Make sure we were able to get a book
         unless ($book) {
-            $c->flash->{error_msg} = "Invalid book -- Cannot edit";
-            $c->response->redirect($c->uri_for($self->action_for('list')));
+            # Set an error message for the user & return to books list
+            $c->response->redirect($c->uri_for($self->action_for('list'),
+                {mid => $c->set_error_msg("Invalid book -- Cannot edit")}));
             $c->detach;
         }
     
@@ -444,9 +451,9 @@ bottom:
             # Save the form data for the book
             $form->model->update($book);
             # Set a status message for the user
-            $c->flash->{status_msg} = 'Book edited';
-            # Return to the books list
-            $c->response->redirect($c->uri_for($self->action_for('list')));
+            # Set a status message for the user & return to books list
+            $c->response->redirect($c->uri_for($self->action_for('list'),
+                {mid => $c->set_status_msg("Book edited")}));
             $c->detach;
         } else {
             # Get the authors from the DB
@@ -518,13 +525,15 @@ following:
     ...
     <td>
       [% # Add a link to delete a book %]
-      <a href="[% c.uri_for(c.controller.action_for('delete'), [book.id]) %]">Delete</a>
+      <a href="[%
+        c.uri_for(c.controller.action_for('delete'), [book.id]) %]">Delete</a>
       [% # Add a link to edit a book %]
-      <a href="[% c.uri_for(c.controller.action_for('formfu_edit'), [book.id]) %]">Edit</a>
+      <a href="[%
+        c.uri_for(c.controller.action_for('formfu_edit'), [book.id]) %]">Edit</a>
     </td>
     ...
 
-B<Note:> Only add two lines (the "Add a link to edit a book" comment and
+B<Note:> Only add three lines (the "Add a link to edit a book" comment and
 the href for C<formfu_edit>).  Make sure you add it below the existing
 C<delete> link.
 
