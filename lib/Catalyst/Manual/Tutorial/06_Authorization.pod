@@ -78,6 +78,7 @@ Catalyst.
 =head2 Update Plugins to Include Support for Authorization
 
 Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
+***TODO: remove stacktrace?
 
     # Load plugins
     use Catalyst qw/
@@ -273,10 +274,17 @@ the "C<DO NOT MODIFY ...>" line:
         return any(map { $_->role } $self->roles) eq $role;
     }
 
-Let's also add Perl6::Junction to the requirements listed in
+Let's also add C<Perl6::Junction> to the requirements listed in
 Makefile.PL:
 
     requires 'Perl6::Junction';
+
+B<Note:> Feel free to use C<grep> in lieu of C<Perl6::Junction::any> if
+you prefer.  Also, please don't let the use of the C<Perl6::Junction>
+module above lead you to believe that Catalyst is somehow dependent on
+Perl 6... we are simply using that module for its
+L<easy-to-read|http://blogs.perl.org/users/marc_sebastian_jakobs/2009/11/my-favorite-module-of-the-month-perl6junction.html>
+C<any> function.
 
 Now we need to add some enforcement inside our controller.  Open
 C<lib/MyApp/Controller/Books.pm> and update the C<delete> method to
