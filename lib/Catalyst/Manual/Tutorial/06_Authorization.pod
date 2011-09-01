@@ -307,9 +307,6 @@ match the following code:
         # with related 'book_authors' entries
         $c->stash->{object}->delete;
     
-        # Use 'flash' to save information across requests until it's read
-        $c->flash->{status_msg} = "Book deleted";
-    
         # Redirect the user back to the list page
         $c->response->redirect($c->uri_for($self->action_for('list'),
             {mid => $c->set_status_msg("Deleted book $id")}));
