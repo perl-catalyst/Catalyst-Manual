@@ -29,3 +29,6 @@
 
 # No tarballs!
 \.gz$
+
+# Author/Updater-Only Notes
+^_UPDATERS_PLEASE_READ_THIS_.txt$
