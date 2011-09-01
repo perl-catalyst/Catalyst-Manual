@@ -118,7 +118,7 @@ to:
 
     ok( request('/books')->is_redirect, 'Request should succeed' );
 
-4) Add the following statement to the top of C<t/view_TT.t>:
+4) Add the following statement to the top of C<t/view_HTML.t>:
 
     use MyApp;
 
