@@ -56,28 +56,26 @@ L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 
 =head1 DESCRIPTION
 
-This portion of the tutorial explores L<HTML::FormFu> and 
-how it can be used to manage forms, perform validation of form input, 
-as well as save and restore data to/from the database.  This was written
-using HTML::FormFu version 0.05001.
+This portion of the tutorial explores L<HTML::FormFu> and how it can be
+used to manage forms, perform validation of form input, as well as save
+and restore data to/from the database.  This was written using
+HTML::FormFu version 0.05001.
 
-See 
-L<Catalyst::Manual::Tutorial::09_AdvancedCRUD>
-for additional form management options other than 
-L<HTML::FormFu>.
+See L<Catalyst::Manual::Tutorial::09_AdvancedCRUD> for additional form
+management options other than L<HTML::FormFu>.
 
 
 =head1 HTML::FormFu FORM CREATION
 
-This section looks at how L<HTML::FormFu> can be used to 
-add additional functionality to the manually created form from Chapter 4.
+This section looks at how L<HTML::FormFu> can be used to add additional
+functionality to the manually created form from Chapter 4.
 
 
 =head2 Inherit From Catalyst::Controller::HTML::FormFu
 
 First, change your C<lib/MyApp/Controller/Books.pm> to inherit from
-L<Catalyst::Controller::HTML::FormFu>
-by changing the C<extends> line from the default of:
+L<Catalyst::Controller::HTML::FormFu> by changing the C<extends> line
+from the default of:
 
     BEGIN {extends 'Catalyst::Controller'; }
 
@@ -143,12 +141,12 @@ following method:
 =head2 Create a Form Config File
 
 Although C<HTML::FormFu> supports any configuration file handled by
-L<Config::Any>, most people tend to use YAML.  First
-create a directory to hold your form configuration files:
+L<Config::Any>, most people tend to use YAML.  First create a directory
+to hold your form configuration files:
 
     mkdir -p root/forms/books
 
-Then create the file C<root/forms/books/formfu_create.yml> and enter the 
+Then create the file C<root/forms/books/formfu_create.yml> and enter the
 following text:
 
     ---
@@ -186,15 +184,15 @@ following text:
           name: submit
           value: Submit
 
-B<NOTE:> Copying and pasting YAML from perl documentation is sometimes
+B<NOTE:> Copying and pasting YAML from Perl documentation is sometimes
 tricky.  See the L<Config::General Config for this tutorial> section of
 this document for a more foolproof config format.
 
 
 =head2 Update the CSS
 
-Edit C<root/static/css/main.css> and add the following lines to the bottom of
-the file:
+Edit C<root/static/css/main.css> and add the following lines to the
+bottom of the file:
 
     ...
     input {
@@ -213,7 +211,8 @@ These changes will display form elements vertically.
 
 =head2 Create a Template Page To Display The Form
 
-Open C<root/src/books/formfu_create.tt2> in your editor and enter the following:
+Open C<root/src/books/formfu_create.tt2> in your editor and enter the
+following:
 
     [% META title = 'Create/Update Book' %]
     
@@ -235,8 +234,8 @@ the bottom of the existing file:
       <a href="[% c.uri_for(c.controller.action_for('formfu_create')) %]">Create</a>
     </p>
 
-This adds a new link to the bottom of the book list page that we can
-use to easily launch our HTML::FormFu-based form.
+This adds a new link to the bottom of the book list page that we can use
+to easily launch our HTML::FormFu-based form.
 
 
 =head2 Test The HTML::FormFu Create Form
@@ -257,12 +256,12 @@ Click the Submit button, and you will be returned to the Book List page
 with a "Book created" status message displayed.
 
 Also note that this implementation allows you to create books with any
-bogus information.  Although we have constrained the authors with the 
-drop-down list (note that this isn't bulletproof because we still have 
-not prevented a user from "hacking" the form to specify other values), 
-there are no restrictions on items such as the length of the title (for 
-example, you can create a one-letter title) and the value of the rating 
-(you can use any number you want, and even non-numeric values with 
+bogus information.  Although we have constrained the authors with the
+drop-down list (note that this isn't bulletproof because we still have
+not prevented a user from "hacking" the form to specify other values),
+there are no restrictions on items such as the length of the title (for
+example, you can create a one-letter title) and the value of the rating
+(you can use any number you want, and even non-numeric values with
 SQLite).  The next section will address this concern.
 
 B<Note:> Depending on the database you are using and how you established
@@ -274,19 +273,18 @@ performing any validation.
 
 =head1 HTML::FormFu VALIDATION AND FILTERING
 
-Although the use of L<HTML::FormFu> in the previous section 
-did provide an automated mechanism to build the form, the real power of 
-this module stems from functionality that can automatically validate and 
-filter the user input.  Validation uses constraints to be sure that 
-users input appropriate data (for example, that the email field of a 
-form contains a valid email address).  Filtering can also be used to 
-remove extraneous whitespace from fields or to escape meta-characters in 
-user input.
+Although the use of L<HTML::FormFu> in the previous section did provide
+an automated mechanism to build the form, the real power of this module
+stems from functionality that can automatically validate and filter the
+user input.  Validation uses constraints to be sure that users input
+appropriate data (for example, that the email field of a form contains a
+valid email address).  Filtering can also be used to remove extraneous
+whitespace from fields or to escape meta-characters in user input.
 
 
 =head2 Add Constraints
 
-Open C<root/forms/books/formfu_create.yml> in your editor and update it 
+Open C<root/forms/books/formfu_create.yml> in your editor and update it
 to match:
 
     ---
@@ -372,7 +370,7 @@ to match:
       # Escape HTML characters for safety
       - HTMLEscape
 
-B<NOTE:> Copying and pasting YAML from perl documentation is sometimes
+B<NOTE:> Copying and pasting YAML from Perl documentation is sometimes
 tricky.  See the L<Config::General Config for this tutorial> section of
 this document for a more foolproof config format.
 
@@ -383,39 +381,37 @@ The main changes are:
 =item *
 
 The C<Select> element for C<authors> is changed from a single-select
-drop-down to a multi-select list by adding configuration for the 
+drop-down to a multi-select list by adding configuration for the
 C<multiple> and C<size> options in C<formfu_create.yml>.
 
 =item *
 
 Constraints are added to provide validation of the user input.  See
-L<HTML::FormFu::Constraint> for other
-constraints that are available.
+L<HTML::FormFu::Constraint> for other constraints that are available.
 
 =item *
 
-A variety of filters are run on every field to remove and escape 
-unwanted input.  See L<HTML::FormFu::Filter>
-for more filter options.
+A variety of filters are run on every field to remove and escape
+unwanted input.  See L<HTML::FormFu::Filter> for more filter options.
 
 =back
 
 
 =head2 Try Out the Updated Form
 
-Make sure you are still logged in as C<test01> and try adding a book 
-with various errors: title less than 5 characters, non-numeric rating, a 
-rating of 0 or 6, etc.  Also try selecting one, two, and zero authors. 
-When you click Submit, the HTML::FormFu C<constraint> items will 
-validate the logic and insert feedback as appropriate.  Try adding blank 
-spaces at the front or the back of the title and note that it will be 
+Make sure you are still logged in as C<test01> and try adding a book
+with various errors: title less than 5 characters, non-numeric rating, a
+rating of 0 or 6, etc.  Also try selecting one, two, and zero authors.
+When you click Submit, the HTML::FormFu C<constraint> items will
+validate the logic and insert feedback as appropriate.  Try adding blank
+spaces at the front or the back of the title and note that it will be
 removed.
 
 
 =head1 CREATE AND UPDATE/EDIT ACTION
 
-Let's expand the work done above to add an edit action.  First, open 
-C<lib/MyApp/Controller/Books.pm> and add the following method to the 
+Let's expand the work done above to add an edit action.  First, open
+C<lib/MyApp/Controller/Books.pm> and add the following method to the
 bottom:
 
     =head2 formfu_edit
@@ -472,22 +468,22 @@ bottom:
         $c->stash(template => 'books/formfu_create.tt2');
     }
 
-Most of this code should look familiar to what we used in the 
-C<formfu_create> method (in fact, we should probably centralize some of 
+Most of this code should look familiar to what we used in the
+C<formfu_create> method (in fact, we should probably centralize some of
 the common code in separate methods).  The main differences are:
 
 =over 4
 
 =item *
 
-We have to manually specify the name of the FormFu .yml file as an 
-argument to C<:FormConfig> because the name can no longer be 
+We have to manually specify the name of the FormFu .yml file as an
+argument to C<:FormConfig> because the name can no longer be
 automatically deduced from the name of our action/method (by default,
 FormFu would look for a file named C<books/formfu_edit.yml>).
 
 =item *
 
-We load the book object from the stash (found using the $id passed to 
+We load the book object from the stash (found using the $id passed to
 the Chained object method)
 
 =item *
@@ -496,27 +492,27 @@ We use C<$id> to look up the existing book from the database.
 
 =item *
 
-We make sure the book lookup returned a valid book.  If not, we set 
-the error message and return to the book list.
+We make sure the book lookup returned a valid book.  If not, we set the
+error message and return to the book list.
 
 =item *
 
-If the form has been submitted and passes validation, we skip creating a 
-new book and just use C<$form-E<gt>model-E<gt>update> to update the existing 
-book.
+If the form has been submitted and passes validation, we skip creating a
+new book and just use C<$form-E<gt>model-E<gt>update> to update the
+existing book.
 
 =item *
 
-If the form is being displayed for the first time (or has failed 
+If the form is being displayed for the first time (or has failed
 validation and it being redisplayed), we use
- C<$form-E<gt>model-E<gt>default_values> to populate the form with data from the
-database.
+C<$form-E<gt>model-E<gt>default_values> to populate the form with data
+from the database.
 
 =back
 
-Then, edit C<root/src/books/list.tt2> and add a new link below the 
-existing "Delete" link that allows us to edit/update each existing book. 
-The last E<lt>tdE<gt> cell in the book list table should look like the 
+Then, edit C<root/src/books/list.tt2> and add a new link below the
+existing "Delete" link that allows us to edit/update each existing book.
+The last E<lt>tdE<gt> cell in the book list table should look like the
 following:
 
     ...
@@ -528,19 +524,19 @@ following:
     </td>
     ...
 
-B<Note:> Only add two lines (the "Add a link to edit a book" comment
-and the href for C<formfu_edit>).  Make sure you add it below the
-existing C<delete> link.
+B<Note:> Only add two lines (the "Add a link to edit a book" comment and
+the href for C<formfu_edit>).  Make sure you add it below the existing
+C<delete> link.
 
 
 =head2 Try Out the Edit/Update Feature
 
-Make sure you are still logged in as C<test01> and go to the 
-L<http://localhost:3000/books/list> URL in your browser.  Click the 
-"Edit" link next to "Internetworking with TCP/IP Vol. II", change the 
-rating to a 3, the "II" at end of the title to the number "2", add 
-Stevens as a co-author (control-click), and click Submit.  You will then 
-be returned to the book list with a "Book edited" message at the top in 
+Make sure you are still logged in as C<test01> and go to the
+L<http://localhost:3000/books/list> URL in your browser.  Click the
+"Edit" link next to "Internetworking with TCP/IP Vol. II", change the
+rating to a 3, the "II" at end of the title to the number "2", add
+Stevens as a co-author (control-click), and click Submit.  You will then
+be returned to the book list with a "Book edited" message at the top in
 green.  Experiment with other edits to various books.
 
 
@@ -580,9 +576,8 @@ real reason you worked through this Tutorial in the first place.
 
 If you are having difficulty with YAML config above, please save the
 below into the file C<formfu_create.conf> and delete the
-C<formfu_create.yml> file.  The below is in
-L<Config::General> format which follows the syntax of
-Apache config files.
+C<formfu_create.yml> file.  The below is in L<Config::General> format
+which follows the syntax of Apache config files.
 
    constraints   Required
    <elements>
