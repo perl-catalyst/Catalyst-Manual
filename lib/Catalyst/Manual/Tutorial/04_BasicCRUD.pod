@@ -895,7 +895,10 @@ query parameter:
 Although the sample above only shows the C<content> div, leave the rest
 of the file intact -- the only change we made to the C<wrapper.tt2> was
 to add "C<|| c.request.params.status_msg>" to the
-C<E<lt>span class="message"E<gt>> line.
+C<E<lt>span class="message"E<gt>> line.  Note that we definitely want
+the "C<| html>" TT filter here since it would be easy for users to
+modify the message on the URL and possibly inject harmful code into the
+application if we left that off.
 
 
 =head2 Try the Delete and Redirect With Query Param Logic
