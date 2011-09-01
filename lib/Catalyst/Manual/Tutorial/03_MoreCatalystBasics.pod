@@ -236,9 +236,9 @@ Don't let these variations confuse you -- they all accomplish the same
 result.
 
 This tells Catalyst to start using one additional plugin,
-L<Catalyst::Plugin::StackTrace>, to add a stack trace to the standard
-Catalyst "debug screen" (the screen Catalyst sends to your browser when
-an error occurs). Be aware that
+L<Catalyst::Plugin::StackTrace>, to add a stack trace near the top of
+the standard Catalyst "debug screen" (the screen Catalyst sends to your
+browser when an error occurs). Be aware that
 L<StackTrace|Catalyst::Plugin::StackTrace> output appears in your
 browser, not in the console window from which you're running your
 application, which is where logging output usually goes.
