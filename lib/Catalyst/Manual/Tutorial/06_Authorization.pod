@@ -57,8 +57,9 @@ L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 =head1 DESCRIPTION
 
 This chapter of the tutorial adds role-based authorization to the
-existing authentication implemented in Chapter 5.  It provides simple
-examples of how to use roles in both TT templates and controller
+existing authentication implemented in
+L<Chapter 5|Catalyst::Manual::Tutorial::05_Authentication>.  It provides
+simple examples of how to use roles in both TT templates and controller
 actions.  The first half looks at basic authorization concepts. The
 second half looks at how moving your authorization code to your model
 can simplify your code and make things easier to maintain.
@@ -92,6 +93,8 @@ Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
         Session
         Session::Store::File
         Session::State::Cookie
+
+        StatusMessage
     /;
 
 Once again, include this additional plugin as a new dependency in the
@@ -189,8 +192,9 @@ message.  Note that we intentionally chose to display the message this
 way to demonstrate that TT templates will not be used if the response
 body has already been set.  In reality you would probably want to use a
 technique that maintains the visual continuity of your template layout
-(for example, using the "status" or "error" message feature added in
-Chapter 3 or C<detach> to an action that shows an "unauthorized" page).
+(for example, using L<Catalyst::Plugin::StateMessage> as shown in the
+L<last chapter|Catalyst::Manual::Tutorial::05_Authentication> to
+redirect to an "unauthorized" page).
 
 B<TIP>: If you want to keep your existing C<url_create> method, you can
 create a new copy and comment out the original by making it look like a
@@ -299,7 +303,8 @@ match the following code:
         $c->flash->{status_msg} = "Book deleted";
     
         # Redirect the user back to the list page
-        $c->response->redirect($c->uri_for($self->action_for('list')));
+        $c->response->redirect($c->uri_for($self->action_for('list'),
+            {mid => $c->set_status_msg("Deleted book $id")}));
     }
 
 Here, we C<detach> to an error page if the user is lacking the
