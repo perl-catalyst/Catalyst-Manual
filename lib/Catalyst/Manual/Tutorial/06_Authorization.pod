@@ -79,7 +79,6 @@ Catalyst.
 =head2 Update Plugins to Include Support for Authorization
 
 Edit C<lib/MyApp.pm> and add C<Authorization::Roles> to the list:
-***TODO: remove stacktrace?
 
     # Load plugins
     use Catalyst qw/
