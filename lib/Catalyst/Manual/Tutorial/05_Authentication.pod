@@ -864,6 +864,8 @@ C<StatusMessage> to the list of plugins:
         ConfigLoader
         Static::Simple
     
+        StackTrace
+    
         Authentication
     
         Session
