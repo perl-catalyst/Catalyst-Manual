@@ -645,11 +645,8 @@ Kennedy Clark, C<hkclark@gmail.com>
 
 Feel free to contact the author for any errors or suggestions, but the
 best way to report issues is via the CPAN RT Bug system at
-<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
+L<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
 
-The most recent version of the Catalyst Tutorial can be found at
-L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Manual/5.80/trunk/lib/Catalyst/Manual/Tutorial/>.
-
-Copyright 2006-2010, Kennedy Clark, under the
+Copyright 2006-2011, Kennedy Clark, under the
 Creative Commons Attribution Share-Alike License Version 3.0
 (L<http://creativecommons.org/licenses/by-sa/3.0/us/>).

@@ -324,7 +324,7 @@ B<HOWEVER>, if you try out the command above, be sure to delete the
 configurations.
 
 B<NOTE:> Because we are using
-L<SimpleDB|L<Catalyst::Authentication::Realm::SimpleDB> along with a
+L<SimpleDB|Catalyst::Authentication::Realm::SimpleDB> along with a
 database layout that complies with its default assumptions: we don't
 need to specify the names of the columns where our username and password
 information is stored (hence, the "Simple" part of "SimpleDB").  That

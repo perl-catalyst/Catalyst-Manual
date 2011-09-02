@@ -282,7 +282,7 @@ as a "404" message or a redirect, but for now just leave it alone.
 The "C<$c>" here refers to the Catalyst context, which is used to access
 the Catalyst application. In addition to many other things, the Catalyst
 context provides access to "response" and "request" objects. (See
-L<Catalyst>, L<Catalyst::Response>, and
+L<Catalyst::Runtime>, L<Catalyst::Response>, and
 L<Catalyst::Request>)
 
 C<$c-E<gt>response-E<gt>body> sets the HTTP response (see
