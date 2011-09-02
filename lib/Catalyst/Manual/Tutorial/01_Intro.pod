@@ -83,16 +83,16 @@ following command (note: will probably be switching to git soon):
 This will download the most recent code for each chapter of the
 tutorial into the CatalystTutorial directory on your machine.
 
-B<These reference implementations are provided so that when you follow
+These reference implementations are provided so that when you follow
 the tutorial, you can use the code to ensure that your system is set up
 correctly (which shouldn't be an issue if you use the Tutorial Virtual
 Machine), :-) and that you have not inadvertently made any typographic
-errors, or accidentally skipped part of the tutorial.>
+errors, or accidentally skipped part of the tutorial.
 
 B<NOTE: You can use any Perl-supported OS and environment to run
 Catalyst.> It should make little or no difference to Catalyst's
 operation, B<but this tutorial has been written using the Debian-based
-Tutorial Virtual Machine that you can download and use to work through
+Tutorial Virtual Machine> that you can download and use to work through
 the full tutorial step by step.  B<WE STRONGLY RECOMMEND THAT YOU USE
 THE VIRTUAL MACHINE IMAGE TO WORK THROUGH THE TUTORIAL> to avoid issues
 that may crop up if you are working with a different configuration.  We
@@ -211,8 +211,8 @@ C<aptitude> (or C<apt-get>) Debian commands.
 Download a Tutorial Virtual Machine image from
 L<http://cattut.shadowcat.co.uk/>
 
-B<A big thanks to Shadowcat Systems for hosting the virtual machines
-(and everything else they do for the Perl community)!>
+B<A big thanks to Shadowcat Systems for hosting the virtual machines>
+B<(and everything else they do for the Perl community)!>
 
 =item 2
 
@@ -270,7 +270,7 @@ could be a few network-related issues you might need to sort out.  See
 the section below L</Sorting Out Virtual Machine Network-Related Issues>
 for additional information and troubleshooting advice.
 
-L<Note:> Remember this IP address... you will be using it throughout the
+B<Note:> Remember this IP address... you will be using it throughout the
 tutorial.
 
 
@@ -393,15 +393,15 @@ help:
 
 =item *
 
-L<VMFAQ.com|http://vmfaq.com/entry/34/>
+L<http://vmfaq.com/entry/34/>
 
 =item *
 
-L<VMWare Player Docs|http://www.vmware.com/support/pubs/player_pubs.html>
+L<http://www.vmware.com/support/pubs/player_pubs.html>
 
 =item *
 
-L<Virtual Box Documentation|http://www.virtualbox.org/manual/ch06.html>
+L<http://www.virtualbox.org/manual/ch06.html>
 
 =back
 
