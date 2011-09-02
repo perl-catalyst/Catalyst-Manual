@@ -478,13 +478,14 @@ C<http://192.168.0.12:3000>.  Note that the development server
 defaults to port 3000 (you can change with with the "-p" option on the
 command line.
 
-B<Please Note:> Depending on the web browser you are using, you might need
-to hit C<Shift+Reload> or C<Ctrl+Reload> to pull a fresh page when
+B<Please Note:> Depending on the web browser you are using, you might
+need to hit C<Shift+Reload> or C<Ctrl+Reload> to pull a fresh page when
 testing your application at various points (see
-L<http://en.wikipedia.org/wiki/Bypass_your_cache> for a comprehensive
-list of options for each browser).  Also, the C<-k> keepalive option to
-the development server can be necessary with some browsers (especially
-Internet Explorer).
+L<http://en.wikipedia.org/wiki/Wikipedia:Bypass_your_cache> for a
+comprehensive list of options for each browser).
+
+Also, the C<-k> B<keepalive option> to the development server can be
+necessary with some browsers (B<especially Internet Explorer>).
 
 =back
 
