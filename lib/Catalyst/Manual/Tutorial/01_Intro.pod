@@ -299,6 +299,17 @@ install Emacs:
 =back
 
 
+You will note that the Tutorial Virtual Machine uses L<local::lib> so
+that the Perl modules are run from ~/perl5 (in this case, /root/perl5)
+vs. the usual location of your "system Perl".  We recommend that you
+also consider using this very handy module.  It can greatly ease the
+process of maintaining and testing different combinations or Perl
+modules across development, staging, and production servers.  (The
+"relocatable Perl" feature can also be used to to run both the modules
+B<and> Perl itself from your home directory [or any other directory you
+chose]).
+
+
 =head1 VERSIONS AND CONVENTIONS USED IN THIS TUTORIAL
 
 This tutorial was built using the following resources. Please note that
