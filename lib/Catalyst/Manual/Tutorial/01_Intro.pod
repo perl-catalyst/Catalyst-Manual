@@ -206,8 +206,9 @@ L<http://www.virtualbox.org/>.
 Once you get a login prompt, enter the username B<root> and a password
 for C<catalyst>.  You should now be at a prompt that looks like:
 
-    login: root
-    password: catalyst
+    catalyst login: root
+    Password: catalyst
+    ...
     root@catalyst:~#
 
 =item 5
