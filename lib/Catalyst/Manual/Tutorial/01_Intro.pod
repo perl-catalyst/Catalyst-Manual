@@ -70,6 +70,14 @@ form management).
 The most recent code for the tutorial is included on the Tutorial Virtual
 Machine you can download from:
 
+L<http://cattut.shadowcat.co.uk/>
+
+See L</STARTING WITH THE TUTORIAL VIRTUAL MACHINE> below for
+instructions getting and using the VM.
+
+Should you wish to download the code directly, you get pull it via the
+following command (note: will probably be switching to git soon):
+
     svn co http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/Tutorial/ CatalystTutorial
 
 This will download the most recent code for each chapter of the
@@ -176,8 +184,6 @@ applications can be found at
 L<http://wiki.catalystframework.org/wiki/resources/catalystexamples> and
 in the C<examples> area of the Catalyst Subversion repository at
 L<http://dev.catalyst.perl.org/repos/Catalyst/trunk/examples/>.
-***Todo: update link above?
-
 
 
 =head1 STARTING WITH THE TUTORIAL VIRTUAL MACHINE
@@ -202,8 +208,11 @@ C<aptitude> (or C<apt-get>) Debian commands.
 
 =item 1 
 
-Download the C<debian-live-6.0.1-i386-rescue.iso> image from
-L<http://cdimage.debian.org/cdimage/release/current-live/i386/iso-hybrid/>.
+Download a Tutorial Virtual Machine image from
+L<http://cattut.shadowcat.co.uk/>
+
+B<A big thanks to Shadowcat Systems for hosting the virtual machines
+(and everything else they do for the Perl community)!>
 
 =item 2
 
@@ -258,7 +267,7 @@ If you are not seeing a valid IP address or it's not responding to pings
 (for example, you get error messages along the lines of "Request timed
 out", "100% packet loss", or "Destination Host Unreachable"), there
 could be a few network-related issues you might need to sort out.  See
-the section below L<Sorting Out Virtual Machine Network-Related Issues>
+the section below L</Sorting Out Virtual Machine Network-Related Issues>
 for additional information and troubleshooting advice.
 
 L<Note:> Remember this IP address... you will be using it throughout the
