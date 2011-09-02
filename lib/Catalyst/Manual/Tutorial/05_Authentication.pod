@@ -954,6 +954,10 @@ token, it is ignored -- thereby keeping the state of our status/error
 messages in sync with the users actions).
 
 
+You can jump to the next chapter of the tutorial here:
+L<Authorization|Catalyst::Manual::Tutorial::06_Authorization>
+
+
 =head1 AUTHOR
 
 Kennedy Clark, C<hkclark@gmail.com>

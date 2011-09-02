@@ -1388,6 +1388,10 @@ output should be the same even though the backend code has been trimmed
 down.
 
 
+You can jump to the next chapter of the tutorial here:
+L<Authentication|Catalyst::Manual::Tutorial::05_Authentication>
+
+
 =head1 AUTHOR
 
 Kennedy Clark, C<hkclark@gmail.com>

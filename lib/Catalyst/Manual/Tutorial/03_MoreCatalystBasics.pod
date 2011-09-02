@@ -1642,6 +1642,10 @@ Check the L<http://localhost:3000/books/list> URL in your browser.  It
 should look the same manner as with earlier sections.
 
 
+You can jump to the next chapter of the tutorial here:
+L<Basic CRUD|Catalyst::Manual::Tutorial::04_BasicCRUD>
+
+
 =head1 AUTHOR
 
 Kennedy Clark, C<hkclark@gmail.com>

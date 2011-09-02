@@ -431,6 +431,10 @@ t/controller_Foo.t:
     $mech->get_ok( 'http://localhost/foo' );
 
 
+You can jump to the next chapter of the tutorial here:
+L<Advanced CRUD|Catalyst::Manual::Tutorial::09_AdvancedCRUD>
+
+
 =head1 AUTHOR
 
 Kennedy Clark, C<hkclark@gmail.com>

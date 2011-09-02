@@ -392,6 +392,10 @@ change between database systems: most of the code generally remains the
 same.
 
 
+You can jump to the next chapter of the tutorial here:
+L<Catalyst Basics|Catalyst::Manual::Tutorial::02_CatalystBasics>
+
+
 =head1 AUTHOR
 
 Kennedy Clark, C<hkclark@gmail.com>

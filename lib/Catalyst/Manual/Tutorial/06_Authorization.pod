@@ -350,6 +350,10 @@ Use one of the 'Logout' links (or go to the
 L<http://localhost:3000/logout> URL directly) when you are done.
 
 
+You can jump to the next chapter of the tutorial here:
+L<Debugging|Catalyst::Manual::Tutorial::07_Debugging>
+
+
 =head1 AUTHOR
 
 Kennedy Clark, C<hkclark@gmail.com>

@@ -372,6 +372,11 @@ tutorial to leave some variables undefined on purpose).
 
 Happy debugging.
 
+
+You can jump to the next chapter of the tutorial here:
+L<Testing|Catalyst::Manual::Tutorial::08_Testing>
+
+
 =head1 AUTHOR
 
 Kennedy Clark, C<hkclark@gmail.com>
