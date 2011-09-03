@@ -1,5 +1,11 @@
 Revision history for Catalyst-Manual
 
+5.9002 3 Sept 2011
+    - Tutorial
+        - Switch to 'catalyst' vs. 'root' user in VM
+        - Add notes about X Windows installation
+        - Misc small adjustments
+
 5.9001 2 Sept 2011
     - Tutorial:
         - Migrate Tutorial to use of a downloadable Virtual Machine
