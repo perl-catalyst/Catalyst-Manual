@@ -338,6 +338,13 @@ modules across development, staging, and production servers.  (The
 B<and> Perl itself from your home directory [or any other directory you
 chose]).
 
+B<Note>: Please provide feedback on how the Virtual Machine approach for
+the tutorial works for you.  If you have suggestions or comments, you
+can reach the author through the email address at the bottom of this
+page or via an RT ticket at
+L<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
+
+
 
 =head2 Sorting Out Virtual Machine Network-Related Issues
 
