@@ -280,7 +280,7 @@ IP address found in the previous step.  You should get a login prompt
 with the same username and password as we used in Step 4: B<catalyst> /
 B<catalyst>
 
-    catalyst login: catalyst 
+    catalyst login: catalyst
     Password: catalyst
     ...
     catalyst@catalyst:~$
@@ -326,8 +326,8 @@ In order to reduce the size of the download, Emacs is not pre-installed.
 Since people obviously have very strong opinions about which editor is
 best, :-) fortunately it's very easy to install Emacs:
 
-    $ aptitude update
-    $ aptitude install emacs
+    $ sudo aptitude update
+    $ sudo aptitude install emacs
 
 In general, it is expected that people will
 boot up the Tutorial VM on their main desktop (the "host machine" using
@@ -337,13 +337,13 @@ you wish to install X Windows (or any other packages), just use the
 C<aptitude> (or C<apt-get>) Debian commands.  For example, to install
 X Windows with the Gnome desktop manager, you can do:
 
-    $ aptitude update
-    $ aptitude install gnome iceweasel
+    $ sudo aptitude update
+    $ sudo ptitude install gnome iceweasel
 
 Or, if you prefer KDE:
 
-    $ aptitude update
-    $ aptitude install kde iceweasel
+    $ sudo aptitude update
+    $ sudo aptitude install kde iceweasel
 
 You can then start X Windows with:
 
