@@ -63,7 +63,7 @@ L<Chapter 6|Catalyst::Manual::Tutorial::06_Authorization>).
 This chapter of the tutorial is divided into two main sections: 1)
 basic, cleartext authentication and 2) hash-based authentication.
 
-Source code for the tutorial in included in the F</root/Final> directory
+Source code for the tutorial in included in the F</home/catalyst/Final> directory
 of the Tutorial Virtual machine (one subdirectory per chapter).  There
 are also instructions for downloading the code in
 L<Catalyst::Manual::Tutorial::01_Intro>.
@@ -132,11 +132,11 @@ for us:
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
         create=static components=TimeStamp dbi:SQLite:myapp.db \
         on_connect_do="PRAGMA foreign_keys = ON"
-     exists "/root/dev/MyApp/script/../lib/MyApp/Model"
-     exists "/root/dev/MyApp/script/../t"
-    Dumping manual schema for MyApp::Schema to directory /root/dev/MyApp/script/../lib ...
+     exists "/home/catalyst/dev/MyApp/script/../lib/MyApp/Model"
+     exists "/home/catalyst/dev/MyApp/script/../t"
+    Dumping manual schema for MyApp::Schema to directory /home/catalyst/dev/MyApp/script/../lib ...
     Schema dump completed.
-     exists "/root/dev/MyApp/script/../lib/MyApp/Model/DB.pm"
+     exists "/home/catalyst/dev/MyApp/script/../lib/MyApp/Model/DB.pm"
     $
     $ ls lib/MyApp/Schema/Result
     Author.pm  BookAuthor.pm  Book.pm  Role.pm  User.pm  UserRole.pm

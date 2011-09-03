@@ -205,8 +205,8 @@ C<Ctrl-C> to breakout of the dev server) if you prefer.
     
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
     [debug] Loaded engine "Catalyst::Engine"
-    [debug] Found home "/root/Hello"
-    [debug] Loaded Config "/root/Hello/hello.conf"
+    [debug] Found home "/home/catalyst/Hello"
+    [debug] Loaded Config "/home/catalyst/Hello/hello.conf"
     [debug] Loaded components:
     .-----------------------------------------------------------------+----------.
     | Class                                                           | Type     |
@@ -329,7 +329,7 @@ Notice in the window running the Development Server that you should
 get output similar to the following:
 
     Saw changes to the following files:
-     - /root/Hello/lib/Hello/Controller/Root.pm (modify)
+     - /home/catalyst/Hello/lib/Hello/Controller/Root.pm (modify)
     
     Attempting to restart the server
     ...

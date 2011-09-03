@@ -75,9 +75,9 @@ of tool to automate the process.  You get less control, but it can be
 quick and easy.  For example, see L<Catalyst::Plugin::AutoCRUD>,
 L<CatalystX::CRUD>, and L<CatalystX::CRUD::YUI>.
 
-Source code for the tutorial in included in the F</root/Final> directory
-of the Tutorial Virtual machine (one subdirectory per chapter).  There
-are also instructions for downloading the code in
+Source code for the tutorial in included in the F</home/catalyst/Final>
+directory of the Tutorial Virtual machine (one subdirectory per
+chapter).  There are also instructions for downloading the code in
 L<Catalyst::Manual::Tutorial::01_Intro>.
 
 
@@ -966,11 +966,11 @@ the new fields:
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
         create=static components=TimeStamp dbi:SQLite:myapp.db \
         on_connect_do="PRAGMA foreign_keys = ON"
-     exists "/root/dev/MyApp/script/../lib/MyApp/Model"
-     exists "/root/dev/MyApp/script/../t"
-    Dumping manual schema for MyApp::Schema to directory /root/dev/MyApp/script/../lib ...
+     exists "/home/catalyst/dev/MyApp/script/../lib/MyApp/Model"
+     exists "/home/catalyst/dev/MyApp/script/../t"
+    Dumping manual schema for MyApp::Schema to directory /home/catalyst/dev/MyApp/script/../lib ...
     Schema dump completed.
-     exists "/root/dev/MyApp/script/../lib/MyApp/Model/DB.pm"
+     exists "/home/catalyst/dev/MyApp/script/../lib/MyApp/Model/DB.pm"
 
 Notice that we modified our use of the helper slightly: we told it to
 include the L<DBIx::Class::TimeStamp> in the C<load_components> line of

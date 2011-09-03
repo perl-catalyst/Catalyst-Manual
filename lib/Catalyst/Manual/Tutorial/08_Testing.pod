@@ -63,9 +63,9 @@ ensure that your application is working correctly at the present time,
 but also provide automated regression testing as you upgrade various
 pieces of your application over time.
 
-Source code for the tutorial in included in the F</root/Final> directory
-of the Tutorial Virtual machine (one subdirectory per chapter).  There
-are also instructions for downloading the code in
+Source code for the tutorial in included in the F</home/catalyst/Final>
+directory of the Tutorial Virtual machine (one subdirectory per
+chapter).  There are also instructions for downloading the code in
 L<Catalyst::Manual::Tutorial::01_Intro>.
 
 For an excellent introduction to learning the many benefits of testing

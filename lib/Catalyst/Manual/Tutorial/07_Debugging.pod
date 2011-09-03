@@ -59,6 +59,12 @@ L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 This chapter of the tutorial takes a brief look at the primary options
 available for troubleshooting Catalyst applications.
 
+Source code for the tutorial in included in the F</home/catalyst/Final>
+directory of the Tutorial Virtual machine (one subdirectory per
+chapter).  There are also instructions for downloading the code in
+L<Catalyst::Manual::Tutorial::01_Intro>.
+
+
 Note that when it comes to debugging and troubleshooting, there are two
 camps:
 
@@ -179,7 +185,7 @@ in.  Once the breakpoint is encountered in the
 C<MyApp::Controller::list> method, the console session running the
 development server will drop to the Perl debugger prompt:
 
-    MyApp::Controller::Books::list(/root/MyApp/script/../lib/MyApp/Controller/Books.pm:48):
+    MyApp::Controller::Books::list(/home/catalyst/MyApp/script/../lib/MyApp/Controller/Books.pm:48):
     48:         $c->stash->{books} = [$c->model('DB::Book')->all];
     
       DB<1>
@@ -191,7 +197,7 @@ C<single-step> into methods/subroutines):
 
       DB<1> n
     SELECT me.id, me.title, me.rating, me.created, me.updated FROM book me:
-    MyApp::Controller::Books::list(/root/MyApp/script/../lib/MyApp/Controller/Books.pm:53):
+    MyApp::Controller::Books::list(/home/catalyst/MyApp/script/../lib/MyApp/Controller/Books.pm:53):
     53:         $c->stash->{template} = 'books/list.tt2';
     
       DB<1>

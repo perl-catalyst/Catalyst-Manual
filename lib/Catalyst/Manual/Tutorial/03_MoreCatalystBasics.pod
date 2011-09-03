@@ -64,9 +64,9 @@ will be too limited to be of use to anyone, it should provide a basic
 environment where we can explore a variety of features used in virtually
 all web applications.
 
-Source code for the tutorial in included in the F</root/Final> directory
-of the Tutorial Virtual machine (one subdirectory per chapter).  There
-are also instructions for downloading the code in
+Source code for the tutorial in included in the F</home/catalyst/Final>
+directory of the Tutorial Virtual machine (one subdirectory per
+chapter).  There are also instructions for downloading the code in
 L<Catalyst::Manual::Tutorial::01_Intro>.
 
 Please take a look at
@@ -299,10 +299,10 @@ Use the Catalyst C<create> script to add a controller for book-related
 actions:
 
     $ script/myapp_create.pl controller Books
-     exists "/root/MyApp/script/../lib/MyApp/Controller"
-     exists "/root/MyApp/script/../t"
-    created "/root/MyApp/script/../lib/MyApp/Controller/Books.pm"
-    created "/root/MyApp/script/../t/controller_Books.t"
+     exists "/home/catalyst/MyApp/script/../lib/MyApp/Controller"
+     exists "/home/catalyst/MyApp/script/../t"
+    created "/home/catalyst/MyApp/script/../lib/MyApp/Controller/Books.pm"
+    created "/home/catalyst/MyApp/script/../t/controller_Books.t"
 
 Then edit C<lib/MyApp/Controller/Books.pm> (as discussed in
 L<Chapter 2|Catalyst::Manual::Tutorial::02_CatalystBasics> of
@@ -461,10 +461,10 @@ For our book application, enter the following command to enable the
 C<TT> style of view rendering:
 
     $ script/myapp_create.pl view HTML TT
-     exists "/root/MyApp/script/../lib/MyApp/View"
-     exists "/root/MyApp/script/../t"
-     created "/root/MyApp/script/../lib/MyApp/View/HTML.pm"
-     created "/root/MyApp/script/../t/view_HTML.t"
+     exists "/home/catalyst/MyApp/script/../lib/MyApp/View"
+     exists "/home/catalyst/MyApp/script/../t"
+     created "/home/catalyst/MyApp/script/../lib/MyApp/View/HTML.pm"
+     created "/home/catalyst/MyApp/script/../t/view_HTML.t"
 
 This creates a view called C<HTML> (the first argument) in a file called
 C<HTML.pm> that uses L<Catalyst::View::TT> (the second argument) as the
@@ -765,12 +765,12 @@ automatically build the required files for us:
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
         create=static dbi:SQLite:myapp.db \
         on_connect_do="PRAGMA foreign_keys = ON"
-     exists "/root/MyApp/script/../lib/MyApp/Model"
-     exists "/root/MyApp/script/../t"
-    Dumping manual schema for MyApp::Schema to directory /root/MyApp/script/../lib ...
+     exists "/home/catalyst/MyApp/script/../lib/MyApp/Model"
+     exists "/home/catalyst/MyApp/script/../t"
+    Dumping manual schema for MyApp::Schema to directory /home/catalyst/MyApp/script/../lib ...
     Schema dump completed.
-    created "/root/MyApp/script/../lib/MyApp/Model/DB.pm"
-    created "/root/MyApp/script/../t/model_DB.t"
+    created "/home/catalyst/MyApp/script/../lib/MyApp/Model/DB.pm"
+    created "/home/catalyst/MyApp/script/../t/model_DB.t"
 
 Please note the '\' above.  Depending on your environment, you might be
 able to cut and paste the text as shown or need to remove the '\'
@@ -962,8 +962,8 @@ display something like:
     
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
     [debug] Loaded engine "Catalyst::Engine"
-    [debug] Found home "/root/MyApp"
-    [debug] Loaded Config "/root/MyApp/myapp.conf"
+    [debug] Found home "/home/catalyst/MyApp"
+    [debug] Loaded Config "/home/catalyst/MyApp/myapp.conf"
     [debug] Loaded components:
     .-----------------------------------------------------------------+----------.
     | Class                                                           | Type     |

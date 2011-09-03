@@ -64,9 +64,9 @@ actions.  The first half looks at basic authorization concepts. The
 second half looks at how moving your authorization code to your model
 can simplify your code and make things easier to maintain.
 
-Source code for the tutorial in included in the F</root/Final> directory
-of the Tutorial Virtual machine (one subdirectory per chapter).  There
-are also instructions for downloading the code in
+Source code for the tutorial in included in the F</home/catalyst/Final>
+directory of the Tutorial Virtual machine (one subdirectory per
+chapter).  There are also instructions for downloading the code in
 L<Catalyst::Manual::Tutorial::01_Intro>.
 
 
