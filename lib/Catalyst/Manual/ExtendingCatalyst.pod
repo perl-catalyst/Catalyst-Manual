@@ -246,7 +246,7 @@ L<Catalyst::Component> uses L<Class::Accessor::Fast> for accessor
 creation. Please refer to the modules documentation for usage
 information.
 
-=head2 Component configuration
+=head2 Component Configuration
 
 At creation time, the class configuration of your component (the one
 available via C<$self-E<gt>config>) will be merged with possible

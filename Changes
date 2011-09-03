@@ -1,7 +1,20 @@
 Revision history for Catalyst-Manual
 
-5.9000 16 Aug 2011
+5.9001 2 Sept 2011
+    - Tutorial:
+        - Migrate Tutorial to use of a downloadable Virtual Machine
+        - Switch tutorial to Catalyst::Plugin::StatusMessage (vs. flash
+            and query parameters)
+        - Switch to use of local::lib
+        - Add "next chapter links" (RT #31164)
+        - Test all the tutorial code and make sure it's all working
+        - Lots of other Tutorial cleanup
+        - Update to Catalyst 5.9 and latest versions of all modules
+        - Clean up RT ticket queue (#68379, 68377, 68376, etc.)
+    - Other misc fixes/changes
 
+
+5.9000 16 Aug 2011
     - Copy editing to make more sense in deployment documentation.
 
 5.8901 7 Aug 2011 - TRIAL RELEASE

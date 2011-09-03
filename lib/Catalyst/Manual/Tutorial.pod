@@ -11,7 +11,7 @@ commonly used features while focusing on real-world best practices.
 
 We suggest that you read this introduction on the web.  Make sure you are
 reading the latest version of the tutorial by visiting
-L<http://search.cpan.org/perldoc?Catalyst::Manual::Tutorial>.  Alternatively
+L<https://metacpan.org/module/Catalyst::Manual::Tutorial>.  Alternatively
 you can use CPAN modules like L<Pod::Webserver>, L<Pod::POM::Web>,
 L<Pod::Browser> (Catalyst based), or L<CPAN::Mini::Webserver> to read a local
 copy of the tutorial.
@@ -726,8 +726,12 @@ name should be here).
 
 Kennedy Clark, C<hkclark@gmail.com>
 
-Please report any errors, issues or suggestions to the author.  The
-most recent version of the Catalyst Tutorial can be found at
+Feel free to contact the author for any errors or suggestions, but the
+best way to report issues is via the CPAN RT Bug system at
+<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
+
+***TODO: Update
+The most recent version of the Catalyst Tutorial can be found at
 L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Manual/5.80/trunk/lib/Catalyst/Manual/Tutorial/>.
 
 Copyright 2006-2010, Kennedy Clark, under the

@@ -1,0 +1,24 @@
+=============================================================
+=============================================================
+ IMPORTANT NOTES FOR PEOPLE MAKING UPDATES TO THE *TUTORIAL*
+=============================================================
+=============================================================
+
+If you are updating **TUTORIAL** and doing more than a **TYPO FIX**,
+please be careful to not update the configuration code without also:
+
+    * Testing the code not only for that chapter, but all
+        chapters that follow (the chapters build on each other).
+    * Make sure the changes you make in a subroutine are reflected
+        in later examples of the same subroutine in that chapter
+        and all the chapters that follow.
+    * Updating the code in the /root/Final directory of the Tutorial
+        Virtual Machine image.
+
+Feel free to ping Kennedy Clark at hkclark@gmail.com or hkclark@cpan.org
+for help.
+
+If you are only updating non-code typo fixes or updating Catalyst::Manual
+outside of the Tutorial, then the information above does not apply. :-)
+
+Thanks

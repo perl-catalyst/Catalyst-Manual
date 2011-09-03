@@ -56,8 +56,8 @@ L<Appendices|Catalyst::Manual::Tutorial::10_Appendices>
 
 =head1 DESCRIPTION
 
-In this chapter of the tutorial, we will create a very basic Catalyst 
-web application, demonstrating a number of powerful capabilities, such 
+In this chapter of the tutorial, we will create a very basic Catalyst
+web application, demonstrating a number of powerful capabilities, such
 as:
 
 =over 4
@@ -74,7 +74,7 @@ clean "separation of control" between the different portions of your
 application. Given that many other documents cover this subject in
 detail, MVC will not be discussed in depth here (for an excellent
 introduction to MVC and general Catalyst concepts, please see
-L<Catalyst::Manual::About|Catalyst::Manual::About>). In short:
+L<Catalyst::Manual::About>). In short:
 
 =over 4
 
@@ -89,7 +89,7 @@ database.
 The view takes model objects and renders them into something for the end
 user to look at. Normally this involves a template-generation tool that
 creates HTML for the user's web browser, but it could easily be code
-that generates other forms such as PDF documents, e-mails, spreadsheets, 
+that generates other forms such as PDF documents, e-mails, spreadsheets,
 or even "behind the scenes" formats such as XML and JSON.
 
 =item * Controller
@@ -110,20 +110,20 @@ automatically create our Catalyst model for use with a database.
 
 You can checkout the source code for this example from the catalyst
 subversion repository as per the instructions in
-L<Catalyst::Manual::Tutorial::01_Intro|Catalyst::Manual::Tutorial::01_Intro>.
+L<Catalyst::Manual::Tutorial::01_Intro>.
 
 
 =head1 CREATE A CATALYST PROJECT
 
-Catalyst provides a number of helper scripts that can be used to 
-quickly flesh out the basic structure of your application. All 
-Catalyst projects begin with the C<catalyst.pl> helper (see 
-L<Catalyst::Helper|Catalyst::Helper> for more information on helpers). 
-Also note that as of Catalyst 5.7000, you will not have the helper 
-scripts unless you install both L<Catalyst::Runtime|Catalyst::Runtime> 
-and L<Catalyst::Devel|Catalyst::Devel>.
+Catalyst provides a number of helper scripts that can be used to quickly
+flesh out the basic structure of your application. All Catalyst projects
+begin with the C<catalyst.pl> helper (see
+L<Catalyst::Helper> for more information on helpers).
+Also note that as of Catalyst 5.7000, you will not have the helper
+scripts unless you install both L<Catalyst::Runtime>
+and L<Catalyst::Devel>.
 
-In this first chapter of the tutorial, use the Catalyst C<catalyst.pl> 
+In this first chapter of the tutorial, use the Catalyst C<catalyst.pl>
 script to initialize the framework for an application called C<Hello>:
 
     $ catalyst.pl Hello
@@ -169,45 +169,44 @@ directories and files it creates:
         03podcoverage.t 
 
 
-Catalyst will "auto-discover" modules in the Controller, Model, and 
-View directories. When you use the hello_create.pl script it will 
-create Perl module scaffolds in those directories, plus test files in 
-the "t" directory. The default location for templates is in the "root" 
-directory. The scripts in the script directory will always start with 
-the lowercased version of your application name. If your app is 
-MaiTai, then the create script would be "maitai_create.pl".
+Catalyst will "auto-discover" modules in the Controller, Model, and View
+directories. When you use the C<hello_create.pl> script it will create Perl
+module scaffolds in those directories, plus test files in the "t"
+directory. The default location for templates is in the "root"
+directory. The scripts in the script directory will always start with
+the lowercased version of your application name. If your app is MaiTai,
+then the create script would be "maitai_create.pl".
 
-Though it's too early for any significant celebration, we already have 
-a functioning application. We can use the Catalyst supplied script to 
-start up a development server and view the default Catalyst page in 
-your browser. All scripts in the script directory should be run from 
-the base directory of your application, so change to the Hello 
-directory.
+Though it's too early for any significant celebration, we already have a
+functioning application. We can use the Catalyst supplied script to
+start up a development server and view the default Catalyst page in your
+browser. All scripts in the script directory should be run from the base
+directory of your application, so change to the Hello directory.
 
-Run the following command to start up the built-in development web 
-server (make sure you didn't forget the "C<cd Hello>" from the 
-previous step):
+Run the following command to start up the built-in development web
+server (make sure you didn't forget the "C<cd Hello>" from the previous
+step):
 
-B<Note>: The "-r" argument enables reloading on code changes so you 
-don't have to stop and start the server when you update code. See 
+B<Note>: The "-r" argument enables reloading on code changes so you
+don't have to stop and start the server when you update code. See
 C<perldoc script/hello_server.pl> or C<script/hello_server.pl --help>
 for additional options you might find helpful. Most of the rest of the
-tutorial will assume that you are using "-r" when you start the development
-server, but feel free to manually start and stop it (use C<Ctrl-C> to
-breakout of the dev server) if you prefer. 
+tutorial will assume that you are using "-r" when you start the
+development server, but feel free to manually start and stop it (use
+C<Ctrl-C> to breakout of the dev server) if you prefer.
 
     $ script/hello_server.pl -r
     [debug] Debug messages enabled
     [debug] Statistics enabled
     [debug] Loaded plugins:
     .----------------------------------------------------------------------------.
-    | Catalyst::Plugin::ConfigLoader  0.27                                       |
+    | Catalyst::Plugin::ConfigLoader  0.30                                       |
     '----------------------------------------------------------------------------'
     
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
-    [debug] Loaded engine "Catalyst::Engine::HTTP"
-    [debug] Found home "/home/me/Hello"
-    [debug] Loaded Config "/home/me/Hello/hello.conf"
+    [debug] Loaded engine "Catalyst::Engine"
+    [debug] Found home "/root/Hello"
+    [debug] Loaded Config "/root/Hello/hello.conf"
     [debug] Loaded components:
     .-----------------------------------------------------------------+----------.
     | Class                                                           | Type     |
@@ -232,28 +231,31 @@ breakout of the dev server) if you prefer.
     | /                                   | /default                             |
     '-------------------------------------+--------------------------------------'
     
-    [info] Hello powered by Catalyst 5.80020
-    You can connect to your server at http://debian:3000
+    [info] Hello powered by Catalyst 5.90002
+    HTTP::Server::PSGI: Accepting connections at http://0:3000/
 
-Point your web browser to L<http://localhost:3000> (substituting a 
-different hostname or IP address as appropriate) and you should be 
-greeted by the Catalyst welcome screen (if you get some other welcome 
-screen or an "Index" screen, you probably forgot to specify port 3000 
-in your URL).  Information similar to the following should be appended 
-to the logging output of the development server:
+Point your web browser to L<http://localhost:3000> (substituting a
+different hostname or IP address as appropriate) and you should be
+greeted by the Catalyst welcome screen (if you get some other welcome
+screen or an "Index" screen, you probably forgot to specify port 3000 in
+your URL).  Information similar to the following should be appended to
+the logging output of the development server:
 
-    [info] *** Request 1 (0.001/s) [23194] [Sat Jan 16 11:09:18 2010] ***
-    [debug] "GET" request for "/" from "127.0.0.1"
+    [info] Hello powered by Catalyst 5.90002
+    HTTP::Server::PSGI: Accepting connections at http://0:3000/
+    [info] *** Request 1 (0.067/s) [19026] [Tue Aug 30 17:24:32 2011] ***
+    [debug] "GET" request for "/" from "192.168.245.2"
     [debug] Path is "/"
-    [info] Request took 0.004851s (206.143/s)
+    [debug] Response Code: 200; Content-Type: text/html; charset=utf-8; Content-Length: 5613
+    [info] Request took 0.040895s (24.453/s)
     .------------------------------------------------------------+-----------.
     | Action                                                     | Time      |
     +------------------------------------------------------------+-----------+
-    | /index                                                     | 0.000395s |
-    | /end                                                       | 0.000425s |
+    | /index                                                     | 0.000916s |
+    | /end                                                       | 0.000877s |
     '------------------------------------------------------------+-----------'
 
-B<Note>: Press C<Ctrl-C> to break out of the development server if 
+B<Note>: Press C<Ctrl-C> to break out of the development server if
 necessary.
 
 
@@ -261,77 +263,73 @@ necessary.
 
 =head2 The Simplest Way
 
-The Root.pm controller is a place to put global actions that usually 
-execute on the root URL. Open the C<lib/Hello/Controller/Root.pm> file in 
-your editor. You will see the "index" subroutine, which is 
-responsible for displaying the welcome screen that you just saw in 
-your browser. 
+The Root.pm controller is a place to put global actions that usually
+execute on the root URL. Open the C<lib/Hello/Controller/Root.pm> file
+in your editor. You will see the "index" subroutine, which is
+responsible for displaying the welcome screen that you just saw in your
+browser.
 
     sub index :Path :Args(0) {
         my ( $self, $c ) = @_;
-        
+    
         # Hello World
         $c->response->body( $c->welcome_message );
     }
 
-Later on you'll want to change that to something more reasonable, such 
-as a "404" message or a redirect, but for now just leave it alone. 
+Later on you'll want to change that to something more reasonable, such
+as a "404" message or a redirect, but for now just leave it alone.
 
-The "C<$c>" here refers to the Catalyst context, which is used to 
-access the Catalyst application. In addition to many other things, 
-the Catalyst context provides access to "response" and "request" 
-objects. (See L<Catalyst|Catalyst>, 
-L<Catalyst::Response|Catalyst::Response>, and 
-L<Catalyst::Request|Catalyst::Request>) 
+The "C<$c>" here refers to the Catalyst context, which is used to access
+the Catalyst application. In addition to many other things, the Catalyst
+context provides access to "response" and "request" objects. (See
+L<Catalyst::Runtime>, L<Catalyst::Response>, and
+L<Catalyst::Request>)
 
-C<$c-E<gt>response-E<gt>body> sets the HTTP response (see 
-L<Catalyst::Response|Catalyst::Response>), while 
-C<$c-E<gt>welcome_message> is a special method that returns the 
-welcome message that you saw in your browser.
+C<$c-E<gt>response-E<gt>body> sets the HTTP response (see
+L<Catalyst::Response>), while
+C<$c-E<gt>welcome_message> is a special method that returns the welcome
+message that you saw in your browser.
 
-The ":Path :Args(0)" after the method name are attributes which 
-determine which URLs will be dispatched to this method. (You might see 
-":Private" if you are using an older version of Catalyst, but using 
-that with "default" or "index" is currently deprecated.  If so, you 
-should also probably upgrade before continuing the tutorial.)
+The ":Path :Args(0)" after the method name are attributes which
+determine which URLs will be dispatched to this method. (You might see
+":Private" if you are using an older version of Catalyst, but using that
+with "default" or "index" is currently deprecated.  If so, you should
+also probably upgrade before continuing the tutorial.)
 
-Some MVC frameworks handle dispatching in a central place. Catalyst, 
-by policy, prefers to handle URL dispatching with attributes on 
-controller methods. There is a lot of flexibility in specifying which 
-URLs to match.  This particular method will match all URLs, because it 
-doesn't specify the path (nothing comes after "Path"), but will only 
-accept a URL without any args because of the ":Args(0)". 
+Some MVC frameworks handle dispatching in a central place. Catalyst, by
+policy, prefers to handle URL dispatching with attributes on controller
+methods. There is a lot of flexibility in specifying which URLs to
+match.  This particular method will match all URLs, because it doesn't
+specify the path (nothing comes after "Path"), but will only accept a
+URL without any args because of the ":Args(0)".
 
-The default is to map URLs to controller names, and because of the way 
-that Perl handles namespaces through package names, it is simple to 
-create hierarchical structures in Catalyst. This means that you can 
-create controllers with deeply nested actions in a clean and logical 
-way. For example, the URL C<http://hello.com/admin/articles/create> 
-maps to the package C<Hello::Controller::Admin::Articles>, and the 
-C<create> method. 
+The default is to map URLs to controller names, and because of the way
+that Perl handles namespaces through package names, it is simple to
+create hierarchical structures in Catalyst. This means that you can
+create controllers with deeply nested actions in a clean and logical
+way. For example, the URL C<http://hello.com/admin/articles/create> maps
+to the package C<Hello::Controller::Admin::Articles>, and the C<create>
+method.
 
-Add the following subroutine to your C<lib/Hello/Controller/Root.pm> 
-file:
+While you leave the C<script/hello_server.pl -r> command running the
+development server in one window (don't forget the "-r" on the end!),
+open another window and add the following subroutine to your
+C<lib/Hello/Controller/Root.pm> file:
 
     sub hello :Global {
         my ( $self, $c ) = @_;
-        
+    
         $c->response->body("Hello, World!");
     }
-
-Once you restart the server, you will need to use the new address
-L<http://localhost:3000/hello> instead of L<http://localhost:3000/> to see the
-changes.
 
 B<TIP>: See Appendix 1 for tips on removing the leading spaces when
 cutting and pasting example code from POD-based documents.
 
-Here you're sending your own string to the webpage.
-
-Save the file, and you should notice the following in your server output:
+Notice in the window running the Development Server that you should
+get output similar to the following:
 
     Saw changes to the following files:
-     - /home/me/Hello/lib/Hello/Controller/Root.pm (modify)
+     - /root/Hello/lib/Hello/Controller/Root.pm (modify)
     
     Attempting to restart the server
     ...
@@ -344,37 +342,31 @@ Save the file, and you should notice the following in your server output:
     | /index               | Hello::Controller::Root              | index        |
     | /hello               | Hello::Controller::Root              | hello        |
     '----------------------+--------------------------------------+--------------'
-    
-    [debug] Loaded Path actions:
-    .-------------------------------------+--------------------------------------.
-    | Path                                | Private                              |
-    +-------------------------------------+--------------------------------------+
-    | /                                   | /index                               |
-    | /                                   | /default                             |
-    | /hello                              | /hello                               |
-    '-------------------------------------+--------------------------------------'
     ...
 
-Go to L<http://localhost:3000/hello> to see "Hello, World!".   Also 
-notice that the newly defined 'hello' action is listed under "Loaded 
+The development server noticed the change in C<Hello::Controller::Root>
+and automatically restarted itself.
+
+Go to L<http://localhost:3000/hello> to see "Hello, World!".   Also
+notice that the newly defined 'hello' action is listed under "Loaded
 Private actions" in the development server debug output.
 
 
 =head2 Hello, World! Using a View and a Template
 
-In the Catalyst world a "View" itself is not a page of XHTML or a 
-template designed to present a page to a browser. Rather, it is the 
-module that determines the I<type> of view -- HTML, pdf, XML, etc. For 
-the thing that generates the I<content> of that view (such as the a 
-Toolkit Template template file), the actual templates go under the 
+In the Catalyst world a "View" itself is not a page of XHTML or a
+template designed to present a page to a browser. Rather, it is the
+module that determines the I<type> of view -- HTML, pdf, XML, etc. For
+the thing that generates the I<content> of that view (such as a
+Toolkit Template template file), the actual templates go under the
 "root" directory.
 
 To create a TT view, run:
 
     $ script/hello_create.pl view HTML TT
 
-This creates the C<lib/Hello/View/HTML.pm> module, which is a subclass of 
-C<Catalyst::View::TT>. 
+This creates the C<lib/Hello/View/HTML.pm> module, which is a subclass
+of C<Catalyst::View::TT>.
 
 =over 4
 
@@ -387,70 +379,70 @@ The "view" keyword tells the create script that you are creating a view.
 The first argument "HTML" tells the script to name the View module "HTML.pm",
 which is a commonly used name for TT views.  You can name it anything you want,
 such as "MyView.pm". If you have more than one view, be sure to set the
-default_view in Hello.pm (See L<Catalyst::View::TT|Catalyst::View::TT> for more
+default_view in Hello.pm (See L<Catalyst::View::TT> for more
 details on setting this).
 
 =item *
 
-The final "TT" tells Catalyst the I<type> of the view, with "TT" 
+The final "TT" tells Catalyst the I<type> of the view, with "TT"
 indicating that you want to a Template Toolkit view.
 
 =back
 
-If you look at C<lib/Hello/View/HTML.pm> you will find that it only 
+If you look at C<lib/Hello/View/HTML.pm> you will find that it only
 contains a config statement to set the TT extension to ".tt".
 
-Now that the HTML.pm "View" exists, Catalyst will autodiscover it and be 
-able to use it to display the view templates using the "process" 
-method that it inherits from the C<Catalyst::View::TT> class.
+Now that the HTML.pm "View" exists, Catalyst will autodiscover it and be
+able to use it to display the view templates using the "process" method
+that it inherits from the C<Catalyst::View::TT> class.
 
-Template Toolkit is a very full featured template facility, with 
-excellent documentation at L<http://template-toolkit.org/>, 
-but since this is not a TT tutorial, we'll stick to only basic TT 
-usage here (and explore some of the more common TT features in later 
-chapters of the tutorial).
+Template Toolkit is a very full featured template facility, with
+excellent documentation at L<http://template-toolkit.org/>, but since
+this is not a TT tutorial, we'll stick to only basic TT usage here (and
+explore some of the more common TT features in later chapters of the
+tutorial).
 
-Create a C<root/hello.tt> template file (put it in the C<root> under 
-the C<Hello> directory that is the base of your application). Here is 
-a simple sample:
+Create a C<root/hello.tt> template file (put it in the C<root> under the
+C<Hello> directory that is the base of your application). Here is a
+simple sample:
 
     <p>
         This is a TT view template, called '[% template.name %]'.
     </p>
 
-[% and %] are markers for the TT parts of the template. Inside you can 
-access Perl variables and classes, and use TT directives. In this 
-case, we're using a special TT variable that defines the name of the 
-template file (C<hello.tt>).  The rest of the template is normal HTML. 
+[% and %] are markers for the TT parts of the template. Inside you can
+access Perl variables and classes, and use TT directives. In this case,
+we're using a special TT variable that defines the name of the template
+file (C<hello.tt>).  The rest of the template is normal HTML.
 
-Change the hello method in C<lib/Hello/Controller/Root.pm> to the 
+Change the hello method in C<lib/Hello/Controller/Root.pm> to the
 following:
 
     sub hello :Global {
         my ( $self, $c ) = @_;
-        
+    
         $c->stash(template => 'hello.tt');
     }
 
-This time, instead of doing C<$c-E<gt>response-E<gt>body()>, you are 
-setting the value of the "template" hash key in the Catalyst "stash", 
-an area for putting information to share with other parts of your 
-application. The "template" key determines which template will be 
-displayed at the end of the request cycle. Catalyst controllers have a 
-default "end" action for all methods which causes the first (or 
-default) view to be rendered (unless there's a C<$c-E<gt>response-
-E<gt>body()> statement). So your template will be magically displayed 
-at the end of your method.
+This time, instead of doing C<$c-E<gt>response-E<gt>body()>, you are
+setting the value of the "template" hash key in the Catalyst "stash", an
+area for putting information to share with other parts of your
+application. The "template" key determines which template will be
+displayed at the end of the request cycle. Catalyst controllers have a
+default "end" action for all methods which causes the first (or default)
+view to be rendered (unless there's a C<$c-E<gt>response- E<gt>body()>
+statement). So your template will be magically displayed at the end of
+your method.
 
 After saving the file, the development server should automatically
-restart (again, the tutorial is written to assume that you are
-using the "-r" option -- manually restart it if you aren't), 
-and look at L<http://localhost:3000/hello> in your again. You 
-should see the template that you just made.
+restart (again, the tutorial is written to assume that you are using the
+"-r" option -- manually restart it if you aren't), and look at
+L<http://localhost:3000/hello> in your again. You should see the
+template that you just made.
 
-B<TIP:> If you keep the server running with "-r" in a "background 
-window," don't let that window get totally hidden... if you have an 
-syntax error in your code, the debug server output will contain the 
+B<TIP:> If you keep the server running with "-r" in a "background
+window," don't let that window get totally hidden... if you have an
+syntax error in your code, the debug server output will contain the
 error information.
 
 B<Note:> You will probably run into a variation of the "stash"
@@ -471,8 +463,8 @@ You can also set multiple stash values with a hashref:
               another_thing => 1});
 
 Any of these formats work, but the C<$c-E<gt>stash(name =E<gt> value);>
-style is growing in popularity -- you may wish to use it all the 
-time (even when you are only setting a single value).
+style is growing in popularity -- you may wish to use it all the time
+(even when you are only setting a single value).
 
 
 =head1 CREATE A SIMPLE CONTROLLER AND AN ACTION
@@ -481,9 +473,9 @@ Create a controller named "Site" by executing the create script:
 
     $ script/hello_create.pl controller Site
 
-This will create a C<lib/Hello/Controller/Site.pm> file (and a test 
-file). Bring Site.pm up in your editor, and you can see that there's 
-not much there. 
+This will create a C<lib/Hello/Controller/Site.pm> file (and a test
+file). Bring Site.pm up in your editor, and you can see that there's not
+much there.
 
 In C<lib/Hello/Controller/Site.pm>, add the following method:
 
@@ -494,36 +486,43 @@ In C<lib/Hello/Controller/Site.pm>, add the following method:
                   template => 'site/test.tt');
     }
 
-Notice the "Local" attribute on the C<test> method. This will cause 
-the C<test> action (now that we have assigned an "action type" to the 
-method it appears as a "controller action" to Catalyst) to be executed 
-on the "controller/method" URL, or, in this case, "site/test".  We 
-will see additional information on controller actions throughout the 
-rest of the tutorial, but if you are curious take a look at 
+Notice the "Local" attribute on the C<test> method. This will cause the
+C<test> action (now that we have assigned an "action type" to the method
+it appears as a "controller action" to Catalyst) to be executed on the
+"controller/method" URL, or, in this case, "site/test".  We will see
+additional information on controller actions throughout the rest of the
+tutorial, but if you are curious take a look at
 L<Catalyst::Manual::Intro/Actions>.
 
-It's not actually necessary to set the template value as we do here. 
-By default TT will attempt to render a template that follows the 
-naming pattern "controller/method.tt", and we're following that 
-pattern here. However, in other situations you will need to specify 
-the template (such as if you've "forwarded" to the method, or if it 
-doesn't follow the default naming convention).
+It's not actually necessary to set the template value as we do here.  By
+default TT will attempt to render a template that follows the naming
+pattern "controller/method.tt", and we're following that pattern here.
+However, in other situations you will need to specify the template (such
+as if you've "forwarded" to the method, or if it doesn't follow the
+default naming convention).
 
-We've also put the variable "username" into the stash, for use in the 
+We've also put the variable "username" into the stash, for use in the
 template.
 
-Make a subdirectory "site" in the "root" directory. Copy the hello.tt 
-file into the directory as C<root/site/test.tt>, or create a new 
-template file at that location. Include a line like: 
+Make a subdirectory "site" in the "root" directory.
+
+    $ mkdir root/site
+
+Create a new template file in that direction named C<root/site/test.tt>
+and include a line like:
 
     <p>Hello, [% username %]!</p>
 
-You should see your test.tt file displayed, including the name "John"
-that you set in the controller.
+Once the server automatically restarts, notice in the server output that
+C</site/test> is listed in the Loaded Path actions.  Go to
+L<http://localhost:3000/site/test> in your browser and you should see
+your test.tt file displayed, including the name "John" that you set in
+the controller.
 
-Once the server automatically restarts, notice in the server 
-output that C</site/test> is listed in the Loaded Path actions. 
-Go to L<http://localhost:3000/site/test> in your browser.
+
+You can jump to the next chapter of the tutorial here:
+L<More Catalyst Basics|Catalyst::Manual::Tutorial::03_MoreCatalystBasics>
+
 
 
 =head1 AUTHORS
@@ -531,10 +530,10 @@ Go to L<http://localhost:3000/site/test> in your browser.
 Gerda Shank, C<gerda.shank@gmail.com>
 Kennedy Clark, C<hkclark@gmail.com>
 
-Please report any errors, issues or suggestions to the author.  The
-most recent version of the Catalyst Tutorial can be found at
-L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Manual/5.80/trunk/lib/Catalyst/Manual/Tutorial/>.
+Feel free to contact the author for any errors or suggestions, but the
+best way to report issues is via the CPAN RT Bug system at
+L<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
 
-Copyright 2006-2010, Kennedy Clark, under the
+Copyright 2006-2011, Kennedy Clark, under the
 Creative Commons Attribution Share-Alike License Version 3.0
 (L<http://creativecommons.org/licenses/by-sa/3.0/us/>).

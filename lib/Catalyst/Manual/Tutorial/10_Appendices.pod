@@ -175,7 +175,7 @@ Chapter 3: More Catalyst Basics
 
 Install the PostgreSQL server and client and DBD::Pg:
 
-If you are following along in Debian 5, you can quickly install these 
+If you are following along in Debian 6, you can quickly install these
 items via this command:
 
     sudo aptitude install postgresql libdbd-pg-perl libdatetime-format-pg-perl
@@ -541,7 +541,7 @@ The Perl C<DBD::MySQL> module
 =back
 
 For CentOS users (see
-L<Catalyst::Manual::Installation::CentOS4|Catalyst::Manual::Installation::CentOS4>),
+L<Catalyst::Manual::Installation::CentOS4>),
 you can use the following commands to install the software and start the MySQL
 daemon:
 
@@ -561,10 +561,10 @@ in you MySQL. You can simply figure out that your install supports it or not:
     # mysql -u root -p
     Enter password:
     Welcome to the MySQL monitor.  Commands end with ; or \g.
-
+    
     Type 'help;' or '\h' for help. Type '\c' to clear the current input 
     statement.
-
+    
     mysql> SHOW VARIABLES LIKE 'have_innodb';
     +---------------+-------+
     | Variable_name | Value |
@@ -572,7 +572,7 @@ in you MySQL. You can simply figure out that your install supports it or not:
     | have_innodb   | YES   |
     +---------------+-------+
     1 row in set (0.01 sec)
-
+    
     mysql> exit
     Bye
 
@@ -586,18 +586,18 @@ Create the database and set the permissions:
     # mysql -u root -p
     Enter password:
     Welcome to the MySQL monitor.  Commands end with ; or \g.
-
+    
     Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
+    
     mysql> CREATE DATABASE `myapp`;
     Query OK, 1 row affected (0.01 sec)
-
+    
     mysql> GRANT ALL PRIVILEGES ON myapp.* TO 'tutorial'@'localhost' IDENTIFIED BY 'yourpassword';
     Query OK, 0 rows affected (0.00 sec)
-
+    
     mysql> FLUSH PRIVILEGES;
     Query OK, 0 rows affected (0.00 sec)
-
+    
     mysql> exit
     Bye
 
@@ -643,7 +643,7 @@ Open the C<myapp01_mysql.sql> in your editor and enter:
     (3, 'Internetworking with TCP/IP Vol.1', 4),
     (4, 'Perl Cookbook', 5),
     (5, 'Designing with Web Standards', 5);
-
+    
     INSERT INTO `book_authors` (`book_id`, `author_id`) VALUES
     (1, 1),
     (1, 2),
@@ -653,7 +653,7 @@ Open the C<myapp01_mysql.sql> in your editor and enter:
     (4, 6),
     (4, 7),
     (5, 8);
-
+    
     INSERT INTO `authors` (`id`, `first_name`, `last_name`) VALUES
     (1, 'Greg', 'Bastien'),
     (2, 'Sara', 'Nasseh'),
@@ -663,7 +663,7 @@ Open the C<myapp01_mysql.sql> in your editor and enter:
     (6, 'Tom', 'Christiansen'),
     (7, 'Nathan', 'Torkington'),
     (8, 'Jeffrey', 'Zeldman');
-
+    
     ALTER TABLE `book_authors`
     ADD CONSTRAINT `book_author_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `authors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT `book_author_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -681,11 +681,11 @@ Make sure the data loaded correctly:
     $ mysql -u tutorial -p myapp
     Reading table information for completion of table and column names
     You can turn off this feature to get a quicker startup with -A
-
+    
     Welcome to the MySQL monitor.  Commands end with ; or \g.
-
+    
     Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
-
+    
     mysql> show tables;
     +-----------------+
     | Tables_in_myapp |
@@ -695,7 +695,7 @@ Make sure the data loaded correctly:
     | books           |
     +-----------------+
     3 rows in set (0.00 sec)
-
+    
     mysql> select * from books;
     +----+------------------------------------+--------+
     | id | title                              | rating |
@@ -707,7 +707,7 @@ Make sure the data loaded correctly:
     |  5 | Designing with Web Standards       |      5 |
     +----+------------------------------------+--------+
     5 rows in set (0.00 sec)
-
+    
     mysql>
 
 =back
@@ -777,18 +777,18 @@ Open C<myapp02_mysql.sql> in your editor and enter:
     INSERT INTO `roles` (`id`, `role`) VALUES
     (1, 'user'),
     (2, 'admin');
-
+    
     INSERT INTO `users` (`id`, `username`, `password`, `email_address`, `first_name`, `last_name`, `active`) VALUES
     (1, 'test01', 'mypass', 't01@na.com', 'Joe', 'Blow', 1),
     (2, 'test02', 'mypass', 't02@na.com', 'Jane', 'Doe', 1),
     (3, 'test03', 'mypass', 't03@na.com', 'No', 'Go', 0);
-
+    
     INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
     (1, 1),
     (2, 1),
     (3, 1),
     (1, 2);
-
+    
     ALTER TABLE `user_roles
     ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -842,10 +842,10 @@ Load the user/roles data:
 
 Kennedy Clark, C<hkclark@gmail.com>
 
-Please report any errors, issues or suggestions to the author.  The
-most recent version of the Catalyst Tutorial can be found at
-L<http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Manual/5.80/trunk/lib/Catalyst/Manual/Tutorial/>.
+Feel free to contact the author for any errors or suggestions, but the
+best way to report issues is via the CPAN RT Bug system at
+L<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
 
-Copyright 2006-2010, Kennedy Clark, under the
+Copyright 2006-2011, Kennedy Clark, under the
 Creative Commons Attribution Share-Alike License Version 3.0
 (L<http://creativecommons.org/licenses/by-sa/3.0/us/>).
