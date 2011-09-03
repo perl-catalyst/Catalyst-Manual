@@ -212,9 +212,9 @@ B<(and everything else they do for the Perl community)!>
 
 =item 2
 
-Uncompress the image:
+Uncompress the image on the "host machine":
 
-    tar zxvf CatalystTutorial.tgz
+    MAINCOMPUTER:~$ tar zxvf CatalystTutorial.tgz
 
 =item 3
 
@@ -248,7 +248,7 @@ The image it design to automatically use a DHCP-assigned address.
 Try to ping this IP address from your "host machine" (main desktop):
 
 
-    MainComputer:~$ ping 192.168.0.12
+    MAINCOMPUTER:~$ ping 192.168.0.12
     PING 192.168.0.12 (192.168.0.12) 56(84) bytes of data.
     64 bytes from 192.168.0.12: icmp_req=1 ttl=255 time=4.97 ms
     64 bytes from 192.168.0.12: icmp_req=2 ttl=255 time=3.43 ms
