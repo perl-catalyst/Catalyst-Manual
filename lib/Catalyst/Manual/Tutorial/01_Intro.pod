@@ -193,15 +193,11 @@ Virtual Machine.  This document uses the term "host machine" to refer to
 the physical machine where you will run the virtualization software and
 boot up the VM.  The terms "guest machine" or just "VM" refer to the
 virtual machine itself -- the thing where you actually do the tutorial
-and that you boot up on the "host machine".
-
-Also, to reduce download size, the Tutorial VM just includes a minimal
-command-line environment.  In general, it is expected that people will
-boot up the Tutorial VM on their main desktop (the "host machine" using
-the terminology above) and then use that main desktop machine to SSH and
-web browse into the "guest VM" as they work through the tutorial.  If
-you wish to install X-Windows (or any other packages), just use the
-C<aptitude> (or C<apt-get>) Debian commands.
+(and that you boot up on the "host machine").
+B<Note:> Throughout the tutorial, we will shows the UNIX shell prompt
+as "C<$>".  If you are using Tutorial VM, the prompt will really be
+"C<root@catalyst:~#>", but we will keep it short (and also use "C<$>" in
+lieu of "C<#>", since "C<#>" looks too much like a Perl comment).
 
 
 =over 4
