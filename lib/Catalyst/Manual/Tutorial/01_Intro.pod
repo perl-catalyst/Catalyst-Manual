@@ -194,10 +194,11 @@ the physical machine where you will run the virtualization software and
 boot up the VM.  The terms "guest machine" or just "VM" refer to the
 virtual machine itself -- the thing where you actually do the tutorial
 (and that you boot up on the "host machine").
-B<Note:> Throughout the tutorial, we will shows the UNIX shell prompt
-as "C<$>".  If you are using Tutorial VM, the prompt will really be
-"C<catalyst@catalyst:~#>", but we will keep it short (and also use "C<$>" in
-lieu of "C<#>", since "C<#>" looks too much like a Perl comment).
+
+B<Note:> Throughout the tutorial, we will shows the UNIX shell prompt as
+"C<$>".  If you are using the Tutorial VM, the prompt will really be
+"C<catalyst@catalyst:~$>" (where "C<~"> will change to show your
+current directory), but we will keep it short and just use "C<$>".
 
 
 =over 4
@@ -231,7 +232,7 @@ like:
     catalyst login: catalyst
     Password: catalyst
     ...
-    catalyst@catalyst:~#
+    catalyst@catalyst:~$
 
 =item 5
 
@@ -282,7 +283,7 @@ B<catalyst>
     catalyst login: catalyst 
     Password: catalyst
     ...
-    catalyst@catalyst:~#
+    catalyst@catalyst:~$
 
 
 =item 7
