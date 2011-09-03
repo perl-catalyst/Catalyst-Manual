@@ -334,20 +334,46 @@ boot up the Tutorial VM on their main desktop (the "host machine" using
 the terminology above) and then use that main desktop machine to SSH and
 web browse into the "guest VM" as they work through the tutorial.  If
 you wish to install X Windows (or any other packages), just use the
-C<aptitude> (or C<apt-get>) Debian commands.  For example, to install
-X Windows with the Gnome desktop manager, you can do:
+C<aptitude> (or C<apt-get>) Debian commands.
+
+For example, to install X Windows with Fluxbox (a lightweight
+WindowManager -- it is great for things like this tutorial since it's
+about 1/10th the size of other common X Windows environments), you can
+do:
+
+    $ sudo aptitude update
+    $ sudo aptitude install xorg fluxbox iceweasel
+
+And then start X Windows from the B<VM Console> with this command:
+
+    $ startx
+
+Note that if you want to start Fluxbox from an SSH session, you can use
+the C<sudo dpkg-reconfigure x11-common> and select "anybody" from the
+menu.  Otherwise, you will need to be on the actual "VM console" to
+start it.
+
+If you have a preference for the Gnome desktop environment, you can do:
 
     $ sudo aptitude update
     $ sudo ptitude install gnome iceweasel
+    $
+    $ # You can reboot or start with 'startx', we will just reboot here
+    $ reboot
 
-Or, if you prefer KDE:
-
-    $ sudo aptitude update
     $ sudo aptitude install kde iceweasel
 
-You can then start X Windows with:
+For KDE, just substitude the package name "C<kde>" for "C<gnome>" above.
 
-    $ startx
+Note that C<iceweasel> is basically used to install Firefox on Debian
+boxes.  You can start it under X Windows with either the C<firefox>
+command or the C<iceweasel> command (or use the menus).  You can get
+more information on Iceweasel at L<http://wiki.debian.org/Iceweasel>.
+
+Also, you might need to add more memory to your virtual machine if you
+want to run X Windows (or other tools that might require additional
+memory).  Consult the documentation for you virtualization software
+for instructions on how to do this (it's usually pretty simple).
 
 
 =back
@@ -412,10 +438,15 @@ other machine (including the "host machine") into the VM.  Some virtual
 machine host environments let you configure a "static NAT" or "port
 forwarding" to reach the guest OS, but others omit this functionality.
 
+Note: NAT mode can work fine if you install X Windows and do the whole
+tutorial locally on the actual VM vs. using SSH and a web browser from
+your host machine.
+
 "Local host only" mode let's the guest VM and the host machine talk on a
 "private subnet" that other devices in your network cannot reach.  This
 can work as long as you don't need to go from the VM to the Internet
 (for example, to install other Debian packages).
+
 
 Consult the documentation on your virtual machine host environment for
 help configuring the options above.  Here are some links that might
