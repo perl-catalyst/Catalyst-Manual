@@ -21,7 +21,7 @@ Almost all shared hosting environments involve deploying Catalyst as a
 FastCGI application on Apache. You will usually want to have a set of
 libraries specific to your application installed on your shared host.
 
-Full details of deploying Catalyst in a shared hosting enviroment are at
+Full details of deploying Catalyst in a shared hosting environment are at
 L<Catalyst::Manual::Deployment::SharedHosting>.
 
 =head2 FastCGI
