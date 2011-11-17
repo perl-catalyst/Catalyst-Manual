@@ -240,12 +240,6 @@ L</"Component Configuration">, or even react on them as soon as
 Catalyst encounters them by providing your own L<component base
 class|/"Component Base Classes">.
 
-=head2 Creating custom accessors
-
-L<Catalyst::Component> uses L<Class::Accessor::Fast> for accessor
-creation. Please refer to the modules documentation for usage
-information.
-
 =head2 Component Configuration
 
 At creation time, the class configuration of your component (the one
