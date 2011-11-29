@@ -1099,7 +1099,7 @@ turn.
     sub auto : Private { }
 
 C<auto>, however, doesn't override like this: providing they exist,
-C<MyApp::auto>, C<MyApp::Controller::Catalog::auto> and
+C<MyApp::Controller::Root::auto>, C<MyApp::Controller::Catalog::auto> and
 C<MyApp::Catalog::Order::auto> would be called in turn.
 
 Here are some examples of the order in which the various built-ins
