@@ -42,7 +42,7 @@ The server configuration block should look roughly like:
             fastcgi_param  SERVER_ADDR        $server_addr;
             fastcgi_param  SERVER_PORT        $server_port;
             fastcgi_param  SERVER_NAME        $server_name;
-        
+
             # Adjust the socket for your applications!
             fastcgi_pass   unix:$docroot/myapp.socket;
         }
@@ -68,6 +68,15 @@ process this accordingly and setup the application base as expected.
 
 This behavior is somewhat different from Apache and lighttpd, but is still
 functional.
+
+=head2 SSL
+
+Make sure that nginx passes this to your fastcgi. To ensure this, you need
+the following in your nginx config for the SSL vhost:
+
+    fastcgi_param  HTTPS on
+
+=head1 MORE INFO
 
 For more information on nginx, visit:
 L<http://nginx.net>
