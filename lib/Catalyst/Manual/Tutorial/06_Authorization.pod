@@ -193,7 +193,7 @@ message.  Note that we intentionally chose to display the message this
 way to demonstrate that TT templates will not be used if the response
 body has already been set.  In reality you would probably want to use a
 technique that maintains the visual continuity of your template layout
-(for example, using L<Catalyst::Plugin::StateMessage> as shown in the
+(for example, using L<Catalyst::Plugin::StatusMessage> as shown in the
 L<last chapter|Catalyst::Manual::Tutorial::05_Authentication> to
 redirect to an "unauthorized" page).
 
