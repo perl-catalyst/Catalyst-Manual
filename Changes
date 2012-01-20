@@ -1,6 +1,7 @@
 Revision history for Catalyst-Manual
 
-5.9003 
+5.9003
+    - Clarified Data::Dumper usage.  RT#71410 Thanks to Bill Corr
     - Mention Chef deployment in Manual::Deployment (thanks to Alexey Melezhik)
 
 5.9002 3 Sept 2011

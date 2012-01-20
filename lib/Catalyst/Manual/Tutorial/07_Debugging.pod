@@ -109,9 +109,15 @@ severity/importance):
     $c->log->error
     $c->log->fatal
 
-You can also use L<Data::Dumper> in both Catalyst code
-(C<use Data::Dumper; $c-E<gt>log-E<gt>debug("\$var is: ".Dumper($var));)>)
-and TT templates (C<[% Dumper.dump(book) %]>.
+You can also use Data::Dumper in both Catalyst code and in TT templates.
+For use in Catalyst code:
+
+ use Data::Dumper;
+ $c->log->debug("\$var is: ".Dumper($c->stash->{something}));
+
+and TT templates:
+
+ [% USE Dumper ; Dumper.dump(c.stash.something) %].
 
 B<NOTE:> Whether you are a logging fanatic or not, we strongly recommend
 that you take advantage of L<Log::Log4perl> or L<Log::Dispatch>.  It's
