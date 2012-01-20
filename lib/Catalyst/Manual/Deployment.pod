@@ -83,6 +83,14 @@ L<Twiggy> is a high-performance asynchronous web server. It can be used
 in conjunction with Catalyst, but there are a number of caveats which
 mean that it is not suitable for most deployments.
 
+=head2 Chef
+
+<LChef|http://www.opscode.com/chef/> is an open-source systems integration
+framework built specifically for automating cloud computing deployments. A
+Cookbooks demonstrating how to deploy a Catalyst application using Chef is
+available at L<http://community.opscode.com/cookbooks/catalyst> and
+L<http://github.com/melezhik/cookbooks/wiki/Catalyst-cookbook-intro>.
+
 =head1 AUTHORS
 
 Catalyst Contributors, see Catalyst.pm

@@ -1,5 +1,8 @@
 Revision history for Catalyst-Manual
 
+5.9003 
+    - Mention Chef deployment in Manual::Deployment (thanks to Alexey Melezhik)
+
 5.9002 3 Sept 2011
     - Tutorial
         - Switch to 'catalyst' vs. 'root' user in VM
