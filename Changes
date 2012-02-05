@@ -1,5 +1,7 @@
 Revision history for Catalyst-Manual
 
+    - Hilight the importance of uncommenting the template line in the list action
+
 5.9003
     - Clarified Data::Dumper usage.  RT#71410 Thanks to Bill Corr
     - Mention Chef deployment in Manual::Deployment (thanks to Alexey Melezhik)

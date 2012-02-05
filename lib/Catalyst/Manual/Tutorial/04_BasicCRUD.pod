@@ -789,6 +789,9 @@ cascading delete operation via the DBIC_TRACE output:
     SELECT me.id, me.title, me.rating FROM book me WHERE ( ( me.id = ? ) ): '6'
     DELETE FROM book WHERE ( id = ? ): '6'
 
+If you get the error C<file error - books/delete.tt2: not found> then you
+probably forgot to uncomment the template line in C<sub list> at the end of
+chapter 3.
 
 =head2 Fixing a Dangerous URL
 
