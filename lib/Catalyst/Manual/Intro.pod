@@ -23,7 +23,7 @@ possible to do things in a different way. Other web frameworks are
 I<initially> simpler to use, but achieve this by locking the programmer
 into a single set of tools. Catalyst's emphasis on flexibility means
 that you have to think more to use it. We view this as a feature.  For
-example, this leads to Catalyst being more suited to system integration
+example, this leads to Catalyst being better suited to system integration
 tasks than other web frameworks.
 
 =head3 MVC
@@ -53,7 +53,7 @@ L<Mason|HTML::Mason>, L<HTML::Template>...
 =item * B<Controller>
 
 Control the whole request phase, check parameters, dispatch actions, flow
-control. Catalyst itself!
+control. This is the meat of where Catalyst works.
 
 =back
 
@@ -804,14 +804,18 @@ application (e.g. http://localhost:3000/ ):
 
     package MyApp::Controller::Root;
     use base 'Catalyst::Controller';
+
     # Sets the actions in this controller to be registered with no prefix
     # so they function identically to actions created in MyApp.pm
+
     __PACKAGE__->config( namespace => '');
+
     sub default : Path  {
         my ( $self, $context ) = @_;
         $context->response->status(404);
         $context->response->body('404 not found');
     }
+
     1;
 
 
@@ -820,9 +824,9 @@ The code
     __PACKAGE__->config( namespace => '' );
 
 makes the controller act as if its namespace is empty.  As you'll see
-below, an empty namespace makes many of the URL-matching attributes,
-such as :Path, :Local and :Global matches, match at the start of the
-URL path.
+below, an empty namespace makes many of the URL-matching attributes, such
+as :Path and :Local match at the start of the URL path (i.e. the
+application root).
 
 =back
 
@@ -850,20 +854,30 @@ subroutine name together determine the path.
 =item * Root-level (C<:Global>)
 
     package MyApp::Controller::Foo;
-    sub foo : Global { }
+
+    sub bar : Global {
+        my ($self, $c) = @_;
+        $c->res->body(
+          $c->res->body('sub bar in Controller::Foo triggered on a request for '
+                         . $c->req->uri));
+    }
+
+1;
 
 Matches http://localhost:3000/foo - that is, the action is mapped
 directly to the controller namespace, ignoring the function name.
 
-C<:Global> always matches from root: it is sugar for C<:Path('/methodname')>.
-C<:Local> is simply sugar for C<:Path('methodname')>, which takes the package
-namespace as described above.
+C<:Global> always matches from the application root: it is simply
+shorthandfor C<:Path('/methodname')>.  C<:Local> is shorthand for
+C<:Path('methodname')>, which takes the controller namespace as described
+above.
 
-    package MyApp::Controller::Root;
-    __PACKAGE__->config( namespace => '');
-    sub foo : Local { }
-
-Use whichever makes the most sense for your application.
+Usage of the C<Global> handler is rare in all but very old Catalyst
+applications (e.g. before Catalyst 5.7).  The use cases where C<Global>
+used to make sense are now largely replaced by the C<Chained> dispatch
+type, or by empty C<Path> declarations on an controller action.  C<Global>
+is still included in Catalyst for backwards compatibility, although
+legitimate use-cases for it may still exist (but nobody can.
 
 =item * Changing handler behaviour: eating arguments (C<:Args>)
 
