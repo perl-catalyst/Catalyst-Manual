@@ -883,7 +883,7 @@ applications (e.g. before Catalyst 5.7).  The use cases where C<Global>
 used to make sense are now largely replaced by the C<Chained> dispatch
 type, or by empty C<Path> declarations on an controller action.  C<Global>
 is still included in Catalyst for backwards compatibility, although
-legitimate use-cases for it may still exist (but nobody can.
+legitimate use-cases for it may still exist.
 
 =item * Changing handler behaviour: eating arguments (C<:Args>)
 
