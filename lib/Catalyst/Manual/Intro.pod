@@ -871,7 +871,7 @@ subroutine name together determine the path.
 1;
 
 Matches http://localhost:3000/foo - that is, the action is mapped
-directly to the controller namespace, ignoring the function name.
+directly to the method name, ignoring the controller namespace.
 
 C<:Global> always matches from the application root: it is simply
 shorthandfor C<:Path('/methodname')>.  C<:Local> is shorthand for
