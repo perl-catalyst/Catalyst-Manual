@@ -124,6 +124,12 @@ if you end up using it).
 
 =back
 
+=item * PSGI Support
+
+Starting with Catalyst version 5.9 Catalyst ships with L<PSGI> integration
+for even more powerful and flexible testing and deployment options.  See
+L<Catalyst::PSGI> for details.
+
 =head3 Simplicity
 
 The best part is that Catalyst implements all this flexibility in a very

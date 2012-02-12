@@ -1,5 +1,6 @@
 Revision history for Catalyst-Manual
 
+    - Mention PSGI in Manual::Ingro RT 74872 (thanks William Blunn).
     - Better docs of :Global inspired by RT 74869 (thanks William Blunn)
     - Highlight the importance of uncommenting the template line in the list action
 
