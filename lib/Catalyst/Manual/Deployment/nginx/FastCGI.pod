@@ -60,14 +60,23 @@ prefix of your application, and PATH_INFO would be everything in addition.
 
 As an example, if your application is rooted at /myapp, you would configure:
 
-    fastcgi_param  SCRIPT_NAME /myapp/;
-    fastcgi_param  PATH_INFO   $fastcgi_script_name;
+    rewrite ^/myapp$ /myapp/ permanent;
+    location /myapp/ {
+        include /etc/nginx/fastcgi_params;
+        fastcgi_param SCRIPT_NAME /myapp/;
+        fastcgi_param PATH_INFO   $fastcgi_script_name;
+        fastcgi_pass unix:/tmp/mediaapi.socket;
+    }
 
 C<$fastcgi_script_name> would be "/myapp/path/of/the/action".  Catalyst will
 process this accordingly and setup the application base as expected.
 
 This behavior is somewhat different from Apache and lighttpd, but is still
 functional.
+
+Note that the rewrite may not be needed with newer versions of nginx,
+and the paths must be exactly as specified - the trailing slash in the
+location block and the SCRIPT name are important.
 
 =head2 SSL
 

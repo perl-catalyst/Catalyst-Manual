@@ -3,6 +3,8 @@ Revision history for Catalyst-Manual
     - Mention PSGI in Manual::Ingro RT 74872 (thanks William Blunn).
     - Better docs of :Global inspired by RT 74869 (thanks William Blunn)
     - Highlight the importance of uncommenting the template line in the list action
+    - Clarify docs for nginx in non-root - a trailing slash on the
+      location block is very much needed.
 
 5.9003
     - Clarified Data::Dumper usage.  RT#71410 Thanks to Bill Corr
