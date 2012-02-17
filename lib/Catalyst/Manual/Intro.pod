@@ -122,13 +122,13 @@ separately - which will turn the built server into a fully fledged production
 ready server (although you'll probably want to run it behind a front end proxy
 if you end up using it).
 
-=back
-
 =item * PSGI Support
 
 Starting with Catalyst version 5.9 Catalyst ships with L<PSGI> integration
 for even more powerful and flexible testing and deployment options.  See
 L<Catalyst::PSGI> for details.
+
+=back
 
 =head3 Simplicity
 
