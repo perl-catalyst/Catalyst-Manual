@@ -65,7 +65,7 @@ As an example, if your application is rooted at /myapp, you would configure:
         include /etc/nginx/fastcgi_params;
         fastcgi_param SCRIPT_NAME /myapp/;
         fastcgi_param PATH_INFO   $fastcgi_script_name;
-        fastcgi_pass unix:/tmp/mediaapi.socket;
+        fastcgi_pass unix:/tmp/myapp.socket;
     }
 
 C<$fastcgi_script_name> would be "/myapp/path/of/the/action".  Catalyst will
@@ -76,7 +76,7 @@ functional.
 
 Note that the rewrite may not be needed with newer versions of nginx,
 and the paths must be exactly as specified - the trailing slash in the
-location block and the SCRIPT name are important.
+location block and the SCRIPT_NAME are important.
 
 =head2 SSL
 
