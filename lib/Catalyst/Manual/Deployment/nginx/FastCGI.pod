@@ -27,7 +27,7 @@ The server configuration block should look roughly like:
             fastcgi_param  CONTENT_TYPE       $content_type;
             fastcgi_param  CONTENT_LENGTH     $content_length;
 
-            fastcgi_param  SCRIPT_NAME        /;
+            fastcgi_param  SCRIPT_NAME        '';
             fastcgi_param  PATH_INFO          $fastcgi_script_name;
             fastcgi_param  REQUEST_URI        $request_uri;
             fastcgi_param  DOCUMENT_URI       $document_uri;
@@ -51,6 +51,14 @@ The server configuration block should look roughly like:
 It is the standard convention of nginx to include the fastcgi_params in a
 separate file (usually something like C</etc/nginx/fastcgi_params>) and
 simply include that file.
+
+If you include the C</etc/nginx/fastcgi_params> that comes with your
+distribution, e.g. Debian, you need to adjust a couple of parameters for PSGI
+compatibility, use something like this:
+
+        include /etc/nginx/fastcgi_params;
+        fastcgi_param SCRIPT_NAME '';
+        fastcgi_param PATH_INFO   $fastcgi_script_name;
 
 =head2  Non-root configuration
 
