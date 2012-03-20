@@ -263,15 +263,9 @@ L<Catalyst::Plugin::ConfigLoader::YAML>
 
 =head2 L<Catalyst::Plugin::Dumper>
 
-=head2 L<Catalyst::Plugin::Email>
-
-Sends email with L<Email::Send> and L<Email::MIME::Creator>.
-
 =head2 L<Catalyst::Plugin::Email::Japanese>
 
 =head2 L<Catalyst::Plugin::Email::Page>
-
-=head2 L<Catalyst::Plugin::EmailValid>
 
 =head2 L<Catalyst::Plugin::FillInForm>
 
