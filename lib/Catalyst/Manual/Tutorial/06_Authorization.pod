@@ -303,6 +303,9 @@ match the following code:
         $c->detach('/error_noperms')
             unless $c->stash->{object}->delete_allowed_by($c->user->get_object);
     
+        # Saved the PK id for status_msg below
+        my $id = $c->stash->{object}->id;
+    
         # Use the book object saved by 'object' and delete it along
         # with related 'book_authors' entries
         $c->stash->{object}->delete;
