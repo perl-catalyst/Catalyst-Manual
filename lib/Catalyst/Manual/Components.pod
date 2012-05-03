@@ -18,15 +18,20 @@ status or preferred use of your chosen plugin/framework.
 
 =head1 PLUGINS
 
+Take care with plugins!  In general with a plugin ask "should this be
+acting globally on my application application?".  If not it should be a
+Controller Role (e.g. see L<Catalyst::TraitFor::Controller::reCAPTCHA>.
+
 =head2 L<Catalyst::Plugin::Account::AutoDiscovery>
 
 Provides Account Auto-Discovery for Catalyst.
 
 =head2 L<Catalyst::Plugin::Acme::Scramble>
 
-Implements a potent meme about how easily we can read scrambled text if
-the first and last letters remain constant. Operates on text/plain and
-text/html served by your Catalyst application.
+Implements a demonstration showing how easily fluent speakers can read
+scrambled text if the first and last letters remain constant but the middle
+. Operates on text/plain and text/html served by your Catalyst application.
+This should really be a controller role, or even a View these days.
 
 =head2 L<Catalyst::Plugin::Alarm>
 
@@ -156,7 +161,7 @@ Authenticates users using an LDAP server.
 =head4 L<Catalyst::Authentication::Store::Minimal>
 
 Lets you create a very quick and dirty user database in your application's
-config hash. Great for getting up and running quickly.
+config hash. Great for testing or getting up and running quickly.
 
 =head4 L<Catalyst::Authentication::Store::Null>
 
@@ -230,9 +235,9 @@ the C<< Cache:: >> APO, such as:
 
 =head2 L<Catalyst::Plugin::CGI::Untaint>
 
-Provides specific charset handlers for the Japanese charsets.
-
 =head2 L<Catalyst::Plugin::Charsets::Japanese>
+
+Provides specific charset handlers for the Japanese charsets.
 
 =head2 L<Catalyst::Plugin::Compress::Bzip2>
 
