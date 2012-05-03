@@ -1,5 +1,10 @@
 Revision history for Catalyst-Manual
 
+5.9004 4th May 2012
+    - PSGI Compat changes
+    - Small code changes (thanks sockmonk)
+    - Small changes to Manual::Components
+
 5.9003 17 Feb 2012
     - Mention PSGI in Manual::Ingro RT 74872 (thanks William Blunn).
     - Better docs of :Global inspired by RT 74869 (thanks William Blunn)
