@@ -1,5 +1,7 @@
 Revision history for Catalyst-Manual
 
+    - Fix typo RT #77247 Thanks John Deighan
+
 5.9004 4th May 2012
     - PSGI Compat changes
     - Small code changes (thanks sockmonk)

@@ -293,7 +293,7 @@ Chapter 3 included with the Tutorial Virtual Machine and start the
 Catalyst Development Server:
 
     $ cd Final/Chapter03/MyApp
-    $ perl scripts/myapp_server
+    $ perl script/myapp_server.pl
 
 =item 8
 
