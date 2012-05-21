@@ -1,5 +1,5 @@
 Revision history for Catalyst-Manual
-
+    - Update auth class name RT 77322 Thanks Joen Axford
     - Fix typo RT #77247 Thanks John Deighan
 
 5.9004 4th May 2012

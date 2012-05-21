@@ -1,4 +1,4 @@
-=head1 NAME
+head1 NAME
 
 Catalyst::Manual::Tutorial::05_Authentication - Catalyst Tutorial - Chapter 5: Authentication
 
@@ -742,7 +742,7 @@ change is to the C<password_type> field):
     );
 
 The use of C<self_check> will cause
-Catalyst::Plugin::Authentication::Store::DBIC to call the
+Catalyst::Plugin::Authentication::Store::DBIx::Class to call the
 C<check_password> method we enabled on our C<password> columns.
 
 
