@@ -356,7 +356,7 @@ start it.
 If you have a preference for the Gnome desktop environment, you can do:
 
     $ sudo aptitude update
-    $ sudo ptitude install gnome iceweasel
+    $ sudo aptitude install gnome iceweasel
     $
     $ # You can reboot or start with 'startx', we will just reboot here
     $ reboot
