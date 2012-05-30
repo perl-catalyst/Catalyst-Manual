@@ -312,7 +312,7 @@ to the package C<Hello::Controller::Admin::Articles>, and the C<create>
 method.
 
 While you leave the C<script/hello_server.pl -r> command running the
-development server in one window (don't forget the "-r" on the end!),
+development server in one window (don't forget the "-r" at the end!),
 open another window and add the following subroutine to your
 C<lib/Hello/Controller/Root.pm> file:
 
@@ -356,7 +356,7 @@ Private actions" in the development server debug output.
 
 In the Catalyst world a "View" itself is not a page of XHTML or a
 template designed to present a page to a browser. Rather, it is the
-module that determines the I<type> of view -- HTML, pdf, XML, etc. For
+module that determines the I<type> of view -- HTML, PDF, XML, etc. For
 the thing that generates the I<content> of that view (such as a
 Toolkit Template template file), the actual templates go under the
 "root" directory.
@@ -396,7 +396,7 @@ Now that the HTML.pm "View" exists, Catalyst will autodiscover it and be
 able to use it to display the view templates using the "process" method
 that it inherits from the C<Catalyst::View::TT> class.
 
-Template Toolkit is a very full featured template facility, with
+Template Toolkit is a very full-featured template facility, with
 excellent documentation at L<http://template-toolkit.org/>, but since
 this is not a TT tutorial, we'll stick to only basic TT usage here (and
 explore some of the more common TT features in later chapters of the
@@ -430,18 +430,18 @@ area for putting information to share with other parts of your
 application. The "template" key determines which template will be
 displayed at the end of the request cycle. Catalyst controllers have a
 default "end" action for all methods which causes the first (or default)
-view to be rendered (unless there's a C<$c-E<gt>response- E<gt>body()>
+view to be rendered (unless there's a C<$c-E<gt>response-E<gt>body()>
 statement). So your template will be magically displayed at the end of
 your method.
 
 After saving the file, the development server should automatically
 restart (again, the tutorial is written to assume that you are using the
 "-r" option -- manually restart it if you aren't), and look at
-L<http://localhost:3000/hello> in your again. You should see the
-template that you just made.
+L<http://localhost:3000/hello> in your web browser again. You should see
+the template that you just created.
 
 B<TIP:> If you keep the server running with "-r" in a "background
-window," don't let that window get totally hidden... if you have an
+window," don't let that window get totally hidden... if you have a
 syntax error in your code, the debug server output will contain the
 error information.
 
@@ -474,8 +474,8 @@ Create a controller named "Site" by executing the create script:
     $ script/hello_create.pl controller Site
 
 This will create a C<lib/Hello/Controller/Site.pm> file (and a test
-file). Bring Site.pm up in your editor, and you can see that there's not
-much there.
+file). If you bring Site.pm up in your editor, you can see that
+there's not much there to see.
 
 In C<lib/Hello/Controller/Site.pm>, add the following method:
 
