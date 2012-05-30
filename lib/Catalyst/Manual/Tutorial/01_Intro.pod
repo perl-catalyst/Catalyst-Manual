@@ -361,9 +361,9 @@ If you have a preference for the Gnome desktop environment, you can do:
     $ # You can reboot or start with 'startx', we will just reboot here
     $ reboot
 
-    $ sudo aptitude install kde iceweasel
-
 For KDE, just substitute the package name "C<kde>" for "C<gnome>" above.
+
+    $ sudo aptitude install kde iceweasel
 
 Note that C<iceweasel> is basically used to install Firefox on Debian
 boxes.  You can start it under X Windows with either the C<firefox>
