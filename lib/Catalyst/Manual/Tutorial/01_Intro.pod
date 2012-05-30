@@ -372,7 +372,7 @@ more information on Iceweasel at L<http://wiki.debian.org/Iceweasel>.
 
 Also, you might need to add more memory to your virtual machine if you
 want to run X Windows (or other tools that might require additional
-memory).  Consult the documentation for you virtualization software
+memory).  Consult the documentation of your virtualization software
 for instructions on how to do this (it's usually pretty simple).
 
 
@@ -385,7 +385,7 @@ that the Perl modules are run from ~/perl5 (in this case,
 recommend that you also consider using this very handy module.  It can
 greatly ease the process of maintaining and testing different
 combinations or Perl modules across development, staging, and production
-servers.  (The "relocatable Perl" feature can also be used to to run
+servers.  (The "relocatable Perl" feature can also be used to run
 both the modules B<and> Perl itself from your home directory [or any
 other directory you chose]).
 
