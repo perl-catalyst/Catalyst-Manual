@@ -109,7 +109,7 @@ if you are using Strawberry Perl.)
 =head1 EDIT THE LIST OF CATALYST PLUGINS
 
 One of the greatest benefits of Catalyst is that it has such a large
-library of bases classes and plugins available that you can use easily
+library of base classes and plugins available that you can use to easily
 add functionality to your application. Plugins are used to seamlessly
 integrate existing Perl modules into the overall Catalyst framework. In
 general, they do this by adding additional methods to the C<context>
@@ -143,16 +143,16 @@ If you prefer, there are several other ways to enable debug output:
 
 =item *
 
-Use the C<$c-E<gt>debug> method on the C<$c> Catalyst context object
+the C<$c-E<gt>debug> method on the C<$c> Catalyst context object
 
 =item *
 
-The C<-d> option to C<script/myapp_server.pl>
+the C<-d> option on the C<script/myapp_server.pl> script
 
 =item *
 
-The C<CATALYST_DEBUG=1> environment variable (or use C<CATALYST_DEBUG=0>
-to temporarily disable debug output).
+the C<CATALYST_DEBUG=1> environment variable (or C<CATALYST_DEBUG=0>
+to temporarily disable debug output)
 
 =back
 
@@ -206,7 +206,7 @@ images and CSS files, from the development server.
 
 =back
 
-For our application, we want to add one new plugin into the mix.  To do
+For our application, we want to add one new plugin to the mix.  To do
 this, edit C<lib/MyApp.pm> (this file is generally referred to as your
 I<application class>) and delete the lines with:
 
@@ -307,7 +307,7 @@ actions:
 Then edit C<lib/MyApp/Controller/Books.pm> (as discussed in
 L<Chapter 2|Catalyst::Manual::Tutorial::02_CatalystBasics> of
 the Tutorial, Catalyst has a separate directory under C<lib/MyApp> for
-each of the three parts of MVC: C<Model>, C<View>, and C<Controller>)
+each of the three parts of MVC: C<Model>, C<View> and C<Controller>)
 and add the following method to the controller:
 
     =head2 list
