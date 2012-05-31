@@ -531,7 +531,7 @@ C<root/src>.
 
 Please stick with the settings above for the duration of the tutorial,
 but feel free to use whatever options you desire in your applications
-(as with most things Perl, there's more than one way to do it...).
+(as with most things in Perl, there's more than one way to do it...).
 
 B<Note:> We will use C<root/src> as the base directory for our template
 files, with a full naming convention of
@@ -855,8 +855,8 @@ when you launch the application).
 Additionally, the C<lib/MyApp/Schema.pm> model can easily be loaded
 outside of Catalyst, for example, in command-line utilities and/or cron
 jobs. C<lib/MyApp/Model/DB.pm> provides a very thin "bridge" between
-Catalyst this external database model.  Once you see how we can add some
-powerful features to our DBIC model in
+Catalyst and this external database model.  Once you see how we can
+add some powerful features to our DBIC model in
 L<Chapter 4|Catalyst::Manual::Tutorial::04_BasicCRUD>, the elegance
 of this approach will start to become more obvious.
 
