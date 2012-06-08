@@ -881,9 +881,9 @@ L<DBIx::Class::Schema::Loader> version C<0.05000> or later.
 =head1 ENABLE THE MODEL IN THE CONTROLLER
 
 Open C<lib/MyApp/Controller/Books.pm> and un-comment the model code we
-left disabled earlier so that your version matches the following (un-
-comment the line containing C<[$c-E<gt>model('DB::Book')-E<gt>all]> and
-delete the next 2 lines):
+left disabled earlier so that your version matches the following
+(un-comment the line containing C<[$c-E<gt>model('DB::Book')-E<gt>all]>
+and delete the next 2 lines):
 
     =head2 list
     
@@ -1381,7 +1381,7 @@ alternate way to specify the trace option just in case):
     $ DBIC_TRACE=1 script/myapp_server.pl -r
 
 Make sure that the application loads correctly and that you see the
-three dynamically created model class (one for each of the Result
+three dynamically created model classes (one for each of the Result
 Classes we created).
 
 Then hit the URL L<http://localhost:3000/books/list> with your browser
@@ -1461,11 +1461,11 @@ html" at the end of every field where a user has control over the
 information that can appear in that field (and can therefore inject
 markup or code if you don't "neutralize" those fields).  In addition to
 "| html", Template Toolkit has a variety of other useful filters that
-can found in the documentation for L<Template::Filters>.  (While we are
-on the topic of security and escaping of dangerous values, one of the
-advantages of using tools like DBIC for database access or
+can be found in the documentation for L<Template::Filters>.  (While we
+are on the topic of security and escaping of dangerous values, one of
+the advantages of using tools like DBIC for database access or
 L<HTML::FormFu> for form management [see
-L<Chapter 9|Catalyst::Manual::Tutorial::09_AdvancedCRUD::09_FormFu>
+L<Chapter 9|Catalyst::Manual::Tutorial::09_AdvancedCRUD::09_FormFu>]
 is that they automatically handle most escaping for you and therefore
 dramatically increase the security of your app.)
 
@@ -1619,12 +1619,12 @@ C<$c-E<gt>stash-E<gt>{template}> line has changed):
 You should now be able to access the L<http://localhost:3000/books/list>
 URL as before.
 
-B<NOTE:> Please note that if you use the default template technique, you
+B<NOTE:> If you use the default template technique, you
 will B<not> be able to use either the C<$c-E<gt>forward> or the
 C<$c-E<gt>detach> mechanisms (these are discussed in Chapter 2 and
 Chapter 9 of the Tutorial).
 
-B<IMPORTANT:> Make sure that you do NOT skip the following section
+B<IMPORTANT:> Make sure that you do B<not> skip the following section
 before continuing to the next chapter 4 Basic CRUD.
 
 
