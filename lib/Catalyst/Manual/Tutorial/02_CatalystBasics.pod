@@ -358,7 +358,7 @@ In the Catalyst world a "View" itself is not a page of XHTML or a
 template designed to present a page to a browser. Rather, it is the
 module that determines the I<type> of view -- HTML, PDF, XML, etc. For
 the thing that generates the I<content> of that view (such as a
-Toolkit Template template file), the actual templates go under the
+Template Toolkit template file), the actual templates go under the
 "root" directory.
 
 To create a TT view, run:
@@ -385,7 +385,7 @@ details on setting this).
 =item *
 
 The final "TT" tells Catalyst the I<type> of the view, with "TT"
-indicating that you want to a Template Toolkit view.
+indicating that you want to use a Template Toolkit view.
 
 =back
 
