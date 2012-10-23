@@ -133,6 +133,12 @@ site name and paths to values relevant for your server setup.
 
 =back
 
+=head3 Setup of your application
+
+Note that you B<MUST> have the config setting C<use_request_uri_for_path> set to true
+to work in IIS7 - if you do not have this then all sub paths in your application
+(e.g. /foo/bar) will resolve to the root path, i.e. /
+
 =head1 AUTHORS
 
 Catalyst Contributors, see Catalyst.pm
