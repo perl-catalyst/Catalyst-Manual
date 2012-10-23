@@ -18,7 +18,7 @@ author_requires 'Test::Pod::Coverage' => '1.04';
 author_tests 't/author';
 
 auto_install;
-resources repository => 'http://dev.catalyst.perl.org/repos/Catalyst/Catalyst-Manual/5.80/trunk/';
+resources repository => 'git://git.shadowcat.co.uk/catagits/Catalyst-Runtime.git';
 
 WriteAll;
 
