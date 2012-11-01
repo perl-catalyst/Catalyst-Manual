@@ -4,6 +4,10 @@ Catalyst::Manual::Deployment::IIS::FastCGI - Deploying Catalyst with Microsoft I
 
 =head1 Microsoft IIS
 
+Probably the best way to deploy a Catalyst application on IIS is by using
+IIS as a front end proxy.  However if you positively must use FastCGI (say
+due to internal IT policies) then this manual shows you how.
+
 It is possible to run Catalyst under IIS with FastCGI, but only on IIS
 6.0 (Microsoft Windows 2003), IIS 7.0 (Microsoft Windows 2008 and
 Vista), and (hopefully) its successors.
