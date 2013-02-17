@@ -12,7 +12,6 @@ our $VERSION = '5.9006';
 
 Catalyst::Manual - The Catalyst developer's manual
 
-
 =head1 SYNOPSIS
 
     perldoc Catalyst::Manual::Intro
@@ -78,7 +77,7 @@ For additional information on Catalyst, there are currently two books available:
 =item *
 
 The Definitive Guide to Catalyst: Writing Extendable, Scalable and 
-Maintainable Perl–Based Web Applications
+Maintainable Perl-Based Web Applications
 
 By: Kieren Diment, Matt Trout 
 Available July 12, 2009
