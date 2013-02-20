@@ -1474,7 +1474,7 @@ dramatically increase the security of your app.)
 
 In some situations, it can be useful to run your application and display
 a page without using a browser.  Catalyst lets you do this using the
-C<scripts/myapp_test.pl> script.  Just supply the URL you wish to
+C<script/myapp_test.pl> script.  Just supply the URL you wish to
 display and it will run that request through the normal controller
 dispatch logic and use the appropriate view to render the output
 (obviously, complex pages may dump a lot of text to your terminal
