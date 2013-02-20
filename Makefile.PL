@@ -18,7 +18,6 @@ author_requires 'Test::Pod::Coverage' => '1.04';
 author_tests 't/author';
 
 auto_install;
-resources repository => 'git://git.shadowcat.co.uk/catagits/Catalyst-Runtime.git';
+resources repository => 'git://git.shadowcat.co.uk/catagits/Catalyst-Manual.git';
 
 WriteAll;
-
