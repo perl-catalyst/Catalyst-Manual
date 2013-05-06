@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+5.9006 2012-11-08
+    - fix bad =head1 (Kennedy Clark)
+
+5.9005 2012-11-01
     - Fix minor typos RT 78545, thanks Joe Axford
     - Update auth class name RT 77322 Thanks Joe Axford
     - Fix typo RT #77247 Thanks John Deighan
