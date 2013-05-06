@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+5.9007 2013-05-06
+    - Fix pod warnings (RT#83398 - thanks, Paul Waring!)
+    - Fix repository metadata (thanks, Lars Lars Dɪᴇᴄᴋᴏᴡ)
+
 5.9006 2012-11-08
     - fix bad =head1 (Kennedy Clark)
 
