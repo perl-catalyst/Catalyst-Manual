@@ -18,6 +18,8 @@ author_requires 'Test::Pod::Coverage' => '1.04';
 author_tests 't/author';
 
 auto_install;
+
+# r/w: catagits@git.shadowcat.co.uk:Catalyst-Manual.git
 resources repository => 'git://git.shadowcat.co.uk/catagits/Catalyst-Manual.git';
 
 WriteAll;
