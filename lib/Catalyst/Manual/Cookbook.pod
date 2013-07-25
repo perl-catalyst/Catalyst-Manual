@@ -112,7 +112,7 @@ retrieve the user data for you.
 =head3 Using a session
 
 Once the session modules are loaded, the session is available as C<<
-$c->session >>, and can be writen to and read from as a simple hash
+$c->session >>, and can be written to and read from as a simple hash
 reference.
 
 =head3 EXAMPLE
@@ -851,7 +851,7 @@ organization provided makes it much easier to standardize pages and make
 changes when they are (inevitably) needed.
 
 The template files that you will create for your application will go
-into root/src, and you don't need to worry about putting the the <html>
+into root/src, and you don't need to worry about putting the <html>
 or <head> sections; just put in the content. The WRAPPER will the rest
 of the page around your template for you.
 
