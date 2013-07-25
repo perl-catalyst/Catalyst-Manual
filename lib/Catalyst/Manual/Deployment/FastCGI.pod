@@ -82,7 +82,7 @@ server.
 =head1 WEB SERVERS
 
 Any web server which supports FastCGI should work with Catalyst. Configuration
-recipies for well-known web servers are linked below, and we would welcome
+recipes for well-known web servers are linked below, and we would welcome
 contributions from people deploying Catalyst on other web servers.
 
 =head2 Apache
