@@ -57,7 +57,7 @@ L<http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=catagits/Catalyst-Runtime.git;a
 
 =head2 Bug list
 
-The TODO list with known bugs / deficiences is kept at
+The TODO list with known bugs / deficiencies is kept at
 L<http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=catagits/Catalyst-Runtime.git;a=blob_plain;f=TODO;hb=master>
 
 =head1 The Catalyst Core Team

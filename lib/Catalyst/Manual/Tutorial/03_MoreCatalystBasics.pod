@@ -282,7 +282,7 @@ and open C<http://localhost:3000/> in your browser.  You should get a
 screen that starts with "Caught exception in
 MyApp::Controller::Root->index" with sections showing a stacktrace,
 information about the Request and Response objects, the stash (something
-we will learn about soon), the applications configuration configuration.
+we will learn about soon), and the applications configuration.
 B<Just don't forget to remove the die before you continue the tutorial!>
 :-)
 

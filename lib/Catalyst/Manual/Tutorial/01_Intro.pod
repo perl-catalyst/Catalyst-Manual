@@ -538,8 +538,8 @@ for the C<localhost> in the URLs (again, you can get the IP address for
 eth0 from the C<ifconfig> command).  For example, if your VM has an
 IP address of 192.168.0.12, you will want to use a base URL of
 C<http://192.168.0.12:3000>.  Note that the development server
-defaults to port 3000 (you can change with with the "-p" option on the
-command line.
+defaults to port 3000 (you can change with the "-p" option on the
+command line).
 
 B<Please Note:> Depending on the web browser you are using, you might
 need to hit C<Shift+Reload> or C<Ctrl+Reload> to pull a fresh page when

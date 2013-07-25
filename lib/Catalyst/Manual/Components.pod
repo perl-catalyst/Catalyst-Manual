@@ -19,7 +19,7 @@ status or preferred use of your chosen plugin/framework.
 =head1 PLUGINS
 
 Take care with plugins!  In general with a plugin ask "should this be
-acting globally on my application application?".  If not it should be a
+acting globally on my application?".  If not it should be a
 Controller Role (e.g. see L<Catalyst::TraitFor::Controller::reCAPTCHA>.
 
 =head2 L<Catalyst::Plugin::Account::AutoDiscovery>
