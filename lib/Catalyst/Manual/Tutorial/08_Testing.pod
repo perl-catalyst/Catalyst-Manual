@@ -385,8 +385,8 @@ before.
 
 =head2 DATABASE CONFIG SWITCHING USING MULTIPLE CONFIG FILES
 
-L<Catalyst::Plugin::ConfigLoader> has functionality to load loading
-multiple config files based on environment variablesi, allowing you to
+L<Catalyst::Plugin::ConfigLoader> has functionality to load
+multiple config files based on environment variables, allowing you to
 override your default (production) database connection settings during
 development (or vice versa).
 

@@ -16,7 +16,7 @@ with Catalyst, see L<Catalyst::Manual::Tutorial>.
 Catalyst is an elegant web application framework, extremely flexible
 yet extremely simple. It's similar to Ruby on Rails, Spring (Java), and
 L<Maypole|Maypole>, upon which it was originally based. Its most
-important design philosphy is to provide easy access to all the tools
+important design philosophy is to provide easy access to all the tools
 you need to develop web applications, with few restrictions on how you
 need to use these tools. However, this does mean that it is always
 possible to do things in a different way. Other web frameworks are
@@ -469,7 +469,7 @@ Using plugins from a Model (for example L<Catalyst::Plugin::Cache>).
 From a style perspective it's usually considered bad form to make your
 model "too smart" about things - it should worry about business logic
 and leave the integration details to the controllers. If, however, you
-find that it does not make sense at all to use an auxillary controller
+find that it does not make sense at all to use an auxiliary controller
 around the model, and the model's need to access C<$c> cannot be
 sidestepped, there exists a power tool called L</ACCEPT_CONTEXT>.
 
@@ -540,7 +540,7 @@ Generally it's a bad idea to expose the context object (C<$c>) in your
 model or view code.  Instead you use the C<ACCEPT_CONTEXT> subroutine
 to grab the bits of the context object that you need, and provide
 accessors to them in the model.  This ensures that C<$c> is only in
-scope where it is neaded which reduces maintenance and debugging
+scope where it is needed which reduces maintenance and debugging
 headaches.  So, if for example you needed two
 L<Catalyst::Model::DBIC::Schema> models in the same Catalyst model
 code, you might do something like this:
@@ -874,7 +874,7 @@ Matches http://localhost:3000/bar - that is, the action is mapped
 directly to the method name, ignoring the controller namespace.
 
 C<:Global> always matches from the application root: it is simply
-shorthandfor C<:Path('/methodname')>.  C<:Local> is shorthand for
+shorthand for C<:Path('/methodname')>.  C<:Local> is shorthand for
 C<:Path('methodname')>, which takes the controller namespace as described
 above.
 
