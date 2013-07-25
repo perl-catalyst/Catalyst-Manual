@@ -90,7 +90,7 @@ extend Catalyst.
 These steps are normally overloaded from engine classes, and may also be
 extended by plugins. For more on extending Catalyst, see L<Catalyst::Manual::ExtendingCatalyst>.
 
-The engine class populate sthe Catalyst request object with
+The engine class populates the Catalyst request object with
 information from the underlying layer (L<PSGI>)
 during the prepare phase, then push the generated response information down to
 the underlying layer during the finalize phase.
