@@ -694,7 +694,7 @@ tutorial).
 
 =item *
 
-Kieren Diment for his oversite of Catalyst-related documentation.
+Kieren Diment for his oversight of Catalyst-related documentation.
 
 =item *
 
