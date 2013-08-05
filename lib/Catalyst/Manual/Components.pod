@@ -53,9 +53,9 @@ Note that newer versions of the authentication plugin allow multiple
 C<realms>, so that you can authenticate users in different ways in different
 parts of your application.
 
-This, however, has involved deprecated all classes in the
-C<Catalyst::Plugin::Authentication::Credential::XXX> and
-C<Catalyst::Plugin::Authentication::Store::XXX> namespaces.
+This, however, has involved deprecating all classes in the
+C<Catalyst::Plugin::Authentication::Credential::> and
+C<Catalyst::Plugin::Authentication::Store::> namespaces.
 
 These plugins are still usable, but they have mostly been replaced with
 new modules in the new namespace which will work together.
