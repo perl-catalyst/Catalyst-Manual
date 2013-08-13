@@ -790,7 +790,7 @@ of Catalyst component class names.
 
 =item * B<Overriding the namespace>
 
-Note that I<< __PACKAGE__->config->(namespace => ... ) >> can be used to override the
+Note that C<< __PACKAGE__->config->(namespace => ... ) >> can be used to override the
 current namespace when matching.  So:
 
     package MyApp::Controller::Example;
