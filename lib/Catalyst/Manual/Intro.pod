@@ -540,7 +540,7 @@ Generally it's a bad idea to expose the context object (C<$c>) in your
 model or view code.  Instead you use the C<ACCEPT_CONTEXT> subroutine
 to grab the bits of the context object that you need, and provide
 accessors to them in the model.  This ensures that C<$c> is only in
-scope where it is neaded which reduces maintenance and debugging
+scope where it is needed which reduces maintenance and debugging
 headaches.  So, if for example you needed two
 L<Catalyst::Model::DBIC::Schema> models in the same Catalyst model
 code, you might do something like this:
