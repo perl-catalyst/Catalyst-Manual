@@ -482,9 +482,9 @@ application.
 
     use base qw/Catalyst::Controller/;
 
-    sub login : Path("login") { }
+    sub sign_in : Path("sign-in") { }
     sub new_password : Path("new-password") { }
-    sub logout : Path("logout") { }
+    sub sign_out : Path("sign-out") { }
 
     package MyApp::Controller::Catalog;
 
