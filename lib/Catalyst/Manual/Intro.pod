@@ -266,22 +266,11 @@ short alias for each one.
 
 =item * B<MyApp/Model/>
 
-=item * B<MyApp/M/>
-
 =item * B<MyApp/View/>
-
-=item * B<MyApp/V/>
 
 =item * B<MyApp/Controller/>
 
-=item * B<MyApp/C/>
-
 =back
-
-In older versions of Catalyst, the recommended practice (and the one
-automatically created by helper scripts) was to name the directories
-C<M/>, C<V/>, and C<C/>. Though these still work, they are deprecated
-and we now recommend the use of the full names.
 
 =head4 Views
 
