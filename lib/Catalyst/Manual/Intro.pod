@@ -755,10 +755,10 @@ will look at the URL it is processing, and the actions that it has
 found, and automatically call the actions it finds that match the
 circumstances of the request.
 
-The URL (for example http://localhost:3000/foo/bar) consists of two
+The URL (for example C<http://localhost:3000/foo/bar>) consists of two
 parts, the base, describing how to connect to the server
-(http://localhost:3000/ in this example) and the path, which the
-server uses to decide what to return (foo/bar).  Please note that the
+(C<http://localhost:3000/> in this example) and the path, which the
+server uses to decide what to return (C<foo/bar>).  Please note that the
 trailing slash after the hostname[:port] always belongs to base and
 not to the path.  Catalyst uses only the path part when trying to find
 actions to process.
@@ -792,11 +792,11 @@ this is specially overridden with
 
 it matches using the namespace 'thing' instead.
 
-=item * B<Application Wide Actions>
+=item * B<Application-Wide Actions>
 
 MyApp::Controller::Root, as created by the catalyst.pl script, will
 typically contain actions which are called for the top level of the
-application (e.g. http://localhost:3000/ ):
+application (e.g. C<http://localhost:3000/>):
 
     package MyApp::Controller::Root;
     use base 'Catalyst::Controller';
@@ -844,7 +844,7 @@ of the path is passed as arguments.
     package MyApp::Controller::My::Controller;
     sub foo : Local { }
 
-Matches any URL beginning with> http://localhost:3000/my/controller/foo. The namespace and
+Matches any URL beginning with> C<http://localhost:3000/my/controller/foo>. The namespace and
 subroutine name together determine the path.
 
 =item * Root-level (C<:Global>)
@@ -860,7 +860,7 @@ subroutine name together determine the path.
 
 1;
 
-Matches http://localhost:3000/bar - that is, the action is mapped
+Matches C<http://localhost:3000/bar> - that is, the action is mapped
 directly to the method name, ignoring the controller namespace.
 
 C<:Global> always matches from the application root: it is simply
@@ -877,7 +877,7 @@ legitimate use-cases for it may still exist.
 
 =item * Changing handler behaviour: eating arguments (C<:Args>)
 
-Args is not an action type per se, but an action modifier - it adds a
+C<:Args> is not an action type per se, but an action modifier - it adds a
 match restriction to any action it's provided to, additionally
 requiring as many path parts as are specified for the action to be
 matched. For example, in MyApp::Controller::Foo,
@@ -891,13 +891,13 @@ would match any URL starting /foo/bar. To restrict this you can do
 to only match URLs starting /foo/bar/* - with one additional path
 element required after 'bar'.
 
-NOTE that adding C<:Args(0)> and missing out :Args completely are B<not>
+NOTE that adding C<:Args(0)> and omitting C<:Args> are B<not>
 the same thing.
 
 C<:Args(0)> means that no arguments are taken.  Thus, the URL and path must
 match precisely.
 
-No :Args at all means that B<any number> of arguments are taken.  Thus, any
+No C<:Args> at all means that B<any number> of arguments are taken.  Thus, any
 URL that B<starts with> the controller's path will match. Obviously, this means
 you cannot chain from an action that does not specify args, as the next action
 in the chain will be swallowed as an arg to the first!
@@ -910,7 +910,7 @@ and nothing else.
 
 C<Path> actions without a leading forward slash match a specified path
 relative to their current namespace. This example matches URLs
-starting http://localhost:3000/my/controller/foo/bar :
+starting with C<http://localhost:3000/my/controller/foo/bar>:
 
     package MyApp::Controller::My::Controller;
     sub bar : Path('foo/bar') { }
@@ -921,7 +921,7 @@ match from the start of the URL path. Example:
     package MyApp::Controller::My::Controller;
     sub bar : Path('/foo/bar') { }
 
-This matches URLs beginning http://localhost:3000/foo/bar.
+This matches URLs beginning with C<http://localhost:3000/foo/bar>.
 
 Empty C<Path> definitions match on the namespace only, exactly like
 C<:Global>.
@@ -929,7 +929,7 @@ C<:Global>.
     package MyApp::Controller::My::Controller;
     sub bar : Path { }
 
-The above code matches http://localhost:3000/my/controller.
+The above code matches C<http://localhost:3000/my/controller>.
 
 Actions with the C<:Local> attribute are similarly equivalent to
 C<:Path('action_name')>:
@@ -940,18 +940,18 @@ is equivalent to
 
     sub foo : Path('foo') { }
 
-=item * Pattern-match (C<:Regex> and C<:LocalRegex>)
+=item * Pattern match (C<:Regex> and C<:LocalRegex>)
 
     package MyApp::Controller::My::Controller;
     sub bar : Regex('^item(\d+)/order(\d+)$') { }
 
 This matches any URL that matches the pattern in the action key, e.g.
-http://localhost:3000/item23/order42. The '' around the regexp is
+C<http://localhost:3000/item23/order42>. The '' around the regexp is
 optional, but perltidy likes it. :)
 
 C<:Regex> matches act globally, i.e. without reference to the namespace
 from which they are called.  So the above will B<not> match
-http://localhost:3000/my/controller/item23/order42 - use a
+C<http://localhost:3000/my/controller/item23/order42> - use a
 C<:LocalRegex> action instead.
 
     package MyApp::Controller::My::Controller;
@@ -959,7 +959,7 @@ C<:LocalRegex> action instead.
 
 C<:LocalRegex> actions act locally, i.e. the namespace is matched
 first. The above example would match urls like
-http://localhost:3000/my/controller/widget23.
+C<http://localhost:3000/my/controller/widget23>.
 
 If you omit the "C<^>" from either sort of regex, then it will match any depth
 from the base path:
@@ -968,7 +968,7 @@ from the base path:
     sub bar : LocalRegex('widget(\d+)$') { }
 
 This differs from the previous example in that it will match
-http://localhost:3000/my/controller/foo/widget23 - and a number of
+C<http://localhost:3000/my/controller/foo/widget23> - and a number of
 other paths.
 
 For both C<:LocalRegex> and C<:Regex> actions, if you use capturing

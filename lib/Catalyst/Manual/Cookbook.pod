@@ -1431,7 +1431,7 @@ just like in single file upload.
 
 Notice: C<die>ing might not be what you want to do, when an error
 occurs, but it works as an example. A better idea would be to store
-error C<$!> in $c->stash->{error} and show a custom error template
+error C<$!> in C<< $c->stash->{error} >> and show a custom error template
 displaying this message.
 
 For more information about uploads and usable methods look at
