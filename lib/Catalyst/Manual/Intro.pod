@@ -942,6 +942,10 @@ is equivalent to
 
 =item * Pattern match (C<:Regex> and C<:LocalRegex>)
 
+B<Status: deprecated.> Use Chained methods or other techniques.
+If you really depend on this, install the standalone
+L<Catalyst::DispatchType::Regex> distribution.
+
     package MyApp::Controller::My::Controller;
     sub bar : Regex('^item(\d+)/order(\d+)$') { }
 
