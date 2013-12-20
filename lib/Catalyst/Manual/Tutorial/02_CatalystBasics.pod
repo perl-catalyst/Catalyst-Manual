@@ -508,7 +508,7 @@ Make a subdirectory "site" in the "root" directory.
 
     $ mkdir root/site
 
-Create a new template file in that direction named C<root/site/test.tt>
+Create a new template file in that directory named C<root/site/test.tt>
 and include a line like:
 
     <p>Hello, [% username %]!</p>
