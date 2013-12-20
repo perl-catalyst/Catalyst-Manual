@@ -134,7 +134,7 @@ but a I<flag>.  Although most of the items specified on the C<use
 Catalyst> line of your application class will be plugins, Catalyst
 supports a limited number of flag options (of these, C<-Debug> is the
 most common).  See the documentation for
-C<https://metacpan.org/module/Catalyst|Catalyst.pm> to get details on
+L<https://metacpan.org/module/Catalyst|Catalyst.pm> to get details on
 other flags (currently C<-Engine>, C<-Home>, C<-Log>, and C<-Stats>).
 
 If you prefer, there are several other ways to enable debug output:
