@@ -40,7 +40,7 @@ Catalyst automatically loads all
 components it finds in the C<$class::Controller>, C<$class::C>,
 C<$class::Model>, C<$class::M>, C<$class::View> and C<$class::V>
 namespaces (using C<Module::Pluggable>). As each is loaded, if it has a
-L<Catalyst::Component/COMPONENT|COMPONENT> method then this method
+L<COMPONENT|Catalyst::Component/"COMPONENT"> method then this method
 will be called, and passed that component's configuration. It then returns
 an instance of the component, which becomes the C<$self> when methods in
 that component are called later.
