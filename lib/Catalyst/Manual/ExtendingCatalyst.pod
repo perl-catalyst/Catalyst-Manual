@@ -115,7 +115,7 @@ L<Catalyst::Model::Adaptor|Catalyst::Model::Adaptor>.
 =head2 Using Moose roles to apply method modifiers
 
 Rather than having a complex set of base classes which you have to mixin
-via multiple inheritence, if your functionality is well structured, then
+via multiple inheritance, if your functionality is well structured, then
 it's possible to use the composability of L<Moose> roles, and method modifiers
 to hook onto to provide functionality.
 
