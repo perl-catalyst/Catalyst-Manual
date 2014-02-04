@@ -728,7 +728,7 @@ Kennedy Clark, C<hkclark@gmail.com>
 
 Feel free to contact the author for any errors or suggestions, but the
 best way to report issues is via the CPAN RT Bug system at
-<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
+L<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
 
 ***TODO: Update
 The most recent version of the Catalyst Tutorial can be found at
