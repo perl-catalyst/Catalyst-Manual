@@ -238,7 +238,7 @@ array reference. As you can see, you can use attributes to configure
 your actions. You can specify or alter these attributes via
 L</"Component Configuration">, or even react on them as soon as
 Catalyst encounters them by providing your own L<component base
-class|/"Component Base Classes">.
+class|/"Component base classes">.
 
 =head2 Component Configuration
 
