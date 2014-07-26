@@ -130,7 +130,7 @@ C<create=static> option on the DBIC model helper to do most of the work
 for us:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static components=TimeStamp dbi:SQLite:myapp.db \
+        create=static component=TimeStamp dbi:SQLite:myapp.db \
         on_connect_do="PRAGMA foreign_keys = ON"
      exists "/home/catalyst/dev/MyApp/script/../lib/MyApp/Model"
      exists "/home/catalyst/dev/MyApp/script/../t"
@@ -619,7 +619,7 @@ generates for us.  Simply use the same command we saw in Chapters 3 and
 4, but add C<,PassphraseColumn> to the C<components> argument:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static components=TimeStamp,PassphraseColumn dbi:SQLite:myapp.db \
+        create=static component=TimeStamp,PassphraseColumn dbi:SQLite:myapp.db \
         on_connect_do="PRAGMA foreign_keys = ON"
 
 If you then open one of the Result Classes, you will see that it
