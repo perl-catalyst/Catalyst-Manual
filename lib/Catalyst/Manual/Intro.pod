@@ -181,6 +181,7 @@ Installation of Catalyst should be straightforward:
 
     # perl -MCPAN -e 'install Catalyst::Runtime'
     # perl -MCPAN -e 'install Catalyst::Devel'
+    # perl -MCPAN -e 'install Catalyst::View::TT'
 
 =head3 Setup
 
