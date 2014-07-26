@@ -1363,7 +1363,7 @@ that can be extended as you develop your project. To write your own
 comprehensive test scripts, L<Test::WWW::Mechanize::Catalyst> is an
 invaluable tool.
 
-For more testing ideas, see L<Catalyst::Manual::Tutorial::Testing>.
+For more testing ideas, see L<Catalyst::Manual::Tutorial::08_Testing>.
 
 Have fun!
 
