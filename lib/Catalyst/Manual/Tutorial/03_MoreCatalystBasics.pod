@@ -400,7 +400,7 @@ C<lib/MyApp/Controller/Books.pm> would match on the URL
 C<http://localhost:3000/books/list>, but "C<:Path('/list')>" would match
 on C<http://localhost:3000/list> (because of the leading slash).  You
 can use C<:Args()> to specify how many arguments an action should
-accept.  See L<Catalyst::Manual::Intro/Action_types> for more
+accept.  See L<Catalyst::Manual::Intro/Action-types> for more
 information and examples.
 
 =item *
