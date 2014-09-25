@@ -929,7 +929,7 @@ for C<list> from:
 
 to:
 
-    sub list :Chained('base') :PathParth('list') :Args(0) {
+    sub list :Chained('base') :PathPart('list') :Args(0) {
 
 Finally, let's clean up the status/error message code in our wrapper
 template.  Edit C<root/src/wrapper.tt2> and change the "content" div
