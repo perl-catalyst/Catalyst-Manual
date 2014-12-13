@@ -1,5 +1,8 @@
 Revision history for Catalyst-Manual
 
+    - fixed a new error in the manual regarding "component" -> "components"
+      (RT#99131, RT#100597, RT#100767)
+
 5.9008 - 2014-07-26
     - misc small documentation tweaks (thanks Karen Etheridge, Matthew
       Horsfall, Andreas Marienborg, Dagfinn Ilmari Mannsåker, David
