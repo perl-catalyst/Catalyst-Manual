@@ -967,7 +967,7 @@ Next, we should re-run the DBIC helper to update the Result Classes with
 the new fields:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static component=TimeStamp dbi:SQLite:myapp.db \
+        create=static components=TimeStamp dbi:SQLite:myapp.db \
         on_connect_do="PRAGMA foreign_keys = ON"
      exists "/home/catalyst/dev/MyApp/script/../lib/MyApp/Model"
      exists "/home/catalyst/dev/MyApp/script/../t"

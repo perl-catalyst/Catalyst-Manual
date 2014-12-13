@@ -360,7 +360,7 @@ Generate the model using the Catalyst "_create.pl" script:
 
     $ rm lib/MyApp/Model/DB.pm   # Delete just in case already there
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static component=TimeStamp,PassphraseColumn \
+        create=static components=TimeStamp,PassphraseColumn \
         'dbi:Pg:dbname=catappdb' 'catappuser' 'catalyst' '{ AutoCommit => 1 }'
 
 =back
@@ -382,7 +382,7 @@ Add Datetime Columns to Our Existing Books Table
 Re-generate the model using the Catalyst "_create.pl" script:
 
     $ script/myapp_create.pl model DB DBIC::Schema MyApp::Schema \
-        create=static component=TimeStamp,PassphraseColumn \
+        create=static components=TimeStamp,PassphraseColumn \
         'dbi:Pg:dbname=catappdb' 'catappuser' 'catalyst' '{ AutoCommit => 1 }'
 
 
@@ -810,7 +810,7 @@ Update the model:
 Regenerate the model using the Catalyst "_create.pl" script:
 
     script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=static \
-	component=TimeStamp,PassphraseColumn dbi:mysql:myapp 'tutorial' 'yourpassword' '{ AutoCommit => 1 }'
+	components=TimeStamp,PassphraseColumn dbi:mysql:myapp 'tutorial' 'yourpassword' '{ AutoCommit => 1 }'
 
 =back
 
