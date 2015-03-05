@@ -1425,7 +1425,7 @@ And in the controller:
         $c->stash->{template} = 'file_upload.html';
     }
 
-C<for my $field ($c-E<gt>req->upload)> loops automatically over all file
+C<< for my $field ($c->req->upload) >> loops automatically over all file
 input fields and gets input names. After that is basic file saving code,
 just like in single file upload.
 
