@@ -92,7 +92,7 @@ Don't forget to add:
 
     requires 'HTML::FormFu';
     requires 'Catalyst::Controller::HTML::FormFu';
-    requires 'requires 'HTML::FormFu::Model::DBIC';';
+    requires 'requires 'HTML::FormFu::Model::DBIC';
 
 to your C<Makefile.PL>.
 
