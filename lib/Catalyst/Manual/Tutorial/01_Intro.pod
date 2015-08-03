@@ -244,7 +244,7 @@ machine.  You should get output along the lines of:
     ...
 
 You want the IP address on the second line below the C<eth0> interface.
-The image it design to automatically use a DHCP-assigned address.
+The image is designed to automatically use a DHCP-assigned address.
 
 
 Try to ping this IP address from your "host machine" (main desktop):
