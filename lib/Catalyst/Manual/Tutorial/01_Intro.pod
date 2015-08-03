@@ -456,7 +456,7 @@ help:
 
 =item *
 
-L<http://vmfaq.com/entry/34/>
+L<http://vmfaq.com/index.php?View=entry&EntryID=34>
 
 =item *
 
