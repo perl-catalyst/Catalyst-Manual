@@ -22,6 +22,7 @@ my %WriteMakefileArgs = (
         mailto => 'bug-Catalyst-Manual@rt.cpan.org',
         web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual',
       },
+      x_IRC => 'irc://irc.perl.org/#catalyst',
     },
     x_contributors => [ # manually added, from git shortlog -e -s -n
       'Kennedy Clark <hkclark@gmail.com>',
