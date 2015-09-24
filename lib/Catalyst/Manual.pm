@@ -62,10 +62,6 @@ L<Catalyst::Manual::ExtendingCatalyst>
 
 L<Catalyst::Manual::Internals>
 
-=item *
-
-L<Catalyst::Manual::Plugins|Catalyst::Manual::Plugins>
-
 =back
 
 =head2 Books
