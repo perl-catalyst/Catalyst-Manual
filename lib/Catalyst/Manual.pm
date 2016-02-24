@@ -108,10 +108,12 @@ L<irc://irc.perl.org/#catalyst>.
 
 Catalyst Contributors, see Catalyst.pm
 
-=head1 COPYRIGHT
+=head1 COPYRIGHT AND LICENCE
 
-This library is free software. You can redistribute it and/or modify it under
-the same terms as Perl itself.
+This software is copyright (c) 2006 by the Catalyst contributors.
+
+This is free software and content; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
