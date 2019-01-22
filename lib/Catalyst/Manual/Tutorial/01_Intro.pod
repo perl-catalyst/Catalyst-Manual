@@ -115,7 +115,7 @@ Subjects covered by the tutorial include:
 
 =over 4
 
-=item * 
+=item *
 
 A simple application that lists and adds books.
 
@@ -125,7 +125,7 @@ The use of L<DBIx::Class> (DBIC) for the model (including
 some of the more advanced techniques you will probably want to use in
 your applications).
 
-=item * 
+=item *
 
 How to write CRUD (Create, Read, Update, and Delete) operations in
 Catalyst.
@@ -134,25 +134,25 @@ Catalyst.
 
 Authentication ("auth").
 
-=item * 
+=item *
 
 Role-based authorization ("authz").
 
-=item * 
+=item *
 
 Attempts to provide an example showing current (5.9) Catalyst
 practices.
 
-=item * 
+=item *
 
 The use of Template Toolkit (TT).
 
-=item * 
+=item *
 
 Useful techniques for troubleshooting and debugging Catalyst
 applications.
 
-=item * 
+=item *
 
 The use of SQLite as a database (with code also provided for MySQL and
 PostgreSQL).  (Note: Because we make use of the DBIx::Class Object
@@ -160,7 +160,7 @@ Relational Mapping [ORM] layer, out our application will be database
 agnostic and can easily be used by any of the databases supported by
 DBIx::Class.)
 
-=item * 
+=item *
 
 The use of L<HTML::FormFu> or L<HTML::FormHandler>
 for automated form processing and validation.
@@ -203,7 +203,7 @@ current directory), but we will keep it short and just use "C<$>".
 
 =over 4
 
-=item 1 
+=item 1
 
 Download a Tutorial Virtual Machine image from
 L<http://cattut.shadowcat.co.uk/>
@@ -481,11 +481,11 @@ v5.80020 might show up as 5.8002):
 
 =over 4
 
-=item * 
+=item *
 
 Debian 6 (Squeeze)
 
-=item * 
+=item *
 
 Catalyst v5.90002
 
@@ -493,7 +493,7 @@ Catalyst v5.90002
 
 Catalyst::Devel v1.34
 
-=item * 
+=item *
 
 DBIx::Class v0.08195
 
@@ -510,7 +510,7 @@ Template Toolkit v2.22
 
 HTML::FormFu -- v0.09004
 
-=item * 
+=item *
 
 B<NOTE:> You can check the versions you have installed with the
 following command (note the slash before the space):
@@ -529,7 +529,7 @@ or:
 
     perl -MCatalyst::Devel -e 'print "$Catalyst::Devel::VERSION\n";'
 
-=item * 
+=item *
 
 This tutorial will show URLs in the format of C<http://localhost:3000>,
 but if you are running your web browser from outside the Tutorial

@@ -126,11 +126,11 @@ commands such as C<C-SPC> to set the mark at the cursor location and
 C<C-E<lt>> and C<C-E<gt>> to set the mark at the beginning and end of the
 file respectively.
 
-Also, Stefan Kangas sent in the following tip about an alternate 
-approach using the command C<indent-region> to redo the indentation 
-for the currently selected region (adhering to indent rules in the 
-current major mode). You can run the command by typing M-x 
-indent-region or pressing the default keybinding C-M-\ in cperl-mode. 
+Also, Stefan Kangas sent in the following tip about an alternate
+approach using the command C<indent-region> to redo the indentation
+for the currently selected region (adhering to indent rules in the
+current major mode). You can run the command by typing M-x
+indent-region or pressing the default keybinding C-M-\ in cperl-mode.
 Additional details can be found here:
 
 L<http://www.gnu.org/software/emacs/manual/html_node/emacs/Indentation-Commands.html>
@@ -158,9 +158,9 @@ field types/constraints.
 
 =head2 PostgreSQL
 
-Use the following steps to adapt the tutorial to PostgreSQL.  Thanks 
-to Caelum (Rafael Kitover) for assistance with the most recent 
-updates, and Louis Moore, Marcello Romani and Tom Lanyon for help with 
+Use the following steps to adapt the tutorial to PostgreSQL.  Thanks
+to Caelum (Rafael Kitover) for assistance with the most recent
+updates, and Louis Moore, Marcello Romani and Tom Lanyon for help with
 earlier versions.
 
 =over 4
@@ -180,8 +180,8 @@ items via this command:
 
     sudo aptitude install postgresql libdbd-pg-perl libdatetime-format-pg-perl
 
-To configure the permissions, you can open 
-C</etc/postgresql/8.3/main/pg_hba.conf> and change this line (near the 
+To configure the permissions, you can open
+C</etc/postgresql/8.3/main/pg_hba.conf> and change this line (near the
 bottom):
 
     # "local" is for Unix domain socket connections only
@@ -199,8 +199,8 @@ And then restart PostgreSQL:
 
 =item *
 
-Create the database and a user for the database (note that we are 
-using "E<lt>catalystE<gt>" to represent the hidden password of 
+Create the database and a user for the database (note that we are
+using "E<lt>catalystE<gt>" to represent the hidden password of
 "catalyst"):
 
     $ sudo -u postgres createuser -P catappuser
@@ -232,7 +232,7 @@ Open the C<myapp01_psql.sql> in your editor and enter:
     DROP TABLE IF EXISTS users CASCADE;
     DROP TABLE IF EXISTS roles CASCADE;
     DROP TABLE IF EXISTS user_roles CASCADE;
-    
+
     --
     -- Create a very simple database to hold book and author information
     --
@@ -244,20 +244,20 @@ Open the C<myapp01_psql.sql> in your editor and enter:
         -- created     TIMESTAMP NOT NULL DEFAULT now(),
         -- updated     TIMESTAMP
     );
-    
+
     CREATE TABLE authors (
         id          SERIAL PRIMARY KEY,
         first_name  TEXT,
         last_name   TEXT
     );
-    
+
     -- 'book_authors' is a many-to-many join table between books & authors
     CREATE TABLE book_authors (
         book_id     INTEGER REFERENCES books(id) ON DELETE CASCADE ON UPDATE CASCADE,
         author_id   INTEGER REFERENCES authors(id) ON DELETE CASCADE ON UPDATE CASCADE,
         PRIMARY KEY (book_id, author_id)
     );
-    
+
     ---
     --- Load some sample data
     ---
@@ -288,7 +288,7 @@ Open the C<myapp01_psql.sql> in your editor and enter:
 Load the data:
 
     $ psql -U catappuser -W catappdb -f myapp01_psql.sql
-    Password for user catappuser: 
+    Password for user catappuser:
     psql:myapp01_psql.sql:8: NOTICE:  CREATE TABLE will create implicit sequence "books_id_seq" for serial column "books.id"
     psql:myapp01_psql.sql:8: NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "books_pkey" for table "books"
     CREATE TABLE
@@ -309,24 +309,24 @@ Make sure the data loaded correctly:
     $ psql -U catappuser -W catappdb
     Password for user catappuser: <catalyst>
     Welcome to psql 8.3.7, the PostgreSQL interactive terminal.
-    
+
     Type:  \copyright for distribution terms
            \h for help with SQL commands
            \? for help with psql commands
            \g or terminate with semicolon to execute query
            \q to quit
-    
+
     catappdb=> \dt
                  List of relations
-     Schema |     Name     | Type  |   Owner    
+     Schema |     Name     | Type  |   Owner
     --------+--------------+-------+------------
      public | authors      | table | catappuser
      public | book_authors | table | catappuser
      public | books        | table | catappuser
     (3 rows)
-    
+
     catappdb=> select * from books;
-     id |               title                | rating 
+     id |               title                | rating
     ----+------------------------------------+--------
       1 | CCSP SNRS Exam Certification Guide |      5
       2 | TCP/IP Illustrated, Volume 1       |      5
@@ -334,8 +334,8 @@ Make sure the data loaded correctly:
       4 | Perl Cookbook                      |      5
       5 | Designing with Web Standards       |      5
     (5 rows)
-    
-    catappdb=> 
+
+    catappdb=>
 
 =back
 
@@ -344,13 +344,13 @@ Make sure the data loaded correctly:
 After the steps where you:
 
     edit lib/MyApp.pm
-    
+
     create lib/MyAppDB.pm
-    
+
     create lib/MyAppDB/Book.pm
-    
+
     create lib/MyAppDB/Author.pm
-    
+
     create lib/MyAppDB/BookAuthor.pm
 
 
@@ -401,7 +401,7 @@ Open C<myapp02_psql.sql> in your editor and enter:
     --
     -- Add users and roles tables, along with a many-to-many join table
     --
-    
+
     CREATE TABLE users (
         id            SERIAL PRIMARY KEY,
         username      TEXT,
@@ -411,24 +411,24 @@ Open C<myapp02_psql.sql> in your editor and enter:
         last_name     TEXT,
         active        INTEGER
     );
-    
+
     CREATE TABLE roles (
         id   SERIAL PRIMARY KEY,
         role TEXT
     );
-    
+
     CREATE TABLE user_roles (
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
         role_id INTEGER REFERENCES roles(id) ON DELETE CASCADE ON UPDATE CASCADE,
         PRIMARY KEY (user_id, role_id)
     );
-    
+
     --
     -- Load up some initial test data
     --
-    INSERT INTO users (username, password, email_address, first_name, last_name, active) 
+    INSERT INTO users (username, password, email_address, first_name, last_name, active)
         VALUES ('test01', 'mypass', 't01@na.com', 'Joe',  'Blow', 1);
-    INSERT INTO users (username, password, email_address, first_name, last_name, active) 
+    INSERT INTO users (username, password, email_address, first_name, last_name, active)
         VALUES ('test02', 'mypass', 't02@na.com', 'Jane', 'Doe',  1);
     INSERT INTO users (username, password, email_address, first_name, last_name, active)
         VALUES ('test03', 'mypass', 't03@na.com', 'No',   'Go',   0);
@@ -467,7 +467,7 @@ Confirm with:
 
     $ psql -U catappuser -W catappdb -c "select * from users"
     Password for user catappuser: <catalyst>
-     id | username | password | email_address | first_name | last_name | active 
+     id | username | password | email_address | first_name | last_name | active
     ----+----------+----------+---------------+------------+-----------+--------
       1 | test01   | mypass   | t01@na.com    | Joe        | Blow      |      1
       2 | test02   | mypass   | t02@na.com    | Jane       | Doe       |      1
@@ -481,22 +481,22 @@ Modify C<set_hashed_passwords.pl> to match the following (the only difference
 is the C<connect> line):
 
     #!/usr/bin/perl
-    
+
     use strict;
     use warnings;
-    
+
     use MyApp::Schema;
-    
+
     my $schema = MyApp::Schema->connect('dbi:Pg:dbname=catappdb', 'catappuser', 'catalyst');
-    
+
     my @users = $schema->resultset('Users')->all;
-    
+
     foreach my $user (@users) {
         $user->password('mypass');
         $user->update;
     }
 
-Run the C<set_hashed_passwords.pl> as per the "normal" flow of the 
+Run the C<set_hashed_passwords.pl> as per the "normal" flow of the
 tutorial:
 
     $ perl -Ilib set_hashed_passwords.pl
@@ -561,10 +561,10 @@ in you MySQL. You can simply figure out that your install supports it or not:
     # mysql -u root -p
     Enter password:
     Welcome to the MySQL monitor.  Commands end with ; or \g.
-    
-    Type 'help;' or '\h' for help. Type '\c' to clear the current input 
+
+    Type 'help;' or '\h' for help. Type '\c' to clear the current input
     statement.
-    
+
     mysql> SHOW VARIABLES LIKE 'have_innodb';
     +---------------+-------+
     | Variable_name | Value |
@@ -572,7 +572,7 @@ in you MySQL. You can simply figure out that your install supports it or not:
     | have_innodb   | YES   |
     +---------------+-------+
     1 row in set (0.01 sec)
-    
+
     mysql> exit
     Bye
 
@@ -586,18 +586,18 @@ Create the database and set the permissions:
     # mysql -u root -p
     Enter password:
     Welcome to the MySQL monitor.  Commands end with ; or \g.
-    
+
     Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-    
+
     mysql> CREATE DATABASE `myapp`;
     Query OK, 1 row affected (0.01 sec)
-    
+
     mysql> GRANT ALL PRIVILEGES ON myapp.* TO 'tutorial'@'localhost' IDENTIFIED BY 'yourpassword';
     Query OK, 0 rows affected (0.00 sec)
-    
+
     mysql> FLUSH PRIVILEGES;
     Query OK, 0 rows affected (0.00 sec)
-    
+
     mysql> exit
     Bye
 
@@ -643,7 +643,7 @@ Open the C<myapp01_mysql.sql> in your editor and enter:
     (3, 'Internetworking with TCP/IP Vol.1', 4),
     (4, 'Perl Cookbook', 5),
     (5, 'Designing with Web Standards', 5);
-    
+
     INSERT INTO `book_authors` (`book_id`, `author_id`) VALUES
     (1, 1),
     (1, 2),
@@ -653,7 +653,7 @@ Open the C<myapp01_mysql.sql> in your editor and enter:
     (4, 6),
     (4, 7),
     (5, 8);
-    
+
     INSERT INTO `authors` (`id`, `first_name`, `last_name`) VALUES
     (1, 'Greg', 'Bastien'),
     (2, 'Sara', 'Nasseh'),
@@ -663,7 +663,7 @@ Open the C<myapp01_mysql.sql> in your editor and enter:
     (6, 'Tom', 'Christiansen'),
     (7, 'Nathan', 'Torkington'),
     (8, 'Jeffrey', 'Zeldman');
-    
+
     ALTER TABLE `book_authors`
     ADD CONSTRAINT `book_author_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `authors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT `book_author_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -681,11 +681,11 @@ Make sure the data loaded correctly:
     $ mysql -u tutorial -p myapp
     Reading table information for completion of table and column names
     You can turn off this feature to get a quicker startup with -A
-    
+
     Welcome to the MySQL monitor.  Commands end with ; or \g.
-    
+
     Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
-    
+
     mysql> show tables;
     +-----------------+
     | Tables_in_myapp |
@@ -695,7 +695,7 @@ Make sure the data loaded correctly:
     | books           |
     +-----------------+
     3 rows in set (0.00 sec)
-    
+
     mysql> select * from books;
     +----+------------------------------------+--------+
     | id | title                              | rating |
@@ -707,7 +707,7 @@ Make sure the data loaded correctly:
     |  5 | Designing with Web Standards       |      5 |
     +----+------------------------------------+--------+
     5 rows in set (0.00 sec)
-    
+
     mysql>
 
 =back
@@ -777,18 +777,18 @@ Open C<myapp02_mysql.sql> in your editor and enter:
     INSERT INTO `roles` (`id`, `role`) VALUES
     (1, 'user'),
     (2, 'admin');
-    
+
     INSERT INTO `users` (`id`, `username`, `password`, `email_address`, `first_name`, `last_name`, `active`) VALUES
     (1, 'test01', 'mypass', 't01@na.com', 'Joe', 'Blow', 1),
     (2, 'test02', 'mypass', 't02@na.com', 'Jane', 'Doe', 1),
     (3, 'test03', 'mypass', 't03@na.com', 'No', 'Go', 0);
-    
+
     INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
     (1, 1),
     (2, 1),
     (3, 1),
     (1, 2);
-    
+
     ALTER TABLE `user_roles
     ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

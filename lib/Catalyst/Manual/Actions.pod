@@ -1,6 +1,6 @@
 =head1 NAME
 
-Catalyst::Manual::Actions - Catalyst Reusable Actions 
+Catalyst::Manual::Actions - Catalyst Reusable Actions
 
 =head1 DESCRIPTION
 
@@ -17,7 +17,7 @@ them.
 This is pretty simple. Actions work just like the normal dispatch
 attributes you are used to, like Local or Private:
 
-  sub Hello :Local :ActionClass('SayBefore') { 
+  sub Hello :Local :ActionClass('SayBefore') {
 	$c->res->output( 'Hello '.$c->stash->{what} );
   }
 
@@ -38,7 +38,7 @@ the Action class:
   package Catalyst::Action::MyAction;
   use Moose;
   use namespace::autoclean;
-  
+
   extends 'Catalyst::Action';
 
   before 'execute' => sub {
@@ -75,7 +75,7 @@ would make the example above look like this:
       my ( $self, $controller, $c, $test ) = @_;
       $c->stash->{foo} = 'bar';
   };
-  
+
   1;
 
 and this would be used in a controller like this:
@@ -95,7 +95,7 @@ and this would be used in a controller like this:
 
 =head2 Catalyst::Action::RenderView
 
-This is meant to decorate end actions. It's similar in operation to 
+This is meant to decorate end actions. It's similar in operation to
 L<Catalyst::Plugin::DefaultEnd>, but allows you to decide on an action
 level rather than on an application level where it should be run.
 

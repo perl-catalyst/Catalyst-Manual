@@ -146,7 +146,7 @@ directories and files it creates:
     Changes               # Record of application changes
     lib                   # Lib directory for your app's Perl modules
         Hello             # Application main code directory
-            Controller    # Directory for Controller modules 
+            Controller    # Directory for Controller modules
             Model         # Directory for Models
             View          # Directory for Views
         Hello.pm          # Base application module
@@ -164,9 +164,9 @@ directories and files it creates:
         hello_server.pl   # The normal development server
         hello_test.pl     # Test your app from the command line
     t                     # Directory for tests
-        01app.t           # Test scaffold       
-        02pod.t           
-        03podcoverage.t 
+        01app.t           # Test scaffold
+        02pod.t
+        03podcoverage.t
 
 
 Catalyst will "auto-discover" modules in the Controller, Model, and View
@@ -202,7 +202,7 @@ C<Ctrl-C> to breakout of the dev server) if you prefer.
     .----------------------------------------------------------------------------.
     | Catalyst::Plugin::ConfigLoader  0.30                                       |
     '----------------------------------------------------------------------------'
-    
+
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
     [debug] Loaded engine "Catalyst::Engine"
     [debug] Found home "/home/catalyst/Hello"
@@ -213,7 +213,7 @@ C<Ctrl-C> to breakout of the dev server) if you prefer.
     +-----------------------------------------------------------------+----------+
     | Hello::Controller::Root                                         | instance |
     '-----------------------------------------------------------------+----------'
-    
+
     [debug] Loaded Private actions:
     .----------------------+--------------------------------------+--------------.
     | Private              | Class                                | Method       |
@@ -222,7 +222,7 @@ C<Ctrl-C> to breakout of the dev server) if you prefer.
     | /end                 | Hello::Controller::Root              | end          |
     | /index               | Hello::Controller::Root              | index        |
     '----------------------+--------------------------------------+--------------'
-    
+
     [debug] Loaded Path actions:
     .-------------------------------------+--------------------------------------.
     | Path                                | Private                              |
@@ -230,7 +230,7 @@ C<Ctrl-C> to breakout of the dev server) if you prefer.
     | /                                   | /index                               |
     | /                                   | /default                             |
     '-------------------------------------+--------------------------------------'
-    
+
     [info] Hello powered by Catalyst 5.90002
     HTTP::Server::PSGI: Accepting connections at http://0:3000/
 
@@ -271,7 +271,7 @@ browser.
 
     sub index :Path :Args(0) {
         my ( $self, $c ) = @_;
-    
+
         # Hello World
         $c->response->body( $c->welcome_message );
     }
@@ -318,7 +318,7 @@ C<lib/Hello/Controller/Root.pm> file:
 
     sub hello :Global {
         my ( $self, $c ) = @_;
-    
+
         $c->response->body("Hello, World!");
     }
 
@@ -330,7 +330,7 @@ get output similar to the following:
 
     Saw changes to the following files:
      - /home/catalyst/Hello/lib/Hello/Controller/Root.pm (modify)
-    
+
     Attempting to restart the server
     ...
     [debug] Loaded Private actions:
@@ -420,7 +420,7 @@ following:
 
     sub hello :Global {
         my ( $self, $c ) = @_;
-    
+
         $c->stash(template => 'hello.tt');
     }
 
@@ -454,12 +454,12 @@ Although this style is still relatively common, the approach we
 used previous is becoming more common because it allows you to
 set multiple stash variables in one line.  For example:
 
-    $c->stash(template => 'hello.tt', foo => 'bar', 
+    $c->stash(template => 'hello.tt', foo => 'bar',
               another_thing => 1);
 
 You can also set multiple stash values with a hashref:
 
-    $c->stash({template => 'hello.tt', foo => 'bar', 
+    $c->stash({template => 'hello.tt', foo => 'bar',
               another_thing => 1});
 
 Any of these formats work, but the C<$c-E<gt>stash(name =E<gt> value);>
@@ -481,7 +481,7 @@ In C<lib/Hello/Controller/Site.pm>, add the following method:
 
     sub test :Local {
         my ( $self, $c ) = @_;
-    
+
         $c->stash(username => 'John',
                   template => 'site/test.tt');
     }

@@ -62,9 +62,9 @@ forms, perform validation of form input, and save and restore data
 to or from the database. This was written using HTML::FormHandler version
 0.28001.
 
-See 
+See
 L<Catalyst::Manual::Tutorial::09_AdvancedCRUD>
-for additional form management options other than 
+for additional form management options other than
 L<HTML::FormHandler>.
 
 
@@ -74,9 +74,9 @@ L<HTML::FormHandler>.
 Use the following command to install L<HTML::FormHandler::Model::DBIC> directly
 from CPAN:
 
-    sudo cpan HTML::FormHandler::Model::DBIC 
+    sudo cpan HTML::FormHandler::Model::DBIC
 
-It will install L<HTML::FormHandler> as a prerequisite. 
+It will install L<HTML::FormHandler> as a prerequisite.
 
 Also, add:
 
@@ -86,11 +86,11 @@ to your C<Makefile.PL>.
 
 =head1 HTML::FormHandler FORM CREATION
 
-This section looks at how L<HTML::FormHandler> can be used to 
+This section looks at how L<HTML::FormHandler> can be used to
 add additional functionality to the manually created form from Chapter 4.
 
 
-=head2 Using FormHandler in your controllers 
+=head2 Using FormHandler in your controllers
 
 FormHandler doesn't have a Catalyst base controller, because interfacing
 to a form is only a couple of lines of code.
@@ -164,10 +164,10 @@ method later when we implement 'edit'.
 Open C<root/src/books/form.tt2> in your editor and enter the following:
 
     [% META title = 'Create/Update Book' %]
-    
+
     [%# Render the HTML::FormHandler Form %]
     [% form.render %]
-    
+
     <p><a href="[% c.uri_for(c.controller.action_for('list')) %]">Return to book list</a></p>
 
 
@@ -200,18 +200,18 @@ form.  Fill in the following values:
     Title  = "Internetworking with TCP/IP Vol. II"
     Rating = "4"
     Author = "Comer"
-    
+
 Click the Submit button, and you will be returned to the Book List page
 with a "Book created" status message displayed.
 
 Note that because the 'Author' column is a Select list, only the authors
 in the database can be entered. The 'ratings' field will only accept
-integers. 
+integers.
 
 
 =head2 Add Constraints
 
-Open C<lib/MyApp/Form/Book.pm> in your editor. 
+Open C<lib/MyApp/Form/Book.pm> in your editor.
 
 Restrict the title size and make it required:
 
@@ -234,20 +234,20 @@ can specify it explicitly; see L<HTML::FormHandler::Manual>.
 
 =head2 Try Out the Updated Form
 
-Press C<Ctrl-C> to kill the previous server instance (if it's still 
+Press C<Ctrl-C> to kill the previous server instance (if it's still
 running) and restart it:
 
     $ script/myapp_server.pl
 
-Make sure you are still logged in as C<test01> and try adding a book 
-with various errors: title less than 5 characters, non-numeric rating, a 
-rating of 0 or 6, etc.  Also try selecting one, two, and zero authors. 
+Make sure you are still logged in as C<test01> and try adding a book
+with various errors: title less than 5 characters, non-numeric rating, a
+rating of 0 or 6, etc.  Also try selecting one, two, and zero authors.
 
 =head2 Create the 'edit' method
 
 Edit C<lib/MyApp/Controller/Books.pm> and add the following method:
 
- 
+
     =head2 edit
 
     Edit an existing book with  FormHandler
@@ -273,17 +273,17 @@ Update the C<root/src/books/list.tt2>, adding an 'edit' link below the
 
 =head2 Try Out the Edit/Update Feature
 
-Press C<Ctrl-C> to kill the previous server instance (if it's still 
+Press C<Ctrl-C> to kill the previous server instance (if it's still
 running) and restart it:
 
     $ script/myapp_server.pl
 
-Make sure you are still logged in as C<test01> and go to the 
-L<http://localhost:3000/books/list> URL in your browser.  Click the 
-"Edit" link next to "Internetworking with TCP/IP Vol. II", change the 
-rating to a 3, the "II" at end of the title to the number "2", add 
-Stevens as a co-author (control-click), and click Submit.  You will then 
-be returned to the book list with a "Book edited" message at the top in 
+Make sure you are still logged in as C<test01> and go to the
+L<http://localhost:3000/books/list> URL in your browser.  Click the
+"Edit" link next to "Internetworking with TCP/IP Vol. II", change the
+rating to a 3, the "II" at end of the title to the number "2", add
+Stevens as a co-author (control-click), and click Submit.  You will then
+be returned to the book list with a "Book edited" message at the top in
 green.  Experiment with other edits to various books.
 
 =head2 See additional documentation on FormHandler
@@ -296,7 +296,7 @@ L<HTML::FormHandler>
 
    mailing list: http://groups.google.com/group/formhandler
 
-   code: http://github.com/gshank/html-formhandler/tree/master 
+   code: http://github.com/gshank/html-formhandler/tree/master
 
 =head1 AUTHOR
 

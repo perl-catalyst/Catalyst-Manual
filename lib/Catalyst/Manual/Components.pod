@@ -143,7 +143,7 @@ This module implements the Catalyst::Authentication API for L<Apache::AuthTkt>.
 
 =head4 L<Catalyst::Authentication::Store::DBI>
 
-Allows you to use a plain L<DBI> database connection to identify users. 
+Allows you to use a plain L<DBI> database connection to identify users.
 
 =head4 L<Catalyst::Authentication::Store::Htpasswd>
 

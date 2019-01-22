@@ -223,7 +223,7 @@ Then replace it with:
         -Debug
         ConfigLoader
         Static::Simple
-    
+
         StackTrace
     /;
 
@@ -311,23 +311,23 @@ each of the three parts of MVC: C<Model>, C<View> and C<Controller>)
 and add the following method to the controller:
 
     =head2 list
-    
+
     Fetch all book objects and pass to books/list.tt2 in stash to be displayed
-    
+
     =cut
-    
+
     sub list :Local {
         # Retrieve the usual Perl OO '$self' for this object. $c is the Catalyst
         # 'Context' that's used to 'glue together' the various components
         # that make up the application
         my ($self, $c) = @_;
-    
+
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
         # $c->stash(books => [$c->model('DB::Book')->all]);
         # But, for now, use this code until we create the model later
         $c->stash(books => '');
-    
+
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
@@ -549,14 +549,14 @@ First create a directory for book-related TT templates:
 Then create C<root/src/books/list.tt2> in your editor and enter:
 
     [% # This is a TT comment. -%]
-    
+
     [%- # Provide a title -%]
     [% META title = 'Book List' -%]
-    
+
     [% # Note That the '-' at the beginning or end of TT code  -%]
     [% # "chomps" the whitespace/newline at that end of the    -%]
     [% # output (use View Source in browser to see the effect) -%]
-    
+
     [% # Some basic HTML with a loop to display books -%]
     <table>
     <tr><th>Title</th><th>Rating</th><th>Author(s)</th></tr>
@@ -886,21 +886,21 @@ left disabled earlier so that your version matches the following
 and delete the next 2 lines):
 
     =head2 list
-    
+
     Fetch all book objects and pass to books/list.tt2 in stash to be displayed
-    
+
     =cut
-    
+
     sub list :Local {
         # Retrieve the usual Perl OO '$self' for this object. $c is the Catalyst
         # 'Context' that's used to 'glue together' the various components
         # that make up the application
         my ($self, $c) = @_;
-    
+
         # Retrieve all of the book records as book model objects and store
         # in the stash where they can be accessed by the TT template
         $c->stash(books => [$c->model('DB::Book')->all]);
-    
+
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
@@ -959,7 +959,7 @@ display something like:
     | Catalyst::Plugin::ConfigLoader  0.30                                       |
     | Catalyst::Plugin::StackTrace  0.11                                         |
     '----------------------------------------------------------------------------'
-    
+
     [debug] Loaded dispatcher "Catalyst::Dispatcher"
     [debug] Loaded engine "Catalyst::Engine"
     [debug] Found home "/home/catalyst/MyApp"
@@ -976,7 +976,7 @@ display something like:
     | MyApp::Model::DB::BookAuthor                                    | class    |
     | MyApp::View::HTML                                               | instance |
     '-----------------------------------------------------------------+----------'
-    
+
     [debug] Loaded Private actions:
     .----------------------+--------------------------------------+--------------.
     | Private              | Class                                | Method       |
@@ -987,7 +987,7 @@ display something like:
     | /books/index         | MyApp::Controller::Books             | index        |
     | /books/list          | MyApp::Controller::Books             | list         |
     '----------------------+--------------------------------------+--------------'
-    
+
     [debug] Loaded Path actions:
     .-------------------------------------+--------------------------------------.
     | Path                                | Private                              |
@@ -997,7 +997,7 @@ display something like:
     | /books                              | /books/index                         |
     | /books/list                         | /books/list                          |
     '-------------------------------------+--------------------------------------'
-    
+
     [info] MyApp powered by Catalyst 5.80020
     HTTP::Server::PSGI: Accepting connections at http://0:3000
 
@@ -1091,7 +1091,7 @@ the tutorial, open C<root/src/wrapper.tt2> and input the following:
     <title>[% template.title or "My Catalyst App!" %]</title>
     <link rel="stylesheet" href="[% c.uri_for('/static/css/main.css') %]" />
     </head>
-    
+
     <body>
     <div id="outer">
     <div id="header">
@@ -1100,7 +1100,7 @@ the tutorial, open C<root/src/wrapper.tt2> and input the following:
         [%# Insert the page title -%]
         <h1>[% template.title or site.title %]</h1>
     </div>
-    
+
     <div id="bodyblock">
     <div id="menu">
         Navigation:
@@ -1110,7 +1110,7 @@ the tutorial, open C<root/src/wrapper.tt2> and input the following:
                 %]" title="Catalyst Welcome Page">Welcome</a></li>
         </ul>
     </div><!-- end menu -->
-    
+
     <div id="content">
         [%# Status and error messages %]
         <span class="message">[% status_msg %]</span>
@@ -1119,10 +1119,10 @@ the tutorial, open C<root/src/wrapper.tt2> and input the following:
         [% content %]
     </div><!-- end content -->
     </div><!-- end bodyblock -->
-    
+
     <div id="footer">Copyright (c) your name goes here</div>
     </div><!-- end outer -->
-    
+
     </body>
     </html>
 
@@ -1237,15 +1237,15 @@ keys. For example, take a look at C<lib/MyApp/Schema/Result/Book.pm> and
 notice the following code:
 
     =head1 RELATIONS
-    
+
     =head2 book_authors
-    
+
     Type: has_many
-    
+
     Related object: L<MyApp::Schema::Result::BookAuthor>
-    
+
     =cut
-    
+
     __PACKAGE__->has_many(
       "book_authors",
       "MyApp::Schema::Result::BookAuthor",
@@ -1306,15 +1306,15 @@ there is a C<belongs_to> relationship defined that acts as the "mirror
 image" to the C<has_many> relationship we just looked at above:
 
     =head1 RELATIONS
-    
+
     =head2 book
-    
+
     Type: belongs_to
-    
+
     Related object: L<MyApp::Schema::Result::Book>
-    
+
     =cut
-    
+
     __PACKAGE__->belongs_to(
       "book",
       "MyApp::Schema::Result::Book",
@@ -1442,15 +1442,15 @@ debug output (one for each book as the authors are being retrieved by
 DBIx::Class):
 
     SELECT me.id, me.title, me.rating FROM book me:
-    SELECT author.id, author.first_name, author.last_name FROM book_author me  
+    SELECT author.id, author.first_name, author.last_name FROM book_author me
     JOIN author author ON author.id = me.author_id WHERE ( me.book_id = ? ): '1'
-    SELECT author.id, author.first_name, author.last_name FROM book_author me  
+    SELECT author.id, author.first_name, author.last_name FROM book_author me
     JOIN author author ON author.id = me.author_id WHERE ( me.book_id = ? ): '2'
-    SELECT author.id, author.first_name, author.last_name FROM book_author me  
+    SELECT author.id, author.first_name, author.last_name FROM book_author me
     JOIN author author ON author.id = me.author_id WHERE ( me.book_id = ? ): '3'
-    SELECT author.id, author.first_name, author.last_name FROM book_author me  
+    SELECT author.id, author.first_name, author.last_name FROM book_author me
     JOIN author author ON author.id = me.author_id WHERE ( me.book_id = ? ): '4'
-    SELECT author.id, author.first_name, author.last_name FROM book_author me  
+    SELECT author.id, author.first_name, author.last_name FROM book_author me
     JOIN author author ON author.id = me.author_id WHERE ( me.book_id = ? ): '5'
 
 Also note in C<root/src/books/list.tt2> that we are using "| html", a
@@ -1564,7 +1564,7 @@ this URL:
 
 You should get a page with the following message at the top:
 
-    Caught exception in MyApp::Controller::Root->end "Forced debug - 
+    Caught exception in MyApp::Controller::Root->end "Forced debug -
     Scrubbed output at /usr/share/perl5/Catalyst/Action/RenderView.pm line 46."
 
 Along with a summary of your application's state at the end of the
@@ -1594,21 +1594,21 @@ this line to match the following (only the
 C<$c-E<gt>stash-E<gt>{template}> line has changed):
 
     =head2 list
-    
+
     Fetch all book objects and pass to books/list.tt2 in stash to be displayed
-    
+
     =cut
-    
+
     sub list :Local {
         # Retrieve the usual Perl OO '$self' for this object. $c is the Catalyst
         # 'Context' that's used to 'glue together' the various components
         # that make up the application
         my ($self, $c) = @_;
-    
+
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template
         $c->stash(books => [$c->model('DB::Book')->all]);
-    
+
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (actions methods respond to user input in
         # your controllers).

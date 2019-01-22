@@ -1333,7 +1333,7 @@ If you don't want or need these features then it's perfectly acceptable
         $c->stash->{message} = 'Hello World!';
         $self->check_message( $c, 'test1' );
     }
-    
+
     sub check_message {
         my ( $self, $c, $first_argument ) = @_;
         # do something...

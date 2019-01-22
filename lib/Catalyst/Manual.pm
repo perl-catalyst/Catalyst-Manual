@@ -1,4 +1,4 @@
-# Manual.pm 
+# Manual.pm
 # Copyright (c) 2006 Jonathan Rockway <jrockway@cpan.org>
 
 package Catalyst::Manual;
@@ -22,7 +22,7 @@ Catalyst::Manual - The Catalyst developer's manual
 
 Install L<Task::Catalyst::Tutorial|Task::Catalyst::Tutorial> to
 install all the dependencies you need to follow along with the
-Tutorial.  You can also refer to 
+Tutorial.  You can also refer to
 L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::01_Intro>
 for more information on installation options.
 
@@ -72,10 +72,10 @@ For additional information on Catalyst, there are currently two books available:
 
 =item *
 
-The Definitive Guide to Catalyst: Writing Extendable, Scalable and 
+The Definitive Guide to Catalyst: Writing Extendable, Scalable and
 Maintainable Perl-Based Web Applications
 
-By: Kieren Diment, Matt Trout 
+By: Kieren Diment, Matt Trout
 Available July 12, 2009
 ISBN 10: 1-4302-2365-0
 ISBN 13: 978-1-4302-2365-8

@@ -93,35 +93,35 @@ submission in the sections that follow).
 Edit C<lib/MyApp/Controller/Books.pm> and enter the following method:
 
     =head2 url_create
-    
+
     Create a book with the supplied title, rating, and author
-    
+
     =cut
-    
+
     sub url_create :Local {
         # In addition to self & context, get the title, rating, &
         # author_id args from the URL.  Note that Catalyst automatically
         # puts extra information after the "/<controller_name>/<action_name/"
         # into @_.  The args are separated  by the '/' char on the URL.
         my ($self, $c, $title, $rating, $author_id) = @_;
-    
+
         # Call create() on the book model object. Pass the table
         # columns/field values we want to set as hash values
         my $book = $c->model('DB::Book')->create({
                 title  => $title,
                 rating => $rating
             });
-    
+
         # Add a record to the join table for this book, mapping to
         # appropriate author
         $book->add_to_book_authors({author_id => $author_id});
         # Note: Above is a shortcut for this:
         # $book->create_related('book_authors', {author_id => $author_id});
-    
+
         # Assign the Book object to the stash for display and set template
         $c->stash(book     => $book,
                   template => 'books/create_done.tt2');
-    
+
         # Disable caching for this page
         $c->response->header('Cache-Control' => 'no-cache');
     }
@@ -152,7 +152,7 @@ Edit C<root/src/books/create_done.tt2> and then enter:
     [% # Not a good idea for production use, though. :-)  'Indent=1' is      -%]
     [% # optional, but prevents "massive indenting" of deeply nested objects -%]
     [% USE Dumper(Indent=1) -%]
-    
+
     [% # Set the page title.  META can 'go back' and set values in templates -%]
     [% # that have been processed 'before' this template (here it's updating -%]
     [% # the title in the root/src/wrapper.tt2 wrapper template).  Note that -%]
@@ -160,20 +160,20 @@ Edit C<root/src/books/create_done.tt2> and then enter:
     [% # interpolation -- if you need dynamic/interpolated content in your   -%]
     [% # title, set "$c->stash(title => $something)" in the controller).     -%]
     [% META title = 'Book Created' %]
-    
+
     [% # Output information about the record that was added.  First title.   -%]
     <p>Added book '[% book.title %]'
-    
+
     [% # Then, output the last name of the first author -%]
     by '[% book.authors.first.last_name %]'
-    
+
     [% # Then, output the rating for the book that was added -%]
     with a rating of [% book.rating %].</p>
-    
+
     [% # Provide a link back to the list page.  'c.uri_for' builds -%]
     [% # a full URI; e.g., 'http://localhost:3000/books/list'      -%]
     <p><a href="[% c.uri_for('/books/list') %]">Return to list</a></p>
-    
+
     [% # Try out the TT Dumper (for development only!) -%]
     <pre>
     Dump of the 'book' variable:
@@ -220,8 +220,8 @@ are now six books shown (if necessary, Shift+Reload or Ctrl+Reload your
 browser at the C</books/list> page).  You should now see the six DBIC
 debug messages similar to the following (where N=1-6):
 
-    SELECT author.id, author.first_name, author.last_name 
-        FROM book_author me  JOIN author author 
+    SELECT author.id, author.first_name, author.last_name
+        FROM book_author me  JOIN author author
         ON author.id = me.author_id WHERE ( me.book_id = ? ): 'N'
 
 
@@ -237,11 +237,11 @@ to match the following:
     sub url_create :Chained('/') :PathPart('books/url_create') :Args(3) {
         # In addition to self & context, get the title, rating, &
         # author_id args from the URL.  Note that Catalyst automatically
-        # puts the first 3 arguments worth of extra information after the 
+        # puts the first 3 arguments worth of extra information after the
         # "/<controller_name>/<action_name/" into @_ because we specified
         # "Args(3)".  The args are separated  by the '/' char on the URL.
         my ($self, $c, $title, $rating, $author_id) = @_;
-    
+
         ...
 
 This converts the method to take advantage of the Chained
@@ -368,7 +368,7 @@ the following:
     | /books                              | /books/index                         |
     | /books/list                         | /books/list                          |
     '-------------------------------------+--------------------------------------'
-    
+
     [debug] Loaded Chained actions:
     .-------------------------------------+--------------------------------------.
     | Path Spec                           | Private                              |
@@ -400,17 +400,17 @@ C<lib/MyApp/Controller/Books.pm> in your editor and add the following
 method:
 
     =head2 base
-    
+
     Can place common logic to start chained dispatch here
-    
+
     =cut
-    
+
     sub base :Chained('/') :PathPart('books') :CaptureArgs(0) {
         my ($self, $c) = @_;
-    
+
         # Store the ResultSet in stash so it's available for other methods
         $c->stash(resultset => $c->model('DB::Book'));
-    
+
         # Print a message to the debug log
         $c->log->debug('*** INSIDE BASE METHOD ***');
     }
@@ -484,14 +484,14 @@ for better options for handling web-based forms).
 Edit C<lib/MyApp/Controller/Books.pm> and add the following method:
 
     =head2 form_create
-    
+
     Display form to collect information for book to create
-    
+
     =cut
-    
+
     sub form_create :Chained('base') :PathPart('form_create') :Args(0) {
         my ($self, $c) = @_;
-    
+
         # Set the TT template to use
         $c->stash(template => 'books/form_create.tt2');
     }
@@ -504,7 +504,7 @@ This action simply invokes a view containing a form to create a book.
 Open C<root/src/books/form_create.tt2> in your editor and enter:
 
     [% META title = 'Manual Form Book Create' -%]
-    
+
     <form method="post" action="[% c.uri_for('form_create_do') %]">
     <table>
       <tr><td>Title:</td><td><input type="text" name="title"></td></tr>
@@ -524,19 +524,19 @@ Edit C<lib/MyApp/Controller/Books.pm> and add the following method to
 save the form information to the database:
 
     =head2 form_create_do
-    
+
     Take information from form and add to database
-    
+
     =cut
-    
+
     sub form_create_do :Chained('base') :PathPart('form_create_do') :Args(0) {
         my ($self, $c) = @_;
-    
+
         # Retrieve the values from the form
         my $title     = $c->request->params->{title}     || 'N/A';
         my $rating    = $c->request->params->{rating}    || 'N/A';
         my $author_id = $c->request->params->{author_id} || '1';
-    
+
         # Create the book
         my $book = $c->model('DB::Book')->create({
                 title   => $title,
@@ -546,7 +546,7 @@ save the form information to the database:
         $book->add_to_book_authors({author_id => $author_id});
         # Note: Above is a shortcut for this:
         # $book->create_related('book_authors', {author_id => $author_id});
-    
+
         # Store new model object in stash and set template
         $c->stash(book     => $book,
                   template => 'books/create_done.tt2');
@@ -596,14 +596,14 @@ Edit C<root/src/books/list.tt2> and update it to match the following
 header, and 2) the five lines for the Delete link near the bottom):
 
     [% # This is a TT comment. -%]
-    
+
     [%- # Provide a title -%]
     [% META title = 'Book List' -%]
-    
+
     [% # Note That the '-' at the beginning or end of TT code  -%]
     [% # "chomps" the whitespace/newline at that end of the    -%]
     [% # output (use View Source in browser to see the effect) -%]
-    
+
     [% # Some basic HTML with a loop to display books -%]
     <table>
     <tr><th>Title</th><th>Rating</th><th>Author(s)</th><th>Links</th></tr>
@@ -693,24 +693,24 @@ To add the C<object> method, edit C<lib/MyApp/Controller/Books.pm> and
 add the following code:
 
     =head2 object
-    
+
     Fetch the specified book object based on the book ID and store
     it in the stash
-    
+
     =cut
-    
+
     sub object :Chained('base') :PathPart('id') :CaptureArgs(1) {
         # $id = primary key of book to delete
         my ($self, $c, $id) = @_;
-    
+
         # Find the book object and store it in the stash
         $c->stash(object => $c->stash->{resultset}->find($id));
-    
+
         # Make sure the lookup was successful.  You would probably
         # want to do something like this in a real app:
         #   $c->detach('/error_404') if !$c->stash->{object};
         die "Book $id not found!" if !$c->stash->{object};
-    
+
         # Print a message to the debug log
         $c->log->debug("*** INSIDE OBJECT METHOD for obj id=$id ***");
     }
@@ -725,21 +725,21 @@ Open C<lib/MyApp/Controller/Books.pm> in your editor and add the
 following method:
 
     =head2 delete
-    
+
     Delete a book
-    
+
     =cut
-    
+
     sub delete :Chained('object') :PathPart('delete') :Args(0) {
         my ($self, $c) = @_;
-    
+
         # Use the book object saved by 'object' and delete it along
         # with related 'book_author' entries
         $c->stash->{object}->delete;
-    
+
         # Set a status message to be displayed at the top of the view
         $c->stash->{status_msg} = "Book deleted.";
-    
+
         # Forward to the list action/method in this controller
         $c->forward('list');
     }
@@ -818,21 +818,21 @@ C<lib/MyApp/Controller/Books.pm> and edit the existing C<sub delete>
 method to match:
 
     =head2 delete
-    
+
     Delete a book
-    
+
     =cut
-    
+
     sub delete :Chained('object') :PathPart('delete') :Args(0) {
         my ($self, $c) = @_;
-    
+
         # Use the book object saved by 'object' and delete it along
         # with related 'book_author' entries
         $c->stash->{object}->delete;
-    
+
         # Set a status message to be displayed at the top of the view
         $c->stash->{status_msg} = "Book deleted.";
-    
+
         # Redirect the user back to the list page.  Note the use
         # of $self->action_for as earlier in this section (BasicCRUD)
         $c->response->redirect($c->uri_for($self->action_for('list')));
@@ -863,18 +863,18 @@ C<lib/MyApp/Controller/Books.pm> and update the existing C<sub delete>
 method to match the following:
 
     =head2 delete
-    
+
     Delete a book
-    
+
     =cut
-    
+
     sub delete :Chained('object') :PathPart('delete') :Args(0) {
         my ($self, $c) = @_;
-    
+
         # Use the book object saved by 'object' and delete it along
         # with related 'book_author' entries
         $c->stash->{object}->delete;
-    
+
         # Redirect the user back to the list page with status msg as an arg
         $c->response->redirect($c->uri_for($self->action_for('list'),
             {status_msg => "Book deleted."}));
@@ -1036,7 +1036,7 @@ entered for it (see the last line in the listing below):
 Notice in the debug log that the SQL DBIC generated has changed to
 incorporate the datetime logic:
 
-    INSERT INTO book ( created, rating, title, updated ) VALUES ( ?, ?, ?, ? ): 
+    INSERT INTO book ( created, rating, title, updated ) VALUES ( ?, ?, ?, ? ):
     '2010-02-16 04:18:42', '5', 'TCPIP_Illustrated_Vol-2', '2010-02-16 04:18:42'
     INSERT INTO book_author ( author_id, book_id ) VALUES ( ?, ? ): '4', '10'
 
@@ -1060,47 +1060,47 @@ a directory where DBIx::Class will look for our ResultSet Class:
 Then open C<lib/MyApp/Schema/ResultSet/Book.pm> and enter the following:
 
     package MyApp::Schema::ResultSet::Book;
-    
+
     use strict;
     use warnings;
     use base 'DBIx::Class::ResultSet';
-    
+
     =head2 created_after
-    
+
     A predefined search for recently added books
-    
+
     =cut
-    
+
     sub created_after {
         my ($self, $datetime) = @_;
-    
+
         my $date_str = $self->result_source->schema->storage
                               ->datetime_parser->format_datetime($datetime);
-    
+
         return $self->search({
             created => { '>' => $date_str }
         });
     }
-    
+
     1;
 
 Then add the following method to the C<lib/MyApp/Controller/Books.pm>:
 
     =head2 list_recent
-    
+
     List recently created books
-    
+
     =cut
-    
+
     sub list_recent :Chained('base') :PathPart('list_recent') :Args(1) {
         my ($self, $c, $mins) = @_;
-    
+
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
         $c->stash(books => [$c->model('DB::Book')
                                 ->created_after(DateTime->now->subtract(minutes => $mins))]);
-    
+
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
@@ -1136,14 +1136,14 @@ C<Books> controller that lists books that are both recent I<and> have
 the following method:
 
     =head2 list_recent_tcp
-    
+
     List recently created books
-    
+
     =cut
-    
+
     sub list_recent_tcp :Chained('base') :PathPart('list_recent_tcp') :Args(1) {
         my ($self, $c, $mins) = @_;
-    
+
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
@@ -1153,7 +1153,7 @@ the following method:
                     ->created_after(DateTime->now->subtract(minutes => $mins))
                     ->search({title => {'like', '%TCP%'}})
             ]);
-    
+
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
@@ -1175,7 +1175,7 @@ you added books to your database):
 Take a look at the DBIC_TRACE output in the development server log for
 the first URL and you should see something similar to the following:
 
-    SELECT me.id, me.title, me.rating, me.created, me.updated FROM book me 
+    SELECT me.id, me.title, me.rating, me.created, me.updated FROM book me
     WHERE ( ( title LIKE ? AND created > ? ) ): '%TCP%', '2010-02-16 02:49:32'
 
 However, let's not pollute our controller code with this raw "TCP" query
@@ -1184,14 +1184,14 @@ ResultSet Class.  To do this, open C<lib/MyApp/Schema/ResultSet/Book.pm>
 and add the following method:
 
     =head2 title_like
-    
+
     A predefined search for books with a 'LIKE' search in the string
-    
+
     =cut
-    
+
     sub title_like {
         my ($self, $title_str) = @_;
-    
+
         return $self->search({
             title => { 'like' => "%$title_str%" }
         });
@@ -1204,14 +1204,14 @@ replaced the C<-E<gt>search> line with the C<-E<gt>title_like> line
 shown here -- the rest of the method should be the same):
 
     =head2 list_recent_tcp
-    
+
     List recently created books
-    
+
     =cut
-    
+
     sub list_recent_tcp :Chained('base') :PathPart('list_recent_tcp') :Args(1) {
         my ($self, $c, $mins) = @_;
-    
+
         # Retrieve all of the book records as book model objects and store in the
         # stash where they can be accessed by the TT template, but only
         # retrieve books created within the last $min number of minutes
@@ -1221,7 +1221,7 @@ shown here -- the rest of the method should be the same):
                     ->created_after(DateTime->now->subtract(minutes => $mins))
                     ->title_like('TCP')
             ]);
-    
+
         # Set the TT template to use.  You will almost always want to do this
         # in your action methods (action methods respond to user input in
         # your controllers).
@@ -1251,7 +1251,7 @@ always, it must be above the closing "C<1;>"):
     #
     sub full_name {
         my ($self) = @_;
-    
+
         return $self->first_name . ' ' . $self->last_name;
     }
 
@@ -1320,14 +1320,14 @@ return the number of authors for a book.  Open
 C<lib/MyApp/Schema/Result/Book.pm> and add the following method:
 
     =head2 author_count
-    
+
     Return the number of authors for the current book
-    
+
     =cut
-    
+
     sub author_count {
         my ($self) = @_;
-    
+
         # Use the 'many_to_many' relationship to fetch all of the authors for the current
         # and the 'count' method in DBIx::Class::ResultSet to get a SQL COUNT
         return $self->authors->count;
@@ -1337,21 +1337,21 @@ Next, let's add a method to return a list of authors for a book to the
 same C<lib/MyApp/Schema/Result/Book.pm> file:
 
     =head2 author_list
-    
+
     Return a comma-separated list of authors for the current book
-    
+
     =cut
-    
+
     sub author_list {
         my ($self) = @_;
-    
-        # Loop through all authors for the current book, calling all the 'full_name' 
+
+        # Loop through all authors for the current book, calling all the 'full_name'
         # Result Class method for each
         my @names;
         foreach my $author ($self->authors) {
             push(@names, $author->full_name);
         }
-    
+
         return join(', ', @names);
     }
 
