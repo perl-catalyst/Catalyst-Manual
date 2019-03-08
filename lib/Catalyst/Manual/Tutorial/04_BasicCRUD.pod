@@ -90,7 +90,7 @@ submission in the sections that follow).
 
 =head2 Include a Create Action in the Books Controller
 
-Edit C<lib/MyApp/Controller/Books.pm> and enter the following method:
+Edit F<lib/MyApp/Controller/Books.pm> and enter the following method:
 
     =head2 url_create
 
@@ -138,7 +138,7 @@ user input), it then sets the template that should handle this request.
 Also note that we are explicitly setting a C<no-cache> "Cache-Control"
 header to force browsers using the page to get a fresh copy every time.
 You could even move this to a C<auto> method in
-C<lib/MyApp/Controller/Root.pm> and it would automatically get applied
+F<lib/MyApp/Controller/Root.pm> and it would automatically get applied
 to every page in the whole application via a single line of code
 (remember from Chapter 3, that every C<auto> method gets run in the
 Controller hierarchy).
@@ -146,7 +146,7 @@ Controller hierarchy).
 
 =head2 Include a Template for the 'url_create' Action:
 
-Edit C<root/src/books/create_done.tt2> and then enter:
+Edit F<root/src/books/create_done.tt2> and then enter:
 
     [% # Use the TT Dumper plugin to Data::Dumper variables to the browser   -%]
     [% # Not a good idea for production use, though. :-)  'Indent=1' is      -%]
@@ -231,7 +231,7 @@ Although the example above uses the same C<Local> action type for the
 method that we saw in the previous chapter of the tutorial, there is an
 alternate approach that allows us to be more specific while also paving
 the way for more advanced capabilities.  Change the method declaration
-for C<url_create> in C<lib/MyApp/Controller/Books.pm> you entered above
+for C<url_create> in F<lib/MyApp/Controller/Books.pm> you entered above
 to match the following:
 
     sub url_create :Chained('/') :PathPart('books/url_create') :Args(3) {
@@ -396,7 +396,7 @@ are now seven books shown (two copies of I<TCPIP_Illustrated_Vol-2>).
 
 Let's make a quick update to our initial Chained action to show a little
 more of the power of chaining.  First, open
-C<lib/MyApp/Controller/Books.pm> in your editor and add the following
+F<lib/MyApp/Controller/Books.pm> in your editor and add the following
 method:
 
     =head2 base
@@ -427,12 +427,12 @@ working with now), we will instead add that functionality to a common
 C<object> action shortly.
 
 As for C<url_create>, let's modify it to first dispatch to C<base>.
-Open up C<lib/MyApp/Controller/Books.pm> and edit the declaration for
+Open up F<lib/MyApp/Controller/Books.pm> and edit the declaration for
 C<url_create> to match the following:
 
     sub url_create :Chained('base') :PathPart('url_create') :Args(3) {
 
-Once you save C<lib/MyApp/Controller/Books.pm>, notice that the
+Once you save F<lib/MyApp/Controller/Books.pm>, notice that the
 development server will restart and our "Loaded Chained actions" section
 will changed slightly:
 
@@ -465,7 +465,7 @@ list" link, and you should find that there are now eight books shown.
 "create" actions more than once.  Don't worry about it as long as the
 number of books is appropriate for the number of times you added new
 books... there should be the original five books added via
-C<myapp01.sql> plus one additional book for each time you ran one of the
+F<myapp01.sql> plus one additional book for each time you ran one of the
 url_create variations above.)
 
 
@@ -481,7 +481,7 @@ for better options for handling web-based forms).
 
 =head2 Add Method to Display The Form
 
-Edit C<lib/MyApp/Controller/Books.pm> and add the following method:
+Edit F<lib/MyApp/Controller/Books.pm> and add the following method:
 
     =head2 form_create
 
@@ -501,7 +501,7 @@ This action simply invokes a view containing a form to create a book.
 
 =head2 Add a Template for the Form
 
-Open C<root/src/books/form_create.tt2> in your editor and enter:
+Open F<root/src/books/form_create.tt2> in your editor and enter:
 
     [% META title = 'Manual Form Book Create' -%]
 
@@ -520,7 +520,7 @@ C<form_create_do>, the method created in the section that follows.
 
 =head2 Add a Method to Process Form Values and Update Database
 
-Edit C<lib/MyApp/Controller/Books.pm> and add the following method to
+Edit F<lib/MyApp/Controller/Books.pm> and add the following method to
 save the form information to the database:
 
     =head2 form_create_do
@@ -573,7 +573,7 @@ that we added:
 Point your browser to L<http://localhost:3000/books/form_create> and
 enter "TCP/IP Illustrated, Vol 3" for the title, a rating of 5, and an
 author ID of 4.  You should then see the output of the same
-C<create_done.tt2> template seen in earlier examples.  Finally, click
+F<create_done.tt2> template seen in earlier examples.  Finally, click
 "Return to list" to view the full list of books.
 
 B<Note:> Having the user enter the primary key ID for the author is
@@ -591,7 +591,7 @@ from the database.
 
 =head2 Include a Delete Link in the List
 
-Edit C<root/src/books/list.tt2> and update it to match the following
+Edit F<root/src/books/list.tt2> and update it to match the following
 (two sections have changed: 1) the additional '<th>Links</th>' table
 header, and 2) the five lines for the Delete link near the bottom):
 
@@ -689,7 +689,7 @@ existing book can chain off this method, but methods such as
 C<url_create> that don't operate on an existing book can chain directly
 off base.
 
-To add the C<object> method, edit C<lib/MyApp/Controller/Books.pm> and
+To add the C<object> method, edit F<lib/MyApp/Controller/Books.pm> and
 add the following code:
 
     =head2 object
@@ -721,7 +721,7 @@ the appropriate book waiting for it in C<< $c->stash->{object} >>.
 
 =head2 Add a Delete Action to the Controller
 
-Open C<lib/MyApp/Controller/Books.pm> in your editor and add the
+Open F<lib/MyApp/Controller/Books.pm> in your editor and add the
 following method:
 
     =head2 delete
@@ -814,7 +814,7 @@ request.  As a result, the URL in the browser is updated to match the
 destination of the redirection URL.
 
 To convert the forward used in the previous section to a redirect, open
-C<lib/MyApp/Controller/Books.pm> and edit the existing C<sub delete>
+F<lib/MyApp/Controller/Books.pm> and edit the existing C<sub delete>
 method to match:
 
     =head2 delete
@@ -859,7 +859,7 @@ is to use the C<flash> technique that we will see in
 L<Chapter 5|Catalyst::Manual::Tutorial::05_Authentication> of this
 tutorial; however, here we will pass the information via query
 parameters on the redirect itself.  Open
-C<lib/MyApp/Controller/Books.pm> and update the existing C<sub delete>
+F<lib/MyApp/Controller/Books.pm> and update the existing C<sub delete>
 method to match the following:
 
     =head2 delete
@@ -882,7 +882,7 @@ method to match the following:
 
 This modification simply leverages the ability of C<uri_for> to include
 an arbitrary number of name/value pairs in a hash reference.  Next, we
-need to update C<root/src/wrapper.tt2> to handle C<status_msg> as a
+need to update F<root/src/wrapper.tt2> to handle C<status_msg> as a
 query parameter:
 
     ...
@@ -897,7 +897,7 @@ query parameter:
     ...
 
 Although the sample above only shows the C<content> div, leave the rest
-of the file intact -- the only change we made to the C<wrapper.tt2> was
+of the file intact -- the only change we made to the F<wrapper.tt2> was
 to add "C<|| c.request.params.status_msg>" to the
 C<< <span class="message"> >> line.  Note that we definitely want
 the "C<| html>" TT filter here since it would be easy for users to
@@ -979,13 +979,13 @@ Notice that we modified our use of the helper slightly: we told it to
 include the L<DBIx::Class::TimeStamp> in the C<load_components> line of
 the Result Classes.
 
-If you open C<lib/MyApp/Schema/Result/Book.pm> in your editor you should
+If you open F<lib/MyApp/Schema/Result/Book.pm> in your editor you should
 see that the C<created> and C<updated> fields are now included in the
 call to C<add_columns()>. However, also notice that the C<many_to_many>
 relationships we manually added below the "C<# DO NOT MODIFY...>" line
 were automatically preserved.
 
-While we C<lib/MyApp/Schema/Result/Book.pm> open, let's update it with
+While we F<lib/MyApp/Schema/Result/Book.pm> open, let's update it with
 some additional information to have DBIC automatically handle the
 updating of these two fields for us.  Insert the following code at the
 bottom of the file (it B<must> be B<below> the "C<# DO NOT MODIFY...>"
@@ -1009,11 +1009,11 @@ the timestamps in these columns whenever a row is created or modified.
 B<Note> that adding the lines above will cause the development server to
 automatically restart if you are running it with the "-r" option.  In
 other words, the development server is smart enough to restart not only
-for code under the C<MyApp/Controller/>, C<MyApp/Model/>, and
-C<MyApp/View/> directories, but also under other directions such as our
-"external DBIC model" in C<MyApp/Schema/>.  However, also note that it's
+for code under the F<MyApp/Controller/>, F<MyApp/Model/>, and
+F<MyApp/View/> directories, but also under other directions such as our
+"external DBIC model" in F<MyApp/Schema/>.  However, also note that it's
 smart enough to B<not> restart when you edit your C<.tt2> files under
-C<root/>.
+F<root/>.
 
 Then enter the following URL into your web browser:
 
@@ -1057,7 +1057,7 @@ a directory where DBIx::Class will look for our ResultSet Class:
 
     $ mkdir lib/MyApp/Schema/ResultSet
 
-Then open C<lib/MyApp/Schema/ResultSet/Book.pm> and enter the following:
+Then open F<lib/MyApp/Schema/ResultSet/Book.pm> and enter the following:
 
     package MyApp::Schema::ResultSet::Book;
 
@@ -1084,7 +1084,7 @@ Then open C<lib/MyApp/Schema/ResultSet/Book.pm> and enter the following:
 
     1;
 
-Then add the following method to the C<lib/MyApp/Controller/Books.pm>:
+Then add the following method to the F<lib/MyApp/Controller/Books.pm>:
 
     =head2 list_recent
 
@@ -1132,7 +1132,7 @@ because this technique carries over to the ResultSet Class feature we
 implemented in the previous section for our "canned search", we can
 combine the two capabilities.  For example, let's add an action to our
 C<Books> controller that lists books that are both recent I<and> have
-"TCP" in the title.  Open up C<lib/MyApp/Controller/Books.pm> and add
+"TCP" in the title.  Open up F<lib/MyApp/Controller/Books.pm> and add
 the following method:
 
     =head2 list_recent_tcp
@@ -1180,7 +1180,7 @@ the first URL and you should see something similar to the following:
 
 However, let's not pollute our controller code with this raw "TCP" query
 -- it would be cleaner to encapsulate that code in a method on our
-ResultSet Class.  To do this, open C<lib/MyApp/Schema/ResultSet/Book.pm>
+ResultSet Class.  To do this, open F<lib/MyApp/Schema/ResultSet/Book.pm>
 and add the following method:
 
     =head2 title_like
@@ -1199,7 +1199,7 @@ and add the following method:
 
 We defined the search string as C<$title_str> to make the method more
 flexible.  Now update the C<list_recent_tcp> method in
-C<lib/MyApp/Controller/Books.pm> to match the following (we have
+F<lib/MyApp/Controller/Books.pm> to match the following (we have
 replaced the C<< ->search >> line with the C<< ->title_like >> line
 shown here -- the rest of the method should be the same):
 
@@ -1242,8 +1242,8 @@ can do a similar improvement when working with individual rows as well.
 Whereas the ResultSet construct is used in DBIC to correspond to an
 entire query, the Result Class construct is used to represent a row.
 Therefore, we can add row-specific "helper methods" to our Result
-Classes stored in C<lib/MyApp/Schema/Result/>. For example, open
-C<lib/MyApp/Schema/Result/Author.pm> and add the following method (as
+Classes stored in F<lib/MyApp/Schema/Result/>. For example, open
+F<lib/MyApp/Schema/Result/Author.pm> and add the following method (as
 always, it must be above the closing "C<1;>"):
 
     #
@@ -1256,7 +1256,7 @@ always, it must be above the closing "C<1;>"):
     }
 
 This will allow us to conveniently retrieve both the first and last name
-for an author in one shot.  Now open C<root/src/books/list.tt2> and
+for an author in one shot.  Now open F<root/src/books/list.tt2> and
 change the definition of C<tt_authors> from this:
 
     ...
@@ -1292,7 +1292,7 @@ templates!
 The previous section illustrated how we could use a Result Class method
 to print the full names of the authors without adding any extra code to
 our view, but it still left us with a fairly ugly mess (see
-C<root/src/books/list.tt2>):
+F<root/src/books/list.tt2>):
 
     ...
     <td>
@@ -1317,7 +1317,7 @@ C<root/src/books/list.tt2>):
 Let's combine some of the techniques used earlier in this section to
 clean this up.  First, let's add a method to our Book Result Class to
 return the number of authors for a book.  Open
-C<lib/MyApp/Schema/Result/Book.pm> and add the following method:
+F<lib/MyApp/Schema/Result/Book.pm> and add the following method:
 
     =head2 author_count
 
@@ -1334,7 +1334,7 @@ C<lib/MyApp/Schema/Result/Book.pm> and add the following method:
     }
 
 Next, let's add a method to return a list of authors for a book to the
-same C<lib/MyApp/Schema/Result/Book.pm> file:
+same F<lib/MyApp/Schema/Result/Book.pm> file:
 
     =head2 author_list
 
@@ -1356,11 +1356,11 @@ same C<lib/MyApp/Schema/Result/Book.pm> file:
     }
 
 This method loops through each author, using the C<full_name> Result
-Class method we added to C<lib/MyApp/Schema/Result/Author.pm> in the
+Class method we added to F<lib/MyApp/Schema/Result/Author.pm> in the
 prior section.
 
 Using these two methods, we can simplify our TT code.  Open
-C<root/src/books/list.tt2> and update the "Author(s)" table cell to
+F<root/src/books/list.tt2> and update the "Author(s)" table cell to
 match the following:
 
     ...

@@ -180,7 +180,7 @@ L<Config::General|Config::General> is a method for creating flexible
 and readable configuration files. It's a great way to keep your
 Catalyst application configuration in one easy-to-understand location.
 
-Now create C<myapp.conf> in your application home:
+Now create F<myapp.conf> in your application home:
 
   name     MyApp
 
@@ -1050,7 +1050,7 @@ Note the use of quotes around the filename; this ensures that any
 spaces in the filename are handled by the browser.
 
 Put this right before calling C<< $c->res->body >> and your browser
-will download a file named C<Important Orders.csv> instead of
+will download a file named F<Important Orders.csv> instead of
 C<export>.
 
 You can also use this to have the browser download content which it
@@ -1505,8 +1505,8 @@ production environment.
 Static::Simple is a plugin that will help to serve static content for your
 application. By default, it will serve most types of files, excluding some
 standard Template Toolkit extensions, out of your B<root> file directory. All
-files are served by path, so if B<images/me.jpg> is requested, then
-B<root/images/me.jpg> is found and served.
+files are served by path, so if F<images/me.jpg> is requested, then
+F<root/images/me.jpg> is found and served.
 
 =head3 Usage
 
@@ -1519,12 +1519,12 @@ and already files will be served.
 =head3 Configuring
 
 Static content is best served from a single directory within your root
-directory. Having many different directories such as C<root/css> and
-C<root/images> requires more code to manage, because you must separately
-identify each static directory--if you decide to add a C<root/js>
+directory. Having many different directories such as F<root/css> and
+F<root/images> requires more code to manage, because you must separately
+identify each static directory--if you decide to add a F<root/js>
 directory, you'll need to change your code to account for it. In
 contrast, keeping all static directories as subdirectories of a main
-C<root/static> directory makes things much easier to manage. Here's an
+F<root/static> directory makes things much easier to manage. Here's an
 example of a typical root directory structure:
 
     root/
@@ -1537,7 +1537,7 @@ example of a typical root directory structure:
     root/static/js/code.js
 
 
-All static content lives under C<root/static>, with everything else being
+All static content lives under F<root/static>, with everything else being
 Template Toolkit files.
 
 =over 4
@@ -1629,7 +1629,7 @@ C<< $c->res->body >>.
 
 Next, create a controller to handle requests for the /static path. Use
 the Helper to save time. This command will create a stub controller as
-C<lib/MyApp/Controller/Static.pm>.
+F<lib/MyApp/Controller/Static.pm>.
 
     $ script/myapp_create.pl controller Static
 
@@ -1681,7 +1681,7 @@ code in your Static controller:
 
 When using Apache, you can bypass Catalyst and any Static
 plugins/controllers controller by intercepting requests for the
-C<root/static> path at the server level. All that is required is to
+F<root/static> path at the server level. All that is required is to
 define a DocumentRoot and add a separate Location block for your static
 content. Here is a complete config for this application under mod_perl
 1.x:
@@ -1850,12 +1850,12 @@ alterations.
 Catalyst provides a convenient way of testing your application during
 development and before deployment in a real environment.
 
-C<Catalyst::Test> makes it possible to run the same tests both locally
+L<Catalyst::Test> makes it possible to run the same tests both locally
 (without an external daemon) and against a remote server via HTTP.
 
 =head3 Tests
 
-Let's examine a skeleton application's C<t/> directory:
+Let's examine a skeleton application's F<t/> directory:
 
     mundus:~/MyApp chansen$ ls -l t/
     total 24
@@ -1865,17 +1865,17 @@ Let's examine a skeleton application's C<t/> directory:
 
 =over 4
 
-=item C<01app.t>
+=item F<01app.t>
 
 Verifies that the application loads, compiles, and returns a successful
 response.
 
-=item C<02pod.t>
+=item F<02pod.t>
 
 Verifies that all POD is free from errors. Only executed if the C<TEST_POD>
 environment variable is true.
 
-=item C<03podcoverage.t>
+=item F<03podcoverage.t>
 
 Verifies that all methods/functions have POD coverage. Only executed if the
 C<TEST_POD> environment variable is true.

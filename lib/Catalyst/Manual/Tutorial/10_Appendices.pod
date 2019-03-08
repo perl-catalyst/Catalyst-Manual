@@ -181,7 +181,7 @@ items via this command:
     sudo aptitude install postgresql libdbd-pg-perl libdatetime-format-pg-perl
 
 To configure the permissions, you can open
-C</etc/postgresql/8.3/main/pg_hba.conf> and change this line (near the
+F</etc/postgresql/8.3/main/pg_hba.conf> and change this line (near the
 bottom):
 
     # "local" is for Unix domain socket connections only
@@ -221,7 +221,7 @@ Create the C<.sql> file and load the data:
 
 =item *
 
-Open the C<myapp01_psql.sql> in your editor and enter:
+Open the F<myapp01_psql.sql> in your editor and enter:
 
     --
     -- Drops just in case you are reloading
@@ -396,7 +396,7 @@ Chapter 5: Authentication
 
 Create the C<.sql> file for the user/roles data:
 
-Open C<myapp02_psql.sql> in your editor and enter:
+Open F<myapp02_psql.sql> in your editor and enter:
 
     --
     -- Add users and roles tables, along with a many-to-many join table
@@ -477,7 +477,7 @@ Confirm with:
 
 =item *
 
-Modify C<set_hashed_passwords.pl> to match the following (the only difference
+Modify F<set_hashed_passwords.pl> to match the following (the only difference
 is the C<connect> line):
 
     #!/usr/bin/perl
@@ -496,7 +496,7 @@ is the C<connect> line):
         $user->update;
     }
 
-Run the C<set_hashed_passwords.pl> as per the "normal" flow of the
+Run the F<set_hashed_passwords.pl> as per the "normal" flow of the
 tutorial:
 
     $ perl -Ilib set_hashed_passwords.pl
@@ -610,7 +610,7 @@ Create the C<.sql> file and load the data:
 
 =item *
 
-Open the C<myapp01_mysql.sql> in your editor and enter:
+Open the F<myapp01_mysql.sql> in your editor and enter:
 
     --
     -- Create a very simple database to hold book and author information
@@ -745,7 +745,7 @@ Chapter 5: Authentication
 
 Create the C<.sql> file for the user/roles data:
 
-Open C<myapp02_mysql.sql> in your editor and enter:
+Open F<myapp02_mysql.sql> in your editor and enter:
 
     --
     -- Add users and roles tables, along with a many-to-many join table
@@ -818,7 +818,7 @@ Regenerate the model using the Catalyst "_create.pl" script:
 
 Create the C<.sql> file for the hashed password data:
 
-Open C<myapp03_mysql.sql> in your editor and enter:
+Open F<myapp03_mysql.sql> in your editor and enter:
 
     --
     -- Convert passwords to SHA-1 hashes

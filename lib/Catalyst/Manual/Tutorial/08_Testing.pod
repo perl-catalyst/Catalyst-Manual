@@ -83,7 +83,7 @@ directory, enter:
     $ prove -wl t
 
 There will be a lot of output because we have the C<-Debug> flag enabled
-in C<lib/MyApp.pm> (see the C<CATALYST_DEBUG=0> tip below for a quick
+in F<lib/MyApp.pm> (see the C<CATALYST_DEBUG=0> tip below for a quick
 and easy way to reduce the clutter).  Look for lines like this for
 errors:
 
@@ -95,7 +95,7 @@ The redirection used by the Authentication plugins will cause several
 failures in the default tests.  You can fix this by making the following
 changes:
 
-1) Change the line in C<t/01app.t> that reads:
+1) Change the line in F<t/01app.t> that reads:
 
     ok( request('/')->is_success, 'Request should succeed' );
 
@@ -103,7 +103,7 @@ to:
 
     ok( request('/login')->is_success, 'Request should succeed' );
 
-2) Change the line in C<t/controller_Logout.t> that reads:
+2) Change the line in F<t/controller_Logout.t> that reads:
 
     ok( request('/logout')->is_success, 'Request should succeed' );
 
@@ -111,7 +111,7 @@ to:
 
     ok( request('/logout')->is_redirect, 'Request should succeed' );
 
-3) Change the line in C<t/controller_Books.t> that reads:
+3) Change the line in F<t/controller_Books.t> that reads:
 
     ok( request('/books')->is_success, 'Request should succeed' );
 
@@ -119,7 +119,7 @@ to:
 
     ok( request('/books')->is_redirect, 'Request should succeed' );
 
-4) Add the following statement to the top of C<t/view_HTML.t>:
+4) Add the following statement to the top of F<t/view_HTML.t>:
 
     use MyApp;
 
@@ -127,13 +127,13 @@ As you can see in the C<prove> command line above, the C<-l> option (or
 C<--lib> if you prefer) is used to set the location of the Catalyst
 C<lib> directory.  With this command, you will get all of the usual
 development server debug output, something most people prefer to disable
-while running tests cases.  Although you can edit the C<lib/MyApp.pm> to
+while running tests cases.  Although you can edit the F<lib/MyApp.pm> to
 comment out the C<-Debug> plugin, it's generally easier to simply set
 the C<CATALYST_DEBUG=0> environment variable.  For example:
 
     $ CATALYST_DEBUG=0 prove -wl t
 
-During the C<t/02pod> and C<t/03podcoverage> tests, you might notice the
+During the F<t/02pod.t> and F<t/03podcoverage.t> tests, you might notice the
 C<all skipped: set TEST_POD to enable this test> warning message.  To
 execute the Pod-related tests, add C<TEST_POD=1> to the C<prove>
 command:
@@ -175,7 +175,7 @@ a user "clicking around" inside your application.  It gives you all the
 benefits of testing on a live system without the messiness of having to
 use an actual web server, and a real person to do the clicking.
 
-To create a sample test case, open the C<t/live_app01.t> file in your
+To create a sample test case, open the F<t/live_app01.t> file in your
 editor and enter the following:
 
     #!/usr/bin/env perl
@@ -282,7 +282,7 @@ editor and enter the following:
 
     done_testing;
 
-The C<live_app.t> test cases uses copious comments to explain each step
+The F<live_app.t> test cases uses copious comments to explain each step
 of the process.  In addition to the techniques shown here, there are a
 variety of other methods available in L<Test::WWW::Mechanize::Catalyst>
 (for example, regex-based matching). Consult
@@ -357,7 +357,7 @@ databases.
 
 One solution is to allow the database specification to be overridden
 with an environment variable.  For example, open
-C<lib/MyApp/Model/DB.pm> in your editor and change the
+F<lib/MyApp/Model/DB.pm> in your editor and change the
 C<< __PACKAGE__->config(... >> declaration to resemble:
 
     my $dsn = $ENV{MYAPP_DSN} ||= 'dbi:SQLite:myapp.db';
@@ -392,8 +392,8 @@ development (or vice versa).
 
 Setting C<$ENV{ MYAPP_CONFIG_LOCAL_SUFFIX }> to 'testing' in your test
 script results in loading of an additional config file named
-C<myapp_testing.conf> after C<myapp.conf> which will override any
-parameters in C<myapp.conf>.
+F<myapp_testing.conf> after F<myapp.conf> which will override any
+parameters in F<myapp.conf>.
 
 You should set the environment variable in the BEGIN block of your test
 script to make sure it's set before your Catalyst application is

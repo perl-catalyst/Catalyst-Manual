@@ -82,7 +82,7 @@ Also, add:
 
     requires 'HTML::FormHandler::Model::DBIC';
 
-to your C<Makefile.PL>.
+to your F<Makefile.PL>.
 
 =head1 HTML::FormHandler FORM CREATION
 
@@ -97,7 +97,7 @@ to a form is only a couple of lines of code.
 
 =head2 Create a Book Form
 
-Create the directory C<lib/MyApp/Form>. Create C<lib/MyApp/Form/Book.pm>:
+Create the directory F<lib/MyApp/Form>. Create F<lib/MyApp/Form/Book.pm>:
 
     package MyApp::Form::Book;
 
@@ -117,7 +117,7 @@ Create the directory C<lib/MyApp/Form>. Create C<lib/MyApp/Form/Book.pm>:
 
 =head2 Add Action to Display and Save the Form
 
-At the top of the C<lib/MyApp/Controller/Books.pm> add:
+At the top of the F<lib/MyApp/Controller/Books.pm> add:
 
    use MyApp::Form::Book;
 
@@ -161,7 +161,7 @@ method later when we implement 'edit'.
 
 =head2 Create a Template Page To Display The Form
 
-Open C<root/src/books/form.tt2> in your editor and enter the following:
+Open F<root/src/books/form.tt2> in your editor and enter the following:
 
     [% META title = 'Create/Update Book' %]
 
@@ -173,7 +173,7 @@ Open C<root/src/books/form.tt2> in your editor and enter the following:
 
 =head2 Add Link for Create
 
-Open C<root/src/books/list.tt2> in your editor and add the following to
+Open F<root/src/books/list.tt2> in your editor and add the following to
 the bottom of the existing file:
 
     ...
@@ -211,7 +211,7 @@ integers.
 
 =head2 Add Constraints
 
-Open C<lib/MyApp/Form/Book.pm> in your editor.
+Open F<lib/MyApp/Form/Book.pm> in your editor.
 
 Restrict the title size and make it required:
 
@@ -245,7 +245,7 @@ rating of 0 or 6, etc.  Also try selecting one, two, and zero authors.
 
 =head2 Create the 'edit' method
 
-Edit C<lib/MyApp/Controller/Books.pm> and add the following method:
+Edit F<lib/MyApp/Controller/Books.pm> and add the following method:
 
 
     =head2 edit
@@ -260,7 +260,7 @@ Edit C<lib/MyApp/Controller/Books.pm> and add the following method:
         return $self->form($c, $c->stash->{object});
     }
 
-Update the C<root/src/books/list.tt2>, adding an 'edit' link below the
+Update the F<root/src/books/list.tt2>, adding an 'edit' link below the
 "Delete" link to use the FormHandler edit method:
 
     <td>

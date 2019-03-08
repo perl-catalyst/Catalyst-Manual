@@ -78,7 +78,7 @@ L<Chapter 4|Catalyst::Manual::Tutorial::04_BasicCRUD>.
 
 =head2 Inherit From Catalyst::Controller::HTML::FormFu
 
-First, change your C<lib/MyApp/Controller/Books.pm> to inherit from
+First, change your F<lib/MyApp/Controller/Books.pm> to inherit from
 L<Catalyst::Controller::HTML::FormFu> by changing the C<extends> line
 from the default of:
 
@@ -99,7 +99,7 @@ to your C<Makefile.PL>.
 
 =head2 Add Action to Display and Save the Form
 
-Open C<lib/MyApp/Controller/Books.pm> in your editor and add the
+Open F<lib/MyApp/Controller/Books.pm> in your editor and add the
 following method:
 
     =head2 formfu_create
@@ -153,7 +153,7 @@ to hold your form configuration files:
 
     $ mkdir -p root/forms/books
 
-Then create the file C<root/forms/books/formfu_create.yml> and enter the
+Then create the file F<root/forms/books/formfu_create.yml> and enter the
 following text:
 
     ---
@@ -192,13 +192,13 @@ following text:
           value: Submit
 
 B<NOTE:> Copying and pasting YAML from Perl documentation is sometimes
-tricky.  See the L<Config::General Config for this tutorial> section of
+tricky.  See the L</Config::General Config for this tutorial> section of
 this document for a more foolproof config format.
 
 
 =head2 Update the CSS
 
-Edit C<root/static/css/main.css> and add the following lines to the
+Edit F<root/static/css/main.css> and add the following lines to the
 bottom of the file:
 
     ...
@@ -218,7 +218,7 @@ These changes will display form elements vertically.
 
 =head2 Create a Template Page To Display The Form
 
-Open C<root/src/books/formfu_create.tt2> in your editor and enter the
+Open F<root/src/books/formfu_create.tt2> in your editor and enter the
 following:
 
     [% META title = 'Create/Update Book' %]
@@ -232,7 +232,7 @@ following:
 
 =head2 Add Links for Create and Update via C<HTML::FormFu>
 
-Open C<root/src/books/list.tt2> in your editor and add the following to
+Open F<root/src/books/list.tt2> in your editor and add the following to
 the bottom of the existing file:
 
     ...
@@ -291,7 +291,7 @@ whitespace from fields or to escape meta-characters in user input.
 
 =head2 Add Constraints
 
-Open C<root/forms/books/formfu_create.yml> in your editor and update it
+Open F<root/forms/books/formfu_create.yml> in your editor and update it
 to match:
 
     ---
@@ -389,7 +389,7 @@ The main changes are:
 
 The C<Select> element for C<authors> is changed from a single-select
 drop-down to a multi-select list by adding configuration for the
-C<multiple> and C<size> options in C<formfu_create.yml>.
+C<multiple> and C<size> options in F<formfu_create.yml>.
 
 =item *
 
@@ -422,7 +422,7 @@ the YAML file each time a controller action uses it.
 =head1 CREATE AND UPDATE/EDIT ACTION
 
 Let's expand the work done above to add an edit action.  First, open
-C<lib/MyApp/Controller/Books.pm> and add the following method to the
+F<lib/MyApp/Controller/Books.pm> and add the following method to the
 bottom:
 
     =head2 formfu_edit
@@ -491,7 +491,7 @@ the common code in separate methods).  The main differences are:
 We have to manually specify the name of the FormFu .yml file as an
 argument to C<:FormConfig> because the name can no longer be
 automatically deduced from the name of our action/method (by default,
-FormFu would look for a file named C<books/formfu_edit.yml>).
+FormFu would look for a file named F<books/formfu_edit.yml>).
 
 =item *
 
@@ -522,7 +522,7 @@ from the database.
 
 =back
 
-Then, edit C<root/src/books/list.tt2> and add a new link below the
+Then, edit F<root/src/books/list.tt2> and add a new link below the
 existing "Delete" link that allows us to edit/update each existing book.
 The last <td> cell in the book list table should look like the
 following:
@@ -589,8 +589,8 @@ real reason you worked through this Tutorial in the first place.
 =head2 Config::General Config for this tutorial
 
 If you are having difficulty with YAML config above, please save the
-below into the file C<formfu_create.conf> and delete the
-C<formfu_create.yml> file.  The below is in L<Config::General> format
+below into the file F<formfu_create.conf> and delete the
+F<formfu_create.yml> file.  The below is in L<Config::General> format
 which follows the syntax of Apache config files.
 
    constraints   Required
