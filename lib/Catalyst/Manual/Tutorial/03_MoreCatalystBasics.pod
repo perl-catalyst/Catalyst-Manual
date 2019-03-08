@@ -143,7 +143,7 @@ If you prefer, there are several other ways to enable debug output:
 
 =item *
 
-the C<$c-E<gt>debug> method on the C<$c> Catalyst context object
+the C<< $c->debug >> method on the C<$c> Catalyst context object
 
 =item *
 
@@ -498,7 +498,7 @@ This changes the default extension for Template Toolkit from '.tt' to
 
 You can also configure components in your application class. For
 example, Edit C<lib/MyApp.pm> and you should see the default
-configuration above the call to C<_PACKAGE__-E<gt>setup> (your defaults
+configuration above the call to C<< _PACKAGE__->setup >> (your defaults
 could be different depending on the version of Catalyst you are using):
 
     __PACKAGE__->config(
@@ -509,7 +509,7 @@ could be different depending on the version of Catalyst you are using):
 
 
 Change this to match the following (insert a new
-C<__PACKAGE__-E<gt>config> below the existing statement):
+C<< __PACKAGE__->config >> below the existing statement):
 
     __PACKAGE__->config(
         name => 'MyApp',
@@ -677,7 +677,7 @@ Then use the following command to build a C<myapp.db> SQLite database:
 
 If you need to create the database more than once, you probably want to
 issue the C<rm myapp.db> command to delete the database before you use
-the C<sqlite3 myapp.db E<lt> myapp01.sql> command.
+the C<< sqlite3 myapp.db < myapp01.sql >> command.
 
 Once the C<myapp.db> database file has been created and initialized, you
 can use the SQLite command line environment to do a quick dump of the
@@ -882,7 +882,7 @@ L<DBIx::Class::Schema::Loader> version C<0.05000> or later.
 
 Open C<lib/MyApp/Controller/Books.pm> and un-comment the model code we
 left disabled earlier so that your version matches the following
-(un-comment the line containing C<[$c-E<gt>model('DB::Book')-E<gt>all]>
+(un-comment the line containing C<< [$c->model('DB::Book')->all] >>
 and delete the next 2 lines):
 
     =head2 list
@@ -907,14 +907,14 @@ and delete the next 2 lines):
         $c->stash(template => 'books/list.tt2');
     }
 
-B<TIP>: You may see the C<$c-E<gt>model('DB::Book')> un-commented above
-written as C<$c-E<gt>model('DB')-E<gt>resultset('Book')>.  The two are
-equivalent.  Either way, C<$c-E<gt>model> returns a
+B<TIP>: You may see the C<< $c->model('DB::Book') >> un-commented above
+written as C<< $c->model('DB')->resultset('Book') >>.  The two are
+equivalent.  Either way, C<< $c->model >> returns a
 L<DBIx::Class::ResultSet> which handles queries
 against the database and iterating over the set of results that is
 returned.
 
-We are using the C<-E<gt>all> to fetch all of the books.  DBIC supports
+We are using the C<< ->all >> to fetch all of the books.  DBIC supports
 a wide variety of more advanced operations to easily do things like
 filtering and sorting the results.  For example, the following could be
 used to sort the results by descending title:
@@ -943,7 +943,7 @@ you are using a different shell (for example, under tcsh, use
 C<setenv DBIC_TRACE 1>).
 
 B<NOTE:> You can also set this in your code using
-C<$class-E<gt>storage-E<gt>debug(1);>.  See
+C<< $class->storage->debug(1); >>.  See
 L<DBIx::Class::Manual::Troubleshooting> for details (including options
 to log to a file instead of displaying to the Catalyst development
 server log).
@@ -1132,7 +1132,7 @@ Notice the status and error message sections in the code above:
     <span class="error">[% error_msg %]</span>
 
 If we set either message in the Catalyst stash (e.g.,
-C<$c-E<gt>stash-E<gt>{status_msg} = 'Request was successful!'>) it will
+C<< $c->stash->{status_msg} = 'Request was successful!' >>) it will
 be displayed whenever any view used by that request is rendered.  The
 C<message> and C<error> CSS styles can be customized to suit your needs
 in the C<root/static/css/main.css> file we create below.
@@ -1349,12 +1349,12 @@ C<1;> on a line by itself.
 The C<many_to_many> relationship bridge is optional, but it makes it
 easier to map a book to its collection of authors.  Without it, we would
 have to "walk" through the C<book_author> table as in
-C<$book-E<gt>book_author-E<gt>first-E<gt>author-E<gt>last_name> (we will
+C<< $book->book_author->first->author->last_name >> (we will
 see examples on how to use DBIx::Class objects in your code soon, but
-note that because C<$book-E<gt>book_author> can return multiple authors,
+note that because C<< $book->book_author >> can return multiple authors,
 we have to use C<first> to display a single author).  C<many_to_many>
 allows us to use the shorter
-C<$book-E<gt>author-E<gt>first-E<gt>last_name>. Note that you cannot
+C<< $book->author->first->last_name >>. Note that you cannot
 define a C<many_to_many> relationship bridge without also having the
 C<has_many> relationship in place.
 
@@ -1454,7 +1454,7 @@ DBIx::Class):
     JOIN author author ON author.id = me.author_id WHERE ( me.book_id = ? ): '5'
 
 Also note in C<root/src/books/list.tt2> that we are using "| html", a
-type of TT filter, to escape characters such as E<lt> and E<gt> to &lt;
+type of TT filter, to escape characters such as < and > to &lt;
 and &gt; and avoid various types of dangerous hacks against your
 application.  In a real application, you would probably want to put "|
 html" at the end of every field where a user has control over the
@@ -1587,11 +1587,11 @@ By default, C<Catalyst::View::TT> will look for a template that uses the
 same name as your controller action, allowing you to save the step of
 manually specifying the template name in each action.  For example, this
 would allow us to remove the
-C<$c-E<gt>stash-E<gt>{template} = 'books/list.tt2';>
+C<< $c->stash->{template} = 'books/list.tt2'; >>
 line of our C<list> action in the Books controller.
 Open C<lib/MyApp/Controller/Books.pm> in your editor and comment out
 this line to match the following (only the
-C<$c-E<gt>stash-E<gt>{template}> line has changed):
+C<< $c->stash->{template} >> line has changed):
 
     =head2 list
 
@@ -1620,8 +1620,8 @@ You should now be able to access the L<http://localhost:3000/books/list>
 URL as before.
 
 B<NOTE:> If you use the default template technique, you
-will B<not> be able to use either the C<$c-E<gt>forward> or the
-C<$c-E<gt>detach> mechanisms (these are discussed in Chapter 2 and
+will B<not> be able to use either the C<< $c->forward >> or the
+C<< $c->detach >> mechanisms (these are discussed in Chapter 2 and
 Chapter 9 of the Tutorial).
 
 B<IMPORTANT:> Make sure that you do B<not> skip the following section
@@ -1630,7 +1630,7 @@ before continuing to the next chapter 4 Basic CRUD.
 
 =head2 Return To A Manually Specified Template
 
-In order to be able to use C<$c-E<gt>forward> and C<$c-E<gt>detach>
+In order to be able to use C<< $c->forward >> and C<< $c->detach >>
 later in the tutorial, you should remove the comment from the statement
 in C<sub list> in C<lib/MyApp/Controller/Books.pm>:
 

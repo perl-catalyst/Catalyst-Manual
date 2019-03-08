@@ -416,11 +416,11 @@ method:
     }
 
 Here we print a log message and store the DBIC ResultSet in
-C<$c-E<gt>stash-E<gt>{resultset}> so that it's automatically available
+C<< $c->stash->{resultset} >> so that it's automatically available
 for other actions that chain off C<base>.  If your controller always
 needs a book ID as its first argument, you could have the base method
 capture that argument (with C<:CaptureArgs(1)>) and use it to pull the
-book object with C<-E<gt>find($id)> and leave it in the stash for later
+book object with C<< ->find($id) >> and leave it in the stash for later
 parts of your chains to then act upon. Because we have several actions
 that don't need to retrieve a book (such as the C<url_create> we are
 working with now), we will instead add that functionality to a common
@@ -645,7 +645,7 @@ that modifies data should be handled with a form sending a POST
 request).
 
 Also notice that we are using a more advanced form of C<uri_for> than we
-have seen before.  Here we use C<$c-E<gt>controller-E<gt>action_for> to
+have seen before.  Here we use C<< $c->controller->action_for >> to
 automatically generate a URI appropriate for that action based on the
 method we want to link to while inserting the C<book.id> value into the
 appropriate place.  Now, if you ever change C<:PathPart('delete')> in
@@ -660,13 +660,13 @@ few shortcuts and options when using C<action_for()>:
 =item *
 
 If you are referring to a method in the current controller, you can use
-C<$self-E<gt>action_for('_method_name_')>.
+C<< $self->action_for('_method_name_') >>.
 
 =item *
 
 If you are referring to a method in a different controller, you need to
 include that controller's name as an argument to C<controller()>, as in
-C<$c-E<gt>controller('_controller_name_')-E<gt>action_for('_method_name_')>.
+C<< $c->controller('_controller_name_')->action_for('_method_name_') >>.
 
 =back
 
@@ -716,7 +716,7 @@ add the following code:
     }
 
 Now, any other method that chains off C<object> will automatically have
-the appropriate book waiting for it in C<$c-E<gt>stash-E<gt>{object}>.
+the appropriate book waiting for it in C<< $c->stash->{object} >>.
 
 
 =head2 Add a Delete Action to the Controller
@@ -807,7 +807,7 @@ application or database), but in other cases this could clearly lead to
 trouble.
 
 We can improve the logic by converting to a redirect.  Unlike
-C<$c-E<gt>forward('list'))> or C<$c-E<gt>detach('list'))> that perform a
+C<< $c->forward('list')) >> or C<< $c->detach('list')) >> that perform a
 server-side alteration in the flow of processing, a redirect is a
 client-side mechanism that causes the browser to issue an entirely new
 request.  As a result, the URL in the browser is updated to match the
@@ -899,7 +899,7 @@ query parameter:
 Although the sample above only shows the C<content> div, leave the rest
 of the file intact -- the only change we made to the C<wrapper.tt2> was
 to add "C<|| c.request.params.status_msg>" to the
-C<E<lt>span class="message"E<gt>> line.  Note that we definitely want
+C<< <span class="message"> >> line.  Note that we definitely want
 the "C<| html>" TT filter here since it would be easy for users to
 modify the message on the URL and possibly inject harmful code into the
 application if we left that off.
@@ -1200,7 +1200,7 @@ and add the following method:
 We defined the search string as C<$title_str> to make the method more
 flexible.  Now update the C<list_recent_tcp> method in
 C<lib/MyApp/Controller/Books.pm> to match the following (we have
-replaced the C<-E<gt>search> line with the C<-E<gt>title_like> line
+replaced the C<< ->search >> line with the C<< ->title_like >> line
 shown here -- the rest of the method should be the same):
 
     =head2 list_recent_tcp

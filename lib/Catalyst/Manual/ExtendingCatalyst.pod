@@ -243,7 +243,7 @@ class|/"Component base classes">.
 =head2 Component Configuration
 
 At creation time, the class configuration of your component (the one
-available via C<$self-E<gt>config>) will be merged with possible
+available via C<< $self->config >>) will be merged with possible
 configuration settings from the applications configuration (either
 directly or via config file). This is done by Catalyst, and the
 correctly merged configuration is passed to your component's

@@ -510,21 +510,21 @@ error message and return to the book list.
 =item *
 
 If the form has been submitted and passes validation, we skip creating a
-new book and just use C<$form-E<gt>model-E<gt>update> to update the
+new book and just use C<< $form->model->update >> to update the
 existing book.
 
 =item *
 
 If the form is being displayed for the first time (or has failed
 validation and it being redisplayed), we use
-C<$form-E<gt>model-E<gt>default_values> to populate the form with data
+C<< $form->model->default_values >> to populate the form with data
 from the database.
 
 =back
 
 Then, edit C<root/src/books/list.tt2> and add a new link below the
 existing "Delete" link that allows us to edit/update each existing book.
-The last E<lt>tdE<gt> cell in the book list table should look like the
+The last <td> cell in the book list table should look like the
 following:
 
     ...

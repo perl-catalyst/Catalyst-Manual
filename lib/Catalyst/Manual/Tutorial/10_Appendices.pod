@@ -123,7 +123,7 @@ entered on the last line.
 You can limit the replacement operation by selecting text first (depending
 on your version of Emacs, you can either use the mouse or experiment with
 commands such as C<C-SPC> to set the mark at the cursor location and
-C<C-E<lt>> and C<C-E<gt>> to set the mark at the beginning and end of the
+C<< C-< >> and C<< C-> >> to set the mark at the beginning and end of the
 file respectively.
 
 Also, Stefan Kangas sent in the following tip about an alternate
@@ -200,7 +200,7 @@ And then restart PostgreSQL:
 =item *
 
 Create the database and a user for the database (note that we are
-using "E<lt>catalystE<gt>" to represent the hidden password of
+using "<catalyst>" to represent the hidden password of
 "catalyst"):
 
     $ sudo -u postgres createuser -P catappuser

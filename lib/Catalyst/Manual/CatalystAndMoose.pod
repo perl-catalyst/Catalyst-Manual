@@ -38,13 +38,13 @@ A Moose-ified version of the context class should look like this:
         $c->log->info( 'done!' );
     }
 
-You should also be aware that roles in C<< $c-E<gt>setup >> are applied
+You should also be aware that roles in C<< $c->setup >> are applied
 after the last plugin with all the benefits of using a single
 L<with()|Moose/"with (@roles)"> statement in an ordinary L<Moose> class.
 
 Your class is automatically made immutable at the end of the current file.
 
-CAVEAT: Using roles in C<< $c-E<gt>setup >> was implemented in Catalyst
+CAVEAT: Using roles in C<< $c->setup >> was implemented in Catalyst
 version 5.80004. In prior versions you might get away with
 
     after 'setup_plugins' => sub{ with(
@@ -58,14 +58,14 @@ version 5.80004. In prior versions you might get away with
 but this is discouraged and you should upgrade to 5.80004 anyway,
 because it fixes a few important regressions against 5.71
 
-CAVEAT: Using roles in C<< $c-E<gt>setup >> will not currently allow
+CAVEAT: Using roles in C<< $c->setup >> will not currently allow
 you to pass parameters to roles, or perform conflict resolution.
 Conflict detection still works as expected.
 
 =head2 ACCESSORS
 
-Most of the request-specific attributes like C<$c-E<gt>stash>,
-C<$c-E<gt>request> and C<$c-E<gt>response> have been converted to
+Most of the request-specific attributes like C<< $c->stash >>,
+C<< $c->request >> and C<< $c->response >> have been converted to
 L<Moose> attributes but without type constraints, attribute helpers or
 builder methods. This ensures that Catalyst 5.8 is fully backwards
 compatible to applications using the published API of Catalyst 5.7 but

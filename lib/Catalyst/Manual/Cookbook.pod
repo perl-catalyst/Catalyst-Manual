@@ -70,7 +70,7 @@ Normally you enable the debugging info by adding the C<-Debug> flag to
 your C<use Catalyst> statement . However, you can also enable it using
 environment variable, so you can (for example) get debug info without
 modifying your application scripts. Just set C<CATALYST_DEBUG> or
-C<E<lt>MYAPPE<gt>_DEBUG> to a true value.
+C<< <MYAPP>_DEBUG >> to a true value.
 
 =head2 Sessions
 
@@ -1625,7 +1625,7 @@ static content to the view, perhaps like this:
 
 This code will only forward to the view if a template has been
 previously defined by a controller and if there is not already data in
-C<$c-E<gt>res-E<gt>body>.
+C<< $c->res->body >>.
 
 Next, create a controller to handle requests for the /static path. Use
 the Helper to save time. This command will create a stub controller as

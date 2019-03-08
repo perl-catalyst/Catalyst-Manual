@@ -285,9 +285,9 @@ context provides access to "response" and "request" objects. (See
 L<Catalyst::Runtime>, L<Catalyst::Response>, and
 L<Catalyst::Request>)
 
-C<$c-E<gt>response-E<gt>body> sets the HTTP response (see
+C<< $c->response->body >> sets the HTTP response (see
 L<Catalyst::Response>), while
-C<$c-E<gt>welcome_message> is a special method that returns the welcome
+C<< $c->welcome_message >> is a special method that returns the welcome
 message that you saw in your browser.
 
 The ":Path :Args(0)" after the method name are attributes which
@@ -424,13 +424,13 @@ following:
         $c->stash(template => 'hello.tt');
     }
 
-This time, instead of doing C<$c-E<gt>response-E<gt>body()>, you are
+This time, instead of doing C<< $c->response->body() >>, you are
 setting the value of the "template" hash key in the Catalyst "stash", an
 area for putting information to share with other parts of your
 application. The "template" key determines which template will be
 displayed at the end of the request cycle. Catalyst controllers have a
 default "end" action for all methods which causes the first (or default)
-view to be rendered (unless there's a C<$c-E<gt>response-E<gt>body()>
+view to be rendered (unless there's a C<< $c->response->body() >>
 statement). So your template will be magically displayed at the end of
 your method.
 
@@ -462,7 +462,7 @@ You can also set multiple stash values with a hashref:
     $c->stash({template => 'hello.tt', foo => 'bar',
               another_thing => 1});
 
-Any of these formats work, but the C<$c-E<gt>stash(name =E<gt> value);>
+Any of these formats work, but the C<< $c->stash(name => value); >>
 style is growing in popularity -- you may wish to use it all the time
 (even when you are only setting a single value).
 

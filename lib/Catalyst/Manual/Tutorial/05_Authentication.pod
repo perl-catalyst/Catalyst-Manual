@@ -281,7 +281,7 @@ sets a reasonable set of defaults for us.  (Note: the C<SimpleDB> here
 has nothing to do with the SimpleDB offered in Amazon's web services
 offerings -- here we are only talking about a "simple" way to use your
 DB as an authentication backend.)  Open C<lib/MyApp.pm> and place the
-following text above the call to C<__PACKAGE__-E<gt>setup();>:
+following text above the call to C<< __PACKAGE__->setup(); >>:
 
     # Configure SimpleDB Authentication
     __PACKAGE__->config(
@@ -807,7 +807,7 @@ flash vs. the C<status_msg> query parameter:
 Although the sample above only shows the C<content> div, leave the rest
 of the file intact -- the only change we made to replace "||
 c.request.params.status_msg" with "c.flash.status_msg" in the
-C<E<lt>span class="message"E<gt>> line.
+C<< <span class="message"> >> line.
 
 
 =head2 Try Out Flash

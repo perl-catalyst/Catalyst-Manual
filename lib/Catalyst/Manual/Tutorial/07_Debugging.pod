@@ -85,7 +85,7 @@ Catalyst is able to easily accommodate both styles of debugging.
 
 =head1 LOG STATEMENTS
 
-Folks in the former group can use Catalyst's C<$c-E<gt>log> facility.
+Folks in the former group can use Catalyst's C<< $c->log >> facility.
 (See L<Catalyst::Log> for more detail.) For example, if you add the
 following code to a controller action method:
 

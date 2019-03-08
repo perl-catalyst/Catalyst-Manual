@@ -296,7 +296,7 @@ be C<TT>, and the second that it should be a Template Toolkit view.)
 This gives us a process() method and we can now just do
 $c->forward('MyApp::View::TT') to render our templates. The base class
 makes process() implicit, so we don't have to say
-C<$c-E<gt>forward(qw/MyApp::View::TT process/)>.
+C<< $c->forward(qw/MyApp::View::TT process/) >>.
 
     sub hello : Global {
         my ( $self, $c ) = @_;
@@ -315,7 +315,7 @@ In practice, however, you would use a default C<end> action as supplied
 by L<Catalyst::Action::RenderView>.
 
 Also, be sure to put the template under the directory specified in
-C<$c-E<gt>config-E<gt>{root}>, or you'll end up looking at the debug
+C<< $c->config->{root} >>, or you'll end up looking at the debug
 screen.
 
 =head4 Models
@@ -402,7 +402,7 @@ gain several things: you don't have to C<use> each component, Catalyst
 will find and load it automatically at compile-time; you can
 C<forward> to the module, which can only be done to Catalyst
 components.  Only Catalyst components can be fetched with
-C<$c-E<gt>model('SomeModel')>.
+C<< $c->model('SomeModel') >>.
 
 Happily, since many people have existing Model classes that they
 would like to use with Catalyst (or, conversely, they want to
@@ -623,7 +623,7 @@ Optionally, you can specify a B<root> parameter for templates and static
 data.  If omitted, Catalyst will try to auto-detect the directory's
 location. You can define as many parameters as you want for plugins or
 whatever you need. You can access them anywhere in your application via
-C<$context-E<gt>config-E<gt>{$param_name}>.
+C<< $context->config->{$param_name} >>.
 
 =head3 Context
 
@@ -977,9 +977,9 @@ other paths.
 
 For both C<:LocalRegex> and C<:Regex> actions, if you use capturing
 parentheses to extract values within the matching URL, those values
-are available in the C<$c-E<gt>req-E<gt>captures> array. In the above
+are available in the C<< $c->req->captures >> array. In the above
 example, "widget23" would capture "23" in the above example, and
-C<$c-E<gt>req-E<gt>captures-E<gt>[0]> would be "23". If you want to
+C<< $c->req->captures->[0] >> would be "23". If you want to
 pass arguments at the end of your URL, you must use regex action
 keys. See L</URL Path Handling> below.
 
@@ -1030,7 +1030,7 @@ forwarding from another component, you must use the absolute path to
 the method, so that a private C<bar> method in your
 C<MyApp::Controller::Catalog::Order::Process> controller must, if
 called from elsewhere, be reached with
-C<$c-E<gt>forward('/catalog/order/process/bar')>.
+C<< $c->forward('/catalog/order/process/bar') >>.
 
 =back
 
@@ -1263,13 +1263,13 @@ debugging enabled).
     }
 
 A C<forward> does not create a new request, so your request object
-(C<$c-E<gt>req>) will remain unchanged. This is a key difference between
+(C<< $c->req >>) will remain unchanged. This is a key difference between
 using C<forward> and issuing a redirect.
 
 You can pass new arguments to a C<forward> by adding them
-in an anonymous array. In this case C<$c-E<gt>req-E<gt>args>
+in an anonymous array. In this case C<< $c->req->args >>
 will be changed for the duration of the C<forward> only; upon
-return, the original value of C<$c-E<gt>req-E<gt>args> will
+return, the original value of C<< $c->req->args >> will
 be reset.
 
     sub hello : Global {
