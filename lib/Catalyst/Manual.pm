@@ -8,6 +8,9 @@ use warnings;
 
 our $VERSION = '5.9009';
 
+1;
+__END__
+
 =head1 NAME
 
 Catalyst::Manual - The Catalyst developer's manual
@@ -116,5 +119,3 @@ This is free software and content; you can redistribute it and/or modify it unde
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-1;
