@@ -312,7 +312,7 @@ following code:
     </Plugin::Authentication>
 
 B<TIP:> Here is a short script that will dump the contents of
-C<MyApp->config> to L<Config::General> format in F<myapp.conf>:
+C<< MyApp->config >> to L<Config::General> format in F<myapp.conf>:
 
     $ CATALYST_DEBUG=0 perl -Ilib -e 'use MyApp; use Config::General;
         Config::General->new->save_file("myapp.conf", MyApp->config);'
@@ -684,9 +684,9 @@ text:
         $user->update;
     }
 
-PassphraseColumn lets us simply call C<$user->check_password($password)>
+PassphraseColumn lets us simply call C<< $user->check_password($password) >>
 to see if the user has supplied the correct password, or, as we show
-above, call C<$user->update($new_password)> to update the hashed
+above, call C<< $user->update($new_password) >> to update the hashed
 password stored for this user.
 
 Then run the following command:
