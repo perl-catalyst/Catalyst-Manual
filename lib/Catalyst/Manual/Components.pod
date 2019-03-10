@@ -445,23 +445,23 @@ Allows your Controller class to dispatch XMLRPC methods from its own class.
 
 =head2 L<Catalyst::Controller::HTML::FormFu>
 
-Catalyst integration for <HTML::FormFu>.
+Catalyst integration for L<HTML::FormFu>.
 
 =head1 MODELS
 
 =head2 L<Catalyst::Model::CDBI>
 
-The C<Class::DBI> (CDBI) model class.  It is built on top of
-C<Class::DBI::Loader>, which automates the definition of C<Class::DBI>
+The L<Class::DBI> (CDBI) model class.  It is built on top of
+L<Class::DBI::Loader>, which automates the definition of L<Class::DBI>
 sub-classes by scanning the underlying table schemas, setting up columns
 and primary keys.
 
 =head2 L<Catalyst::Model::CDBI::Plain>
 
-A neutral interface to the C<Class::DBI> module which does not attempt
+A neutral interface to the L<Class::DBI> module which does not attempt
 to automate table setup. It allows the user to manually set up
-C<Class::DBI> classes, either by doing so within the Catalyst model
-classes themselves, or by inheriting from existing C<Class::DBI>
+L<Class::DBI> classes, either by doing so within the Catalyst model
+classes themselves, or by inheriting from existing L<Class::DBI>
 classes.
 
 =head2 L<Catalyst::Model::DBIC::Schema>

@@ -1218,7 +1218,7 @@ This.
 
 Parameters passed in the URL query string are handled with methods in
 the L<Catalyst::Request> class. The C<param> method is functionally
-equivalent to the C<param> method of C<CGI.pm> and can be used in
+equivalent to the C<param> method of L<CGI.pm|CGI> and can be used in
 modules that require this.
 
     # http://localhost:3000/catalog/view/?category=hardware&page=3

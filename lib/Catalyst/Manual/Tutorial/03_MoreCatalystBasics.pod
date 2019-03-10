@@ -748,8 +748,8 @@ L<Chapter 4|Catalyst::Manual::Tutorial::04_BasicCRUD>).
 =head2 Create Static DBIx::Class Schema Files
 
 B<Note:> If you are not following along in the Tutorial Virtual Machine,
-please be sure that you have version 1.27 or higher of DBD::SQLite and
-version 0.39 or higher of Catalyst::Model::DBIC::Schema.  (The Tutorial
+please be sure that you have version 1.27 or higher of L<DBD::SQLite> and
+version 0.39 or higher of L<Catalyst::Model::DBIC::Schema>.  (The Tutorial
 VM already has versions that are known to work.)  You can get your
 currently installed version numbers with the following commands.
 

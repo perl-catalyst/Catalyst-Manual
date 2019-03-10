@@ -366,7 +366,7 @@ To create a TT view, run:
     $ script/hello_create.pl view HTML TT
 
 This creates the F<lib/Hello/View/HTML.pm> module, which is a subclass
-of C<Catalyst::View::TT>.
+of L<Catalyst::View::TT>.
 
 =over 4
 
@@ -394,7 +394,7 @@ contains a config statement to set the TT extension to ".tt".
 
 Now that the HTML.pm "View" exists, Catalyst will autodiscover it and be
 able to use it to display the view templates using the "process" method
-that it inherits from the C<Catalyst::View::TT> class.
+that it inherits from the L<Catalyst::View::TT> class.
 
 Template Toolkit is a very full-featured template facility, with
 excellent documentation at L<http://template-toolkit.org/>, but since

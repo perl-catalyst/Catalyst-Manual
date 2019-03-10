@@ -147,7 +147,7 @@ following method:
 
 =head2 Create a Form Config File
 
-Although C<HTML::FormFu> supports any configuration file handled by
+Although L<HTML::FormFu> supports any configuration file handled by
 L<Config::Any>, most people tend to use YAML.  First create a directory
 to hold your form configuration files:
 

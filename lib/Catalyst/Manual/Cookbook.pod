@@ -1894,7 +1894,7 @@ The first line declares how many tests we are going to run, in this case
 two. The second line tests and loads our application in test mode. The
 fourth line verifies that our application returns a successful response.
 
-C<Catalyst::Test> exports two functions, C<request> and C<get>. Each can
+L<Catalyst::Test> exports two functions, C<request> and C<get>. Each can
 take three different arguments:
 
 =over 4
@@ -1904,17 +1904,17 @@ take three different arguments:
     request('/my/path');
     request('http://www.host.com/my/path');
 
-=item An instance of C<URI>.
+=item An instance of L<URI>.
 
     request( URI->new('http://www.host.com/my/path') );
 
-=item An instance of C<HTTP::Request>.
+=item An instance of L<HTTP::Request>.
 
     request( HTTP::Request->new( GET => 'http://www.host.com/my/path') );
 
 =back
 
-C<request> returns an instance of C<HTTP::Response> and C<get> returns the
+C<request> returns an instance of L<HTTP::Response> and C<get> returns the
 content (body) of the response.
 
 =head3 Running tests locally
@@ -1945,9 +1945,9 @@ C<CATALYST_SERVER=http://localhost:3000/> is the absolute deployment URI of
 your application. In C<CGI> or C<FastCGI> it should be the host and path
 to the script.
 
-=head3 C<Test::WWW::Mechanize> and Catalyst
+=head3 L<Test::WWW::Mechanize> and Catalyst
 
-Be sure to check out C<Test::WWW::Mechanize::Catalyst>. It makes it easy to
+Be sure to check out L<Test::WWW::Mechanize::Catalyst>. It makes it easy to
 test HTML, forms and links. A short example of usage:
 
     use Test::More tests => 6;

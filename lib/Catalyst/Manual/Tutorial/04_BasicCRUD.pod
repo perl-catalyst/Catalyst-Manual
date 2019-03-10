@@ -1044,7 +1044,7 @@ incorporate the datetime logic:
 =head2 Create a ResultSet Class
 
 An often overlooked but extremely powerful features of DBIC is that it
-allows you to supply your own subclasses of C<DBIx::Class::ResultSet>.
+allows you to supply your own subclasses of L<DBIx::Class::ResultSet>.
 This can be used to pull complex and unsightly "query code" out of your
 controllers and encapsulate it in a method of your ResultSet Class.
 These "canned queries" in your ResultSet Class can then be invoked via a
@@ -1120,7 +1120,7 @@ higher or lower value for the minutes.
 
 =head2 Chaining ResultSets
 
-One of the most helpful and powerful features in C<DBIx::Class> is that
+One of the most helpful and powerful features in L<DBIx::Class> is that
 it allows you to "chain together" a series of queries (note that this
 has nothing to do with the "Chained Dispatch" for Catalyst that we were
 discussing earlier).  Because each ResultSet method returns another

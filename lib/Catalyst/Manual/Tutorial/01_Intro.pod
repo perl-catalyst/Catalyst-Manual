@@ -103,7 +103,7 @@ platforms and versions.
 If you would prefer to install directly from CPAN and not use the
 Tutorial Virtual machine, you can download the example program and all
 the necessary dependencies to your local machine by installing the
-C<Task::Catalyst::Tutorial> distribution:
+L<Task::Catalyst::Tutorial> distribution:
 
      cpan Task::Catalyst::Tutorial
 

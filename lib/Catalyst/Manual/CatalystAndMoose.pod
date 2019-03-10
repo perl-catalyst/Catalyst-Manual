@@ -73,7 +73,7 @@ slightly limits the gains that could be had by wielding the full power
 of L<Moose> attributes.
 
 Most of the accessors to information gathered during compile time (such
-as configuration) are managed by C<Catalyst::ClassData>, which is a
+as configuration) are managed by L<Catalyst::ClassData>, which is a
 L<Moose>-aware version of L<Class::Data::Inheritable> but not compatible
 with L<MooseX::ClassAttribute>.
 

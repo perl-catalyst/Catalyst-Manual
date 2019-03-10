@@ -536,7 +536,7 @@ The MySQL database server and client utility.
 
 =item *
 
-The Perl C<DBD::MySQL> module
+The Perl L<DBD::MySQL> module
 
 =back
 

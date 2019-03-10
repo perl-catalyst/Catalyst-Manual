@@ -93,20 +93,20 @@ and this would be used in a controller like this:
 
 =head1 EXAMPLE ACTIONS
 
-=head2 Catalyst::Action::RenderView
+=head2 L<Catalyst::Action::RenderView>
 
 This is meant to decorate end actions. It's similar in operation to
 L<Catalyst::Plugin::DefaultEnd>, but allows you to decide on an action
 level rather than on an application level where it should be run.
 
-=head2 Catalyst::Action::REST
+=head2 L<Catalyst::Action::REST>
 
 Provides additional syntax for dispatching based upon the HTTP method
 of the request.
 
 =head1 EXAMPLE ACTIONROLES
 
-=head2 Catalyst::ActionRole::ACL
+=head2 L<Catalyst::ActionRole::ACL>
 
 Provides ACLs for role membership by decorating your actions.
 
