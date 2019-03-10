@@ -156,17 +156,17 @@ reference.
 
 =head3 More information
 
-L<http://search.cpan.org/dist/Catalyst-Plugin-Session>
+L<Catalyst::Plugin::Session>
 
-L<http://search.cpan.org/dist/Catalyst-Plugin-Session-State-Cookie>
+L<Catalyst::Plugin::Session::State::Cookie>
 
-L<http://search.cpan.org/dist/Catalyst-Plugin-Session-State-URI>
+L<Catalyst::Plugin::Session::State::URI>
 
-L<http://search.cpan.org/dist/Catalyst-Plugin-Session-Store-FastMmap>
+L<Catalyst::Plugin::Session::Store::FastMmap>
 
-L<http://search.cpan.org/dist/Catalyst-Plugin-Session-Store-File>
+L<Catalyst::Plugin::Session::Store::File>
 
-L<http://search.cpan.org/dist/Catalyst-Plugin-Session-Store-DBI>
+L<Catalyst::Plugin::Session::Store::DBI>
 
 =head2 Configure your application
 
@@ -962,11 +962,11 @@ elements in your site that you want to keep in one file.
 
 Further Reading:
 
-L<http://search.cpan.org/perldoc?Catalyst>
+L<Catalyst>
 
-L<http://search.cpan.org/perldoc?Catalyst%3A%3AView%3A%3ATT>
+L<Catalyst::View::TT>
 
-L<http://search.cpan.org/perldoc?Template>
+L<Template>
 
 =head2 Adding RSS feeds
 
@@ -1602,7 +1602,7 @@ directories relative to the include_path dirs will also be ignored:
 
 =head3 More information
 
-L<http://search.cpan.org/dist/Catalyst-Plugin-Static-Simple/>
+L<Catalyst::Plugin::Static::Simple>
 
 =head3 Serving manually with the Static plugin with HTTP::Daemon (myapp_server.pl)
 
@@ -1964,76 +1964,49 @@ test HTML, forms and links. A short example of usage:
 
 =over 4
 
-=item Catalyst::Test
+=item * L<Catalyst::Test>
 
-L<Catalyst::Test>
+=item * L<Test::WWW::Mechanize::Catalyst>
 
-=item Test::WWW::Mechanize::Catalyst
+=item * L<Test::WWW::Mechanize>
 
-L<http://search.cpan.org/dist/Test-WWW-Mechanize-Catalyst/lib/Test/WWW/Mechanize/Catalyst.pm>
+=item * L<WWW::Mechanize>
 
-=item Test::WWW::Mechanize
+=item * L<LWP::UserAgent>
 
-L<http://search.cpan.org/dist/Test-WWW-Mechanize/Mechanize.pm>
+=item * L<HTML::Form>
 
-=item WWW::Mechanize
+=item * L<HTTP::Message>
 
-L<http://search.cpan.org/dist/WWW-Mechanize/lib/WWW/Mechanize.pm>
+=item * L<HTTP::Request>
 
-=item LWP::UserAgent
+=item * L<HTTP::Request::Common>
 
-L<http://search.cpan.org/dist/libwww-perl/lib/LWP/UserAgent.pm>
+=item * L<HTTP::Response>
 
-=item HTML::Form
+=item * L<HTTP::Status>
 
-L<http://search.cpan.org/dist/libwww-perl/lib/HTML/Form.pm>
+=item * L<URI>
 
-=item HTTP::Message
+=item * L<Test::More>
 
-L<http://search.cpan.org/dist/libwww-perl/lib/HTTP/Message.pm>
+=item * L<Test::Pod>
 
-=item HTTP::Request
+=item * L<Test::Pod::Coverage>
 
-L<http://search.cpan.org/dist/libwww-perl/lib/HTTP/Request.pm>
-
-=item HTTP::Request::Common
-
-L<http://search.cpan.org/dist/libwww-perl/lib/HTTP/Request/Common.pm>
-
-=item HTTP::Response
-
-L<http://search.cpan.org/dist/libwww-perl/lib/HTTP/Response.pm>
-
-=item HTTP::Status
-
-L<http://search.cpan.org/dist/libwww-perl/lib/HTTP/Status.pm>
-
-=item URI
-
-L<http://search.cpan.org/dist/URI/URI.pm>
-
-=item Test::More
-
-L<http://search.cpan.org/dist/Test-Simple/lib/Test/More.pm>
-
-=item Test::Pod
-
-L<http://search.cpan.org/dist/Test-Pod/Pod.pm>
-
-=item Test::Pod::Coverage
-
-L<http://search.cpan.org/dist/Test-Pod-Coverage/Coverage.pm>
-
-=item prove (Test::Harness)
-
-L<http://search.cpan.org/dist/Test-Harness/bin/prove>
+=item * L<prove> (L<Test::Harness>)
 
 =back
 
 =head3 More Information
 
-L<http://search.cpan.org/perldoc?Catalyst::Plugin::Authorization::Roles>
-L<http://search.cpan.org/perldoc?Catalyst::Plugin::Authorization::ACL>
+=over 4
+
+=item * L<Catalyst::Plugin::Authorization::Roles>
+
+=item * L<Catalyst::Plugin::Authorization::ACL>
+
+=back
 
 =head1 AUTHORS
 
