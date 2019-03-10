@@ -729,7 +729,7 @@ Delete the existing model:
 Regenerate the model using the Catalyst "_create.pl" script:
 
     script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=static \
-	dbi:mysql:myapp 'tutorial' 'yourpassword' '{ AutoCommit => 1 }'
+        dbi:mysql:myapp 'tutorial' 'yourpassword' '{ AutoCommit => 1 }'
 
 =back
 
@@ -810,7 +810,7 @@ Update the model:
 Regenerate the model using the Catalyst "_create.pl" script:
 
     script/myapp_create.pl model DB DBIC::Schema MyApp::Schema create=static \
-	components=TimeStamp,PassphraseColumn dbi:mysql:myapp 'tutorial' 'yourpassword' '{ AutoCommit => 1 }'
+        components=TimeStamp,PassphraseColumn dbi:mysql:myapp 'tutorial' 'yourpassword' '{ AutoCommit => 1 }'
 
 =back
 

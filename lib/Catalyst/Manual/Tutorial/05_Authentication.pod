@@ -2,7 +2,6 @@
 
 Catalyst::Manual::Tutorial::05_Authentication - Catalyst Tutorial - Chapter 5: Authentication
 
-
 =head1 OVERVIEW
 
 This is B<Chapter 5 of 10> for the Catalyst tutorial.
@@ -67,7 +66,6 @@ Source code for the tutorial in included in the F</home/catalyst/Final> director
 of the Tutorial Virtual machine (one subdirectory per chapter).  There
 are also instructions for downloading the code in
 L<Catalyst::Manual::Tutorial::01_Intro>.
-
 
 =head1 BASIC AUTHENTICATION
 
@@ -188,14 +186,14 @@ table information.
 
 We aren't ready to try out the authentication just yet; we only want to
 do a quick check to be sure our model loads correctly. Assuming that you
-are following along and using the "-r" option on C<myapp_server.pl>,
+are following along and using the "-r" option on F<myapp_server.pl>,
 then the development server should automatically reload (if not, press
 C<Ctrl-C> to break out of the server if it's running and then enter
-C<script/myapp_server.pl> to start it). Look for the three new model
+F<script/myapp_server.pl> to start it). Look for the three new model
 objects in the startup debug output:
 
     ...
-     .-------------------------------------------------------------------+----------.
+    .-------------------------------------------------------------------+----------.
     | Class                                                             | Type     |
     +-------------------------------------------------------------------+----------+
     | MyApp::Controller::Books                                          | instance |
@@ -952,10 +950,8 @@ longer displayed  (even though the URL does still contain the message ID
 token, it is ignored -- thereby keeping the state of our status/error
 messages in sync with the users actions).
 
-
 You can jump to the next chapter of the tutorial here:
 L<Authorization|Catalyst::Manual::Tutorial::06_Authorization>
-
 
 =head1 AUTHOR
 

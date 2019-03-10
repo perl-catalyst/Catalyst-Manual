@@ -18,7 +18,7 @@ This is pretty simple. Actions work just like the normal dispatch
 attributes you are used to, like Local or Private:
 
   sub Hello :Local :ActionClass('SayBefore') {
-	$c->res->output( 'Hello '.$c->stash->{what} );
+      $c->res->output( 'Hello '.$c->stash->{what} );
   }
 
 In this example, we expect the SayBefore action to magically populate

@@ -523,8 +523,6 @@ the controller.
 You can jump to the next chapter of the tutorial here:
 L<More Catalyst Basics|Catalyst::Manual::Tutorial::03_MoreCatalystBasics>
 
-
-
 =head1 AUTHORS
 
 Gerda Shank, C<gerda.shank@gmail.com>

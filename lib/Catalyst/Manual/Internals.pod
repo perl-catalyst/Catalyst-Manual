@@ -22,7 +22,6 @@ Catalyst initializes itself in two stages:
 When the Catalyst module is imported in the main application
 module, it stores any options.
 
-
 =item 2
 
 When C<< __PACKAGE__->setup >> is called, it evaluates any
