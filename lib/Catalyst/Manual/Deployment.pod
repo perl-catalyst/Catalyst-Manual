@@ -91,7 +91,7 @@ L<Chef|http://www.opscode.com/chef/> is an open-source systems integration
 framework built specifically for automating cloud computing deployments. A
 Cookbooks demonstrating how to deploy a Catalyst application using Chef is
 available at L<http://community.opscode.com/cookbooks/catalyst> and
-L<http://github.com/melezhik/cookbooks/wiki/Catalyst-cookbook-intro>.
+L<https://github.com/melezhik/cookbooks/wiki/Catalyst-cookbook-intro>.
 
 =head1 AUTHORS
 

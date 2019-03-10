@@ -294,7 +294,7 @@ where the first C<TT> tells the script that the name of the view should
 be C<TT>, and the second that it should be a Template Toolkit view.)
 
 This gives us a process() method and we can now just do
-$c->forward('MyApp::View::TT') to render our templates. The base class
+C<< $c->forward('MyApp::View::TT') >> to render our templates. The base class
 makes process() implicit, so we don't have to say
 C<< $c->forward(qw/MyApp::View::TT process/) >>.
 
@@ -514,7 +514,7 @@ equivalent to the same controller above:
 
 =head3 ACCEPT_CONTEXT
 
-Whenever you call $c->component("Foo") you get back an object - the
+Whenever you call C<< $c->component("Foo") >> you get back an object - the
 instance of the model. If the component supports the C<ACCEPT_CONTEXT>
 method instead of returning the model itself, the return value of C<<
 $model->ACCEPT_CONTEXT( $c ) >> will be used.
@@ -562,7 +562,7 @@ In a subroutine in the  model code, we can then do this:
 Note that we still want the Catalyst models to be a thin wrapper
 around classes that will work independently of the Catalyst
 application to promote reusability of code.  Here we might just want
-to grab the $c->model('DB')->schema so as to get the connection
+to grab the C<< $c->model('DB')->schema >> so as to get the connection
 information from the Catalyst application's configuration for example.
 
 The life time of this value is B<per usage>, and not per request. To

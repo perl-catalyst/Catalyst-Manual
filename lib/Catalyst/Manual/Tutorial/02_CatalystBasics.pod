@@ -290,7 +290,7 @@ L<Catalyst::Response>), while
 C<< $c->welcome_message >> is a special method that returns the welcome
 message that you saw in your browser.
 
-The ":Path :Args(0)" after the method name are attributes which
+The "C<:Path :Args(0)>" after the method name are attributes which
 determine which URLs will be dispatched to this method. (You might see
 ":Private" if you are using an older version of Catalyst, but using that
 with "default" or "index" is currently deprecated.  If so, you should
@@ -301,7 +301,7 @@ policy, prefers to handle URL dispatching with attributes on controller
 methods. There is a lot of flexibility in specifying which URLs to
 match.  This particular method will match all URLs, because it doesn't
 specify the path (nothing comes after "Path"), but will only accept a
-URL without any args because of the ":Args(0)".
+URL without any args because of the "C<:Args(0)>".
 
 The default is to map URLs to controller names, and because of the way
 that Perl handles namespaces through package names, it is simple to

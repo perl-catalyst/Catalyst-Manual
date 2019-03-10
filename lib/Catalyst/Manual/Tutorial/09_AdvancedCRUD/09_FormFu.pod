@@ -378,7 +378,7 @@ to match:
         - HTMLEscape
 
 B<NOTE:> Copying and pasting YAML from Perl documentation is sometimes
-tricky.  See the L<Config::General Config for this tutorial> section of
+tricky.  See the L</Config::General Config for this tutorial> section of
 this document for a more foolproof config format.
 
 The main changes are:

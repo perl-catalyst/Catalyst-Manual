@@ -14,7 +14,7 @@ Catalyst's behaviour, and this can be confusing. This document is
 written to help you understand the possibilities, current practices
 and their consequences.
 
-Please read the L<BEST PRACTICES> section before deciding on a design,
+Please read the L</BEST PRACTICES> section before deciding on a design,
 especially if you plan to release your code to CPAN. The Catalyst
 developer and user communities, which B<you are part of>, will benefit
 most if we all work together and coordinate.
@@ -255,7 +255,7 @@ in the controller object's hash reference, and available from the
 accessor.
 
 The C<config> accessor always only contains the original class configuration
-and you B<MUST NEVER> call $self->config to get your component configuration,
+and you B<MUST NEVER> call C<< $self->config >> to get your component configuration,
 as the data there is likely to be a subset of the correct config.
 
 For example:
@@ -580,7 +580,7 @@ lifecycle. If your functionality needs to change some C<prepare_*> or
 C<finalize_*> stages, you won't get around a plugin.
 
 Note, if you just want to hook into such a stage, and run code before,
-or after it, then it is recommended that you use L<Moose>s method modifiers
+or after it, then it is recommended that you use L<Moose>'s method modifiers
 to do this.
 
 Another valid target for a plugin architecture are things that

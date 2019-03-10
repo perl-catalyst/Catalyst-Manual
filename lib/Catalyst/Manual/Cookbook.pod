@@ -821,17 +821,17 @@ This time, the helper sets several options for us in the generated View.
 
 =over
 
-=item
+=item *
 
 INCLUDE_PATH defines the directories that Template Toolkit should search
 for the template files.
 
-=item
+=item *
 
 PRE_PROCESS is used to process configuration options which are common to
 every template file.
 
-=item
+=item *
 
 WRAPPER is a file which is processed with each template, usually used to
 easily provide a common header and footer for every page.
@@ -856,7 +856,7 @@ or <head> sections; just put in the content. The WRAPPER will the rest
 of the page around your template for you.
 
 
-=head3 $c->stash
+=head3 C<< $c->stash >>
 
 Of course, having the template system include the header and footer for
 you isn't all that we want our templates to do. We need to be able to
@@ -911,7 +911,7 @@ This is the most basic usage, but Template Toolkit is quite powerful,
 and allows you to truly keep your presentation logic separate from the
 rest of your application.
 
-=head3 $c->uri_for()
+=head3 C<< $c->uri_for() >>
 
 One of my favorite things about Catalyst is the ability to move an
 application around without having to worry that everything is going to
@@ -922,7 +922,7 @@ to "/Calendar", "/Calendar/2005", "/Calendar/2005/10", etc.  If you move
 the application to be at http://www.mydomain.com/Tools/Calendar, then
 all of those links will suddenly break.
 
-That's where $c->uri_for() comes in. This function will merge its
+That's where C<< $c->uri_for() >> comes in. This function will merge its
 parameters with either the base location for the app, or its current
 namespace. Let's take a look at a couple of examples.
 
@@ -944,7 +944,7 @@ Likewise,
 The first parameter does NOT have a forward slash, and so it will be
 relative to the current namespace. If the application is installed at
 http://www.domain.com/Calendar. and if the template is called from
-MyApp::Controller::Display, then the link would become
+C<MyApp::Controller::Display>, then the link would become
 http://www.domain.com/Calendar/Display/2005/10/24.
 
 If you want to link to a parent uri of your current namespace you can

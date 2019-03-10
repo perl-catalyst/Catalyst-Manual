@@ -77,14 +77,14 @@ regex patterns).  I<Note that all 3 of the regexs end in 4 spaces>:
 
 =item *
 
-":0,$s/^    "
+C<":0,$s/^    ">
 
 Removes four leading spaces from the entire file (from the first line,
 C<0>, to the last line, C<$>).
 
 =item *
 
-"%s/^    "
+C<"%s/^    ">
 
 A shortcut for the previous item (C<%> specifies the entire file; so
 this removes four leading spaces from every line).
@@ -98,7 +98,7 @@ the regex command is executed (".") to the last line of the file.
 
 =item *
 
-":.,44s/^    "
+C<":.,44s/^    ">
 
 Removes four leading space from the current line through line 44
 (obviously adjust the C<44> to the appropriate value in your example).

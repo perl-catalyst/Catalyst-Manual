@@ -606,7 +606,7 @@ We are just avoiding the I<storage> of cleartext passwords in the
 database by using a salted SHA-1 hash. If you are concerned about
 cleartext passwords between the browser and your application, consider
 using SSL/TLS, made easy with modules such as
-L<Catalyst::Plugin:RequireSSL> and L<Catalyst::ActionRole::RequireSSL>.
+L<Catalyst::Plugin::RequireSSL> and L<Catalyst::ActionRole::RequireSSL>.
 
 
 =head2 Re-Run the DBIC::Schema Model Helper to Include DBIx::Class::PassphraseColumn
@@ -802,8 +802,8 @@ flash vs. the C<status_msg> query parameter:
     ...
 
 Although the sample above only shows the C<content> div, leave the rest
-of the file intact -- the only change we made to replace "||
-c.request.params.status_msg" with "c.flash.status_msg" in the
+of the file intact -- the only change we made to replace "C<||
+c.request.params.status_msg>" with "C<c.flash.status_msg>" in the
 C<< <span class="message"> >> line.
 
 

@@ -1151,7 +1151,7 @@ Authentication chapter of the tutorial).
 =item *
 
 Although it is beyond the scope of this tutorial, you may wish to use a
-JavaScript or AJAX tool such as jQuery (L<http://www.jquery.com>) or
+JavaScript or AJAX tool such as jQuery (L<https://www.jquery.com>) or
 Dojo (L<http://www.dojotoolkit.org>).
 
 =back
@@ -1397,7 +1397,7 @@ update the template to do that.
 Let's add a new column to our book list page that takes advantage of the
 relationship information we manually added to our schema files in the
 previous section.  Edit F<root/src/books/list.tt2> and replace the
-"empty" table cell "<td></td>" with the following:
+"empty" table cell "C<< <td></td> >>" with the following:
 
     ...
     <td>
