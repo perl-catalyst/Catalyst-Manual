@@ -50,16 +50,6 @@ There is no dated release cycle for Catalyst. New releases will be made
 when sufficient small fixes have accumulated; or an important bugfix, or
 significant feature addition, is completed.
 
-=head2 Roadmap for features
-
-The Catalyst Roadmap is kept at
-L<http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=catagits/Catalyst-Runtime.git;a=blob_plain;f=lib/Catalyst/ROADMAP.pod;hb=master>
-
-=head2 Bug list
-
-The TODO list with known bugs / deficiencies is kept at
-L<http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=catagits/Catalyst-Runtime.git;a=blob_plain;f=TODO;hb=master>
-
 =head1 The Catalyst Core Team
 
 The intention of the Catalyst Core Team is to maintain and support the
