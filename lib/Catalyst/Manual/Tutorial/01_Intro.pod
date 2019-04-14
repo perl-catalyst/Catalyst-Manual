@@ -220,8 +220,8 @@ Uncompress the image on the "host machine":
 =item 3
 
 Boot the virtual machine using a tool like VMWare Player
-L<http://www.vmware.com/products/player> or VirtualBox
-L<http://www.virtualbox.org/>.
+L<https://www.vmware.com/products/workstation-player.html> or VirtualBox
+L<https://www.virtualbox.org/>.
 
 =item 4
 
@@ -368,7 +368,7 @@ For KDE, just substitute the package name "C<kde>" for "C<gnome>" above.
 Note that C<iceweasel> is basically used to install Firefox on Debian
 boxes.  You can start it under X Windows with either the C<firefox>
 command or the C<iceweasel> command (or use the menus).  You can get
-more information on Iceweasel at L<http://wiki.debian.org/Iceweasel>.
+more information on Iceweasel at L<https://wiki.debian.org/Iceweasel>.
 
 Also, you might need to add more memory to your virtual machine if you
 want to run X Windows (or other tools that might require additional
@@ -456,15 +456,15 @@ help:
 
 =item *
 
-L<http://vmfaq.com/index.php?View=entry&EntryID=34>
+L<https://web.archive.org/web/20160623183717/http://vmfaq.com/index.php?View=entry&EntryID=34>
 
 =item *
 
-L<http://www.vmware.com/support/pubs/player_pubs.html>
+L<https://www.vmware.com/support/pubs/player_pubs.html>
 
 =item *
 
-L<http://www.virtualbox.org/manual/ch06.html>
+L<https://www.virtualbox.org/manual/ch06.html>
 
 =back
 
@@ -544,7 +544,7 @@ command line).
 B<Please Note:> Depending on the web browser you are using, you might
 need to hit C<Shift+Reload> or C<Ctrl+Reload> to pull a fresh page when
 testing your application at various points (see
-L<http://en.wikipedia.org/wiki/Wikipedia:Bypass_your_cache> for a
+L<https://en.wikipedia.org/wiki/Wikipedia:Bypass_your_cache> for a
 comprehensive list of options for each browser).
 
 Also, the C<-k> B<keepalive option> to the development server can be
@@ -580,4 +580,4 @@ L<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
 
 Copyright 2006-2011, Kennedy Clark, under the
 Creative Commons Attribution Share-Alike License Version 3.0
-(L<http://creativecommons.org/licenses/by-sa/3.0/us/>).
+(L<https://creativecommons.org/licenses/by-sa/3.0/us/>).

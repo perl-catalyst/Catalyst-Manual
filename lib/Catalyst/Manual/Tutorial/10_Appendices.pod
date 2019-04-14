@@ -132,16 +132,16 @@ current major mode). You can run the command by typing M-x
 indent-region or pressing the default keybinding C-M-\ in cperl-mode.
 Additional details can be found here:
 
-L<http://www.gnu.org/software/emacs/manual/html_node/emacs/Indentation-Commands.html>
+L<https://www.gnu.org/software/emacs/manual/html_node/emacs/Indentation-Commands.html>
 
 
 =head1 APPENDIX 2: USING POSTGRESQL AND MYSQL
 
 The main database used in this tutorial is the very simple yet powerful
-L<SQLite|http://www.sqlite.org>.  This section provides information
+L<SQLite|https://www.sqlite.org>.  This section provides information
 that can be used to "convert" the tutorial to use
-L<PostgreSQL|http://www.postgresql.org> and
-L<MySQL|http://dev.mysql.com>.  However, note that part of
+L<PostgreSQL|https://www.postgresql.org> and
+L<MySQL|https://dev.mysql.com>.  However, note that part of
 the beauty of the MVC architecture is that very little database-specific
 code is spread throughout the system (at least when MVC is "done
 right").  Consequently, converting from one database to another is
@@ -847,4 +847,4 @@ L<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
 
 Copyright 2006-2011, Kennedy Clark, under the
 Creative Commons Attribution Share-Alike License Version 3.0
-(L<http://creativecommons.org/licenses/by-sa/3.0/us/>).
+(L<https://creativecommons.org/licenses/by-sa/3.0/us/>).

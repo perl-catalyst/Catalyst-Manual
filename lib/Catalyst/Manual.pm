@@ -99,7 +99,7 @@ http://www.packtpub.com/catalyst-perl-web-application/book
 =head1 SUPPORT
 
 Corrections or amendments may be submitted through L<the RT bug tracker|https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>
-(or L<bug-Catalyst-Manual@rt.cpan.org|mailto:Catalyst-Manual@rt.cpan.org>).
+(or L<bug-Catalyst-Manual@rt.cpan.org|mailto:bug-Catalyst-Manual@rt.cpan.org>).
 
 There is also a mailing list available for users of this distribution, at
 L<http://lists.scsys.co.uk/cgi-bin/mailman/listinfo/catalyst>.
@@ -109,7 +109,7 @@ L<irc://irc.perl.org/#catalyst>.
 
 =head1 AUTHORS
 
-Catalyst Contributors, see Catalyst.pm
+Catalyst Contributors, see L<Catalyst>
 
 =head1 COPYRIGHT AND LICENCE
 

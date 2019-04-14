@@ -68,7 +68,8 @@ there's always the IRC channel and the mailing list to discuss things.
 
 This gives a stable basis for contribution, and even more importantly,
 builds trust. The easiest way is a test application. See
-L<Catalyst::Manual::Tutorial::Testing> for more information.
+L<Catalyst::Manual::Tutorial::Testing|Catalyst::Manual::Tutorial::08_Testing>
+for more information.
 
 =back
 
@@ -223,7 +224,7 @@ configuration. There is of course again more than one way to do it.
 
 You can specify any valid Perl attribute on Catalyst actions you like.
 (See L<attributes/"Syntax of Attribute Lists"> for a description of
-what is valid.) These will be available on the C<Catalyst::Action>
+what is valid.) These will be available on the L<Catalyst::Action>
 instance via its C<attributes> accessor. To give an example, this
 action:
 

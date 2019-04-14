@@ -242,7 +242,7 @@ the bottom of the existing file:
     </p>
 
 This adds a new link to the bottom of the book list page that we can use
-to easily launch our HTML::FormFu-based form.
+to easily launch our L<HTML::FormFu>-based form.
 
 
 =head2 Test The HTML::FormFu Create Form
@@ -252,7 +252,7 @@ Make sure the server is running with the "-r" restart option:
     $ script/myapp_server.pl -r
 
 Login as C<test01> (password: mypass).  Once at the Book List page,
-click the new HTML::FormFu "Create" link at the bottom to display the
+click the new L<HTML::FormFu> "Create" link at the bottom to display the
 form.  Fill in the following values:
 
     Title:  Internetworking with TCP/IP Vol. II
@@ -409,7 +409,7 @@ unwanted input.  See L<HTML::FormFu::Filter> for more filter options.
 Make sure you are still logged in as C<test01> and try adding a book
 with various errors: title less than 5 characters, non-numeric rating, a
 rating of 0 or 6, etc.  Also try selecting one, two, and zero authors.
-When you click Submit, the HTML::FormFu C<constraint> items will
+When you click Submit, the L<HTML::FormFu> C<constraint> items will
 validate the logic and insert feedback as appropriate.  Try adding blank
 spaces at the front or the back of the title and note that it will be
 removed.
@@ -649,4 +649,4 @@ L<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
 
 Copyright 2006-2011, Kennedy Clark, under the
 Creative Commons Attribution Share-Alike License Version 3.0
-(L<http://creativecommons.org/licenses/by-sa/3.0/us/>).
+(L<https://creativecommons.org/licenses/by-sa/3.0/us/>).

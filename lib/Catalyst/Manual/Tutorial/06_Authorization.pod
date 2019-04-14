@@ -274,13 +274,13 @@ the "C<DO NOT MODIFY ...>" line:
         return any(map { $_->role } $self->roles) eq $role;
     }
 
-Let's also add C<Perl6::Junction> to the requirements listed in
+Let's also add L<Perl6::Junction> to the requirements listed in
 Makefile.PL:
 
     requires 'Perl6::Junction';
 
-B<Note:> Feel free to use C<grep> in lieu of C<Perl6::Junction::any> if
-you prefer.  Also, please don't let the use of the C<Perl6::Junction>
+B<Note:> Feel free to use C<grep> in lieu of L<Perl6::Junction::any|Perl6::Junction/any()> if
+you prefer.  Also, please don't let the use of the L<Perl6::Junction>
 module above lead you to believe that Catalyst is somehow dependent on
 Perl 6... we are simply using that module for its
 L<easy-to-read|http://blogs.perl.org/users/marc_sebastian_jakobs/2009/11/my-favorite-module-of-the-month-perl6junction.html>
@@ -367,4 +367,4 @@ L<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
 
 Copyright 2006-2011, Kennedy Clark, under the
 Creative Commons Attribution Share-Alike License Version 3.0
-(L<http://creativecommons.org/licenses/by-sa/3.0/us/>).
+(L<https://creativecommons.org/licenses/by-sa/3.0/us/>).

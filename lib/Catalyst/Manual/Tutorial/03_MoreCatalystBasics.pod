@@ -169,7 +169,7 @@ L<Catalyst::Plugin::ConfigLoader>
 C<ConfigLoader> provides an automatic way to load configurable
 parameters for your application from a central
 L<Config::General> file (versus having the values
-hard-coded inside your Perl modules).  Config::General uses syntax very
+hard-coded inside your Perl modules).  L<Config::General> uses syntax very
 similar to Apache configuration files.  We will see how to use this
 feature of Catalyst during the authentication and authorization sections
 (L<Chapter 5|Catalyst::Manual::Tutorial::05_Authentication> and
@@ -178,13 +178,13 @@ L<Chapter 6|Catalyst::Manual::Tutorial::06_Authorization>).
 B<IMPORTANT NOTE:> If you are using a version of
 L<Catalyst::Devel> prior to version 1.06, be aware that
 Catalyst changed the default format from YAML to the more
-straightforward C<Config::General> style.  This tutorial uses the newer
-C<myapp.conf> file for C<Config::General>. However, Catalyst supports
+straightforward L<Config::General> style.  This tutorial uses the newer
+C<myapp.conf> file for L<Config::General>. However, Catalyst supports
 both formats and will automatically use either F<myapp.conf> or
 F<myapp.yml> (or any other format supported by
 L<Catalyst::Plugin::ConfigLoader> and
 L<Config::Any>).  If you are using a version of
-Catalyst::Devel prior to 1.06, you can convert to the newer format by
+L<Catalyst::Devel> prior to 1.06, you can convert to the newer format by
 simply creating the F<myapp.conf> file manually and deleting
 F<myapp.yml>.  The default contents of the F<myapp.conf> you create
 should only consist of one line:
@@ -227,7 +227,7 @@ Then replace it with:
         StackTrace
     /;
 
-B<Note:> Recent versions of C<Catalyst::Devel> have used a variety of
+B<Note:> Recent versions of L<Catalyst::Devel> have used a variety of
 techniques to load these plugins/flags.  For example, you might see the
 following:
 
@@ -334,8 +334,8 @@ and add the following method to the controller:
         $c->stash(template => 'books/list.tt2');
     }
 
-B<TIP>: See L<Appendix 1|Catalyst::Manual::Tutorial::10_Appendices> for
-tips on removing the leading spaces when cutting and pasting example
+B<TIP>: See L<Appendix 1|Catalyst::Manual::Tutorial::10_Appendices/APPENDIX 1: CUT AND PASTE FOR POD-BASED EXAMPLES>
+for tips on removing the leading spaces when cutting and pasting example
 code from POD-based documents.
 
 Programmers experienced with object-oriented Perl should recognize
@@ -447,8 +447,7 @@ your application. However, most Catalyst applications use the Template
 Toolkit, known as TT (for more information on TT, see
 L<http://www.template-toolkit.org>). Other somewhat popular view
 technologies include Mason (L<http://www.masonhq.com> and
-L<http://www.masonbook.com>) and L<HTML::Template>
-(L<http://html-template.sourceforge.net>).
+L<https://masonbook.houseabsolute.com/book/>) and L<HTML::Template>.
 
 
 =head2 Create a Catalyst View
@@ -622,7 +621,7 @@ tutorial.
 
 In this step, we make a text file with the required SQL commands to
 create a database table and load some sample data.  We will use SQLite
-(L<http://www.sqlite.org>), a popular database that is lightweight and
+(L<https://www.sqlite.org>), a popular database that is lightweight and
 easy to use. Be sure to get at least version 3. Open F<myapp01.sql> in
 your editor and enter:
 
@@ -721,7 +720,7 @@ you think that they are easier to read) then see the documentation in
 L<DBIx::Class::Schema::Loader::Base/naming> (version 0.05 or greater).
 
 For using other databases, such as PostgreSQL or MySQL, see
-L<Appendix 2|Catalyst::Manual::Tutorial::10_Appendices>.
+L<Appendix 2|Catalyst::Manual::Tutorial::10_Appendices/APPENDIX 2: USING POSTGRESQL AND MYSQL>.
 
 
 =head1 DATABASE ACCESS WITH DBIx::Class
@@ -1152,7 +1151,7 @@ Authentication chapter of the tutorial).
 
 Although it is beyond the scope of this tutorial, you may wish to use a
 JavaScript or AJAX tool such as jQuery (L<https://www.jquery.com>) or
-Dojo (L<http://www.dojotoolkit.org>).
+Dojo (L<https://dojotoolkit.org/>).
 
 =back
 
@@ -1656,4 +1655,4 @@ L<https://rt.cpan.org/Public/Dist/Display.html?Name=Catalyst-Manual>.
 
 Copyright 2006-2011, Kennedy Clark, under the
 Creative Commons Attribution Share-Alike License Version 3.0
-(L<http://creativecommons.org/licenses/by-sa/3.0/us/>).
+(L<https://creativecommons.org/licenses/by-sa/3.0/us/>).
