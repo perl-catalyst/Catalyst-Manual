@@ -2,7 +2,6 @@
 
 Catalyst::Manual::Tutorial::09_AdvancedCRUD::09_FormHandler - Catalyst Tutorial - Chapter 9: Advanced CRUD - FormHandler
 
-
 =head1 OVERVIEW
 
 This is B<Chapter 9 of 10> for the Catalyst tutorial.
@@ -178,8 +177,8 @@ the bottom of the existing file:
 
     ...
     <p>
-      HTML::FormHandler:
-      <a href="[% c.uri_for(c.controller.action_for('create')) %]">Create</a>
+        HTML::FormHandler:
+        <a href="[% c.uri_for(c.controller.action_for('create')) %]">Create</a>
     </p>
 
 This adds a new link to the bottom of the book list page that we can
@@ -264,10 +263,10 @@ Update the F<root/src/books/list.tt2>, adding an 'edit' link below the
 "Delete" link to use the FormHandler edit method:
 
     <td>
-      [% # Add a link to delete a book %]
-      <a href="[% c.uri_for(c.controller.action_for('delete'), [book.id]) %]">Delete</a>
-      [% # Add a link to edit a book %]
-      <a href="[% c.uri_for(c.controller.action_for('edit'), [book.id]) %]">Edit</a>
+        [% # Add a link to delete a book %]
+        <a href="[% c.uri_for(c.controller.action_for('delete'), [book.id]) %]">Delete</a>
+        [% # Add a link to edit a book %]
+        <a href="[% c.uri_for(c.controller.action_for('edit'), [book.id]) %]">Edit</a>
     </td>
 
 

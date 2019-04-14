@@ -593,50 +593,50 @@ below into the file F<formfu_create.conf> and delete the
 F<formfu_create.yml> file.  The below is in L<Config::General> format
 which follows the syntax of Apache config files.
 
-   constraints   Required
-   <elements>
-       <constraints>
-           min   5
-           max   40
-           type   Length
-           message   Length must be between 5 and 40 characters
-       </constraints>
-       filter   TrimEdges
-       filter   HTMLEscape
-       name   title
-       type   Text
-       label   Title
-       <attributes>
-           title   Enter a book title here
-       </attributes>
-   </elements>
-   <elements>
-       constraints   Integer
-       filter   TrimEdges
-       filter   NonNumeric
-       name   rating
-       type   Text
-       label   Rating
-       <attributes>
-           title   Enter a rating between 1 and 5 here
-       </attributes>
-   </elements>
-   <elements>
-       constraints   Integer
-       filter   TrimEdges
-       filter   HTMLEscape
-       name   authors
-       type   Select
-       label   Author
-       multiple   1
-       size   3
-   </elements>
-   <elements>
-       value   Submit
-       name   submit
-       type   Submit
-   </elements>
-   indicator   submit
+    constraints   Required
+    <elements>
+        <constraints>
+            min   5
+            max   40
+            type   Length
+            message   Length must be between 5 and 40 characters
+        </constraints>
+        filter   TrimEdges
+        filter   HTMLEscape
+        name   title
+        type   Text
+        label   Title
+        <attributes>
+            title   Enter a book title here
+        </attributes>
+    </elements>
+    <elements>
+        constraints   Integer
+        filter   TrimEdges
+        filter   NonNumeric
+        name   rating
+        type   Text
+        label   Rating
+        <attributes>
+            title   Enter a rating between 1 and 5 here
+        </attributes>
+    </elements>
+    <elements>
+        constraints   Integer
+        filter   TrimEdges
+        filter   HTMLEscape
+        name   authors
+        type   Select
+        label   Author
+        multiple   1
+        size   3
+    </elements>
+    <elements>
+        value   Submit
+        name   submit
+        type   Submit
+    </elements>
+    indicator   submit
 
 
 =head1 AUTHOR

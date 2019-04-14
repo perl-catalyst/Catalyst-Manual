@@ -2,7 +2,6 @@
 
 Catalyst::Manual::Tutorial::10_Appendices - Catalyst Tutorial - Chapter 10: Appendices
 
-
 =head1 OVERVIEW
 
 This is B<Chapter 10 of 10> for the Catalyst tutorial.
@@ -616,23 +615,23 @@ Open the F<myapp01_mysql.sql> in your editor and enter:
     -- Create a very simple database to hold book and author information
     --
     CREATE TABLE IF NOT EXISTS `books` (
-      `id` int(11) NOT NULL AUTO_INCREMENT,
-      `title` text CHARACTER SET utf8,
-      `rating` int(11) DEFAULT NULL,
-      PRIMARY KEY (`id`)
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `title` text CHARACTER SET utf8,
+        `rating` int(11) DEFAULT NULL,
+        PRIMARY KEY (`id`)
     ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
     -- 'book_authors' is a many-to-many join table between books & authors
     CREATE TABLE IF NOT EXISTS `book_authors` (
-      `book_id` int(11) NOT NULL DEFAULT '0',
-      `author_id` int(11) NOT NULL DEFAULT '0',
-      PRIMARY KEY (`book_id`,`author_id`),
-      KEY `author_id` (`author_id`)
+        `book_id` int(11) NOT NULL DEFAULT '0',
+        `author_id` int(11) NOT NULL DEFAULT '0',
+        PRIMARY KEY (`book_id`,`author_id`),
+        KEY `author_id` (`author_id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     CREATE TABLE IF NOT EXISTS `authors` (
-      `id` int(11) NOT NULL AUTO_INCREMENT,
-      `first_name` text CHARACTER SET utf8,
-      `last_name` text CHARACTER SET utf8,
-      PRIMARY KEY (`id`)
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `first_name` text CHARACTER SET utf8,
+        `last_name` text CHARACTER SET utf8,
+        PRIMARY KEY (`id`)
     ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
     ---
     --- Load some sample data
@@ -751,25 +750,25 @@ Open F<myapp02_mysql.sql> in your editor and enter:
     -- Add users and roles tables, along with a many-to-many join table
     --
     CREATE TABLE IF NOT EXISTS `roles` (
-      `id` int(11) NOT NULL,
-      `role` text CHARACTER SET utf8,
-      PRIMARY KEY (`id`)
+        `id` int(11) NOT NULL,
+        `role` text CHARACTER SET utf8,
+        PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     CREATE TABLE IF NOT EXISTS `users` (
-      `id` int(11) NOT NULL,
-      `username` text CHARACTER SET utf8,
-      `password` text CHARACTER SET utf8,
-      `email_address` text CHARACTER SET utf8,
-      `first_name` text CHARACTER SET utf8,
-      `last_name` text CHARACTER SET utf8,
-      `active` int(11) DEFAULT NULL,
-      PRIMARY KEY (`id`)
+        `id` int(11) NOT NULL,
+        `username` text CHARACTER SET utf8,
+        `password` text CHARACTER SET utf8,
+        `email_address` text CHARACTER SET utf8,
+        `first_name` text CHARACTER SET utf8,
+        `last_name` text CHARACTER SET utf8,
+        `active` int(11) DEFAULT NULL,
+        PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     CREATE TABLE IF NOT EXISTS `user_roles` (
-      `user_id` int(11) NOT NULL DEFAULT '0',
-      `role_id` int(11) NOT NULL DEFAULT '0',
-      PRIMARY KEY (`user_id`,`role_id`),
-      KEY `role_id` (`role_id`)
+        `user_id` int(11) NOT NULL DEFAULT '0',
+        `role_id` int(11) NOT NULL DEFAULT '0',
+        PRIMARY KEY (`user_id`,`role_id`),
+        KEY `role_id` (`role_id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     --
     -- Load up some initial test data

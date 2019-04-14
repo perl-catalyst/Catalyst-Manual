@@ -85,22 +85,22 @@ opening F<myapp02.sql> in your editor and insert:
     --
     PRAGMA foreign_keys = ON;
     CREATE TABLE users (
-            id            INTEGER PRIMARY KEY,
-            username      TEXT,
-            password      TEXT,
-            email_address TEXT,
-            first_name    TEXT,
-            last_name     TEXT,
-            active        INTEGER
+        id            INTEGER PRIMARY KEY,
+        username      TEXT,
+        password      TEXT,
+        email_address TEXT,
+        first_name    TEXT,
+        last_name     TEXT,
+        active        INTEGER
     );
     CREATE TABLE role (
-            id   INTEGER PRIMARY KEY,
-            role TEXT
+        id   INTEGER PRIMARY KEY,
+        role TEXT
     );
     CREATE TABLE user_role (
-            user_id INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
-            role_id INTEGER REFERENCES role(id) ON DELETE CASCADE ON UPDATE CASCADE,
-            PRIMARY KEY (user_id, role_id)
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        role_id INTEGER REFERENCES role(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        PRIMARY KEY (user_id, role_id)
     );
     --
     -- Load up some initial test data
@@ -433,19 +433,19 @@ Create a login form by opening F<root/src/login.tt2> and inserting:
 
     <!-- Login form -->
     <form method="post" action="[% c.uri_for('/login') %]">
-      <table>
-        <tr>
-          <td>Username:</td>
-          <td><input type="text" name="username" size="40" /></td>
-        </tr>
-        <tr>
-          <td>Password:</td>
-          <td><input type="password" name="password" size="40" /></td>
-        </tr>
-        <tr>
-          <td colspan="2"><input type="submit" name="submit" value="Submit" /></td>
-        </tr>
-      </table>
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" name="username" size="40" /></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" name="password" size="40" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" name="submit" value="Submit" /></td>
+            </tr>
+        </table>
     </form>
 
 
@@ -515,8 +515,8 @@ lines to the bottom of the file:
     ...
     <p>
     [%
-       # This code illustrates how certain parts of the TT
-       # template will only be shown to users who have logged in
+        # This code illustrates how certain parts of the TT
+        # template will only be shown to users who have logged in
     %]
     [% IF c.user_exists %]
         Please Note: You are already logged in as '[% c.user.username %]'.
@@ -525,11 +525,11 @@ lines to the bottom of the file:
         You need to log in to use this application.
     [% END %]
     [%#
-       Note that this whole block is a comment because the "#" appears
-       immediate after the "[%" (with no spaces in between).  Although it
-       can be a handy way to temporarily "comment out" a whole block of
-       TT code, it's probably a little too subtle for use in "normal"
-       comments.
+        Note that this whole block is a comment because the "#" appears
+        immediate after the "[%" (with no spaces in between).  Although it
+        can be a handy way to temporarily "comment out" a whole block of
+        TT code, it's probably a little too subtle for use in "normal"
+        comments.
     %]
     </p>
 
@@ -575,8 +575,8 @@ bottom (below the closing </table> tag):
 
     ...
     <p>
-      <a href="[% c.uri_for('/login') %]">Login</a>
-      <a href="[% c.uri_for(c.controller.action_for('form_create')) %]">Create</a>
+        <a href="[% c.uri_for('/login') %]">Login</a>
+        <a href="[% c.uri_for(c.controller.action_for('form_create')) %]">Create</a>
     </p>
 
 Reload your browser and you should now see a "Login" and "Create" links

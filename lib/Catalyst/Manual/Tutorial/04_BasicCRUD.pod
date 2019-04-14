@@ -507,9 +507,9 @@ Open F<root/src/books/form_create.tt2> in your editor and enter:
 
     <form method="post" action="[% c.uri_for('form_create_do') %]">
     <table>
-      <tr><td>Title:</td><td><input type="text" name="title"></td></tr>
-      <tr><td>Rating:</td><td><input type="text" name="rating"></td></tr>
-      <tr><td>Author ID:</td><td><input type="text" name="author_id"></td></tr>
+        <tr><td>Title:</td><td><input type="text" name="title"></td></tr>
+        <tr><td>Rating:</td><td><input type="text" name="rating"></td></tr>
+        <tr><td>Author ID:</td><td><input type="text" name="author_id"></td></tr>
     </table>
     <input type="submit" name="Submit" value="Submit">
     </form>
@@ -609,32 +609,32 @@ header, and 2) the five lines for the Delete link near the bottom):
     <tr><th>Title</th><th>Rating</th><th>Author(s)</th><th>Links</th></tr>
     [% # Display each book in a table row %]
     [% FOREACH book IN books -%]
-      <tr>
-        <td>[% book.title %]</td>
-        <td>[% book.rating %]</td>
-        <td>
-          [% # NOTE: See Chapter 4 for a better way to do this!                      -%]
-          [% # First initialize a TT variable to hold a list.  Then use a TT FOREACH -%]
-          [% # loop in 'side effect notation' to load just the last names of the     -%]
-          [% # authors into the list. Note that the 'push' TT vmethod doesn't return -%]
-          [% # a value, so nothing will be printed here.  But, if you have something -%]
-          [% # in TT that does return a value and you don't want it printed, you     -%]
-          [% # 1) assign it to a bogus value, or                                     -%]
-          [% # 2) use the CALL keyword to call it and discard the return value.      -%]
-          [% tt_authors = [ ];
-             tt_authors.push(author.last_name) FOREACH author = book.authors %]
-          [% # Now use a TT 'virtual method' to display the author count in parens   -%]
-          [% # Note the use of the TT filter "| html" to escape dangerous characters -%]
-          ([% tt_authors.size | html %])
-          [% # Use another TT vmethod to join & print the names & comma separators   -%]
-          [% tt_authors.join(', ') | html %]
-        </td>
-        <td>
-          [% # Add a link to delete a book %]
-          <a href="[%
-            c.uri_for(c.controller.action_for('delete'), [book.id]) %]">Delete</a>
-        </td>
-      </tr>
+        <tr>
+            <td>[% book.title %]</td>
+            <td>[% book.rating %]</td>
+            <td>
+                [% # NOTE: See Chapter 4 for a better way to do this!                      -%]
+                [% # First initialize a TT variable to hold a list.  Then use a TT FOREACH -%]
+                [% # loop in 'side effect notation' to load just the last names of the     -%]
+                [% # authors into the list. Note that the 'push' TT vmethod doesn't return -%]
+                [% # a value, so nothing will be printed here.  But, if you have something -%]
+                [% # in TT that does return a value and you don't want it printed, you     -%]
+                [% # 1) assign it to a bogus value, or                                     -%]
+                [% # 2) use the CALL keyword to call it and discard the return value.      -%]
+                [% tt_authors = [ ];
+                  tt_authors.push(author.last_name) FOREACH author = book.authors %]
+                [% # Now use a TT 'virtual method' to display the author count in parens   -%]
+                [% # Note the use of the TT filter "| html" to escape dangerous characters -%]
+                ([% tt_authors.size | html %])
+                [% # Use another TT vmethod to join & print the names & comma separators   -%]
+                [% tt_authors.join(', ') | html %]
+            </td>
+            <td>
+                [% # Add a link to delete a book %]
+                <a href="[%
+                    c.uri_for(c.controller.action_for('delete'), [book.id]) %]">Delete</a>
+            </td>
+        </tr>
     [% END -%]
     </table>
 
@@ -1296,21 +1296,21 @@ F<root/src/books/list.tt2>):
 
     ...
     <td>
-      [% # NOTE: See Chapter 4 for a better way to do this!                      -%]
-      [% # First initialize a TT variable to hold a list.  Then use a TT FOREACH -%]
-      [% # loop in 'side effect notation' to load just the last names of the     -%]
-      [% # authors into the list. Note that the 'push' TT vmethod does not print -%]
-      [% # a value, so nothing will be printed here.  But, if you have something -%]
-      [% # in TT that does return a method and you don't want it printed, you    -%]
-      [% # can: 1) assign it to a bogus value, or 2) use the CALL keyword to     -%]
-      [% # call it and discard the return value.                                 -%]
-      [% tt_authors = [ ];
-         tt_authors.push(author.full_name) FOREACH author = book.authors %]
-      [% # Now use a TT 'virtual method' to display the author count in parens   -%]
-      [% # Note the use of the TT filter "| html" to escape dangerous characters -%]
-      ([% tt_authors.size | html %])
-      [% # Use another TT vmethod to join & print the names & comma separators   -%]
-      [% tt_authors.join(', ') | html %]
+        [% # NOTE: See Chapter 4 for a better way to do this!                      -%]
+        [% # First initialize a TT variable to hold a list.  Then use a TT FOREACH -%]
+        [% # loop in 'side effect notation' to load just the last names of the     -%]
+        [% # authors into the list. Note that the 'push' TT vmethod does not print -%]
+        [% # a value, so nothing will be printed here.  But, if you have something -%]
+        [% # in TT that does return a method and you don't want it printed, you    -%]
+        [% # can: 1) assign it to a bogus value, or 2) use the CALL keyword to     -%]
+        [% # call it and discard the return value.                                 -%]
+        [% tt_authors = [ ];
+           tt_authors.push(author.full_name) FOREACH author = book.authors %]
+        [% # Now use a TT 'virtual method' to display the author count in parens   -%]
+        [% # Note the use of the TT filter "| html" to escape dangerous characters -%]
+        ([% tt_authors.size | html %])
+        [% # Use another TT vmethod to join & print the names & comma separators   -%]
+        [% tt_authors.join(', ') | html %]
     </td>
     ...
 
@@ -1365,8 +1365,8 @@ match the following:
 
     ...
     <td>
-      [% # Print count and author list using Result Class methods -%]
-      ([% book.author_count | html %]) [% book.author_list | html %]
+        [% # Print count and author list using Result Class methods -%]
+        ([% book.author_count | html %]) [% book.author_list | html %]
     </td>
     ...
 
