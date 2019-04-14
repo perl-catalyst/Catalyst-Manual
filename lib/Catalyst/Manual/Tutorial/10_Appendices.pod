@@ -90,7 +90,7 @@ this removes four leading spaces from every line).
 
 =item *
 
-":.,$s/^    "
+C<":.,$s/^    ">
 
 Removes the first four spaces from the line the cursor is on at the time
 the regex command is executed (".") to the last line of the file.

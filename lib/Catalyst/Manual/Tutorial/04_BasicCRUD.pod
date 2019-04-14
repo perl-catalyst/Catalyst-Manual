@@ -310,7 +310,7 @@ Link to previous part of the chain with C<:Chained('_name_')>
 
 =item *
 
-B<Do NOT get arguments through "C<CaptureArgs()>," use "C<Args()>" instead to end a chain>
+B<< Do NOT get arguments through "C<CaptureArgs()>," use "C<Args()>" instead to end a chain >>
 
 =item *
 

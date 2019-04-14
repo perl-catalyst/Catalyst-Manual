@@ -685,25 +685,37 @@ Response:
 
 Now follow these few steps to implement the application:
 
-1. Install L<Catalyst> (5.61 or later), L<Catalyst::Plugin::XMLRPC> (0.06 or
-later) and L<SOAP::Lite> (for XMLRPCsh.pl).
+=over 4
 
-2. Create an application framework:
+=item 1.
+
+Install L<Catalyst> (5.61 or later), L<Catalyst::Plugin::XMLRPC> (0.06 or
+later) and L<SOAP::Lite> (for F<XMLRPCsh.pl>).
+
+=item 2.
+
+Create an application framework:
 
     % catalyst.pl MyApp
     ...
     % cd MyApp
 
-3. Add the XMLRPC plugin to MyApp.pm
+=item 3.
+
+Add the XMLRPC plugin to MyApp.pm
 
     use Catalyst qw/-Debug Static::Simple XMLRPC/;
 
-4. Add an API controller
+=item 4.
+
+Add an API controller
 
     % ./script/myapp_create.pl controller API
 
-5. Add a XMLRPC redispatch method and an add method with Remote
-attribute to lib/MyApp/Controller/API.pm
+=item 5.
+
+Add a XMLRPC redispatch method and an add method with Remote
+attribute to F<lib/MyApp/Controller/API.pm>
 
     sub default :Path {
         my ( $self, $c ) = @_;
@@ -722,8 +734,10 @@ class.
 The C<add> method is not a traditional action; it has no private or
 public path. Only the XMLRPC dispatcher knows it exists.
 
-6. That's it! You have built your first web service. Let's test it with
-XMLRPCsh.pl (part of L<SOAP::Lite>):
+=item 6.
+
+That's it! You have built your first web service. Let's test it with
+F<XMLRPCsh.pl> (part of L<SOAP::Lite>):
 
     % ./script/myapp_server.pl
     ...
@@ -775,7 +789,7 @@ Create a basic Template Toolkit View using the provided helper script:
 
     script/myapp_create.pl view TT TT
 
-This will create lib/MyApp/View/MyView.pm, which is going to be pretty
+This will create F<lib/MyApp/View/MyView.pm>, which is going to be pretty
 empty to start. However, it sets everything up that you need to get
 started. You can now define which template you want and forward to your
 view. For instance:
@@ -821,17 +835,17 @@ This time, the helper sets several options for us in the generated View.
 
 =item *
 
-INCLUDE_PATH defines the directories that Template Toolkit should search
+C<INCLUDE_PATH> defines the directories that Template Toolkit should search
 for the template files.
 
 =item *
 
-PRE_PROCESS is used to process configuration options which are common to
+C<PRE_PROCESS> is used to process configuration options which are common to
 every template file.
 
 =item *
 
-WRAPPER is a file which is processed with each template, usually used to
+C<WRAPPER> is a file which is processed with each template, usually used to
 easily provide a common header and footer for every page.
 
 =back
@@ -840,17 +854,17 @@ In addition to setting these options, the TTSite helper also created the
 template and config files for us! In the 'root' directory, you'll notice
 two new directories: src and lib.
 
-Several configuration files in root/lib/config are called by PRE_PROCESS.
+Several configuration files in F<root/lib/config> are called by C<PRE_PROCESS>.
 
-The files in root/lib/site are the site-wide templates, called by
-WRAPPER, and display the html framework, control the layout, and provide
+The files in F<root/lib/site> are the site-wide templates, called by
+C<WRAPPER>, and display the html framework, control the layout, and provide
 the templates for the header and footer of your page. Using the template
 organization provided makes it much easier to standardize pages and make
 changes when they are (inevitably) needed.
 
 The template files that you will create for your application will go
-into root/src, and you don't need to worry about putting the <html>
-or <head> sections; just put in the content. The WRAPPER will the rest
+into root/src, and you don't need to worry about putting the C<< <html> >>
+or C<< <head> >> sections; just put in the content. The C<WRAPPER> will the rest
 of the page around your template for you.
 
 
@@ -874,7 +888,7 @@ from the template. For instance:
         $c->forward( $c->view('TT') );
     }
 
-Then, in hello.tt:
+Then, in F<hello.tt>:
 
     <strong>Hello, [% name %]!</strong>
 
@@ -915,9 +929,9 @@ One of my favorite things about Catalyst is the ability to move an
 application around without having to worry that everything is going to
 break. One of the areas that used to be a problem was with the http
 links in your template files. For example, suppose you have an
-application installed at http://www.domain.com/Calendar. The links point
-to "/Calendar", "/Calendar/2005", "/Calendar/2005/10", etc.  If you move
-the application to be at http://www.mydomain.com/Tools/Calendar, then
+application installed at C<http://www.domain.com/Calendar>. The links point
+to "C</Calendar>", "C</Calendar/2005>", "C</Calendar/2005/10>", etc.  If you move
+the application to be at C<http://www.mydomain.com/Tools/Calendar>, then
 all of those links will suddenly break.
 
 That's where C<< $c->uri_for() >> comes in. This function will merge its
@@ -931,8 +945,8 @@ In your template, you can use the following:
 Although the parameter starts with a forward slash, this is relative
 to the application root, not the webserver root. This is important to
 remember. So, if your application is installed at
-http://www.domain.com/Calendar, then the link would be
-http://www.mydomain.com/Calendar/Login. If you move your application
+C<http://www.domain.com/Calendar>, then the link would be
+C<http://www.mydomain.com/Calendar/Login>. If you move your application
 to a different domain or path, then that link will still be correct.
 
 Likewise,
@@ -941,18 +955,18 @@ Likewise,
 
 The first parameter does NOT have a forward slash, and so it will be
 relative to the current namespace. If the application is installed at
-http://www.domain.com/Calendar. and if the template is called from
+C<http://www.domain.com/Calendar>. and if the template is called from
 C<MyApp::Controller::Display>, then the link would become
-http://www.domain.com/Calendar/Display/2005/10/24.
+C<http://www.domain.com/Calendar/Display/2005/10/24>.
 
 If you want to link to a parent uri of your current namespace you can
-prefix the arguments with multiple '../':
+prefix the arguments with multiple 'C<../>':
 
     <a href="[% c.uri_for('../../view', stashed_object.id) %]">User view</a>
 
 Once again, this allows you to move your application around without
 having to worry about broken links. But there's something else, as
-well. Since the links are generated by uri_for, you can use the same
+well. Since the links are generated by C<uri_for>, you can use the same
 template file by several different controllers, and each controller
 will get the links that its supposed to. Since we believe in Don't
 Repeat Yourself, this is particularly helpful if you have common
@@ -1273,7 +1287,7 @@ will both be called when visiting
 
 =head3 A word of warning
 
-You can put root actions in your main MyApp.pm file, but this is deprecated,
+You can put root actions in your main F<MyApp.pm> file, but this is deprecated,
 please put your actions into your Root controller.
 
 =head3 Flowchart
