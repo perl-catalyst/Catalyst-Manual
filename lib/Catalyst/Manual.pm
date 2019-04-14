@@ -23,7 +23,7 @@ Catalyst::Manual - The Catalyst developer's manual
 
 =head1 SEE ALSO
 
-Install L<Task::Catalyst::Tutorial|Task::Catalyst::Tutorial> to
+Install L<Task::Catalyst::Tutorial> to
 install all the dependencies you need to follow along with the
 Tutorial.  You can also refer to
 L<Catalyst::Manual::Tutorial::Intro|Catalyst::Manual::Tutorial::01_Intro>
@@ -35,7 +35,7 @@ Some "Getting Started" Links:
 
 =item *
 
-L<Catalyst::Manual::About|Catalyst::Manual::About>
+L<Catalyst::Manual::About>
 
 =item *
 

@@ -102,7 +102,7 @@ try to load them as components.
 Writing a generic component that only works with Catalyst is wasteful
 of your time.  Try writing a plain perl module, and then a small bit
 of glue that integrates it with Catalyst.  See
-L<Catalyst::Model::DBIC::Schema|Catalyst::Model::DBIC::Schema> for a
+L<Catalyst::Model::DBIC::Schema> for a
 module that takes the approach.  The advantage here is that your
 "Catalyst" DBIC schema works perfectly outside of Catalyst, making
 testing (and command-line scripts) a breeze.  The actual Catalyst
@@ -110,7 +110,7 @@ Model is just a few lines of glue that makes working with the schema
 convenient.
 
 If you want the thinnest interface possible, take a look at
-L<Catalyst::Model::Adaptor|Catalyst::Model::Adaptor>.
+L<Catalyst::Model::Adaptor>.
 
 =head2 Using Moose roles to apply method modifiers
 
@@ -160,7 +160,7 @@ your module to become a recommended addition, these things will prove
 invaluable.
 
 If you're just getting started, try using
-L<CatalystX::Starter|CatalystX::Starter> to generate some example
+L<CatalystX::Starter> to generate some example
 tests for your module.
 
 =head2 Maintenance

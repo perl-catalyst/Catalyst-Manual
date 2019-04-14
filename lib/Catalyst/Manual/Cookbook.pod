@@ -176,7 +176,7 @@ separate configuration file.
 
 =head3 Using Config::General
 
-L<Config::General|Config::General> is a method for creating flexible
+L<Config::General> is a method for creating flexible
 and readable configuration files. It's a great way to keep your
 Catalyst application configuration in one easy-to-understand location.
 
@@ -221,7 +221,7 @@ L<Catalyst> explains precedence of multiple sources for configuration
 values, how to access the values in your components, and many 'base'
 config variables used internally.
 
-See also L<Config::General|Config::General>.
+See also L<Config::General>.
 
 =head1 Skipping your VCS's directories
 

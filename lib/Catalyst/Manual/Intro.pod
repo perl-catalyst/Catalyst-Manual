@@ -15,7 +15,7 @@ with Catalyst, see L<Catalyst::Manual::Tutorial>.
 
 Catalyst is an elegant web application framework, extremely flexible
 yet extremely simple. It's similar to Ruby on Rails, Spring (Java), and
-L<Maypole|Maypole>, upon which it was originally based. Its most
+L<Maypole>, upon which it was originally based. Its most
 important design philosophy is to provide easy access to all the tools
 you need to develop web applications, with few restrictions on how you
 need to use these tools. However, this does mean that it is always
@@ -196,7 +196,7 @@ There are currently two flavors of publicly available Amazon Machine
 Images (AMI) that include all the elements you'd need to begin
 developing in a fully functional Catalyst environment within
 minutes. See
-L<Catalyst::Manual::Installation|Catalyst::Manual::Installation> for
+L<Catalyst::Manual::Installation> for
 more details.
 
 
