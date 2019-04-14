@@ -223,8 +223,8 @@ See also L<Config::General>.
 
 =head1 Skipping your VCS's directories
 
-Catalyst uses Module::Pluggable to load Models, Views, and Controllers.
-Module::Pluggable will scan through all directories and load modules
+Catalyst uses L<Module::Pluggable> to load Models, Views, and Controllers.
+L<Module::Pluggable> will scan through all directories and load modules
 it finds.  Sometimes you might want to skip some of these directories,
 for example when your version control system makes a subdirectory with
 meta-information in every version-controlled directory.  While
@@ -240,7 +240,7 @@ You can make Catalyst skip these directories using the Catalyst config:
       setup_components => { except => qr/SCCS/ },
   );
 
-See the Module::Pluggable manual page for more information on B<except>
+See the L<Module::Pluggable> manual page for more information on B<except>
 and other options.
 
 =head1 Users and Access Control
@@ -685,8 +685,8 @@ Response:
 
 Now follow these few steps to implement the application:
 
-1. Install Catalyst (5.61 or later), Catalyst::Plugin::XMLRPC (0.06 or
-later) and SOAP::Lite (for XMLRPCsh.pl).
+1. Install L<Catalyst> (5.61 or later), L<Catalyst::Plugin::XMLRPC> (0.06 or
+later) and L<SOAP::Lite> (for XMLRPCsh.pl).
 
 2. Create an application framework:
 
@@ -723,7 +723,7 @@ The C<add> method is not a traditional action; it has no private or
 public path. Only the XMLRPC dispatcher knows it exists.
 
 6. That's it! You have built your first web service. Let's test it with
-XMLRPCsh.pl (part of SOAP::Lite):
+XMLRPCsh.pl (part of L<SOAP::Lite>):
 
     % ./script/myapp_server.pl
     ...
@@ -748,7 +748,7 @@ enforce a specific one.
 Views pertain to the display of your application.  As with models,
 Catalyst is uncommonly flexible.  The recipes below are just a start.
 
-=head2 Catalyst::View::TT
+=head2 L<Catalyst::View::TT>
 
 One of the first things you probably want to do when starting a new
 Catalyst application is set up your View. Catalyst doesn't care how you
@@ -760,13 +760,13 @@ and though there are several template systems available,
 L<Template Toolkit|Template> is probably the most popular.
 
 Once again, the Catalyst developers have done all the hard work, and
-made things easy for the rest of us. Catalyst::View::TT provides the
+made things easy for the rest of us. L<Catalyst::View::TT> provides the
 interface to Template Toolkit, and provides Helpers which let us set it
 up that much more easily.
 
 =head3 Creating your View
 
-Catalyst::View::TT provides two different helpers for us to use: TT and
+L<Catalyst::View::TT> provides two different helpers for us to use: TT and
 TTSite.
 
 =head4 TT
@@ -973,10 +973,10 @@ different approaches here, but the basic premise is that you forward to
 the normal view action first to get the objects, then handle the output
 differently.
 
-=head3 Using XML::Feed
+=head3 Using L<XML::Feed>
 
 Assuming we have a C<view> action that populates
-'entries' with some DBIx::Class iterator, the code would look something
+'entries' with some L<DBIx::Class> iterator, the code would look something
 like this:
 
     sub rss : Local {

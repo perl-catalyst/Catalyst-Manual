@@ -400,7 +400,7 @@ script to make sure it's set before your Catalyst application is
 started.
 
 The following is an example for a config and test script for a
-DBIx::Class model named MyDB and a controller named Foo:
+L<DBIx::Class> model named MyDB and a controller named Foo:
 
 myapp_testing.conf:
 
