@@ -1848,7 +1848,7 @@ L<Catalyst::Plugin::Cache::FastMmap>
 L<Catalyst::Plugin::Cache::FileCache>
 L<Catalyst::Plugin::Cache::Memcached>
 L<Catalyst::Plugin::PageCache>
-L<http://search.cpan.org/dist/Template-Toolkit/lib/Template/Manual/Config.pod#Caching_and_Compiling_Options>
+L<Template::Manual::Config/Caching and Compiling Options>
 
 =head1 Testing
 
