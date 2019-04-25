@@ -1,5 +1,9 @@
 Revision history for Catalyst-Manual
 
+    - updated stale urls
+    - numerous typo fixes
+    - many pod syntax fixes
+    - other pod syntax cleanup
     - added references to the RT issues queue, mailing list, and irc channel
 
 5.9009 - 2014-12-13
