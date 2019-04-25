@@ -747,6 +747,8 @@ F<XMLRPCsh.pl> (part of L<SOAP::Lite>):
     --- XMLRPC RESULT ---
     '3'
 
+=back
+
 =head3 Tip
 
 Your return data type is usually auto-detected, but you can easily
