@@ -1,6 +1,6 @@
 =head1 NAME
 
-Catalyst::Manual::Deployment::NGINX Unit::PSGI - Deploying Catalyst with NGINX Unit
+Catalyst::Manual::Deployment::NGINXUnit::PSGI - Deploying Catalyst with NGINX Unit
 
 =head1 NGINX Unit
 
