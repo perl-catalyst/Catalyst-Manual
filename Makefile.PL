@@ -13,9 +13,8 @@ my %WriteMakefileArgs = (
     dynamic_config => 0,
     resources => {
       repository => {
-        # r/w: catagits@git.shadowcat.co.uk:Catalyst-Manual.git
-        url => 'git://git.shadowcat.co.uk/catagits/Catalyst-Manual.git',
-        web => 'http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=catagits/Catalyst-Manual.git',
+        url => 'https://github.com/perl-catalyst/Catalyst-Manual.git',
+        web => 'https://github.com/perl-catalyst/Catalyst-Manual',
         type => 'git',
       },
       bugtracker => {
