@@ -1,5 +1,7 @@
 Revision history for Catalyst-Manual
 
+    - added NGINX Unit deployment documentation
+
 5.9010 - 2019-04-25
     - updated stale urls
     - numerous typo fixes
